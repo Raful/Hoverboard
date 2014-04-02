@@ -13,8 +13,10 @@ public class Raycast : MonoBehaviour {
 	{
 		Ray ray = new Ray (transform.position, -Vector3.up);
 		RaycastHit hit;
-		if (Physics.Raycast(ray, out hit, 100))
-			Debug.DrawLine(ray.origin, hit.point);
-
+		if (Physics.Raycast (ray, out hit, 100)) 
+		{
+				Debug.DrawLine (ray.origin, hit.point);
+				Debug.Log (hit.point.y);
+		}
 	}
 }

@@ -14,7 +14,7 @@ public class Movement : MonoBehaviour {
 	void Update () 
 	{
 		if (Input.GetKey (KeyCode.W) && m_Velocity.z < 0.2f)
-			m_Velocity = m_Velocity + new Vector3(0,0,0.01f);
+			m_Velocity = m_Velocity + new Vector3(0,0,0.1f);
 
 		if (Input.GetKey (KeyCode.D))
 			m_Velocity = m_Velocity + new Vector3(0.1f,0,0);
@@ -26,7 +26,8 @@ public class Movement : MonoBehaviour {
 			m_Jumped = true;
 
 		transform.position += new Vector3(m_Velocity.x,0,m_Velocity.z);
-		m_Velocity.z -= 0.01f;
+		if( m_Velocity.z > 0.0f)
+			m_Velocity.z -= 0.01f;
 		if(transform.position.y > 3)
 			transform.position -=  new Vector3(0,0.1f,0);
 
