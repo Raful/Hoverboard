@@ -2,7 +2,9 @@
 using System.Collections;
 
 public class Rotation : MonoBehaviour {
-	
+
+
+	public float m_Rotation;
 	// Use this for initialization
 	void Start () {
 		
