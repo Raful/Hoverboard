@@ -47,6 +47,10 @@
   <ItemGroup>
     <Compile Include="Assets\Script\Movement.cs" />
     <None Include="Assets\test.txt" />
+    <None Include="Assets\Script\Rotation.cs.meta" />
+    <None Include="Assets\Script\SpawnPosition.cs.meta" />
+    <Compile Include="Assets\Script\Rotation.cs" />
+    <Compile Include="Assets\Script\SpawnPosition.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

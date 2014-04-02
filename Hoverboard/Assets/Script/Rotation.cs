@@ -6,12 +6,14 @@ public class Rotation : MonoBehaviour {
 
 	public float m_Rotation;
 	// Use this for initialization
-	void Start () {
+	void Start () 
+	{
 		
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update () 
+	{
 		if (Input.GetKey (KeyCode.U))
 			//transform.position = transform.position + new Vector3(0,0,0.1f);
 			transform.Translate (transform.TransformDirection (0, 0, -0.1f));
