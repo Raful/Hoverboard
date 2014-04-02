@@ -2,7 +2,13 @@
 ## Unity
 #################
 
-*Hoverboard\Library\*
+Hoverboard/Library/AssetServerCacheV3
+Hoverboard/Library/CurrentLayout.dwlt
+Hoverboard/Library/CompilationCompleted.txt
+Hoverboard/Library/ScriptMapper
+Hoverboard/Library/assetDatabase3
+Hoverboard/Library/guidmapper
+Hoverboard/Library/metadata/*
 
 #################
 ## Eclipse
