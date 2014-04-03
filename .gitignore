@@ -9,7 +9,8 @@ Hoverboard/Library/ScriptMapper
 Hoverboard/Library/assetDatabase3
 Hoverboard/Library/guidmapper
 Hoverboard/Library/metadata/*
-*.sln
+Hoverboard/Hoverboard.sln
+Hoverboard/Hoverboard-csharp.sln
 
 #################
 ## Eclipse
