@@ -3,13 +3,17 @@ using System.Collections;
 
 public class Finish : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-	
+	void OnTriggerEnter(Collider collision)
+	{
+		Debug.Log ("Enter.");
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	
+
+	void OnTriggerStay(Collider collision)
+	{
+		Debug.Log ("Inside.");
+	}
+	void OnTriggerExit(Collider collision)
+	{
+		Debug.Log ("Exit.");
 	}
 }

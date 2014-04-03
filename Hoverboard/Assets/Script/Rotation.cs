@@ -14,16 +14,17 @@ public class Rotation : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
-		if (Input.GetKey (KeyCode.U))
+		/*if (Input.GetKey (KeyCode.U))
 			//transform.position = transform.position + new Vector3(0,0,0.1f);
-			transform.Translate (transform.TransformDirection (0, 0, -0.1f));
+			transform.Translate (transform.TransformDirection (0, 0, -0.1f));*/
 		
-		if (Input.GetKey (KeyCode.H))
+		if (Input.GetKey (KeyCode.E))
 			//transform.position = transform.position + new Vector3(0.1f,0,0);
-			transform.Rotate (0, 0, -m_Rotation);
-		
-		if (Input.GetKey (KeyCode.K))
+			transform.Rotate ( new Vector3(0,m_Rotation,0),Space.World);
+
+		if (Input.GetKey (KeyCode.Q))
 			//transform.position = transform.position + new Vector3(-0.1f,0,0);
-			transform.Rotate (0, 0, m_Rotation);
+			//transform.Rotate (0, 0, m_Rotation);
+			transform.Rotate ( new Vector3(0,-m_Rotation,0),Space.World);
 	}
 }
