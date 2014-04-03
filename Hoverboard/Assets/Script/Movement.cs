@@ -17,7 +17,7 @@ public class Movement : MonoBehaviour {
         Vector3 movementAxis = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
 
         if (movementAxis.z > 0 && m_Velocity.z < 0.2f)
-            m_Velocity = m_Velocity + new Vector3(0, 0, 0.1f * movementAxis.z);
+			m_Velocity = m_Velocity + new Vector3(0, 0.1f * movementAxis.z, 0);
 
         m_Velocity = m_Velocity + new Vector3(0.1f * movementAxis.x, 0, 0);
 
