@@ -13,6 +13,8 @@ Hoverboard/Library/Scriptassemblies/*
 Hoverboard/Library/expandedItems
 Hoverboard/Hoverboard.sln
 Hoverboard/Hoverboard-csharp.sln
+Hoverboard/Assembly-CSharp-vs.csproj
+Hoverboard/Assembly-CSharp.csproj
 
 #################
 ## Eclipse

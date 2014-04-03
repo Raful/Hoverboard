@@ -14,16 +14,16 @@ public class Rotation : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
-		if (Input.GetKey (KeyCode.U))
-			//transform.position = transform.position + new Vector3(0,0,0.1f);
-			transform.Translate (transform.TransformDirection (0, 0, -0.1f));
+        //movementAxis reads the left joystick or wasd
+        Vector3 movementAxis = new Vector3(Input.GetAxisRaw("HorizontalRight"), 0, Input.GetAxisRaw("VerticalRight"));
+        Debug.Log(movementAxis);
+
+        //Move forward
+        if (movementAxis.z > 0.3)
+			transform.Translate (transform.TransformDirection (0, 0, -0.1f * movementAxis.z));
 		
-		if (Input.GetKey (KeyCode.H))
-			//transform.position = transform.position + new Vector3(0.1f,0,0);
-			transform.Rotate (0, 0, -m_Rotation);
-		
-		if (Input.GetKey (KeyCode.K))
-			//transform.position = transform.position + new Vector3(-0.1f,0,0);
-			transform.Rotate (0, 0, m_Rotation);
+        //Rotate to the sides
+        if (movementAxis.x < -0.3 || movementAxis.x > 0.3)
+			transform.Rotate (0, 0, -m_Rotation * movementAxis.x);
 	}
 }
