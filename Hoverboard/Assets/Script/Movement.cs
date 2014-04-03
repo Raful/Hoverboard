@@ -19,58 +19,64 @@ public class Movement : MonoBehaviour {
 	// U>) or less than (<).
 	void Update () 
 	{
-		if (Input.GetKey (KeyCode.W) && m_Velocity.z < 0.2f)
-			m_Velocity = m_Velocity + new Vector3(0,0,0.05f);
 
-		if (Input.GetKey (KeyCode.D) && m_Velocity.x < 0.2f) 
+
+        //movementAxis reads the left joystick or wasd
+        Vector3 movementAxis = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
+
+        if (movementAxis.z > 0 && m_Velocity.z < 0.2f)
+            m_Velocity = m_Velocity + new Vector3(0, 0, 0.1f * movementAxis.z);
+
+        m_Velocity = m_Velocity + new Vector3(0.1f * movementAxis.x, 0, 0);
+		if(movementAxis.x < -0.2)
 		{
-
-			if(totalRotate > -20)
-			{
-
-				transform.Rotate(0,-5,0, Space.Self);
-				totalRotate -= 5;
-			}
-			m_Velocity = m_Velocity + new Vector3 (0.05f, 0, 0);
-		}
-		if (Input.GetKey (KeyCode.A) && m_Velocity.x > -0.2f) 
-		{
-
 			if(totalRotate < 20)
 			{
 				transform.Rotate(0,5,0, Space.Self);
 				totalRotate += 5;
 			}
-			m_Velocity = m_Velocity + new Vector3 (-0.05f, 0, 0);
-
 		}
 
-		if (Input.GetKey (KeyCode.S) && m_Velocity.z > -0.2f)
-			m_Velocity = m_Velocity + new Vector3 (0,0,-0.05f);
+		if(movementAxis.x > 0.2)
+		{
+			if(totalRotate > -20)
+			{
+				
+				transform.Rotate(0,-5,0, Space.Self);
+				totalRotate -= 5;
 
-		if (Input.GetKey (KeyCode.A) && Input.GetKey (KeyCode.D)) 
-			totalRotate = 0;
+			}
+		}
+		if (Input.GetKey (KeyCode.S) && m_Velocity.z > -0.2f) 
+			m_Velocity = m_Velocity + new Vector3 (0, -0.1f, 0);
 
 		if (Input.GetButtonDown("Jump"))
 			m_Jumped = true;
+		
+		//transform.position += new Vector3(m_Velocity.x,0,m_Velocity.z);
+		transform.Translate (m_Velocity.x,m_Velocity.y,m_Velocity.z);
+
 
 		transform.position += new Vector3(m_Velocity.x,0,m_Velocity.z);
 		if( m_Velocity.z > 0.1f)
 			m_Velocity.z -= 0.01f;
 		else if (m_Velocity.z < -0.1f)
 			m_Velocity.z += 0.01f;
-		else if (m_Velocity.z > -0.1 && m_Velocity.z < 0.1 && !Input.GetKey (KeyCode.W) && !Input.GetKey (KeyCode.S))	
+		else if (m_Velocity.z > -0.1 && m_Velocity.z < 0.1)	
 			m_Velocity.z = 0;
 		if (m_Velocity.x < -0.1f)
 			m_Velocity.x += 0.01f;
 		else if (m_Velocity.x > 0.1f)
 			m_Velocity.x -= 0.01f;
 
-		else if (m_Velocity.x > -0.1 && m_Velocity.x < 0.1 && !Input.GetKey (KeyCode.D) && !Input.GetKey (KeyCode.A))
+		else if (m_Velocity.x > -0.1 && m_Velocity.x < 0.1)
 			m_Velocity.x = 0;
 
 
 
+
+		if( m_Velocity.y > 0.0f)
+			m_Velocity.y -= 0.01f;
 
 		if(transform.position.y > 3)
 			transform.position -=  new Vector3(0,0.1f,0);
