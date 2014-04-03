@@ -30,9 +30,8 @@ public class Movement : MonoBehaviour {
 			m_Velocity.z -= 0.01f;
 		if(transform.position.y > 3)
 			transform.position -=  new Vector3(0,0.1f,0);
-
-
 	}
+
 
 
 	
