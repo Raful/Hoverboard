@@ -16,7 +16,7 @@ public class Rotation : MonoBehaviour {
 	{
         //movementAxis reads the left joystick or wasd
         Vector3 movementAxis = new Vector3(Input.GetAxisRaw("HorizontalRight"), 0, Input.GetAxisRaw("VerticalRight"));
-        Debug.Log(movementAxis);
+      //  Debug.Log(movementAxis);
 
         //Move forward
         if (movementAxis.z > 0.3)

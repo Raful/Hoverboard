@@ -6,7 +6,7 @@ public class Raycast : MonoBehaviour {
 	Ray ray;
 	RaycastHit hit;
 	public Vector3 m_Origin;
-	public Vector3 m_ray;
+	public Vector3 m_Hit;
 	void Start () 
 	{
 		ray.direction = -Vector3.up;
@@ -20,7 +20,7 @@ public class Raycast : MonoBehaviour {
 		{	
 			Debug.DrawLine (ray.origin, hit.point);
 			//Debug.Log(hit.point);
-			m_ray = hit.point;
+			m_Hit = hit.point;
 		}
 	}
 }

@@ -47,7 +47,6 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Script\Finish.cs" />
-     <Compile Include="Assets\Script\JoystickTest.cs" />
      <Compile Include="Assets\Script\Movement.cs" />
      <Compile Include="Assets\Script\Raycast.cs" />
      <Compile Include="Assets\Script\RotateOnRay.cs" />
