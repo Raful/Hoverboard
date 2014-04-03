@@ -31,8 +31,8 @@ public class Movement : MonoBehaviour {
 		//transform.position += new Vector3(m_Velocity.x,0,m_Velocity.z);
 		transform.Translate (m_Velocity.x,m_Velocity.y,m_Velocity.z);
 
-		if( m_Velocity.z > 0.0f)
-			m_Velocity.z -= 0.01f;
+		if( m_Velocity.y > 0.0f)
+			m_Velocity.y -= 0.01f;
 		if(transform.position.y > 3)
 			transform.position -=  new Vector3(0,0.1f,0);
 	}
