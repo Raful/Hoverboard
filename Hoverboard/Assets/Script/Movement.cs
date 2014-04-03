@@ -22,12 +22,30 @@ public class Movement : MonoBehaviour {
 		if (Input.GetKey (KeyCode.A))
 			m_Velocity = m_Velocity + new Vector3(-0.1f,0,0);
 
-		if (Input.GetKey (KeyCode.S)) 
+		if (Input.GetKey (KeyCode.S) && m_Velocity.z > -0.2f) 
+			m_Velocity = m_Velocity + new Vector3 (0, -0.1f, 0);
+
+		if (Input.GetKey (KeyCode.Space) && !m_Jumped) 
 		{
-			m_Velocity.x = 0;
-			m_Velocity.y = 0;
-			m_Velocity.z = 0;
+			Debug.Log (m_Jumped);
+
+			m_Velocity = m_Velocity + new Vector3 (0, 0, -2f);
+			m_Jumped = true;
+			Debug.Log (m_Jumped);
 		}
+
+		if (m_Jumped) 
+		{
+			m_Velocity = m_Velocity + new Vector3 (0, 0, 0.02f);
+			if (transform.position.y <= 2.5f)
+			{
+				m_Velocity = new Vector3 (0,0,0);
+				m_Jumped = false;
+			}
+		}
+
+		if (transform.position.y <= 2.4f)
+				transform.position = new Vector3 (0, 2.99f, 0);
 
 		if (Input.GetButtonDown("Jump"))
 			m_Jumped = true;
