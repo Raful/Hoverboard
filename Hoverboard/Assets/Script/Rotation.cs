@@ -20,10 +20,10 @@ public class Rotation : MonoBehaviour {
 		
 		if (Input.GetKey (KeyCode.H))
 			//transform.position = transform.position + new Vector3(0.1f,0,0);
-			transform.Rotate (0, 0, -m_Rotation);
+			transform.Rotate (0, 0, m_Rotation);
 		
 		if (Input.GetKey (KeyCode.K))
 			//transform.position = transform.position + new Vector3(-0.1f,0,0);
-			transform.Rotate (0, 0, m_Rotation);
+			transform.Rotate (0, 0, -m_Rotation);
 	}
 }
