@@ -1,42 +1,46 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-
+/*
+ * This script adds rotation to the hoverboard. 
+ * The rotation is done by rotating the hoverboard by the global axis
+ *
+ * Created by: Niklas Åsén, 2014-04-02
+ * Edited by:
+ */
 public class Movement : MonoBehaviour {
 
 	public Vector3 m_Velocity;
+	public float m_Speed;
 	bool m_Jumped;
 	void Start (){
-		
+		m_Speed = 0;
 	}
 	
-	// U>) or less than (<).
+
 	void Update () 
 	{
-        //movementAxis reads the left joystick or wasd
-        Vector3 movementAxis = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
 
-        if (movementAxis.z > 0 && m_Velocity.z < 0.5f)
-			m_Velocity = m_Velocity + new Vector3(0, 0.03f * movementAxis.z, 0);
-		
-		//m_Velocity = m_Velocity + new Vector3(0.05f * movementAxis.x, 0, 0);
+		if(Input.GetKey(KeyCode.W) && m_Speed <2 )
+		{
+			m_Speed += 0.02f;
+		}
+		//Debug.Log ("Direction " +transform.forward.y);
 
-		if (Input.GetKey (KeyCode.S) && m_Velocity.z > -0.2f) 
-			m_Velocity = m_Velocity + new Vector3 (0, -0.1f, 0);
+		transform.position += transform.forward.normalized*m_Speed;
 
-		if (Input.GetButtonDown("Jump"))
-			m_Jumped = true;
-		
-		if (m_Velocity.y < 0.5)
-					transform.Translate (m_Velocity.x,m_Velocity.y,m_Velocity.z);
+		if(Input.GetKey(KeyCode.A))
+		{
+			transform.Rotate(0,-1f,0,Space.World);
+		}
+		if(Input.GetKey(KeyCode.D))
+		{
+			transform.Rotate(0,1f,0,Space.World);
+		}
+		if(m_Speed > 0.01f)
+			m_Speed -= 0.01f;
+		//if (transform.position.y > 3)
+			//	transform.position = transform.position + new Vector3 (0, -0.1f, 0);
 
-		if( m_Velocity.y > 0.0f)
-			m_Velocity.y -= 0.01f;
-		if(transform.position.y > 3)
-			transform.position -=  new Vector3(0,0.1f,0);
 	}
-
-
-
-	
 }
