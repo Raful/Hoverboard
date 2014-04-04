@@ -21,9 +21,9 @@ public class RotateOnRay : MonoBehaviour {
 		rayLength_delta = back - front;
 
 		if(rayLength_delta >0)
-			transform.Rotate (-0.5f, 0, 0);
+			transform.Rotate (-5f, 0, 0);
 		if(rayLength_delta <0)
-			transform.Rotate (0.5f, 0, 0);
+			transform.Rotate (5f, 0, 0);
 
 	}
 }

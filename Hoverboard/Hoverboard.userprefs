@@ -1,19 +1,11 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-<<<<<<< HEAD
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Script\Raycast.cs">
-    <Files>
-      <File FileName="Assets\Script\Raycast.cs" Line="24" Column="2" />
-      <File FileName="Assets\Script\Movement.cs" Line="21" Column="3" />
-      <File FileName="Assets\Script\Rotation.cs" Line="18" Column="33" />
-=======
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Script\Movement.cs">
     <Files>
-      <File FileName="Assets\Script\Finish.cs" Line="1" Column="1" />
-      <File FileName="Assets\Script\Rotation.cs" Line="1" Column="1" />
-      <File FileName="Assets\Script\Movement.cs" Line="35" Column="16" />
-      <File FileName="Assets\Script\Raycast.cs" Line="1" Column="1" />
->>>>>>> eef25fec27f15ba858e332f6a264977b60551099
+      <File FileName="Assets\Script\Movement.cs" Line="16" Column="55" />
+      <File FileName="Assets\Script\Rotation.cs" Line="30" Column="1" />
+      <File FileName="Assets\Script\RotateOnRay.cs" Line="18" Column="3" />
+      <File FileName="Assets\Script\Raycast.cs" Line="13" Column="3" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
