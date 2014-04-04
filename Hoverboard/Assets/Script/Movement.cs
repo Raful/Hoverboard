@@ -7,6 +7,7 @@ public class Movement : MonoBehaviour {
 	public Vector3 m_Velocity;
 	bool m_Jumped;
 	float totalRotate = 0;
+	float angle = 0;
 
 
 
@@ -24,31 +25,38 @@ public class Movement : MonoBehaviour {
         //movementAxis reads the left joystick or wasd
         Vector3 movementAxis = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
 
-        if (movementAxis.z > 0 && m_Velocity.z < 0.2f)
-            m_Velocity = m_Velocity + new Vector3(0, 0, 0.1f * movementAxis.z);
+        if (movementAxis.z > 0 && m_Velocity.y < 0.2f  && m_Velocity.y > -0.2f)
+			m_Velocity = m_Velocity + new Vector3(0, 0.1f * movementAxis.z,0 );
 
-        m_Velocity = m_Velocity + new Vector3(0.1f * movementAxis.x, 0, 0);
-		if(movementAxis.x < -0.2)
+
+	if (movementAxis.z < 0 && m_Velocity.y > -0.2f )
+			m_Velocity = m_Velocity + new Vector3(0, 0.1f * movementAxis.z,0 );
+
+		if(movementAxis.x < 0 && m_Velocity.x > -0.2f)
 		{
-			if(totalRotate < 20)
+
+			/*if(totalRotate < 20)
 			{
 				transform.Rotate(0,5,0, Space.Self);
 				totalRotate += 5;
-			}
+
+			}*/
+		//angle = 90 - transform.rotation.y; 
+			m_Velocity = m_Velocity + new Vector3(0.1f * movementAxis.x, 0,0);
 		}
 
-		if(movementAxis.x > 0.2)
+		if(movementAxis.x > 0 && m_Velocity.x < 0.2f)
 		{
-			if(totalRotate > -20)
+		/*	if(totalRotate > -20)
 			{
 				
 				transform.Rotate(0,-5,0, Space.Self);
 				totalRotate -= 5;
 
-			}
+			}*/
+			m_Velocity = m_Velocity + new Vector3(0.1f * movementAxis.x, 0, 0);
 		}
-		if (Input.GetKey (KeyCode.S) && m_Velocity.z > -0.2f) 
-			m_Velocity = m_Velocity + new Vector3 (0, -0.1f, 0);
+
 
 		if (Input.GetButtonDown("Jump"))
 			m_Jumped = true;
@@ -57,24 +65,27 @@ public class Movement : MonoBehaviour {
 		transform.Translate (m_Velocity.x,m_Velocity.y,m_Velocity.z);
 
 
-		transform.position += new Vector3(m_Velocity.x,0,m_Velocity.z);
-		if( m_Velocity.z > 0.1f)
-			m_Velocity.z -= 0.01f;
-		else if (m_Velocity.z < -0.1f)
-			m_Velocity.z += 0.01f;
-		else if (m_Velocity.z > -0.1 && m_Velocity.z < 0.1)	
-			m_Velocity.z = 0;
+		//transform.position += new Vector3(m_Velocity.x,0,m_Velocity.z);
+		if( m_Velocity.y > 0.1f)
+			m_Velocity.y -= 0.05f;
+		else if (m_Velocity.y < -0.1f)
+			m_Velocity.y += 0.05f;
+		else if (m_Velocity.y > -0.1 && m_Velocity.y < 0.1 && movementAxis.z > -0.1 && movementAxis.z < 0.1 )	
+			m_Velocity.y = 0;
 		if (m_Velocity.x < -0.1f)
-			m_Velocity.x += 0.01f;
+			m_Velocity.x += 0.05f;
 		else if (m_Velocity.x > 0.1f)
-			m_Velocity.x -= 0.01f;
+			m_Velocity.x -= 0.05f;
 
-		else if (m_Velocity.x > -0.1 && m_Velocity.x < 0.1)
+		else if (m_Velocity.x > -0.1 && m_Velocity.x < 0.1 && movementAxis.x > -0.1 && movementAxis.x < 0.1 )
 			m_Velocity.x = 0;
 
-
-
-
+			/*if (m_Velocity.x < 0.01 && m_Velocity.x > -0.01) {
+			transform.eulerAngles = new Vector3(90, 0, 0);
+			}*/
+						
+			
+	
 		if( m_Velocity.y > 0.0f)
 			m_Velocity.y -= 0.01f;
 
