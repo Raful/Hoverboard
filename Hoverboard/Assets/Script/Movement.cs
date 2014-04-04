@@ -25,6 +25,7 @@ public class Movement : MonoBehaviour {
         //movementAxis reads the left joystick or wasd
         Vector3 movementAxis = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
 
+
         if (movementAxis.z > 0 && m_Velocity.y < 0.2f  && m_Velocity.y > -0.2f)
 			m_Velocity = m_Velocity + new Vector3(0, 0.1f * movementAxis.z,0 );
 
@@ -58,11 +59,12 @@ public class Movement : MonoBehaviour {
 		}
 
 
+
 		if (Input.GetButtonDown("Jump"))
 			m_Jumped = true;
 		
-		//transform.position += new Vector3(m_Velocity.x,0,m_Velocity.z);
-		transform.Translate (m_Velocity.x,m_Velocity.y,m_Velocity.z);
+		if (m_Velocity.y < 0.5)
+					transform.Translate (m_Velocity.x,m_Velocity.y,m_Velocity.z);
 
 
 		//transform.position += new Vector3(m_Velocity.x,0,m_Velocity.z);

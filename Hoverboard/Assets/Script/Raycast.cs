@@ -2,21 +2,25 @@
 using System.Collections;
 
 public class Raycast : MonoBehaviour {
-	float distanceToGround;
-	// Use this for initialization
-	void Start () {
-		distanceToGround = 1;
+	
+	Ray ray;
+	RaycastHit hit;
+	public Vector3 m_Origin;
+	public Vector3 m_Hit;
+	void Start () 
+	{
+		ray.direction = -Vector3.up;
 	}
 	
-	// Update is called once per frame
 	void Update () 
 	{
-		Ray ray = new Ray (transform.position, -Vector3.up);
-		RaycastHit hit;
+		ray.origin = transform.position;
+		m_Origin = transform.position;
 		if (Physics.Raycast (ray, out hit, 100)) 
-		{
-				Debug.DrawLine (ray.origin, hit.point);
-				Debug.Log (hit.point.y);
+		{	
+			Debug.DrawLine (ray.origin, hit.point);
+			//Debug.Log(hit.point);
+			m_Hit = hit.point;
 		}
 	}
 }
