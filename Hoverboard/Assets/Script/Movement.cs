@@ -78,20 +78,31 @@ public class Movement : MonoBehaviour {
 		{
 			m_Speed += 0.02f;
 		}
+		if (Input.GetKey (KeyCode.S) && m_Speed > -2) 
+		{
+			m_Speed -= 0.02f;
+		}
 		//Debug.Log ("Direction " +transform.forward.y);
 
 		transform.position += transform.forward.normalized*m_Speed;
 
-		if(Input.GetKey(KeyCode.A))
+		if((Input.GetKey(KeyCode.A) && m_Speed >= 0) || (Input.GetKey(KeyCode.D) && m_Speed <0))
 		{
 			transform.Rotate(0,-1f,0,Space.World);
 		}
-		if(Input.GetKey(KeyCode.D))
+		if((Input.GetKey(KeyCode.D) && m_Speed >= 0) || (Input.GetKey(KeyCode.A) && m_Speed <0))
 		{
 			transform.Rotate(0,1f,0,Space.World);
 		}
-		if(m_Speed > 0.01f)
+		if(m_Speed >= 0.01f)
 			m_Speed -= 0.01f;
+
+		if (m_Speed <= -0.01f) 
+			m_Speed += 0.01f;
+		
+		
+		if (m_Speed < 0.01f && m_Speed > -0.01f)
+			m_Speed = 0;
 		//if (transform.position.y > 3)
 			//	transform.position = transform.position + new Vector3 (0, -0.1f, 0);
 
