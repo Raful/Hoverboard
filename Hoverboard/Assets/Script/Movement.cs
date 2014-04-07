@@ -67,7 +67,7 @@ public class Movement : MonoBehaviour {
 			m_Jumped = false;
 		}
 
-		Debug.Log ("Jump Power left: " + m_JumpPower);
+		//Debug.Log ("Jump Power left: " + m_JumpPower);
 		transform.Translate(transform.up.normalized * m_JumpPower);
 
 		if (m_Speed > 0.01f)
