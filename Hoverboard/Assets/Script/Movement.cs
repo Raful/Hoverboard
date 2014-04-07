@@ -25,10 +25,14 @@ public class Movement : MonoBehaviour {
 		{
 			m_Speed += 0.02f;
 		}
+		if(Input.GetKey(KeyCode.S))
+		{
+			m_Speed -= 0.01f;
+		}
 		//Debug.Log ("Direction " +transform.forward.y);
-
+		// if not grounded
 		transform.position += transform.forward.normalized*m_Speed;
-
+		//transform.position -= Vector3.up*0.1f;
 		if(Input.GetKey(KeyCode.A))
 		{
 			transform.Rotate(0,-1f,0,Space.World);
@@ -39,6 +43,7 @@ public class Movement : MonoBehaviour {
 		}
 		if(m_Speed > 0.01f)
 			m_Speed -= 0.01f;
+
 		//if (transform.position.y > 3)
 			//	transform.position = transform.position + new Vector3 (0, -0.1f, 0);
 
