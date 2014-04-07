@@ -1,28 +1,8 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-<<<<<<< HEAD
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Script\Finish.cs">
     <Files>
-      <File FileName="Assets\Script\Movement.cs" Line="1" Column="1" />
-      <File FileName="Assets\Script\RotateOnRay.cs" Line="1" Column="1" />
-      <File FileName="Assets\Script\Raycast.cs" Line="1" Column="1" />
-      <File FileName="Assets\Script\Rotation.cs" Line="1" Column="1" />
-      <File FileName="Assets\Script\SpawnPosition.cs" Line="1" Column="1" />
-      <File FileName="Assets\Script\Finish.cs" Line="25" Column="23" />
-=======
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Script\Raycast.cs">
-    <Files>
-<<<<<<< HEAD
-      <File FileName="Assets\Script\Movement.cs" Line="1" Column="1" />
-      <File FileName="Assets\Script\RotateOnRay.cs" Line="1" Column="1" />
-      <File FileName="Assets\Script\Raycast.cs" Line="14" Column="2" />
->>>>>>> 604673eee5a1b452c2e9203cb4817ac886963fcf
-=======
-      <File FileName="Assets\Script\RotateToGround.cs" Line="45" Column="29" />
-      <File FileName="Assets\Script\Movement.cs" Line="19" Column="2" />
-      <File FileName="Assets\Script\RotateOnRay.cs" Line="24" Column="3" />
-      <File FileName="Assets\Script\Raycast.cs" Line="19" Column="33" />
->>>>>>> 604f49dee9b2b14a6ea73b671001c425747972ab
+      <File FileName="Assets\Script\Finish.cs" Line="23" Column="2" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

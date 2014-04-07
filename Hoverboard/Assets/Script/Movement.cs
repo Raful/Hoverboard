@@ -26,7 +26,17 @@ public class Movement : MonoBehaviour {
 		}
 		//Debug.Log ("Direction " +transform.forward.y);
 
-		transform.position += transform.forward.normalized*m_Speed;
+		transform.position += transform.forward.normalized*m_Speed; 
+
+		if (Input.GetKey (KeyCode.J))
+		{
+			transform.Translate(Vector3.left);
+		}
+
+		if (Input.GetKey (KeyCode.L))
+		{
+			transform.Translate(Vector3.right);
+		}
 
 		if(Input.GetKey(KeyCode.A))
 		{

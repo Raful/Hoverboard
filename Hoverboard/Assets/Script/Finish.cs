@@ -20,6 +20,7 @@ public class Finish : MonoBehaviour {
 	{
 		Debug.Log ("Inside.");
 	}
+
 	void OnTriggerExit(Collider collision)
 	{
 		Debug.Log ("Exit.");
