@@ -2,7 +2,9 @@
 ## Unity
 #################
 
-Library
+Hoverboard/Library
+*.sln
+*.csproj
 
 #Hoverboard/Library/AssetServerCacheV3
 #Hoverboard/Library/*.dwlt
