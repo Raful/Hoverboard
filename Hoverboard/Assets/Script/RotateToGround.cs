@@ -1,51 +1,54 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class RotateToGround : MonoBehaviour {
 
-	Ray ray;
+	Ray m_ray;
 	RaycastHit hit;
 	public float m_AngleSpeed;
-
+	Ray[] rays = new Ray[8];
+	public float m_FrontRays;
+	public float m_BackRays;
 	void Start () 
 	{
-		ray.origin = transform.position;
+		m_ray.origin = transform.position;
+		for (int i = 0; i<8; i++) 
+		{
+			rays[i] = new Ray(transform.position+new Vector3(0,0,1),-transform.up);
+		}
 	}
 	
 	void Update () 
 	{
 		
-		ray.direction = -transform.up;
-		ray.origin = transform.position;
+		m_ray.direction = -transform.up;
+		m_ray.origin = transform.position;
 
-		if (Physics.Raycast (ray, out hit, 50)) 
+		// Angle ray
+		if (Physics.Raycast (m_ray, out hit, 50)) 
 		{	
 			transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(Vector3.Cross(transform.right, hit.normal), hit.normal), Time.deltaTime * m_AngleSpeed);
-			
 		}
-		//if((transform.position - m_Hit).magnitude< 4f)
-		//transform.rotation = Quaternion.AngleAxis(1, Vector3.left);
+		// Force Rays
+		//for (int i = 0; i<4; i++) 
+		//{
+		//	rays[i].direction = -transform.up;
+		//	rays[i].origin = transform.position +new Vector3(0,0,i*m_FrontRays);
+		//	if (Physics.Raycast (rays[i], out hit, 50))
+		//	{	
+		//		Debug.DrawLine (rays[i].origin, hit.point);
+		//	}
+		//}
+		//for (int i = 4; i<8; i++) 
+		//{
+		//	rays[i].direction = -transform.up ;
+		//	rays[i].origin = transform.position +new Vector3(0,0,(-i+4)*m_BackRays);
+		//	if (Physics.Raycast (rays[i], out hit, 50))
+		//	{	
+		//		Debug.DrawLine (rays[i].origin, hit.point);
+		//	}
+		//}
+		
 	}
-	
 }
 
-
-//transform.localPosition =transform.localPosition +  new Vector3(0,transform.localPosition.y - grounddist+1,0);
-//angle = Vector3.Angle(hit.normal,ray.direction);
-//Debug.DrawLine (ray.origin, hit.point);
-//stuff = angle;
-//m_Hit = hit.point;
-
-
-//Debug.Log(hit.normal);
-//looker.transform.position = m_Hit;
-
-
-//if((transform.position - m_Hit).magnitude< 4f)
-
-//transform.LookAt(looker.transform.position);
-//	GetComponent<Movement>().velocity =GetComponent<Movement>().velocity + new Vector3(0.0f,Mathf.Abs (hit.normal.normalized.y),Mathf.Abs (hit.normal.normalized.z));
-//	transform.LookAt(new Vector3(0.0f,Mathf.Abs (hit.normal.normalized.y),Mathf.Abs (hit.normal.normalized.z))+transform.position);
-//
-//}
-//ray.direction = GetComponent<Movement>().velocity;

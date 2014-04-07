@@ -12,11 +12,17 @@ public class Movement : MonoBehaviour {
 
 	public Vector3 m_Velocity;
 	public float m_Speed;
-	bool m_Jumped;
-	float totalRotate = 0;
-	float angle = 0;
+
+	
+	
 
 
+
+
+
+	public float m_MaxJumpPower, m_JumpAccelration;
+	bool m_Jumped = true;
+	float m_JumpPower, m_ChargePower;
 
 	void Start (){
 
@@ -31,6 +37,7 @@ public class Movement : MonoBehaviour {
 
 	void Update () 
 	{
+
 
 
 
@@ -74,6 +81,8 @@ public class Movement : MonoBehaviour {
 
 
 
+
+
 		if(Input.GetKey(KeyCode.W) && m_Speed <2 )
 		{
 			m_Speed += 0.02f;
@@ -84,12 +93,23 @@ public class Movement : MonoBehaviour {
 		}
 		//Debug.Log ("Direction " +transform.forward.y);
 
-		transform.position += transform.forward.normalized*m_Speed;
+		transform.position += transform.forward.normalized*m_Speed; 
+
+		if (Input.GetKey (KeyCode.J))
+		{
+			transform.Translate(Vector3.left);
+		}
+
+		if (Input.GetKey (KeyCode.L))
+		{
+			transform.Translate(Vector3.right);
+		}
 
 		if((Input.GetKey(KeyCode.A) && m_Speed >= 0) || (Input.GetKey(KeyCode.D) && m_Speed <0))
 		{
 			transform.Rotate(0,-1f,0,Space.World);
 		}
+
 		if((Input.GetKey(KeyCode.D) && m_Speed >= 0) || (Input.GetKey(KeyCode.A) && m_Speed <0))
 		{
 			transform.Rotate(0,1f,0,Space.World);
@@ -103,6 +123,38 @@ public class Movement : MonoBehaviour {
 		
 		if (m_Speed < 0.01f && m_Speed > -0.01f)
 			m_Speed = 0;
+
+
+	
+
+		//The power of jump increases when the space bar i down
+		if (Input.GetKey (KeyCode.Space) && m_Jumped) 
+		{
+			m_ChargePower = m_ChargePower + m_JumpAccelration;
+		}
+
+		if (Input.GetKeyUp (KeyCode.Space)) 
+		{
+			if(m_ChargePower > m_MaxJumpPower)
+			{
+				m_ChargePower = m_MaxJumpPower;
+			}
+			m_JumpPower = m_ChargePower;
+			m_ChargePower = 0;
+			m_Jumped = false;
+		}
+
+		Debug.Log ("Jump Power left: " + m_JumpPower);
+		transform.Translate(transform.up.normalized * m_JumpPower);
+
+	
+
+		if (m_JumpPower > 0.01f)
+			m_JumpPower -= 0.05f;
+		if (m_JumpPower < 0.01f)
+			m_JumpPower = 0f;
+
+
 		//if (transform.position.y > 3)
 			//	transform.position = transform.position + new Vector3 (0, -0.1f, 0);
 
@@ -129,12 +181,7 @@ public class Movement : MonoBehaviour {
 						
 			
 	
-		if( m_Velocity.y > 0.0f)
-			m_Velocity.y -= 0.01f;
-
-		if(transform.position.y > 3)
-			transform.position -=  new Vector3(0,0.1f,0);
-
+	
 
 
 

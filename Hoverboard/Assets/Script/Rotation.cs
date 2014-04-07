@@ -3,6 +3,7 @@ using System.Collections;
 /*
  * This script adds rotation to the hoverboard. 
  * The rotation is done by rotating the hoverboard by the global axis
+ * Extra news: This script isn't used anymore the functionallity is now in movement.cs
  *
  * Created by: Erik Åsén, 2014-04-02
  * Edited by:
