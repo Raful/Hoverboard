@@ -26,7 +26,7 @@ public class Movement : MonoBehaviour {
 
 		if (Input.GetButtonDown("Jump"))
 			m_Jumped = true;
-		
+
 		if (m_Velocity.y < 0.5)
 					transform.Translate (m_Velocity.x,m_Velocity.y,m_Velocity.z);
 
