@@ -9,7 +9,7 @@ public class Raycast : MonoBehaviour {
 	public Vector3 m_Hit;
 	void Start () 
 	{
-		ray.direction = -transform..up;
+		ray.direction = -transform.up;
 	}
 	
 	void Update () 
