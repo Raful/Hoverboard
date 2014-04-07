@@ -46,6 +46,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\test.txt" />
+    <Compile Include="Assets\Script\Finish.cs" />
+    <Compile Include="Assets\Script\Movement.cs" />
+    <Compile Include="Assets\Script\Raycast.cs" />
+    <Compile Include="Assets\Script\RotateOnRay.cs" />
+    <Compile Include="Assets\Script\Rotation.cs" />
+    <Compile Include="Assets\Script\SpawnPosition.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

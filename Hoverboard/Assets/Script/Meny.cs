@@ -1,7 +1,7 @@
 ﻿/*
- * Scriptet sköter utritning av menyn.
+ * This script is responsible for rendering the meny
  * 
- * Skapad av Pontus Wallin
+ * Created by Pontus Wallin 2014-04-03
  */
 
 using UnityEngine;
@@ -25,17 +25,18 @@ public class Meny : MonoBehaviour {
 	bool master = true; //Håller koll på vilken meny vi är på
 
 	/*Här initieras de faktiska inställningarna*/
-	float m_testslider = 0;
+	float m_fov = 90f;
+	//Camera.main.fieldOfView = m_fov;
 
 	void Options_menu()
 	{
 		int m_centered_x = Screen.width/2 - m_box_w/2;
 		GUI.Box (new Rect (20, m_Logo_h+20, Screen.width - 20, Screen.height - 20)," ");
-		if(GUI.Button (new Rect (m_centered_x, 148, m_box_w, m_box_h), "Tillbaks"))
+		if(GUI.Button (new Rect (m_centered_x, 148, m_box_w, m_box_h), "Tillbaka"))
 		{
 			master = true;
 		}
-		m_testslider = GUI.HorizontalSlider (new Rect (Screen.width/2-200, 148+m_box_h, 100, 50), m_testslider, 0, 10);
+		m_fov = GUI.HorizontalSlider (new Rect (Screen.width/2-200, 148+m_box_h, 100, 50), m_fov, 55, 120);
 
 	}
 
@@ -60,7 +61,7 @@ public class Meny : MonoBehaviour {
 
 		if (master) {
 						if (GUI.Button (new Rect (m_centered_x, 148, m_box_w, m_box_h), "Starta mig.")) {
-								Application.LoadLevel ("testscenepleaseignore");
+								Application.LoadLevel ("Erik");
 						}
 
 						if (GUI.Button (new Rect (m_centered_x, (148 + m_box_h), m_box_w, m_box_h), "Alternativ.")) {
