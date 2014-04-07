@@ -6,6 +6,9 @@ Hoverboard/Library
 *.sln
 *.csproj
 
+#include these files
+!*.meta
+
 #Hoverboard/Library/AssetServerCacheV3
 #Hoverboard/Library/*.dwlt
 #Hoverboard/Library/CompilationCompleted.txt
