@@ -7,7 +7,7 @@ Hoverboard/Library
 *.csproj
 
 #include these files
-!*.meta
+#!*.meta
 
 #Hoverboard/Library/AssetServerCacheV3
 #Hoverboard/Library/*.dwlt
@@ -82,7 +82,7 @@ build/
 *_i.c
 *_p.c
 *.ilk
-*.meta
+#*.meta
 *.obj
 *.pch
 *.pdb
