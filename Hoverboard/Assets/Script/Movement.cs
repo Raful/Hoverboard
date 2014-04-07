@@ -44,11 +44,13 @@ public class Movement : MonoBehaviour {
 		{
 			transform.Rotate(0,-1f,0,Space.World);
 		}
+
 		if(Input.GetKey(KeyCode.D))
 		{
 			transform.Rotate(0,1f,0,Space.World);
 		}
-		//Increase the max jump
+
+		//The power of jump increases when the space bar i down
 		if (Input.GetKey (KeyCode.Space) && m_Jumped) 
 		{
 			m_ChargePower = m_ChargePower + m_JumpAccelration;
@@ -63,14 +65,21 @@ public class Movement : MonoBehaviour {
 			m_JumpPower = m_ChargePower;
 			m_ChargePower = 0;
 			m_Jumped = false;
-
 		}
+
+		Debug.Log ("Jump Power left: " + m_JumpPower);
 		transform.Translate(transform.up.normalized * m_JumpPower);
 
-		if(m_Speed > 0.01f)
+		if (m_Speed > 0.01f)
 			m_Speed -= 0.01f;
+		if (m_Speed < 0.01f && m_Speed > 0f)
+			m_Speed = 0f;
+
 		if (m_JumpPower > 0.01f)
 			m_JumpPower -= 0.05f;
+		if (m_JumpPower < 0.01f)
+			m_JumpPower = 0f;
+
 		//if (transform.position.y > 3)
 			//	transform.position = transform.position + new Vector3 (0, -0.1f, 0);
 
