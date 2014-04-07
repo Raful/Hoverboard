@@ -12,7 +12,9 @@ public class Movement : MonoBehaviour {
 
 	public Vector3 m_Velocity;
 	public float m_Speed;
-	bool m_Jumped;
+	public float m_MaxJumpPower, m_JumpAccelration;
+	bool m_Jumped = true;
+	float m_JumpPower, m_ChargePower;
 	void Start (){
 		m_Speed = 0;
 	}
@@ -46,8 +48,29 @@ public class Movement : MonoBehaviour {
 		{
 			transform.Rotate(0,1f,0,Space.World);
 		}
+		//Increase the max jump
+		if (Input.GetKey (KeyCode.Space) && m_Jumped) 
+		{
+			m_ChargePower = m_ChargePower + m_JumpAccelration;
+		}
+
+		if (Input.GetKeyUp (KeyCode.Space)) 
+		{
+			if(m_ChargePower > m_MaxJumpPower)
+			{
+				m_ChargePower = m_MaxJumpPower;
+			}
+			m_JumpPower = m_ChargePower;
+			m_ChargePower = 0;
+			m_Jumped = false;
+
+		}
+		transform.Translate(transform.up.normalized * m_JumpPower);
+
 		if(m_Speed > 0.01f)
 			m_Speed -= 0.01f;
+		if (m_JumpPower > 0.01f)
+			m_JumpPower -= 0.05f;
 		//if (transform.position.y > 3)
 			//	transform.position = transform.position + new Vector3 (0, -0.1f, 0);
 
