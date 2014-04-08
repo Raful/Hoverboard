@@ -87,11 +87,14 @@ public class Movement : MonoBehaviour {
 		{
 			m_Speed += 0.02f;
 		}
+
 		if (Input.GetKey (KeyCode.S) && m_Speed > -2) 
 		{
 			m_Speed -= 0.02f;
+
 		}
 		//Debug.Log ("Direction " +transform.forward.y);
+
 
 		transform.position += transform.forward.normalized*m_Speed; 
 
@@ -105,7 +108,15 @@ public class Movement : MonoBehaviour {
 			transform.Translate(Vector3.right);
 		}
 
+
 		if((Input.GetKey(KeyCode.A) && m_Speed >= 0) || (Input.GetKey(KeyCode.D) && m_Speed <0))
+
+		// if not grounded
+		transform.position += transform.forward.normalized*m_Speed;
+		//transform.position -= Vector3.up*0.1f;
+
+		if(Input.GetKey(KeyCode.A))
+
 		{
 			transform.Rotate(0,-1f,0,Space.World);
 		}
@@ -147,12 +158,15 @@ public class Movement : MonoBehaviour {
 		Debug.Log ("Jump Power left: " + m_JumpPower);
 		transform.Translate(transform.up.normalized * m_JumpPower);
 
-	
+
+
 
 		if (m_JumpPower > 0.01f)
 			m_JumpPower -= 0.05f;
 		if (m_JumpPower < 0.01f)
 			m_JumpPower = 0f;
+
+
 
 
 		//if (transform.position.y > 3)
