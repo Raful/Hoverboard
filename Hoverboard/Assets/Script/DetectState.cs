@@ -1,6 +1,9 @@
 ﻿/*
  * This script detects what state (grinding etc) the player the player is in.
  * The state is accessed with m_state, for use in other scripts.
+ * 
+ * WARNING:
+ * Only supports one colliderObject atm, needs to be fixed
  */
 
 using UnityEngine;
@@ -30,9 +33,15 @@ public class DetectState : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
     {
+        setState();
+	}
+
+    //Finds 
+    void setState()
+    {
         foreach (ColliderObject colliderObject in colliderStates)
         {
-            string tempStateString="default";
+            string tempStateString = "default";
 
             foreach (string stateString in availableStatesStrings)
             {
@@ -44,6 +53,11 @@ public class DetectState : MonoBehaviour {
             }
 
             state = tempStateString;
+
+            if (state != "default")
+            {
+                break;
+            }
         }
-	}
+    }
 }
