@@ -60,7 +60,7 @@ public class Movement : MonoBehaviour {
 			m_ChargePower = m_ChargePower + m_JumpAccelration;
 		}
 
-		if (Input.GetKeyUp (KeyCode.Space)) 
+		if (Input.GetKeyUp (KeyCode.Space) && m_Jumped) 
 		{
 			if(m_ChargePower > m_MaxJumpPower)
 			{
