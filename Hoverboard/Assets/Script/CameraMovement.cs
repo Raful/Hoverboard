@@ -25,7 +25,7 @@ public class CameraMovement: MonoBehaviour {
 		wantedRotationAngle = hoverboard.transform.eulerAngles.y;
 		currentRotationAngle = transform.eulerAngles.y;
 		float newRotationAngle = currentRotationAngle - wantedRotationAngle ;
-		currentRotationAngle = Mathf.LerpAngle (currentRotationAngle, newRotationAngle, 3 * Time.deltaTime);
+		currentRotationAngle = Mathf.LerpAngle (currentRotationAngle, newRotationAngle, Time.deltaTime);
 		currentRotation = Quaternion.Euler (0, currentRotationAngle, 0);
 
 		transform.position -= currentRotation * Vector3.left;
