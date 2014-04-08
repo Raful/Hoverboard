@@ -111,8 +111,9 @@ public class Movement : MonoBehaviour {
 
 
 
+
 		// if not grounded
-		transform.position += transform.forward.normalized*m_Speed;
+  
 		//transform.position -= Vector3.up*0.1f;
 
 		if((Input.GetKey(KeyCode.A) && m_Speed >= 0) || (Input.GetKey(KeyCode.D) && m_Speed <0))
@@ -156,12 +157,13 @@ public class Movement : MonoBehaviour {
 		transform.Translate(transform.up.normalized * m_JumpPower);
 
 
+		if (m_Speed > 0.01f)
+			m_Speed -= 0.01f;
+		if (m_Speed < 0.01f && m_Speed > 0f)
+			m_Speed = 0f;
 
 
-		if (m_JumpPower > 0.01f)
-			m_JumpPower -= 0.05f;
-		if (m_JumpPower < 0.01f)
-			m_JumpPower = 0f;
+
 
 
 
