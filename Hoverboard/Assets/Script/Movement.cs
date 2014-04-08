@@ -31,7 +31,6 @@ public class Movement : MonoBehaviour {
 			m_Speed -= 0.01f;
 		}
 		//Debug.Log ("Direction " +transform.forward.y);
-<<<<<<< HEAD
 
 		transform.position += transform.forward.normalized*m_Speed; 
 
@@ -45,11 +44,6 @@ public class Movement : MonoBehaviour {
 			transform.Translate(Vector3.right);
 		}
 
-=======
-		// if not grounded
-		transform.position += transform.forward.normalized*m_Speed;
-		//transform.position -= Vector3.up*0.1f;
->>>>>>> Niklas
 		if(Input.GetKey(KeyCode.A))
 		{
 			transform.Rotate(0,-1f,0,Space.World);
@@ -82,7 +76,6 @@ public class Movement : MonoBehaviour {
 
 		if (m_Speed > 0.01f)
 			m_Speed -= 0.01f;
-<<<<<<< HEAD
 		if (m_Speed < 0.01f && m_Speed > 0f)
 			m_Speed = 0f;
 
@@ -90,8 +83,6 @@ public class Movement : MonoBehaviour {
 			m_JumpPower -= 0.05f;
 		if (m_JumpPower < 0.01f)
 			m_JumpPower = 0f;
-=======
->>>>>>> Niklas
 
 		//if (transform.position.y > 3)
 			//	transform.position = transform.position + new Vector3 (0, -0.1f, 0);
