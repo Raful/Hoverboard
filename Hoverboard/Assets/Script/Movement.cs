@@ -31,6 +31,7 @@ public class Movement : MonoBehaviour {
 			m_Speed -= 0.01f;
 		}
 
+		//Debug.Log ("Direction " +transform.forward.y);
 		transform.position += transform.forward.normalized*m_Speed; 
 
 		if (Input.GetKey (KeyCode.J))
@@ -82,7 +83,6 @@ public class Movement : MonoBehaviour {
 			m_JumpPower -= 0.05f;
 		if (m_JumpPower < 0.01f)
 			m_JumpPower = 0f;
-
 
 		//if (transform.position.y > 3)
 			//	transform.position = transform.position + new Vector3 (0, -0.1f, 0);
