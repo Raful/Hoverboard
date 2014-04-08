@@ -88,7 +88,7 @@ public class Movement : MonoBehaviour {
 			m_Speed += 0.02f;
 		}
 
-		if (Input.GetKey (KeyCode.S) && m_Speed > -2) 
+		if (Input.GetKey (KeyCode.S) && m_Speed > -0.5) 
 		{
 			m_Speed -= 0.02f;
 
@@ -109,17 +109,14 @@ public class Movement : MonoBehaviour {
 		}
 
 
-		if((Input.GetKey(KeyCode.A) && m_Speed >= 0) || (Input.GetKey(KeyCode.D) && m_Speed <0))
+
 
 		// if not grounded
 		transform.position += transform.forward.normalized*m_Speed;
 		//transform.position -= Vector3.up*0.1f;
 
-		if(Input.GetKey(KeyCode.A))
-
-		{
+		if((Input.GetKey(KeyCode.A) && m_Speed >= 0) || (Input.GetKey(KeyCode.D) && m_Speed <0))
 			transform.Rotate(0,-1f,0,Space.World);
-		}
 
 		if((Input.GetKey(KeyCode.D) && m_Speed >= 0) || (Input.GetKey(KeyCode.A) && m_Speed <0))
 		{
