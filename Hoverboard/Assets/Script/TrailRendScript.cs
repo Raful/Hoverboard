@@ -19,12 +19,13 @@ public class TrailRendScript : MonoBehaviour {
 	void Start () 
 	{
 		GetComponent<TrailRenderer> ().time = m_TrailLifeTime;
+		GetComponent<TrailRenderer> ().enabled = false;
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		m_playerSpeed = transform.parent.GetComponent<Movement> ().m_Speed;
-		if (m_playerSpeed > m_ShowRayThreshold) 
+		if (m_playerSpeed > m_ShowRayThreshold && m_playerSpeed > 0f) 
 		{
 			GetComponent<TrailRenderer> ().enabled = true;
 			GetComponent<TrailRenderer> ().time = m_TrailLifeTime;
@@ -36,7 +37,7 @@ public class TrailRendScript : MonoBehaviour {
 				GetComponent<TrailRenderer> ().enabled = false;
 				GetComponent<TrailRenderer> ().time = m_TrailLifeTime;
 			}
-			else if(m_playerSpeed > 0f)
+			else if(m_playerSpeed > 0f || m_playerSpeed < 0f)
 			{
 				GetComponent<TrailRenderer>().time -= m_DecreaseRate;
 			}
