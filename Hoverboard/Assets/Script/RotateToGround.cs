@@ -22,7 +22,7 @@ public class RotateToGround : MonoBehaviour {
 	
 	void Update () 
 	{
-		m_AngleSpeed = GetComponent<Movement> ().m_Speed * 20;
+//		m_AngleSpeed = GetComponent<Movement> ().m_Speed * 20;
 		m_rayDown.direction = -transform.up;
 		m_rayDown.origin = transform.position + new Vector3 (0, 0, 1);
 

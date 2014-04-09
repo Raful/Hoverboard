@@ -2,11 +2,10 @@
 using System.Collections;
 
 /*
- * This script adds rotation to the hoverboard. 
- * The rotation is done by rotating the hoverboard by the global axis
+ *  Explain script here
  *
- * Created by: Niklas Åsén, 2014-04-02
- * Edited by:
+ * Created by: Niklas, 2014-04-02
+ * Edited by: Erik, Andreas
  */
 public class Movement : MonoBehaviour {
 
@@ -30,8 +29,8 @@ public class Movement : MonoBehaviour {
 		{
 			m_Speed -= 0.01f;
 		}
-		//Debug.Log ("Direction " +transform.forward.y);
 
+		//Debug.Log ("Direction " +transform.forward.y);
 		transform.position += transform.forward.normalized*m_Speed; 
 
 		if (Input.GetKey (KeyCode.J))
@@ -43,7 +42,7 @@ public class Movement : MonoBehaviour {
 		{
 			transform.Translate(Vector3.right);
 		}
-
+		
 		if(Input.GetKey(KeyCode.A))
 		{
 			transform.Rotate(0,-1f,0,Space.World);
@@ -60,7 +59,7 @@ public class Movement : MonoBehaviour {
 			m_ChargePower = m_ChargePower + m_JumpAccelration;
 		}
 
-		if (Input.GetKeyUp (KeyCode.Space)) 
+		if (Input.GetKeyUp (KeyCode.Space) && m_Jumped) 
 		{
 			if(m_ChargePower > m_MaxJumpPower)
 			{
