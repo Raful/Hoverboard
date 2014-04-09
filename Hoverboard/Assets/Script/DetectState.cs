@@ -4,10 +4,14 @@
  * 
  * Supported states, the higher in the list, the higher the priority
  *      Rail
+ *      
+ * If no state are found, it's set to Default
  */
 
 using UnityEngine;
 using System.Collections;
+
+[RequireComponent(typeof(Rigidbody))]
 
 public class DetectState : MonoBehaviour {
 
@@ -55,6 +59,7 @@ public class DetectState : MonoBehaviour {
     }
 
     //Determine which state should be used
+    //When implementing a new state, make sure it's prioritized according to the list at the top of this file.
     void setState()
     {
         if (findInCollidersFound(new KeyPair("Bottom", "Rail")))
@@ -63,7 +68,7 @@ public class DetectState : MonoBehaviour {
         }
         else
         {
-            
+            state = "Default";
         }
     }
 
