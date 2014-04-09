@@ -25,22 +25,26 @@ public class TrailRendScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		m_playerSpeed = transform.parent.GetComponent<Movement> ().m_Speed;
-		if (m_playerSpeed > m_ShowRayThreshold && m_playerSpeed > 0f) 
+		if (m_playerSpeed > m_ShowRayThreshold) 
 		{
 			GetComponent<TrailRenderer> ().enabled = true;
 			GetComponent<TrailRenderer> ().time = m_TrailLifeTime;
 		}
-		else 
+		else if(m_playerSpeed < m_ShowRayThreshold && m_playerSpeed > 0f)
 		{
-			if (GetComponent<TrailRenderer>().time <= 0)
+			if (GetComponent<TrailRenderer>().time < 0)
 			{ 
 				GetComponent<TrailRenderer> ().enabled = false;
 				GetComponent<TrailRenderer> ().time = m_TrailLifeTime;
 			}
-			else if(m_playerSpeed > 0f || m_playerSpeed < 0f)
+			else if(m_playerSpeed > 0f)
 			{
 				GetComponent<TrailRenderer>().time -= m_DecreaseRate;
 			}
+		}
+		else
+		{
+			GetComponent<TrailRenderer> ().enabled = false;
 		}
 	}
 }
