@@ -1,4 +1,7 @@
 ﻿/*
+ * Created by: Robbin
+ * 
+ * Description:
  * Used by the hoverboard to specify how to interact with the object.
  * 
  * See DetectState.cs for a list of supported types.
