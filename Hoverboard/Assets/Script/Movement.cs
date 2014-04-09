@@ -2,89 +2,133 @@
 using System.Collections;
 
 /*
- *  Explain script here
+ * This script adds rotation to the hoverboard. 
+ * The rotation is done by rotating the hoverboard by the global axis
  *
- * Created by: Niklas, 2014-04-02
- * Edited by: Erik, Andreas
+ * Created by: Niklas Åsén, 2014-04-02
+ * Edited by:
  */
 public class Movement : MonoBehaviour {
-
-	public Vector3 m_Velocity;
+	
+	Ray m_rayDown;
+	RaycastHit hitDown;
+	Raycast[] rayarray;
+	
+	public float m_Acceleration;
+	public float m_AngleSpeed;
+	public float m_RayLength;
 	public float m_Speed;
-	public float m_MaxJumpPower, m_JumpAccelration;
-	bool m_Jumped = true;
-	float m_JumpPower, m_ChargePower;
-	void Start (){
-		m_Speed = 0;
-	}
+	private Quaternion goToRotation;
+	private Vector3 newDirection;
+	private Vector3 rayDirDelta;
+	
+	private bool m_rotate;
 	
 
+	private float frontAngle;
+	public float forwardOn;
+	private int gravityOn;
+	public int angleOn;
+	
+	
+	void Start (){
+		
+		rayarray = GetComponentsInChildren<Raycast>();
+		angleOn = 1;
+		forwardOn = 0;
+		gravityOn = 0;
+		m_rayDown.origin = transform.position;
+		
+	}
+	
+	// TODO, Spara velocity, fixa gravity n push, vinklarna i luften
 	void Update () 
 	{
-		if(Input.GetKey(KeyCode.W) && m_Speed <2 )
+		if(m_rotate)
 		{
-			m_Speed += 0.02f;
+			if(Input.GetKey(KeyCode.W) && m_Speed <1.0f )
+			{
+				m_Speed += m_Acceleration/ 1000;
+			}
+			if(Input.GetKey(KeyCode.S))
+			{
+				m_Speed -= m_Acceleration/ 1000;
+			}
+			
+			if(Input.GetKey(KeyCode.A))
+			{
+				transform.Rotate(0,-1f,0);
+			}
+			if(Input.GetKey(KeyCode.D))
+			{
+				transform.Rotate(0,1f,0);
+			}
 		}
-		if(Input.GetKey(KeyCode.S))
-		{
-			m_Speed -= 0.01f;
-		}
-
-		//Debug.Log ("Direction " +transform.forward.y);
-		transform.position += transform.forward.normalized*m_Speed; 
-
-		if (Input.GetKey (KeyCode.J))
-		{
-			transform.Translate(Vector3.left);
-		}
-
-		if (Input.GetKey (KeyCode.L))
-		{
-			transform.Translate(Vector3.right);
+		else{
+			if(Input.GetKey(KeyCode.W))
+			{
+				transform.Rotate(2f,0,0);
+			}
+			if(Input.GetKey(KeyCode.S))
+			{
+				transform.Rotate(-2f,0,0);
+			}
+			
+			if(Input.GetKey(KeyCode.A))
+			{
+				transform.Rotate(0,-1f,0);
+			}
+			if(Input.GetKey(KeyCode.D))
+			{
+				transform.Rotate(0,1f,0);
+			}
 		}
 		
-		if(Input.GetKey(KeyCode.A))
-		{
-			transform.Rotate(0,-1f,0,Space.World);
+		m_rayDown.direction = -transform.up;
+		m_rayDown.origin = transform.position;
+		
+		// Down
+		if (Physics.Raycast (m_rayDown, out hitDown, m_RayLength)) 
+		{	
+			Debug.DrawLine (m_rayDown.origin, hitDown.point);
+			m_rotate = true;
 		}
-
-		if(Input.GetKey(KeyCode.D))
+		else
 		{
-			transform.Rotate(0,1f,0,Space.World);
+			m_rotate = false;
+			rigidbody.velocity = new Vector3(0,-5,0);
+			hitDown.distance = 4;
 		}
-
-		//The power of jump increases when the space bar i down
-		if (Input.GetKey (KeyCode.Space) && m_Jumped) 
+		
+		if (hitDown.distance < 2)
 		{
-			m_ChargePower = m_ChargePower + m_JumpAccelration;
-		}
-
-		if (Input.GetKeyUp (KeyCode.Space) && m_Jumped) 
+			
+			newDirection = Vector3.Cross(transform.right, hitDown.normal);
+			angleOn = 0;
+			forwardOn = 1;
+			rigidbody.AddForce (hitDown.normal * 10);
+		} 
+		//Vinkelhastighet
+		else
 		{
-			if(m_ChargePower > m_MaxJumpPower)
-			{
-				m_ChargePower = m_MaxJumpPower;
-			}
-			m_JumpPower = m_ChargePower;
-			m_ChargePower = 0;
-			m_Jumped = false;
+			angleOn = 1;
+			forwardOn = 0;
 		}
-
-		//Debug.Log ("Jump Power left: " + m_JumpPower);
-		transform.Translate(transform.up.normalized * m_JumpPower);
-
-		if (m_Speed > 0.01f)
-			m_Speed -= 0.01f;
-		if (m_Speed < 0.01f && m_Speed > 0f)
-			m_Speed = 0f;
-
-		if (m_JumpPower > 0.01f)
-			m_JumpPower -= 0.05f;
-		if (m_JumpPower < 0.01f)
-			m_JumpPower = 0f;
-
-		//if (transform.position.y > 3)
-			//	transform.position = transform.position + new Vector3 (0, -0.1f, 0);
-
+		
+		if(m_rotate)
+		{
+			goToRotation = Quaternion.Lerp(transform.rotation,Quaternion.LookRotation(Vector3.Cross(transform.right, hitDown.normal), hitDown.normal),Time.deltaTime*m_AngleSpeed);
+			transform.rotation = goToRotation;
+		}
+		
+		if(m_Speed > 0.01f)
+			m_Speed -= 0.001f;
+		
+		frontAngle =  (rayarray[0].m_Length+rayarray[1].m_Length+rayarray[2].m_Length+rayarray[3].m_Length);
+		if (frontAngle > 12.7f)
+			frontAngle = 12.7f;
+		
+		transform.position += (angleOn*transform.forward + newDirection*forwardOn).normalized * m_Speed*(frontAngle/(12.7f));
 	}
+	
 }
