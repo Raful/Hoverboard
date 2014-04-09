@@ -13,7 +13,7 @@ using System.Collections;
 public class TrailRendScript : MonoBehaviour {
 	
 	float m_playerSpeed;
-	public float m_TrailLifeTime, m_DecreaseRate;
+	public float m_TrailLifeTime, m_DecreaseRate, m_ShowRayThreshold;
 	
 	// Use this for initialization
 	void Start () 
@@ -24,7 +24,7 @@ public class TrailRendScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		m_playerSpeed = transform.parent.GetComponent<Movement> ().m_Speed;
-		if (m_playerSpeed > 1.2f) 
+		if (m_playerSpeed > m_ShowRayThreshold) 
 		{
 			GetComponent<TrailRenderer> ().enabled = true;
 			GetComponent<TrailRenderer> ().time = m_TrailLifeTime;
