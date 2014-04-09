@@ -1,4 +1,7 @@
 ﻿/*
+ * Created by: Robbin
+ * 
+ * Description:
  * This script detects what state (grinding etc) the player the player is in.
  * The state is accessed with m_state, for use in other scripts.
  * 
