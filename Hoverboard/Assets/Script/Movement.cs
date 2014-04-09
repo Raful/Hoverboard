@@ -116,20 +116,14 @@ public class Movement : MonoBehaviour {
   
 		//transform.position -= Vector3.up*0.1f;
 
-		if((Input.GetKey(KeyCode.A) && m_Speed >= 0) || (Input.GetKey(KeyCode.D) && m_Speed <0))
+		if((Input.GetKey(KeyCode.A) ))
 			transform.Rotate(0,-1f,0,Space.World);
 
-		if((Input.GetKey(KeyCode.D) && m_Speed >= 0) || (Input.GetKey(KeyCode.A) && m_Speed <0))
-		{
-			transform.Rotate(0,1f,0,Space.World);
-		}
-		/*if(Input.GetKey(KeyCode.A) )
-			transform.Rotate(0,-1f,0,Space.World);
-		
 		if(Input.GetKey(KeyCode.D))
 		{
 			transform.Rotate(0,1f,0,Space.World);
-		}*/
+		}
+
 		if(m_Speed >= 0.01f)
 			m_Speed -= 0.01f;
 
@@ -141,7 +135,13 @@ public class Movement : MonoBehaviour {
 			m_Speed = 0;
 
 
-	
+		if (Input.GetKey (KeyCode.H)) 
+		{
+			transform.Rotate(-1f,0,0,Space.Self);
+		}
+
+		if((Input.GetKey(KeyCode.Y) ))
+			transform.Rotate(1f,0,0,Space.Self);
 
 		//The power of jump increases when the space bar i down
 		if (Input.GetKey (KeyCode.Space) && m_Jumped) 
