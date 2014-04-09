@@ -10,6 +10,9 @@ public class Raycast : MonoBehaviour {
 	public float m_Rotate;
 	public float m_Length;
 	bool once;
+	public Vector3 m_Direction;
+	
+	
 	void Start () 
 	{
 		once = true;
@@ -22,26 +25,22 @@ public class Raycast : MonoBehaviour {
 		ray.direction = -transform.up;
 		ray.origin = transform.position;
 		m_Origin = transform.position;
-		if (Physics.Raycast (ray, out hit, 50)) 
+		if (Physics.Raycast (ray, out hit, 10)) 
 		{	
 			if(once)
 			{
 				once = false;
+				Debug.Log(hit.distance);
 				m_Length = hit.distance;
+				
 			}
-			
 			Debug.DrawLine (ray.origin, hit.point);
 			m_Hit = hit.point;
+			
 		}
+		m_Length = hit.distance;
+		m_Direction = Vector3.Cross(transform.right, hit.normal);
 		
-		if (hit.distance < m_Length) 
-		{
-			Debug.Log("Funkar?");
-			transform.parent.gameObject.rigidbody.AddForce(-ray.direction.normalized*0.1f);
-		}
-		if (hit.distance > m_Length + 2) 
-		{
-			transform.parent.gameObject.rigidbody.AddForce(ray.direction.normalized*0.1f);
-		}
+		
 	}
 }
