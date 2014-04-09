@@ -123,6 +123,13 @@ public class Movement : MonoBehaviour {
 		{
 			transform.Rotate(0,1f,0,Space.World);
 		}
+		/*if(Input.GetKey(KeyCode.A) )
+			transform.Rotate(0,-1f,0,Space.World);
+		
+		if(Input.GetKey(KeyCode.D))
+		{
+			transform.Rotate(0,1f,0,Space.World);
+		}*/
 		if(m_Speed >= 0.01f)
 			m_Speed -= 0.01f;
 
@@ -142,7 +149,7 @@ public class Movement : MonoBehaviour {
 			m_ChargePower = m_ChargePower + m_JumpAccelration;
 		}
 
-		if (Input.GetKeyUp (KeyCode.Space)) 
+		if (Input.GetKeyUp (KeyCode.Space) && m_Jumped) 
 		{
 			if(m_ChargePower > m_MaxJumpPower)
 			{
@@ -157,10 +164,7 @@ public class Movement : MonoBehaviour {
 		transform.Translate(transform.up.normalized * m_JumpPower);
 
 
-		if (m_Speed > 0.01f)
-			m_Speed -= 0.01f;
-		if (m_Speed < 0.01f && m_Speed > 0f)
-			m_Speed = 0f;
+
 
 
 
