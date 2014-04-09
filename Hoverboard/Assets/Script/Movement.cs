@@ -26,6 +26,10 @@ public class Movement : MonoBehaviour {
 		{
 			m_Speed += 0.02f;
 		}
+		if(Input.GetKey(KeyCode.S))
+		{
+			m_Speed -= 0.01f;
+		}
 		//Debug.Log ("Direction " +transform.forward.y);
 
 		transform.position += transform.forward.normalized*m_Speed; 
