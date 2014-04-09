@@ -2,8 +2,8 @@
  * This script detects what state (grinding etc) the player the player is in.
  * The state is accessed with m_state, for use in other scripts.
  * 
- * Supported states (Side1:Side2:...:InteractObject), the higher in the list, the higher the priority
- *      Bottom:Rail
+ * Supported states, the higher in the list, the higher the priority
+ *      Rail
  */
 
 using UnityEngine;
@@ -59,11 +59,11 @@ public class DetectState : MonoBehaviour {
     {
         if (findInCollidersFound(new KeyPair("Bottom", "Rail")))
         {
-            Debug.Log("Railing");
+            state = "Rail";
         }
         else
         {
-            Debug.Log("Default");
+            
         }
     }
 
