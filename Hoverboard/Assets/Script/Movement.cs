@@ -2,11 +2,10 @@
 using System.Collections;
 
 /*
- * This script adds rotation to the hoverboard. 
- * The rotation is done by rotating the hoverboard by the global axis
+ *  Explain script here
  *
  * Created by: Niklas, 2014-04-02
- * Edited by:
+ * Edited by: Erik, Andreas
  */
 public class Movement : MonoBehaviour {
 
