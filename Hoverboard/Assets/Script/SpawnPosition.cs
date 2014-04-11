@@ -18,4 +18,9 @@ public class SpawnPosition : MonoBehaviour {
 	{
 		obj1.transform.position = obj2.transform.position;
 	}
+
+	void OnTriggerExit(Collider collision)
+	{
+		GameObject.Find ("TimerText").GetComponent<Timer> ().RaceTime ();
+	}
 }
