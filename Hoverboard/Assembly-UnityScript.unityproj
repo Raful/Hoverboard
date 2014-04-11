@@ -46,7 +46,26 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Script\Plugin\AppliedPopup.js" />
+<<<<<<< HEAD:Hoverboard/Assembly-CSharp.csproj
+     <Compile Include="Assets\Script\CameraMec.cs" />
+     <Compile Include="Assets\Script\ColliderObject.cs" />
+     <Compile Include="Assets\Script\DetectState.cs" />
+     <Compile Include="Assets\Script\Finish.cs" />
+     <Compile Include="Assets\Script\InteractObject.cs" />
+     <Compile Include="Assets\Script\KeyPair.cs" />
+     <Compile Include="Assets\Script\Meny.cs" />
+     <Compile Include="Assets\Script\Movement.cs" />
+     <Compile Include="Assets\Script\Plugin\Popup.cs" />
+     <Compile Include="Assets\Script\Raycast.cs" />
+     <Compile Include="Assets\Script\RotateOnRay.cs" />
+     <Compile Include="Assets\Script\RotateToGround.cs" />
+     <Compile Include="Assets\Script\Rotation.cs" />
+     <Compile Include="Assets\Script\SpawnPosition.cs" />
+     <Compile Include="Assets\Script\Timer.cs" />
+     <Compile Include="Assets\Script\TrailRendScript.cs" />
+=======
+     <Compile Include="Assets\TrailRenderScript.js" />
+>>>>>>> 0f8e96242a8a68b14cfb981bd571a3a830d854e4:Hoverboard/Assembly-UnityScript.unityproj
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

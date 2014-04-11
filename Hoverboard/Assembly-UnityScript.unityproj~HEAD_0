@@ -5,11 +5,11 @@
 	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 	<ProductVersion>10.0.20506</ProductVersion>
 	<SchemaVersion>2.0</SchemaVersion>
-	<ProjectGuid>{873D66B4-2EAE-1B5E-BB27-09D3998F871A}</ProjectGuid>
+	<ProjectGuid>{5CC3EEBF-8252-8A6E-E755-15630F44E74F}</ProjectGuid>
 	<OutputType>Library</OutputType>
 	<AppDesignerFolder>Properties</AppDesignerFolder>
 	<RootNamespace></RootNamespace>
-	<AssemblyName>Assembly-CSharp</AssemblyName>
+	<AssemblyName>Assembly-UnityScript</AssemblyName>
 	<TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
 	<FileAlignment>512</FileAlignment>
 	<BaseDirectory>Assets</BaseDirectory>
@@ -46,22 +46,7 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Script\CameraMec.cs" />
-     <Compile Include="Assets\Script\ColliderObject.cs" />
-     <Compile Include="Assets\Script\DetectState.cs" />
-     <Compile Include="Assets\Script\Finish.cs" />
-     <Compile Include="Assets\Script\InteractObject.cs" />
-     <Compile Include="Assets\Script\KeyPair.cs" />
-     <Compile Include="Assets\Script\Meny.cs" />
-     <Compile Include="Assets\Script\Movement.cs" />
-     <Compile Include="Assets\Script\Plugin\Popup.cs" />
-     <Compile Include="Assets\Script\Raycast.cs" />
-     <Compile Include="Assets\Script\RotateOnRay.cs" />
-     <Compile Include="Assets\Script\RotateToGround.cs" />
-     <Compile Include="Assets\Script\Rotation.cs" />
-     <Compile Include="Assets\Script\SpawnPosition.cs" />
-     <Compile Include="Assets\Script\Timer.cs" />
-     <Compile Include="Assets\Script\TrailRendScript.cs" />
+     <Compile Include="Assets\Script\Plugin\AppliedPopup.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
