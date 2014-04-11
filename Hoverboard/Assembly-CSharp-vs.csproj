@@ -47,11 +47,15 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Script\Finish.cs" />
+     <Compile Include="Assets\Script\Meny.cs" />
      <Compile Include="Assets\Script\Movement.cs" />
+     <Compile Include="Assets\Script\Plugin\Popup.cs" />
      <Compile Include="Assets\Script\Raycast.cs" />
      <Compile Include="Assets\Script\RotateOnRay.cs" />
      <Compile Include="Assets\Script\Rotation.cs" />
      <Compile Include="Assets\Script\SpawnPosition.cs" />
+     <Compile Include="Assets\Script\blabla.cs" />
+     <Compile Include="Assets\Script\main_GUI.cs" />
      <None Include="Assets\test.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
