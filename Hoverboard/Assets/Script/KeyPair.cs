@@ -1,4 +1,12 @@
-﻿using UnityEngine;
+﻿/*
+ * Created by: Robbin
+ * Modified by: 
+ * 
+ * Description:
+ * Template class to represent a pair of objects.
+ */
+
+using UnityEngine;
 using System.Collections;
 
 public class KeyPair {

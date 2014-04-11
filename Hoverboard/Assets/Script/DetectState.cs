@@ -1,4 +1,7 @@
 ﻿/*
+ * Created by: Robbin
+ * 
+ * Description:
  * This script detects what state (grinding etc) the player the player is in.
  * The state is accessed with m_state, for use in other scripts.
  * 
@@ -10,8 +13,6 @@
 
 using UnityEngine;
 using System.Collections;
-
-[RequireComponent(typeof(Rigidbody))]
 
 public class DetectState : MonoBehaviour {
 
@@ -28,6 +29,11 @@ public class DetectState : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
     {
+        if (!rigidbody)
+        {
+            Debug.LogError("Rigidbody not found!");
+        }
+
         colliderStates = gameObject.GetComponentsInChildren<ColliderObject>();
 
         collidersFound = new ArrayList();
@@ -42,8 +48,6 @@ public class DetectState : MonoBehaviour {
 
         //Clear collidersFound at each frame, to keep it updated
         collidersFound.Clear();
-
-        Debug.Log(state);
 	}
 
     //Checks all collided objects, and place them in collidersFound (to be used in setState()).
