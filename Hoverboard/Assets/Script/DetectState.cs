@@ -14,8 +14,6 @@
 using UnityEngine;
 using System.Collections;
 
-[RequireComponent(typeof(Rigidbody))]
-
 public class DetectState : MonoBehaviour {
 
     private string state = "Default"; //What state the player is in (grinding etc)
@@ -31,6 +29,11 @@ public class DetectState : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
     {
+        if (!rigidbody)
+        {
+            Debug.LogError("Rigidbody not found!");
+        }
+
         colliderStates = gameObject.GetComponentsInChildren<ColliderObject>();
 
         collidersFound = new ArrayList();
