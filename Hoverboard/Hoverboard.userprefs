@@ -1,11 +1,9 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Script\SpawnPosition.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Test.compute">
     <Files>
-      <File FileName="Assets\Script\SpawnPosition.cs" Line="21" Column="2" />
-      <File FileName="Assets\Script\Timer.cs" Line="16" Column="19" />
-      <File FileName="Assets\Script\Finish.cs" Line="16" Column="65" />
-      <File FileName="Assets\Script\TrailRendScript.cs" Line="20" Column="51" />
+      <File FileName="Assets\TestShader.shader" Line="1" Column="1" />
+      <File FileName="Assets\Test.compute" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
