@@ -45,8 +45,6 @@ public class DetectState : MonoBehaviour {
 
         //Clear collidersFound at each frame, to keep it updated
         collidersFound.Clear();
-
-        Debug.Log(state);
 	}
 
     //Checks all collided objects, and place them in collidersFound (to be used in setState()).

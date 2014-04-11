@@ -1,4 +1,7 @@
 ﻿/*
+ * Created by: Robbin
+ * 
+ * Description:
  * Used by the hoverboard to specify how to interact with the object.
  * 
  * See DetectState.cs for a list of supported types.
@@ -20,7 +23,15 @@ public class InteractObject : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
     {
-	
+        if (!(gameObject.GetComponent<MeshCollider>() || 
+            gameObject.GetComponent<BoxCollider>() || 
+            gameObject.GetComponent<CapsuleCollider>() || 
+            gameObject.GetComponent<SphereCollider>() || 
+            gameObject.GetComponent<WheelCollider>() || 
+            gameObject.GetComponent<TerrainCollider>()))
+        {
+            Debug.LogError("Collider not found! "+gameObject.name);
+        }
 	}
 	
 	// Update is called once per frame

@@ -1,4 +1,12 @@
-﻿using UnityEngine;
+﻿/*
+ * Created by: Robbin
+ * 
+ * Description:
+ * Put in a child of the hoverboard.
+ * If this object collides with for instance a rail, the hoverboard will detect this.
+ */
+
+using UnityEngine;
 using System.Collections;
 
 public class ColliderObject : MonoBehaviour {
