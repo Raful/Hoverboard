@@ -1,9 +1,12 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Script\main_GUI.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Script\Meny.cs">
     <Files>
-      <File FileName="Assets\Script\main_GUI.cs" Line="13" Column="1" />
-      <File FileName="Assets\Script\Meny.cs" Line="1" Column="1" />
+      <File FileName="Assets\Script\Meny.cs" Line="122" Column="2" />
+      <File FileName="Assets\Script\Meny.cs" Line="146" Column="2" />
+      <File FileName="Assets\Script\main_GUI.cs" Line="1" Column="1" />
+      <File FileName="Assets\Script\Plugin\Popup.cs" Line="1" Column="1" />
+      <File FileName="Assets\Script\AppliedPopup.js" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

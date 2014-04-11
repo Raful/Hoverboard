@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 
 Project("{C4F8989A-8F0E-5FF4-9F91-7FEA40A8DA8F}") = "Hoverboard", "Assembly-CSharp.csproj", "{873D66B4-2EAE-1B5E-BB27-09D3998F871A}"
 EndProject
+Project("{C4F8989A-8F0E-5FF4-9F91-7FEA40A8DA8F}") = "Hoverboard", "Assembly-UnityScript.unityproj", "{5CC3EEBF-8252-8A6E-E755-15630F44E74F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,11 +15,15 @@ Global
 		{873D66B4-2EAE-1B5E-BB27-09D3998F871A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{873D66B4-2EAE-1B5E-BB27-09D3998F871A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{873D66B4-2EAE-1B5E-BB27-09D3998F871A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5CC3EEBF-8252-8A6E-E755-15630F44E74F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5CC3EEBF-8252-8A6E-E755-15630F44E74F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5CC3EEBF-8252-8A6E-E755-15630F44E74F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5CC3EEBF-8252-8A6E-E755-15630F44E74F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-																		GlobalSection(MonoDevelopProperties) = preSolution
+																													GlobalSection(MonoDevelopProperties) = preSolution
 											GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = Assembly-CSharp.csproj
 		Policies = $0
