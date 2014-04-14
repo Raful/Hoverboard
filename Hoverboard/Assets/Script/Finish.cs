@@ -11,8 +11,15 @@ using System.Collections;
 
 public class Finish : MonoBehaviour {
 
+	Timer StopTime;
+
+	void Start () 
+	{
+		StopTime = GameObject.Find ("TimerText").GetComponent<Timer> ();
+	}
+
 	void OnTriggerEnter(Collider collision)
 	{
-		GameObject.Find ("TimerText").GetComponent<Timer> ().StopTimer ();
+		StopTime.StopTimer();
 	}
 }

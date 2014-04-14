@@ -74,12 +74,42 @@ public class Movement : MonoBehaviour {
 		{
 			transform.Rotate(0,1f,0);
 		}
-		if(Input.GetKeyDown(KeyCode.Space))
-		{
-			rigidbody.AddForce(transform.up*999999);
+		//if(Input.GetKeyDown(KeyCode.Space))
+		//{
+		//	rigidbody.AddForce(transform.up*999999);
+		//
+		//}
 
+		//The power of jump increases when the space bar i down
+		if (Input.GetKey (KeyCode.Space) && m_Jumped)
+		{
+			m_ChargePower = m_ChargePower + m_JumpAccelration;
 		}
-		transform.position += transform.forward * m_Speed * Time.deltaTime;
+		
+		if (Input.GetKeyUp (KeyCode.Space) && m_Jumped)
+		{
+			if(m_ChargePower > m_MaxJumpPower)
+			{
+				m_ChargePower = m_MaxJumpPower;
+			}
+			m_JumpPower = m_ChargePower;
+			m_ChargePower = 0;
+			m_Jumped = false;
+		}
+
+		transform.Translate((transform.up.normalized * m_JumpPower) * Time.deltaTime);
+
+		transform.position += transform.forward.normalized * m_Speed * Time.deltaTime;
+
+
+		if (m_JumpPower > 0.01f)
+		{
+			m_JumpPower -= 0.05f;
+		}
+		if (m_JumpPower < 0.01f)
+		{
+			m_JumpPower = 0f;
+		}
 	}
 }
 		/*	else

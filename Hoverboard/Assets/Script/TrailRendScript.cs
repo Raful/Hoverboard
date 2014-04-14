@@ -11,44 +11,46 @@ using System.Collections;
  */
 
 public class TrailRendScript : MonoBehaviour {
-	
+
+	Movement m_player;
+	TrailRenderer Render;
 	float m_playerSpeed;
 	public float m_TrailLifeTime, m_DecreaseRate, m_ShowRayThreshold;
 
 	void Start () 
 	{
-		GetComponent<TrailRenderer> ().time = m_TrailLifeTime;
-		GetComponent<TrailRenderer> ().enabled = false;
+		Render.time = m_TrailLifeTime;
+		Render.enabled = false;
+		m_player = transform.parent.GetComponent<Movement> ();
 	}
 
 	void Update () {
-		m_playerSpeed = transform.parent.GetComponent<Movement> ().m_Speed;
 		//Tail will only be displayed when player is moving over a set speed
-		if (m_playerSpeed > m_ShowRayThreshold) 
+		if (m_player.m_Speed > m_ShowRayThreshold) 
 		{
-			GetComponent<TrailRenderer> ().enabled = true;
-			GetComponent<TrailRenderer> ().time = m_TrailLifeTime;
+			Render.enabled = true;
+			Render.time = m_TrailLifeTime;
 		}
 
 		//When player is slowing down shorten tail, and when less
 		//then 0 set it to orignal length(time) and stop displaying
-		else if(m_playerSpeed < m_ShowRayThreshold && m_playerSpeed > 0f)
+		else if(m_player.m_Speed < m_ShowRayThreshold && m_playerSpeed > 0f)
 		{
-			if (GetComponent<TrailRenderer>().time < 0)
+			if (Render.time < 0)
 			{ 
-				GetComponent<TrailRenderer> ().enabled = false;
-				GetComponent<TrailRenderer> ().time = m_TrailLifeTime;
+				Render.enabled = false;
+				Render.time = m_TrailLifeTime;
 			}
-			else if(m_playerSpeed > 0f)
+			else if(m_player.m_Speed > 0f)
 			{
-				GetComponent<TrailRenderer>().time -= m_DecreaseRate;
+				Render.time -= m_DecreaseRate;
 			}
 		}
 		//Going backward stop displaying tail.
 		else
 		{
-			GetComponent<TrailRenderer> ().enabled = false;
-			GetComponent<TrailRenderer>().time = 0;
+			Render.enabled = false;
+			Render.time = 0;
 		}
 	}
 }
