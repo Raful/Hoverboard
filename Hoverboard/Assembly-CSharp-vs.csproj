@@ -48,6 +48,7 @@
   <ItemGroup>
      <Compile Include="Assets\Script\CameraMec.cs" />
      <Compile Include="Assets\Script\CameraMovement.cs" />
+     <Compile Include="Assets\Script\CarAI.cs" />
      <Compile Include="Assets\Script\ColliderObject.cs" />
      <Compile Include="Assets\Script\DetectState.cs" />
      <Compile Include="Assets\Script\Finish.cs" />

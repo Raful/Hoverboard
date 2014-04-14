@@ -1,8 +1,9 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Script\DetectState.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Script\CameraMec.cs">
     <Files>
-      <File FileName="Assets\Script\DetectState.cs" Line="90" Column="10" />
+      <File FileName="Assets\Script\CameraMec.cs" Line="33" Column="2" />
+      <File FileName="Assets\Script\CarAI.cs" Line="110" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
