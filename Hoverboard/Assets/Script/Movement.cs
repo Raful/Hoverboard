@@ -18,117 +18,229 @@ public class Movement : MonoBehaviour {
 	public float m_AngleSpeed;
 	public float m_RayLength;
 	public float m_Speed;
-	private Quaternion goToRotation;
-	private Vector3 newDirection;
-	private Vector3 rayDirDelta;
-	
-	private bool m_rotate;
-	
 
-	private float frontAngle;
-	public float forwardOn;
-	private int gravityOn;
-	public int angleOn;
-	
+
+	public float m_MaxJumpPower, m_JumpAccelration;
+	bool m_Jumped = true;
+	float m_JumpPower, m_ChargePower;
+	private KeyCode lastKeyPressed;
+	private float keyTimer;
+	private float releaseKey;
+	private bool pressedS;
+	private bool done;
+
+
+		
+
+
 	
 	void Start (){
+
+		m_Speed = 0;
+		pressedS = false;
+		done = false;
 		
-		rayarray = GetComponentsInChildren<Raycast>();
-		angleOn = 1;
-		forwardOn = 0;
-		gravityOn = 0;
-		m_rayDown.origin = transform.position;
-		
+
 	}
 	
 	// TODO, Spara velocity, fixa gravity n push, vinklarna i luften
 	void Update () 
 	{
-		if(m_rotate)
+
+
+
+
+
+        //movementAxis reads the left joystick or wasd
+        /*Vector3 movementAxis = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
+
+
+        if (movementAxis.z > 0 && m_Velocity.y < 0.2f  && m_Velocity.y > -0.2f)
+			m_Velocity = m_Velocity + new Vector3(0, 0.1f * movementAxis.z,0 );
+
+
+	if (movementAxis.z < 0 && m_Velocity.y > -0.2f )
+			m_Velocity = m_Velocity + new Vector3(0, 0.1f * movementAxis.z,0 );
+
+		if(movementAxis.x < 0 && m_Velocity.x > -0.2f)
 		{
-			if(Input.GetKey(KeyCode.W) && m_Speed <1.0f )
+
+			if(totalRotate < 20)
 			{
-				m_Speed += m_Acceleration/ 1000;
+				transform.Rotate(0,5,0, Space.Self);
+				totalRotate += 5;
+
 			}
-			if(Input.GetKey(KeyCode.S))
-			{
-				m_Speed -= m_Acceleration/ 1000;
-			}
-			
-			if(Input.GetKey(KeyCode.A))
-			{
-				transform.Rotate(0,-1f,0);
-			}
-			if(Input.GetKey(KeyCode.D))
-			{
-				transform.Rotate(0,1f,0);
-			}
+		angle = 90 - transform.rotation.y; 
+			m_Velocity = m_Velocity + new Vector3(0.1f * movementAxis.x, 0,0);
 		}
-		else{
-			if(Input.GetKey(KeyCode.W))
+
+		if(movementAxis.x > 0 && m_Velocity.x < 0.2f)
+		{
+			if(totalRotate > -20)
 			{
-				transform.Rotate(2f,0,0);
+				
+				transform.Rotate(0,-5,0, Space.Self);
+				totalRotate -= 5;
+
 			}
-			if(Input.GetKey(KeyCode.S))
-			{
-				transform.Rotate(-2f,0,0);
-			}
+			m_Velocity = m_Velocity + new Vector3(0.1f * movementAxis.x, 0, 0);
+		}*/
+
+
+
+
+
+
+		if (!done) {
+						if (Input.GetKey (KeyCode.W) && m_Speed < 2) {
+
+								m_Speed += 0.03f;
+
+						}
+
+
+						if (Input.GetKey (KeyCode.S) && m_Speed > -0.5) {
+								m_Speed -= 0.02f;
+								if (!pressedS) {
+										releaseKey = Time.time;
+										pressedS = true;
+								}
+						}
+						if (Input.GetKeyUp (KeyCode.S) && (Time.time - releaseKey) < 0.25) {
+								keyTimer = Time.time;
+								done = true;
+
+						} else if ((Time.time - releaseKey) >= 0.25) {
+								pressedS = false;
+						}
+						//Debug.Log ("Direction " +transform.forward.y);
+
+
+						transform.position += transform.forward.normalized * m_Speed; 
+
+						if (Input.GetKey (KeyCode.J)) {
+
+								transform.Translate (Vector3.left);
+						}
+
+						if (Input.GetKey (KeyCode.L)) {
+								transform.Translate (Vector3.right);
+						}
 			
-			if(Input.GetKey(KeyCode.A))
-			{
-				transform.Rotate(0,-1f,0);
-			}
-			if(Input.GetKey(KeyCode.D))
-			{
-				transform.Rotate(0,1f,0);
-			}
-		}
+						if (Input.GetKey (KeyCode.A)) {
+								transform.Rotate (0, -1f, 0);
+						}
+						if (Input.GetKey (KeyCode.D)) {
+								transform.Rotate (0, 1f, 0);
+						}
+
+				}
 		
-		m_rayDown.direction = -transform.up;
-		m_rayDown.origin = transform.position;
+		if (Input.GetKey (KeyCode.S) && (Time.time - keyTimer) < 0.15 && done) 
+		{
+			transform.Rotate(0,180,0, Space.Self);
+			pressedS = false;
+			done = false;
+		}
+		else if((Time.time - keyTimer) > 0.25 && done)
+		{
+			done = false;
+			pressedS = false;
+		}
+
+
 		
 		// Down
-		if (Physics.Raycast (m_rayDown, out hitDown, m_RayLength)) 
-		{	
-			Debug.DrawLine (m_rayDown.origin, hitDown.point);
-			m_rotate = true;
-		}
-		else
-		{
-			m_rotate = false;
-			rigidbody.velocity = new Vector3(0,-5,0);
-			hitDown.distance = 4;
-		}
+
+
+
+
+
+
+
+		// if not grounded
+  
+		//transform.position -= Vector3.up*0.1f;
+
 		
-		if (hitDown.distance < 2)
+
+		if(m_Speed >= 0.01f)
+			m_Speed -= 0.01f;
+
+		if (m_Speed <= -0.01f) 
+			m_Speed += 0.01f;
+		
+		
+		if (m_Speed < 0.01f && m_Speed > -0.01f)
+			m_Speed = 0;
+
+
+		if (Input.GetKey (KeyCode.H)) 
 		{
-			
-			newDirection = Vector3.Cross(transform.right, hitDown.normal);
-			angleOn = 0;
-			forwardOn = 1;
-			rigidbody.AddForce (hitDown.normal * 10);
-		} 
+			transform.Rotate(-1f,0,0,Space.Self);
+		}
+
+		if((Input.GetKey(KeyCode.Y) ))
+			transform.Rotate(1f,0,0,Space.Self);
+
+		//The power of jump increases when the space bar i down
+
+		
+
 		//Vinkelhastighet
-		else
-		{
-			angleOn = 1;
-			forwardOn = 0;
+
+
+
+		
+		
+
+
+		
+
+
+
+
+
+
+
+
+
+		//if (transform.position.y > 3)
+			//	transform.position = transform.position + new Vector3 (0, -0.1f, 0);
+
+
+
+		//transform.position += new Vector3(m_Velocity.x,0,m_Velocity.z);
+		/*if( m_Velocity.y > 0.1f)
+			m_Velocity.y -= 0.05f;
+		else if (m_Velocity.y < -0.1f)
+			m_Velocity.y += 0.05f;
+		else if (m_Velocity.y > -0.1 && m_Velocity.y < 0.1 && movementAxis.z > -0.1 && movementAxis.z < 0.1 )	
+			m_Velocity.y = 0;
+		if (m_Velocity.x < -0.1f)
+			m_Velocity.x += 0.05f;
+		else if (m_Velocity.x > 0.1f)
+			m_Velocity.x -= 0.05f;
+
+		else if (m_Velocity.x > -0.1 && m_Velocity.x < 0.1 && movementAxis.x > -0.1 && movementAxis.x < 0.1 )
+			m_Velocity.x = 0;*/
+
+			/*if (m_Velocity.x < 0.01 && m_Velocity.x > -0.01) {
+			transform.eulerAngles = new Vector3(90, 0, 0);
+			}*/
+						
+			
+	
+	
+
+
+
+
+		
+		
+		
 		}
-		
-		if(m_rotate)
-		{
-			goToRotation = Quaternion.Lerp(transform.rotation,Quaternion.LookRotation(Vector3.Cross(transform.right, hitDown.normal), hitDown.normal),Time.deltaTime*m_AngleSpeed);
-			transform.rotation = goToRotation;
-		}
-		
-		if(m_Speed > 0.01f)
-			m_Speed -= 0.001f;
-		
-		frontAngle =  (rayarray[0].m_Length+rayarray[1].m_Length+rayarray[2].m_Length+rayarray[3].m_Length);
-		if (frontAngle > 12.7f)
-			frontAngle = 12.7f;
-		
-		transform.position += (angleOn*transform.forward + newDirection*forwardOn).normalized * m_Speed*(frontAngle/(12.7f));
-	}
 	
 }
+
