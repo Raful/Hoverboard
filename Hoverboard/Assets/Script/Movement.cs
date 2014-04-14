@@ -79,6 +79,7 @@ public class Movement : MonoBehaviour {
 			rigidbody.AddForce(transform.up*999999);
 
 		}
+		transform.position += transform.forward * m_Speed * Time.deltaTime;
 	}
 }
 		/*	else
