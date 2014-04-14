@@ -19,6 +19,7 @@ public class TrailRendScript : MonoBehaviour {
 
 	void Start () 
 	{
+		Render = GetComponent<TrailRenderer>();
 		Render.time = m_TrailLifeTime;
 		Render.enabled = false;
 		m_player = transform.parent.GetComponent<Movement> ();

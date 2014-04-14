@@ -16,8 +16,8 @@ public class Movement : MonoBehaviour {
 	public float m_Acceleration;
 	public float m_rotationSpeed;
 	private bool accelerate;
-
-
+	private float angle;
+	private Quaternion goToRotation;
 
 	public float m_MaxJumpPower, m_JumpAccelration;
 	bool m_Jumped = true;
@@ -27,7 +27,7 @@ public class Movement : MonoBehaviour {
 	private float releaseKey;
 	private bool pressedS;
 	private bool done;
-
+	
 
 
 	
@@ -48,7 +48,11 @@ public class Movement : MonoBehaviour {
 		if(Physics.Raycast(transform.position, -transform.up, out hit, 10))
 		{
 			accelerate = true;
-			transform.rotation = Quaternion.Lerp(transform.rotation,Quaternion.LookRotation(Vector3.Cross(transform.right, hit.normal)),Time.deltaTime*m_rotationSpeed);
+			angle = Vector3.Angle(transform.forward, Vector3.Cross(transform.right, hit.normal));
+			goToRotation = Quaternion.LookRotation(Vector3.Cross(transform.right, hit.normal), hit.normal);
+			transform.rotation = goToRotation;
+			//goToRotation = Quaternion.Lerp(transform.rotation,Quaternion.LookRotation(Vector3.Cross(transform.right, hitDown.normal), hitDown.normal),Time.deltaTime*m_AngleS
+			Debug.Log(angle);
 		}
 		else
 		{
@@ -68,11 +72,11 @@ public class Movement : MonoBehaviour {
 		}
 		if(Input.GetKey(KeyCode.A))
 		{
-			transform.Rotate(0,-1f,0);
+			transform.Rotate(0,-1f,0f,Space.Self);
 		}
 		if(Input.GetKey(KeyCode.D))
 		{
-			transform.Rotate(0,1f,0);
+			transform.Rotate(0,1f,0,Space.Self);
 		}
 		//if(Input.GetKeyDown(KeyCode.Space))
 		//{
@@ -99,9 +103,6 @@ public class Movement : MonoBehaviour {
 
 		transform.Translate((transform.up.normalized * m_JumpPower) * Time.deltaTime);
 
-		transform.position += transform.forward.normalized * m_Speed * Time.deltaTime;
-
-
 		if (m_JumpPower > 0.01f)
 		{
 			m_JumpPower -= 0.05f;
@@ -109,6 +110,17 @@ public class Movement : MonoBehaviour {
 		if (m_JumpPower < 0.01f)
 		{
 			m_JumpPower = 0f;
+		}
+		
+		transform.position += transform.forward * m_Speed * Time.deltaTime;
+
+		if (Input.GetKey (KeyCode.J)) {
+			
+			transform.Translate (Vector3.left*Time.deltaTime*10);
+		}
+		
+		if (Input.GetKey (KeyCode.L)) {
+			transform.Translate (Vector3.right*Time.deltaTime*10);
 		}
 	}
 }
