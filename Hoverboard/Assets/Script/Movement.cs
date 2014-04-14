@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 /*
@@ -10,14 +11,12 @@ using System.Collections;
  */
 public class Movement : MonoBehaviour {
 	
-	Ray m_rayDown;
-	RaycastHit hitDown;
-	Raycast[] rayarray;
-	
-	public float m_Acceleration;
-	public float m_AngleSpeed;
-	public float m_RayLength;
 	public float m_Speed;
+
+	public float m_Acceleration;
+	public float m_rotationSpeed;
+	private bool accelerate;
+
 
 
 	public float m_MaxJumpPower, m_JumpAccelration;
@@ -30,67 +29,40 @@ public class Movement : MonoBehaviour {
 	private bool done;
 
 
-		
-
 
 	
+
 	void Start (){
 
 		m_Speed = 0;
 		pressedS = false;
 		done = false;
-		
 
 	}
 	
-	// TODO, Spara velocity, fixa gravity n push, vinklarna i luften
+	
 	void Update () 
 	{
 
-
-
-
-
-        //movementAxis reads the left joystick or wasd
-        /*Vector3 movementAxis = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
-
-
-        if (movementAxis.z > 0 && m_Velocity.y < 0.2f  && m_Velocity.y > -0.2f)
-			m_Velocity = m_Velocity + new Vector3(0, 0.1f * movementAxis.z,0 );
-
-
-	if (movementAxis.z < 0 && m_Velocity.y > -0.2f )
-			m_Velocity = m_Velocity + new Vector3(0, 0.1f * movementAxis.z,0 );
-
-		if(movementAxis.x < 0 && m_Velocity.x > -0.2f)
+		RaycastHit hit;
+		if(Physics.Raycast(transform.position, -transform.up, out hit, 10))
 		{
-
-			if(totalRotate < 20)
-			{
-				transform.Rotate(0,5,0, Space.Self);
-				totalRotate += 5;
-
-			}
-		angle = 90 - transform.rotation.y; 
-			m_Velocity = m_Velocity + new Vector3(0.1f * movementAxis.x, 0,0);
+			accelerate = true;
+			transform.rotation = Quaternion.Lerp(transform.rotation,Quaternion.LookRotation(Vector3.Cross(transform.right, hit.normal)),Time.deltaTime*m_rotationSpeed);
 		}
-
-		if(movementAxis.x > 0 && m_Velocity.x < 0.2f)
+		else
 		{
-			if(totalRotate > -20)
+			accelerate = false;
+		}
+		if(accelerate)
+		{
+			if(Input.GetKey(KeyCode.W) && m_Speed <100.0f )
 			{
-				
-				transform.Rotate(0,-5,0, Space.Self);
-				totalRotate -= 5;
-
+				m_Speed += m_Acceleration/ 10;
 			}
-			m_Velocity = m_Velocity + new Vector3(0.1f * movementAxis.x, 0, 0);
-		}*/
-
-
-
-
-
+			if(Input.GetKey(KeyCode.S))
+			{
+				m_Speed -= m_Acceleration/ 10;
 
 		if (!done) {
 						if (Input.GetKey (KeyCode.W) && m_Speed < 2) {
@@ -128,6 +100,22 @@ public class Movement : MonoBehaviour {
 								transform.Translate (Vector3.right);
 						}
 			
+
+			if(Input.GetKey(KeyCode.A))
+			{
+				transform.Rotate(0,-1f,0);
+			}
+			if(Input.GetKey(KeyCode.D))
+			{
+				transform.Rotate(0,1f,0);
+			}
+		}
+
+			transform.position += transform.forward.normalized*m_Speed*Time.deltaTime;
+		
+		
+		}
+
 						if (Input.GetKey (KeyCode.A)) {
 								transform.Rotate (0, -1f, 0);
 						}
@@ -149,22 +137,6 @@ public class Movement : MonoBehaviour {
 			pressedS = false;
 		}
 
-
-		
-		// Down
-
-
-
-
-
-
-
-		// if not grounded
-  
-		//transform.position -= Vector3.up*0.1f;
-
-		
-
 		if(m_Speed >= 0.01f)
 			m_Speed -= 0.01f;
 
@@ -184,62 +156,6 @@ public class Movement : MonoBehaviour {
 		if((Input.GetKey(KeyCode.Y) ))
 			transform.Rotate(1f,0,0,Space.Self);
 
-		//The power of jump increases when the space bar i down
-
-		
-
-		//Vinkelhastighet
-
-
-
-		
-		
-
-
-		
-
-
-
-
-
-
-
-
-
-		//if (transform.position.y > 3)
-			//	transform.position = transform.position + new Vector3 (0, -0.1f, 0);
-
-
-
-		//transform.position += new Vector3(m_Velocity.x,0,m_Velocity.z);
-		/*if( m_Velocity.y > 0.1f)
-			m_Velocity.y -= 0.05f;
-		else if (m_Velocity.y < -0.1f)
-			m_Velocity.y += 0.05f;
-		else if (m_Velocity.y > -0.1 && m_Velocity.y < 0.1 && movementAxis.z > -0.1 && movementAxis.z < 0.1 )	
-			m_Velocity.y = 0;
-		if (m_Velocity.x < -0.1f)
-			m_Velocity.x += 0.05f;
-		else if (m_Velocity.x > 0.1f)
-			m_Velocity.x -= 0.05f;
-
-		else if (m_Velocity.x > -0.1 && m_Velocity.x < 0.1 && movementAxis.x > -0.1 && movementAxis.x < 0.1 )
-			m_Velocity.x = 0;*/
-
-			/*if (m_Velocity.x < 0.01 && m_Velocity.x > -0.01) {
-			transform.eulerAngles = new Vector3(90, 0, 0);
-			}*/
-						
-			
-	
-	
-
-
-
-
-		
-		
-		
 		}
 	
 }
