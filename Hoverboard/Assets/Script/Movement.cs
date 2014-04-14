@@ -64,6 +64,36 @@ public class Movement : MonoBehaviour {
 			{
 				m_Speed -= m_Acceleration/ 10;
 
+			}
+		}
+		if(Input.GetKey(KeyCode.A))
+		{
+			transform.Rotate(0,-1f,0);
+		}
+		if(Input.GetKey(KeyCode.D))
+		{
+			transform.Rotate(0,1f,0);
+		}
+		if(Input.GetKeyDown(KeyCode.Space))
+		{
+			rigidbody.AddForce(transform.up*999999);
+
+		}
+		transform.position += transform.forward * m_Speed * Time.deltaTime;
+	}
+}
+		/*	else
+		{
+			if(Input.GetKey(KeyCode.W))  
+			{
+				transform.Rotate(1f,0,0);
+			}
+			if(Input.GetKey(KeyCode.S))
+			{
+				transform.Rotate(-1f,0,0);
+			}
+=======
+
 		if (!done) {
 						if (Input.GetKey (KeyCode.W) && m_Speed < 2) {
 
@@ -99,6 +129,7 @@ public class Movement : MonoBehaviour {
 						if (Input.GetKey (KeyCode.L)) {
 								transform.Translate (Vector3.right);
 						}
+>>>>>>> d812a56973be6eb814f34ea85d5302031802eb9d
 			
 
 			if(Input.GetKey(KeyCode.A))
@@ -159,4 +190,4 @@ public class Movement : MonoBehaviour {
 		}
 	
 }
-
+*/
