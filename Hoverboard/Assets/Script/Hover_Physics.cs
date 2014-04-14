@@ -35,10 +35,9 @@ public class Hover_Physics : MonoBehaviour {
 	}
 	
 
-	void Update () {
+	void Update ()
+	{
 		CalculateSpeed();
-		
-
 	}
 	
 	
