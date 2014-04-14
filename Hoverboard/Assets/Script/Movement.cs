@@ -23,6 +23,11 @@ public class Movement : MonoBehaviour {
 	public float m_MaxJumpPower, m_JumpAccelration;
 	bool m_Jumped = true;
 	float m_JumpPower, m_ChargePower;
+	private KeyCode lastKeyPressed;
+	private float keyTimer;
+	private float releaseKey;
+	private bool pressedS;
+	private bool done;
 
 
 		
@@ -32,7 +37,8 @@ public class Movement : MonoBehaviour {
 	void Start (){
 
 		m_Speed = 0;
-
+		pressedS = false;
+		done = false;
 		
 
 	}
@@ -86,43 +92,63 @@ public class Movement : MonoBehaviour {
 
 
 
+		if (!done) {
+						if (Input.GetKey (KeyCode.W) && m_Speed < 2) {
 
-		if(Input.GetKey(KeyCode.W) && m_Speed <2 )
-		{
-			m_Speed += 0.02f;
-		}
+								m_Speed += 0.03f;
 
-		if (Input.GetKey (KeyCode.S) && m_Speed > -0.5) 
-		{
-			m_Speed -= 0.02f;
-
-		}
-		//Debug.Log ("Direction " +transform.forward.y);
+						}
 
 
-		transform.position += transform.forward.normalized*m_Speed; 
+						if (Input.GetKey (KeyCode.S) && m_Speed > -0.5) {
+								m_Speed -= 0.02f;
+								if (!pressedS) {
+										releaseKey = Time.time;
+										pressedS = true;
+								}
+						}
+						if (Input.GetKeyUp (KeyCode.S) && (Time.time - releaseKey) < 0.25) {
+								keyTimer = Time.time;
+								done = true;
 
-		if (Input.GetKey (KeyCode.J))
-		{
-			transform.Translate (Vector3.left);
-		}
+						} else if ((Time.time - releaseKey) >= 0.25) {
+								pressedS = false;
+						}
+						//Debug.Log ("Direction " +transform.forward.y);
 
-		if (Input.GetKey (KeyCode.L)) 
-		{
-			transform.Translate (Vector3.right);
-		}
+
+						transform.position += transform.forward.normalized * m_Speed; 
+
+						if (Input.GetKey (KeyCode.J)) {
+
+								transform.Translate (Vector3.left);
+						}
+
+						if (Input.GetKey (KeyCode.L)) {
+								transform.Translate (Vector3.right);
+						}
 			
-		if(Input.GetKey(KeyCode.A))
+						if (Input.GetKey (KeyCode.A)) {
+								transform.Rotate (0, -1f, 0);
+						}
+						if (Input.GetKey (KeyCode.D)) {
+								transform.Rotate (0, 1f, 0);
+						}
+
+				}
+		
+		if (Input.GetKey (KeyCode.S) && (Time.time - keyTimer) < 0.15 && done) 
 		{
-			transform.Rotate(0,-1f,0);
+			transform.Rotate(0,180,0, Space.Self);
+			pressedS = false;
+			done = false;
 		}
-		if(Input.GetKey(KeyCode.D))
+		else if((Time.time - keyTimer) > 0.25 && done)
 		{
-			transform.Rotate(0,1f,0);
+			done = false;
+			pressedS = false;
 		}
 
-		
-		
 
 		
 		// Down
