@@ -15,6 +15,7 @@ public class Rotation : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
+	
         //movementAxis reads the left joystick or wasd
         Vector3 movementAxis = new Vector3(Input.GetAxisRaw("HorizontalRight"), 0, Input.GetAxisRaw("VerticalRight"));
       //  Debug.Log(movementAxis);
@@ -26,5 +27,6 @@ public class Rotation : MonoBehaviour {
         //Rotate to the sides
         if (movementAxis.x < -0.3 || movementAxis.x > 0.3)
 			transform.Rotate ( new Vector3(0,m_Rotation * movementAxis.x,0),Space.World);
+
 	}
 }
