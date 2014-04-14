@@ -52,11 +52,15 @@ public class Movement : MonoBehaviour {
 		{
 			transform.Rotate(0,1f,0);
 		}
+		if(Input.GetKeyDown(KeyCode.Space))
+		{
+			rigidbody.AddForce(transform.up*999999);
 
+		}
 
 		/*	else
 		{
-			if(Input.GetKey(KeyCode.W))
+			if(Input.GetKey(KeyCode.W))  
 			{
 				transform.Rotate(1f,0,0);
 			}
