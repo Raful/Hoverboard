@@ -46,22 +46,31 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\RayFlag.cs" />
      <Compile Include="Assets\Script\CameraMec.cs" />
      <Compile Include="Assets\Script\CameraMovement.cs" />
      <Compile Include="Assets\Script\CarAI.cs" />
      <Compile Include="Assets\Script\ColliderObject.cs" />
      <Compile Include="Assets\Script\DetectState.cs" />
      <Compile Include="Assets\Script\Finish.cs" />
+     <Compile Include="Assets\Script\Hover_Physics.cs" />
      <Compile Include="Assets\Script\InteractObject.cs" />
      <Compile Include="Assets\Script\KeyPair.cs" />
+     <Compile Include="Assets\Script\LightningHoverBoard.cs" />
+     <Compile Include="Assets\Script\MotionBlur.cs" />
      <Compile Include="Assets\Script\Movement.cs" />
      <Compile Include="Assets\Script\Raycast.cs" />
      <Compile Include="Assets\Script\RotateOnRay.cs" />
      <Compile Include="Assets\Script\RotateToGround.cs" />
      <Compile Include="Assets\Script\Rotation.cs" />
      <Compile Include="Assets\Script\SpawnPosition.cs" />
+     <Compile Include="Assets\Script\TempJump.cs" />
      <Compile Include="Assets\Script\Timer.cs" />
      <Compile Include="Assets\Script\TrailRendScript.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
+      <Project>{ADDB2F34-F2FA-356E-21F2-C39C012237C4}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
