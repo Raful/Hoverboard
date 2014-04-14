@@ -7,6 +7,7 @@
  * 
  * Supported states, the higher in the list, the higher the priority
  *      Rail
+ *      Wall
  *      
  * If no state are found, it's set to Default
  */
@@ -71,6 +72,11 @@ public class DetectState : MonoBehaviour {
         if (findInCollidersFound(new KeyPair("Bottom", "Rail")))
         {
             state = "Rail";
+        }
+        else if (findInCollidersFound(new KeyPair("BoardRight", "Wall"))
+            || findInCollidersFound(new KeyPair("BoardLeft", "Wall")))
+        {
+            state = "Wall";
         }
         else
         {
