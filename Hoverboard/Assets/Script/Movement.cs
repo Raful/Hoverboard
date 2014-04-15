@@ -57,6 +57,14 @@ public class Movement : MonoBehaviour {
 	
 	void FixedUpdate () 
 	{
+		//Keypress to reset the scene, used specifically while testing builds outside the Unity enviroment
+		if (Input.GetKey(KeyCode.R))
+		{
+			
+			Application.LoadLevel (Application.loadedLevelName);
+			
+		}
+
 
 		RaycastHit hit;
 		if(Physics.Raycast(transform.position, -transform.up, out hit, hoverHeight+2))
@@ -65,6 +73,7 @@ public class Movement : MonoBehaviour {
 			angle = Vector3.Angle(transform.forward, Vector3.Cross(transform.right, hit.normal));
 			goToRotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(Vector3.Cross(transform.right, hit.normal), hit.normal), Time.deltaTime *angle/4*(hoverHeight/hit.distance));
 			transform.rotation = goToRotation;
+			m_Jumped = true;
 
 		}
 		else
@@ -156,7 +165,7 @@ public class Movement : MonoBehaviour {
 
 		if (m_JumpPower > 0.01f)
 		{
-			m_JumpPower -= 0.05f;
+			m_JumpPower -= m_JumpPower/100;
 		}
 		if (m_JumpPower < 0.01f)
 		{
