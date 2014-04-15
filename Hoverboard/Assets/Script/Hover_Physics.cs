@@ -59,13 +59,20 @@ public class Hover_Physics : MonoBehaviour {
 						lastNormals[i] = hitNormal[i];
 					}
 					distance = hit.distance;
+				
 					if(hit.distance < hoverHeight)
 					{
+						if(-average.y < 0)
+							average *= -1;
+
 						constantForce.relativeForce = (-average+transform.up)*rigidbody.mass * jumpingPower * rigidbody.drag * Mathf.Min (hoverHeight,hoverHeight/distance);
 					}
 					else
 					{
-						constantForce.relativeForce = -(transform.up)* rigidbody.mass * landingPower * rigidbody.drag /Mathf.Min(hoverHeight, hoverHeight/distance);
+						if(-average.y < 0)
+							constantForce.relativeForce = (transform.up)* rigidbody.mass * landingPower * rigidbody.drag /Mathf.Min(hoverHeight, hoverHeight/distance);
+						else
+							constantForce.relativeForce = -(transform.up)* rigidbody.mass * landingPower * rigidbody.drag /Mathf.Min(hoverHeight, hoverHeight/distance);
 					}
 					Debug.DrawLine(corners[i].position, hit.point);
 				}
@@ -74,7 +81,7 @@ public class Hover_Physics : MonoBehaviour {
 					constantForce.relativeForce = -(Vector3.up) * rigidbody.mass * landingPower * rigidbody.drag * 6 * (1-Input.GetAxis("Vertical"));
 				}
 			}
-			average = -(hitNormal[0] + hitNormal[1] + hitNormal[2] + hitNormal[3] + hitNormal[4])/2;
+			average = -(hitNormal[0] + hitNormal[1] + hitNormal[2] + hitNormal[3] + hitNormal[4])/4;
 		}
 	}
 	
