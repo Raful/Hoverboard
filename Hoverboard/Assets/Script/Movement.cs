@@ -14,7 +14,7 @@ public class Movement : MonoBehaviour {
 	public float m_Speed;
 
 	public float m_Acceleration;
-	public float m_rotationSpeed;
+	public bool m_rotateWhileNotGrounded;
 	private bool isGrounded;
 	private float angle;
 	private Quaternion goToRotation;
@@ -28,18 +28,30 @@ public class Movement : MonoBehaviour {
 	private bool pressedS;
 	private bool done;
 
-	public float m_MaxSpeed;
+	private Vector3 velocity;
+	private Vector3 gravity;
+	public float m_MaxAccSpeed;
 	public float m_ForwardAcc;
 	public float m_BackwardAcc;
 	private float forwardSpeed;
 	private float backwardSpeed;
+	private float hoverHeight;
 
-	void Start (){
+	public Vector3 setVelocity 
+	{
+		set
+		{
+			velocity += value;
+		}
+	}
 
+	void Start ()
+	{
+
+		hoverHeight = GetComponent<Hover_Physics>().hoverHeight;
 		m_Speed = 0;
 		pressedS = false;
 		done = false;
-
 	}
 	
 	
@@ -47,11 +59,11 @@ public class Movement : MonoBehaviour {
 	{
 
 		RaycastHit hit;
-		if(Physics.Raycast(transform.position, -transform.up, out hit, 10))
+		if(Physics.Raycast(transform.position, -transform.up, out hit, hoverHeight+2))
 		{
 			isGrounded = true;
 			angle = Vector3.Angle(transform.forward, Vector3.Cross(transform.right, hit.normal));
-			goToRotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(Vector3.Cross(transform.right, hit.normal), hit.normal), Time.deltaTime*100);
+			goToRotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(Vector3.Cross(transform.right, hit.normal), hit.normal), Time.deltaTime *angle/4*(hoverHeight/hit.distance));
 			transform.rotation = goToRotation;
 
 		}
@@ -62,6 +74,7 @@ public class Movement : MonoBehaviour {
 
 		if(isGrounded)
 		{
+			Debug.Log("Input?");
 			if(Input.GetKey(KeyCode.W))
 			{
 				forwardSpeed += m_ForwardAcc;
@@ -72,22 +85,53 @@ public class Movement : MonoBehaviour {
 				forwardSpeed -= m_BackwardAcc;
 				backwardSpeed -= m_BackwardAcc;
 			}
+			if(Input.GetKey(KeyCode.A))
+			{
+				transform.Rotate(0,-1f,0f,Space.Self);
+			}
+			if(Input.GetKey(KeyCode.D))
+			{
+				transform.Rotate(0,1f,0,Space.Self);
+			}
+
+
 		}
-
-		forwardSpeed = Mathf.Clamp (forwardSpeed, 0, m_MaxSpeed);
-		backwardSpeed = Mathf.Clamp (backwardSpeed, -m_MaxSpeed, 0);
-		m_Speed = (forwardSpeed + backwardSpeed) * Time.deltaTime;
-
-		transform.position += transform.forward.normalized * (m_Speed);
+		else 
+		{
+			if(m_rotateWhileNotGrounded)
+			{
+				if(Input.GetKey(KeyCode.W))
+				{
+					transform.Rotate(1f,0,0f,Space.Self);
+				}
+				if(Input.GetKey(KeyCode.S))
+				{
+					transform.Rotate(-1f,0f,0f,Space.Self);
+				}
+				if(Input.GetKey(KeyCode.A))
+				{
+					transform.Rotate(0,-1f,0f,Space.Self);
+				}
+				if(Input.GetKey(KeyCode.D))
+				{
+					transform.Rotate(0,1f,0,Space.Self);
+				}
+			}
 		
-		if(Input.GetKey(KeyCode.A))
-		{
-			transform.Rotate(0,-1f,0f,Space.Self);
+			forwardSpeed-=0.2f;
+			backwardSpeed+=0.2f;
 		}
-		if(Input.GetKey(KeyCode.D))
-		{
-			transform.Rotate(0,1f,0,Space.Self);
-		}
+		forwardSpeed-=0.2f;
+		backwardSpeed+=0.2f;
+
+		forwardSpeed = Mathf.Clamp (forwardSpeed, 0, m_MaxAccSpeed);
+		backwardSpeed = Mathf.Clamp (backwardSpeed, -m_MaxAccSpeed, 0);
+
+		velocity = transform.forward.normalized *(forwardSpeed +backwardSpeed);
+		//m_Speed = (forwardSpeed + backwardSpeed);
+
+		transform.position += velocity*Time.deltaTime;
+		
 	
 
 		//The power of jump increases when the space bar i down
@@ -106,7 +150,8 @@ public class Movement : MonoBehaviour {
 			m_ChargePower = 0;
 			m_Jumped = false;
 		}
-
+		Debug.Log(transform.forward.normalized *(m_Speed)*Time.deltaTime);
+		Debug.Log((transform.up.normalized * m_JumpPower) * Time.deltaTime);
 		transform.Translate((transform.up.normalized * m_JumpPower) * Time.deltaTime);
 
 		if (m_JumpPower > 0.01f)
