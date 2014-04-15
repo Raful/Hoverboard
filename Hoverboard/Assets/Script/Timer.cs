@@ -1,6 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/*
+ * 
+ * Text that explains script
+ *
+ * Created by: Erik Åsén, 2014-04-11
+ * Edited by:
+ */
+
 public class Timer : MonoBehaviour {
 
 	float sceneTime, timeMinutes, timeSeconds, timeMilli;

@@ -4,6 +4,7 @@ using System.Collections;
 public class Hover_Physics : MonoBehaviour {
 	
 
+
 	public float landingPower;
 	public float jumpingPower;
 	public float hoverHeight;
@@ -12,14 +13,14 @@ public class Hover_Physics : MonoBehaviour {
 	
 	public float speedUpdate;
 	
+
+
+
 	private Vector3[] hitNormal = new Vector3[5];
-	private Quaternion rotation;
-	private float increment;
-	private Vector3[] lastNormals = new Vector3[5];
 	private bool physicsSetup = false;
-	private Vector3 boxDim;
 	private RayFlag[] cornersPoint;
 	private Transform[] corners = new Transform[5];
+
 	private BoxCollider boxCollider;
 	private float yBounce;
 	private Vector3 lastPosition;
@@ -30,14 +31,16 @@ public class Hover_Physics : MonoBehaviour {
 	public float m_Acceleration;
 	private Quaternion tempRot;
 
-	void Start () {
+
+	void Start () 
+	{
 		InitializePhysics();
 	}
 	
 
 	void Update ()
 	{
-		CalculateSpeed();
+	
 	}
 	
 	
@@ -49,38 +52,45 @@ public class Hover_Physics : MonoBehaviour {
 
 			for(int i = 0; i < 5; i++)
 			{
-				if(Physics.Raycast(corners[i].position, -transform.up, out hit, hoverHeight+100))
+				if(Physics.Raycast(corners[i].position, -transform.up, out hit, hoverHeight+2))
 				{
 
 					hitNormal[i] = hit.normal;
-					if(lastNormals[i] != hitNormal[i])
-					{
-						increment = 0;
-						lastNormals[i] = hitNormal[i];
-					}
 					distance = hit.distance;
+				
 					if(hit.distance < hoverHeight)
 					{
-						constantForce.relativeForce = (-average+transform.up)*rigidbody.mass * jumpingPower * rigidbody.drag * Mathf.Min (hoverHeight,hoverHeight/distance);
+						if(-average.y < 0)
+						{
+							average *= -1;
+						}
+						constantForce.relativeForce = (-average )*rigidbody.mass * jumpingPower * rigidbody.drag * Mathf.Min (hoverHeight,hoverHeight/distance);
 					}
 					else
 					{
-						constantForce.relativeForce = -(transform.up)* rigidbody.mass * landingPower * rigidbody.drag /Mathf.Min(hoverHeight, hoverHeight/distance);
+						if(-average.y < 0)
+						{
+							constantForce.relativeForce = (transform.up)* rigidbody.mass * landingPower * rigidbody.drag /Mathf.Min(hoverHeight, hoverHeight/distance);
+						}
+						else
+						{
+							constantForce.relativeForce = -(transform.up)* rigidbody.mass * landingPower * rigidbody.drag /Mathf.Min(hoverHeight, hoverHeight/distance);
+						}
 					}
 					Debug.DrawLine(corners[i].position, hit.point);
 				}
 				else
 				{
-				constantForce.relativeForce = -(Vector3.up) * rigidbody.mass * landingPower * rigidbody.drag * 6 * (1-Input.GetAxis("Vertical"));
+
+					constantForce.relativeForce = Vector3.zero;
+
+					transform.position += -Vector3.up*Time.deltaTime;
+					//constantForce.relativeForce = -(Vector3.up) * rigidbody.mass * landingPower * rigidbody.drag * 6 * (1-Input.GetAxis("Vertical"));
+
 				}
 			}
 			average = -(hitNormal[0] + hitNormal[1] + hitNormal[2] + hitNormal[3] + hitNormal[4])/2;
 		}
-	}
-	
-	void CalculateSpeed()
-	{
-	
 	}
 	
 	void InitializePhysics()

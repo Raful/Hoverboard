@@ -16,8 +16,8 @@ public class CameraMec : MonoBehaviour {
 	private float currentYValue = 0;
 
 	void Start() {
-		hoverboard = GameObject.Find ("Hoverboard 2.0");
-		physics = GameObject.Find ("Hoverboard 2.0").GetComponent<Hover_Physics>();
+		hoverboard = GameObject.Find ("Hoverboard 3.0");
+		physics = GameObject.Find ("Hoverboard 3.0").GetComponent<Hover_Physics>();
 		targetedPosition = hoverboard.transform.position;
 		currentYValue = targetedPosition.y;
 	}
@@ -27,22 +27,22 @@ public class CameraMec : MonoBehaviour {
 		//calculating how much the camera should rotate in y- and x-axis relative to the Hoverboard
 		float yAngle = Mathf.SmoothDampAngle(transform.eulerAngles.y, hoverboard.transform.eulerAngles.y, ref yVelocity, smooth);
 		float xAngle = Mathf.SmoothDampAngle(transform.eulerAngles.x, hoverboard.transform.eulerAngles.x, ref xVelocity, smooth);
-
+		Debug.Log ("yAngle: " + yAngle);
 		position = hoverboard.transform.position;
 
 		//creating new position relative to the hoverboard. 
-		if(position.y > (targetedPosition.y + 2))
+		if(position.y > (targetedPosition.y + 0.5f))
 		{
 
 			float y = targetedPosition.y;
 			targetedPosition = hoverboard.transform.position;
-			targetedPosition.y = targetedPosition.y ;
+			targetedPosition.y = targetedPosition.y -1f;
 		}
-		else if(position.y < (targetedPosition.y -2))
+		else if(position.y < (targetedPosition.y -0.5f))
 		{
 			float y = targetedPosition.y;
 			targetedPosition = hoverboard.transform.position;
-			targetedPosition.y = targetedPosition.y +2;
+			targetedPosition.y = targetedPosition.y +1f;
 		}
 		else
 		{
