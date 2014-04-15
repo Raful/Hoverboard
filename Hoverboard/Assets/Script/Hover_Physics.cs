@@ -4,10 +4,10 @@ using System.Collections;
 public class Hover_Physics : MonoBehaviour {
 	
 
-	public float landingPower = 1;
-	public float jumpingPower = 1;
-	public float hoverHeight = 5;
-
+	public float landingPower;
+	public float jumpingPower;
+	public float hoverHeight;
+	public RaycastHit hit;
 
 	
 	public float speedUpdate;
@@ -23,8 +23,8 @@ public class Hover_Physics : MonoBehaviour {
 	private BoxCollider boxCollider;
 	private float yBounce;
 	private Vector3 lastPosition;
-	private float distance;
-	private Vector3 average;
+	public float distance;
+	public Vector3 average;
 	
 	private float m_Speed;
 	public float m_Acceleration;
@@ -43,10 +43,10 @@ public class Hover_Physics : MonoBehaviour {
 	
 	void FixedUpdate()
 	{
-		
+
 		if(physicsSetup)
 		{
-			RaycastHit hit;
+
 			for(int i = 0; i < 5; i++)
 			{
 				if(Physics.Raycast(corners[i].position, -transform.up, out hit, hoverHeight+100))
@@ -71,7 +71,7 @@ public class Hover_Physics : MonoBehaviour {
 				}
 				else
 				{
-					constantForce.relativeForce = -(Vector3.up) * rigidbody.mass * landingPower * rigidbody.drag * 6 * (1-Input.GetAxis("Vertical"));
+				constantForce.relativeForce = -(Vector3.up) * rigidbody.mass * landingPower * rigidbody.drag * 6 * (1-Input.GetAxis("Vertical"));
 				}
 			}
 			average = -(hitNormal[0] + hitNormal[1] + hitNormal[2] + hitNormal[3] + hitNormal[4])/2;

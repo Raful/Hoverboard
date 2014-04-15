@@ -43,7 +43,8 @@ public class Movement : MonoBehaviour {
 	
 	void Update () 
 	{
-
+		if (Input.GetKey (KeyCode.I))
+				transform.position +=  new Vector3(0,0.1f,0);
 		RaycastHit hit;
 		if(Physics.Raycast(transform.position, -transform.up, out hit, 10))
 		{
@@ -78,6 +79,19 @@ public class Movement : MonoBehaviour {
 		{
 			rigidbody.AddForce(transform.up*999999);
 
+		}
+		if (m_Speed > 0) 
+		{
+			m_Speed -= 0.1f;
+		}
+		if(m_Speed < 0)
+		{
+			m_Speed += 0.1f;
+		}
+
+		if(m_Speed < 0.1f && m_Speed > -0.1f)
+		{
+			m_Speed = 0;
 		}
 		transform.position += transform.forward * m_Speed * Time.deltaTime;
 	}
