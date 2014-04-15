@@ -1,9 +1,9 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Script\Movement.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Script\MotionBlurControl.cs">
     <Files>
-      <File FileName="Assets\Script\MotionBlurControl.cs" Line="18" Column="32" />
-      <File FileName="Assets\Script\Movement.cs" Line="67" Column="5" />
+      <File FileName="Assets\Script\MotionBlurControl.cs" Line="40" Column="48" />
+      <File FileName="Assets\Script\Movement.cs" Line="66" Column="157" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

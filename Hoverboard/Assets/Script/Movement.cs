@@ -63,8 +63,9 @@ public class Movement : MonoBehaviour {
 		{
 			isGrounded = true;
 			angle = Vector3.Angle(transform.forward, Vector3.Cross(transform.right, hit.normal));
-			goToRotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(Vector3.Cross(transform.right, hit.normal), hit.normal), Time.deltaTime *angle/4*(hoverHeight/hit.distance));
+			goToRotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(Vector3.Cross(transform.right, hit.normal), hit.normal), Time.deltaTime *angle*(hoverHeight/hit.distance));
 			transform.rotation = goToRotation;
+			m_Jumped = true;
 
 		}
 		else
