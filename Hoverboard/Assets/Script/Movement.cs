@@ -28,6 +28,7 @@ public class Movement : MonoBehaviour {
 	private bool pressedS;
 	private bool done;
 
+	private Vector3 rayDirection;
 	private Vector3 velocity;
 	private Vector3 gravity;
 	public float m_MaxAccSpeed;
@@ -52,6 +53,7 @@ public class Movement : MonoBehaviour {
 		m_Speed = 0;
 		pressedS = false;
 		done = false;
+		rayDirection = -Vector3.up;
 	}
 	
 	
@@ -59,11 +61,12 @@ public class Movement : MonoBehaviour {
 	{
 
 		RaycastHit hit;
-		if(Physics.Raycast(transform.position, -transform.up, out hit, hoverHeight+2))
+		if(Physics.Raycast(transform.position, rayDirection, out hit, hoverHeight+2))
 		{
+			rayDirection = -transform.up;
 			isGrounded = true;
 			angle = Vector3.Angle(transform.forward, Vector3.Cross(transform.right, hit.normal));
-			goToRotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(Vector3.Cross(transform.right, hit.normal), hit.normal), Time.deltaTime *angle/4*(hoverHeight/hit.distance));
+			goToRotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(Vector3.Cross(transform.right, hit.normal), hit.normal), Time.deltaTime *angle*(hoverHeight/hit.distance));
 			transform.rotation = goToRotation;
 
 		}
@@ -74,7 +77,7 @@ public class Movement : MonoBehaviour {
 
 		if(isGrounded)
 		{
-			Debug.Log("Input?");
+			//Debug.Log("Input?");
 			if(Input.GetKey(KeyCode.W))
 			{
 				forwardSpeed += m_ForwardAcc;
@@ -117,13 +120,13 @@ public class Movement : MonoBehaviour {
 					transform.Rotate(0,1f,0,Space.Self);
 				}
 			}
-		
+			rayDirection = -Vector3.up;
 			forwardSpeed-=0.2f;
 			backwardSpeed+=0.2f;
 		}
 		forwardSpeed-=0.2f;
 		backwardSpeed+=0.2f;
-
+		//Debug.Log (forwardSpeed + backwardSpeed);
 		forwardSpeed = Mathf.Clamp (forwardSpeed, 0, m_MaxAccSpeed);
 		backwardSpeed = Mathf.Clamp (backwardSpeed, -m_MaxAccSpeed, 0);
 
@@ -150,8 +153,7 @@ public class Movement : MonoBehaviour {
 			m_ChargePower = 0;
 			m_Jumped = false;
 		}
-		Debug.Log(transform.forward.normalized *(m_Speed)*Time.deltaTime);
-		Debug.Log((transform.up.normalized * m_JumpPower) * Time.deltaTime);
+
 		transform.Translate((transform.up.normalized * m_JumpPower) * Time.deltaTime);
 
 		if (m_JumpPower > 0.01f)
