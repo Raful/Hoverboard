@@ -12,15 +12,17 @@ public class SpawnPosition : MonoBehaviour {
 
 	public GameObject obj1;
 	public GameObject obj2; 
+	Timer StartTime;
 
 	// Use this for initialization
 	void Start () 
 	{
 		obj1.transform.position = obj2.transform.position;
+		StartTime = GameObject.Find ("TimerText").GetComponent<Timer> ();
 	}
 
 	void OnTriggerExit(Collider collision)
 	{
-		GameObject.Find ("TimerText").GetComponent<Timer> ().RaceTime ();
+		StartTime.RaceTime();
 	}
 }
