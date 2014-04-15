@@ -71,7 +71,7 @@ public class Hover_Physics : MonoBehaviour {
 				}
 				else
 				{
-					constantForce.relativeForce = -(Vector3.up) * rigidbody.mass * landingPower * rigidbody.drag * 6 * (1-Input.GetAxis("Vertical"));
+					constantForce.relativeForce = -(Vector3.up) * rigidbody.mass * landingPower * rigidbody.drag * 6 /** (1-Input.GetAxis("Vertical"))*/;
 				}
 			}
 			average = -(hitNormal[0] + hitNormal[1] + hitNormal[2] + hitNormal[3] + hitNormal[4])/2;

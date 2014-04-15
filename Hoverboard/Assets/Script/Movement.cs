@@ -12,12 +12,14 @@ using System.Collections;
 public class Movement : MonoBehaviour {
 	
 	public float m_Speed;
+	public float m_MaxSpeed;
 
 	public float m_Acceleration;
 	public float m_rotationSpeed;
 	private bool accelerate;
 
-
+	public string m_input_forward;
+	public string m_input_turn;
 
 	public float m_MaxJumpPower, m_JumpAccelration;
 	bool m_Jumped = true;
@@ -56,23 +58,31 @@ public class Movement : MonoBehaviour {
 		}
 		if(accelerate)
 		{
-			if(Input.GetKey(KeyCode.W) && m_Speed <100.0f )
+			if(Input.GetKey(KeyCode.W) && m_Speed < m_MaxSpeed )
 			{
 				m_Speed += m_Acceleration/ 10;
 			}
-			if(Input.GetKey(KeyCode.S))
+			if(Input.GetKey(KeyCode.S) && m_Speed > -m_MaxSpeed)
 			{
 				m_Speed -= m_Acceleration/ 10;
-
+			}
+			if (Input.GetAxis(m_input_forward)!=0)
+			{
+				m_Speed += Input.GetAxis(m_input_forward)*m_Acceleration/10;
+				m_Speed = Mathf.Clamp (m_Speed, -m_MaxSpeed, m_MaxSpeed);
 			}
 		}
 		if(Input.GetKey(KeyCode.A))
 		{
-			transform.Rotate(0,-1f,0);
+			transform.Rotate(0,-m_rotationSpeed,0);
 		}
 		if(Input.GetKey(KeyCode.D))
 		{
-			transform.Rotate(0,1f,0);
+			transform.Rotate(0,m_rotationSpeed,0);
+		}
+		if (Input.GetAxis(m_input_turn)!=0)
+		{
+			transform.Rotate (0,Input.GetAxis(m_input_turn)*m_rotationSpeed,0);
 		}
 		if(Input.GetKeyDown(KeyCode.Space))
 		{
