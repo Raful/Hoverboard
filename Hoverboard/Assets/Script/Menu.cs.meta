@@ -1,16 +1,9 @@
 fileFormatVersion: 2
-<<<<<<< HEAD
-guid: 00de770658d1bf24a8ec5379b928ac68
-MonoImporter:
-  serializedVersion: 2
-  defaultReferences: []
-=======
-guid: 04ecde4ea33749a41be996ac5cc509fc
+guid: 478c7bb69aef6dc43b306a9f745bbfd8
 MonoImporter:
   serializedVersion: 2
   defaultReferences:
   - Logotype: {fileID: 2800000, guid: 299a3dd2140f5c54f865eb232cefc5ab, type: 3}
->>>>>>> d91ffbe52a9265cb0a4be56e7bd53d823cfdb3ff
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
