@@ -5,11 +5,11 @@
 	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 	<ProductVersion>10.0.20506</ProductVersion>
 	<SchemaVersion>2.0</SchemaVersion>
-	<ProjectGuid>{5CC3EEBF-8252-8A6E-E755-15630F44E74F}</ProjectGuid>
+	<ProjectGuid>{873D66B4-2EAE-1B5E-BB27-09D3998F871A}</ProjectGuid>
 	<OutputType>Library</OutputType>
 	<AppDesignerFolder>Properties</AppDesignerFolder>
 	<RootNamespace></RootNamespace>
-	<AssemblyName>Assembly-UnityScript</AssemblyName>
+	<AssemblyName>Assembly-CSharp</AssemblyName>
 	<TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
 	<FileAlignment>512</FileAlignment>
 	<BaseDirectory>Assets</BaseDirectory>
@@ -46,9 +46,6 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-<<<<<<< HEAD:Hoverboard/Assembly-UnityScript-vs.unityproj~HEAD
-     <Compile Include="Assets\Script\Plugin\AppliedPopup.js" />
-=======
      <Compile Include="Assets\Script\Finish.cs" />
      <Compile Include="Assets\Script\Meny.cs" />
      <Compile Include="Assets\Script\Movement.cs" />
@@ -59,7 +56,6 @@
      <Compile Include="Assets\Script\SpawnPosition.cs" />
      <Compile Include="Assets\Script\blabla.cs" />
      <Compile Include="Assets\Script\main_GUI.cs" />
->>>>>>> d85f019f1a2d076c2c5945f87b1774f7f9856a7c:Hoverboard/Assembly-CSharp-vs.csproj
      <None Include="Assets\test.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
