@@ -45,9 +45,10 @@ public class Hover_Physics : MonoBehaviour {
 					{
 						if(-average.y < 0)
 						{
+							Debug.Log("Stuff");
 							average *= -1;
 						}
-						constantForce.relativeForce = (-average )*rigidbody.mass * jumpingPower * rigidbody.drag * Mathf.Min (hoverHeight,hoverHeight/distance);
+						constantForce.relativeForce = (-average)*rigidbody.mass * jumpingPower * rigidbody.drag * Mathf.Min (hoverHeight,hoverHeight/distance);
 					}
 					else
 					{
@@ -77,7 +78,7 @@ public class Hover_Physics : MonoBehaviour {
 	void InitializePhysics()
 	{
 		cornersPoint = gameObject.GetComponentsInChildren<RayFlag> ();
-		Debug.Log(cornersPoint[0].transform + " " + cornersPoint[1].transform+ " " + cornersPoint[2].transform+ " " + cornersPoint[3].transform+ " " + cornersPoint[4].transform);
+		//Debug.Log(cornersPoint[0].transform + " " + cornersPoint[1].transform+ " " + cornersPoint[2].transform+ " " + cornersPoint[3].transform+ " " + cornersPoint[4].transform);
 		corners [0] = cornersPoint[0].transform;
 		corners [1] = cornersPoint[1].transform;
 		corners [2] = cornersPoint[2].transform;
