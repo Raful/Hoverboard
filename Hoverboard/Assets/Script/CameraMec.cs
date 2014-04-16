@@ -3,9 +3,9 @@ using System.Collections;
 
 public class CameraMec : MonoBehaviour {
 	public float smooth;
-	public float distance;
+	public float DefaultDistance;
 
-
+	private float distance;
 	private GameObject hoverboard;
 	private  Hover_Physics physics;
 	private Vector3 targetedPosition;
@@ -30,15 +30,16 @@ public class CameraMec : MonoBehaviour {
 		Debug.Log ("yAngle: " + yAngle);
 		position = hoverboard.transform.position;
 
+
 		//creating new position relative to the hoverboard. 
-		if(position.y > (targetedPosition.y + 0.5f))
+		if(position.y > (targetedPosition.y + 1f))
 		{
 
 			float y = targetedPosition.y;
 			targetedPosition = hoverboard.transform.position;
 			targetedPosition.y = targetedPosition.y -1f;
 		}
-		else if(position.y < (targetedPosition.y -0.5f))
+		else if(position.y < (targetedPosition.y -1f))
 		{
 			float y = targetedPosition.y;
 			targetedPosition = hoverboard.transform.position;
@@ -49,9 +50,17 @@ public class CameraMec : MonoBehaviour {
 			float y = targetedPosition.y;
 
 			targetedPosition = hoverboard.transform.position;
-			targetedPosition.y = y;
+			targetedPosition.y = y ;
 		}
-		Vector3 newPos = targetedPosition;
+		Vector3 lookPos = targetedPosition;
+		lookPos.y = targetedPosition.y + 1;
+		Vector3 newPos = lookPos;
+		if (hoverboard.GetComponent<Movement>().forwardSpeed > 0.01f || hoverboard.GetComponent<Movement>().backwardSpeed < -0.01)
+			distance = DefaultDistance + (hoverboard.GetComponent<Movement>().forwardSpeed + hoverboard.GetComponent<Movement>().backwardSpeed)/20;
+
+
+		else
+			distance = DefaultDistance;
 
 		//Then adding the angles *(-distance) there distance is the distance between the camera and the hoverboard in each axis.
 		 newPos +=  Quaternion.Euler(xAngle, yAngle, 0) * new Vector3(0, 0, -distance);
@@ -69,7 +78,7 @@ public class CameraMec : MonoBehaviour {
 
 		//give camera the position "newPos"
 		transform.position = newPos;
-		transform.LookAt(targetedPosition);
+		transform.LookAt(lookPos);
 
 
 

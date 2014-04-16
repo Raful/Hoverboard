@@ -33,8 +33,8 @@ public class Movement : MonoBehaviour {
 	public float m_MaxAccSpeed;
 	public float m_ForwardAcc;
 	public float m_BackwardAcc;
-	private float forwardSpeed;
-	private float backwardSpeed;
+	 public float forwardSpeed;
+	public float backwardSpeed;
 	private float hoverHeight;
 
 	public Vector3 setVelocity 
