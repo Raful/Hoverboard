@@ -8,6 +8,7 @@ Hoverboard/Temp
 *.sln
 *.csproj
 *.suo
+*.userprefs
 
 #include these files
 #!*.meta
