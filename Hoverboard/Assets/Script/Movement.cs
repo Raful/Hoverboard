@@ -11,7 +11,11 @@ using System.Collections;
  */
 public class Movement : MonoBehaviour {
 	
-	public float m_Speed;
+	private float speed;
+	public float getSpeed
+	{
+		get {return speed;}
+	}
 
 	public float m_Acceleration;
 	public bool m_rotateWhileNotGrounded;
@@ -49,7 +53,7 @@ public class Movement : MonoBehaviour {
 	{
 
 		hoverHeight = GetComponent<Hover_Physics>().hoverHeight;
-		m_Speed = 0;
+		speed = 0;
 		pressedS = false;
 		done = false;
 	}
@@ -129,7 +133,7 @@ public class Movement : MonoBehaviour {
 		backwardSpeed = Mathf.Clamp (backwardSpeed, -m_MaxAccSpeed, 0);
 
 		velocity = transform.forward.normalized *(forwardSpeed +backwardSpeed);
-		//m_Speed = (forwardSpeed + backwardSpeed);
+		speed = (forwardSpeed + backwardSpeed);
 
 		transform.position += velocity*Time.deltaTime;
 		
@@ -151,7 +155,7 @@ public class Movement : MonoBehaviour {
 			m_ChargePower = 0;
 			m_Jumped = false;
 		}
-		Debug.Log(transform.forward.normalized *(m_Speed)*Time.deltaTime);
+		//Debug.Log(transform.forward.normalized *(m_Speed)*Time.deltaTime);
 		Debug.Log((transform.up.normalized * m_JumpPower) * Time.deltaTime);
 		transform.Translate((transform.up.normalized * m_JumpPower) * Time.deltaTime);
 
