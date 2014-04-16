@@ -9,6 +9,7 @@ Hoverboard/Temp
 *.csproj
 *.suo
 *.userprefs
+*.unityproj
 
 #include these files
 #!*.meta
