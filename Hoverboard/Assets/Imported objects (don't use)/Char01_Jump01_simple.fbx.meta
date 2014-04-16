@@ -170,9 +170,9 @@ ModelImporter:
       loop: 0
       loopTime: 0
       loopBlend: 0
-      loopBlendOrientation: 1
-      loopBlendPositionY: 1
-      loopBlendPositionXZ: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
       keepOriginalOrientation: 0
       keepOriginalPositionY: 1
       keepOriginalPositionXZ: 0
@@ -311,9 +311,9 @@ ModelImporter:
       - path: Character_Mesh_01_LP_1:Mesh
         weight: 1
       - path: nurbsCircle1
-        weight: 1
+        weight: 0
       - path: nurbsCircle1/D_Char_Hoverboard_01:Mesh
-        weight: 1
+        weight: 0
       maskType: 0
       maskSource: {instanceID: 0}
     isReadable: 1
