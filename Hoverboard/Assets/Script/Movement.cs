@@ -11,13 +11,8 @@ using System.Collections;
 public class Movement : MonoBehaviour {
 
 	private float speed;
-	public float getSpeed
-	{
-		get {return speed;}
-	}
 
 	public float m_Acceleration;
-
 
 	public float m_Friction;
 	public float m_RotationSpeed;
@@ -25,18 +20,14 @@ public class Movement : MonoBehaviour {
 	public string m_input_turn;
 	public string m_input_jump;
 
-
 	public bool m_rotateWhileNotGrounded;
 	private bool isGrounded;
-
-
 
 	private float angle;
 	private Quaternion goToRotation;
 
 	public float m_MaxJumpPower, m_JumpAccelration;
-	bool m_Jumped = true;
-	public float m_JumpPower, m_ChargePower;
+	private float jumpPower, chargePower;
 	private KeyCode lastKeyPressed;
 	private float keyTimer;
 	private float releaseKey;
@@ -51,6 +42,16 @@ public class Movement : MonoBehaviour {
 	 public float forwardSpeed;
 	public float backwardSpeed;
 	private float hoverHeight;
+
+	public float getChargePower
+	{
+		get {return chargePower;}
+    }
+
+    public float getSpeed
+	{
+		get {return speed;}
+	}
 
 	public Vector3 setVelocity 
 	{
@@ -81,7 +82,6 @@ public class Movement : MonoBehaviour {
 			angle = Vector3.Angle(transform.forward, Vector3.Cross(transform.right, hit.normal));
 			goToRotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(Vector3.Cross(transform.right, hit.normal), hit.normal), Time.deltaTime *angle*(hoverHeight/hit.distance));
 			transform.rotation = goToRotation;
-			m_Jumped = true;
 
 		}
 		else
@@ -166,32 +166,31 @@ public class Movement : MonoBehaviour {
 	
 
 		//The power of jump increases when the space bar i down
-		if (Input.GetKey (KeyCode.Space) && m_Jumped)
+		if (Input.GetKey (KeyCode.Space) && isGrounded)
 		{
-			m_ChargePower = m_ChargePower + m_JumpAccelration;
+			chargePower = chargePower + m_JumpAccelration;
 		}
 		
-		if ((Input.GetKey(KeyCode.Space)/* || Input.GetButton(m_input_jump)*/) && m_Jumped)
+		if ((Input.GetKeyUp(KeyCode.Space)/* || Input.GetButton(m_input_jump)*/) && isGrounded)
 		{
-			if(m_ChargePower > m_MaxJumpPower)
+			if(chargePower > m_MaxJumpPower)
 			{
-				m_ChargePower = m_MaxJumpPower;
+				chargePower = m_MaxJumpPower;
 			}
-			m_JumpPower = m_ChargePower;
-			m_ChargePower = 0;
-			m_Jumped = false;
+			jumpPower = chargePower;
+			chargePower = 0;
 		}
 		//Debug.Log(transform.forward.normalized *(m_Speed)*Time.deltaTime);
-		Debug.Log((transform.up.normalized * m_JumpPower) * Time.deltaTime);
-		transform.Translate((transform.up.normalized * m_JumpPower) * Time.deltaTime);
+		Debug.Log((transform.up.normalized * jumpPower) * Time.deltaTime);
+		transform.position += ((Vector3.up * jumpPower) * Time.deltaTime);
 
-		if (m_JumpPower > 0.01f)
+		if (jumpPower > 0.01f)
 		{
-			m_JumpPower -= 0.05f;
+			jumpPower -= 0.05f;
 		}
-		if (m_JumpPower < 0.01f)
+		if (jumpPower < 0.01f)
 		{
-			m_JumpPower = 0f;
+			jumpPower = 0f;
 		}
 
 
