@@ -1,9 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/*
+ *This script decides how the camera should move, depending on the hoverboard's movement  
+ * 
+ * Created by: Found on Internet, date: sometime ago
+ * 
+ * Edited by Andreas Sundberg
+ */
+
 public class CameraMec : MonoBehaviour {
-	public float smooth;
-	public float DefaultDistance;
+	public float m_Smooth;
+	public float m_DefaultDistance;
 
 	private float distance;
 	private GameObject hoverboard;
@@ -23,12 +31,12 @@ public class CameraMec : MonoBehaviour {
 	}
 
 	void Update() {
-		Vector3 position;
+
 		//calculating how much the camera should rotate in y- and x-axis relative to the Hoverboard
-		float yAngle = Mathf.SmoothDampAngle(transform.eulerAngles.y, hoverboard.transform.eulerAngles.y, ref yVelocity, smooth);
-		float xAngle = Mathf.SmoothDampAngle(transform.eulerAngles.x, hoverboard.transform.eulerAngles.x, ref xVelocity, smooth);
-		Debug.Log ("yAngle: " + yAngle);
-		position = hoverboard.transform.position;
+		float yAngle = Mathf.SmoothDampAngle(transform.eulerAngles.y, hoverboard.transform.eulerAngles.y, ref yVelocity, m_Smooth);
+		float xAngle = Mathf.SmoothDampAngle(transform.eulerAngles.x, hoverboard.transform.eulerAngles.x, ref xVelocity, m_Smooth);
+	
+		Vector3 position = hoverboard.transform.position;
 
 
 		//creating new position relative to the hoverboard. 
@@ -50,19 +58,23 @@ public class CameraMec : MonoBehaviour {
 			float y = targetedPosition.y;
 
 			targetedPosition = hoverboard.transform.position;
-			targetedPosition.y = y ;
+			targetedPosition.y = y;
 		}
+
 		Vector3 lookPos = targetedPosition;
 		lookPos.y = targetedPosition.y + 1;
 		Vector3 newPos = lookPos;
+
 		if (hoverboard.GetComponent<Movement>().forwardSpeed > 0.01f || hoverboard.GetComponent<Movement>().backwardSpeed < -0.01)
-			distance = DefaultDistance + (hoverboard.GetComponent<Movement>().forwardSpeed + hoverboard.GetComponent<Movement>().backwardSpeed)/20;
-
-
+		{
+			distance = m_DefaultDistance + (hoverboard.GetComponent<Movement>().forwardSpeed + hoverboard.GetComponent<Movement>().backwardSpeed)/20;
+		}
 		else
-			distance = DefaultDistance;
+		{
+			distance = m_DefaultDistance;
+		}
 
-		//Then adding the angles *(-distance) there distance is the distance between the camera and the hoverboard in each axis.
+		//Then adding the angles *(new Vector3) there new Vector3 is the distance between the camera and the hoverboard in each axis.
 		 newPos +=  Quaternion.Euler(xAngle, yAngle, 0) * new Vector3(0, 0, -distance);
 
 		/*if(physics.distance < physics.hoverHeight)
@@ -78,7 +90,7 @@ public class CameraMec : MonoBehaviour {
 
 		//give camera the position "newPos"
 		transform.position = newPos;
-		transform.LookAt(lookPos);
+		transform.LookAt(lookPos, hoverboard.transform.up);
 
 
 
