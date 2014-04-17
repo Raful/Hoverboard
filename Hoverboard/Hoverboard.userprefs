@@ -2,9 +2,8 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Script\CameraMec.cs">
     <Files>
-      <File FileName="Assets\Script\Movement.cs" Line="36" Column="16" />
+      <File FileName="Assets\Script\Movement.cs" Line="36" Column="1" />
       <File FileName="Assets\Script\CameraMec.cs" Line="65" Column="37" />
-      <File FileName="Assets\Script\Hover_Physics.cs" Line="85" Column="49" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

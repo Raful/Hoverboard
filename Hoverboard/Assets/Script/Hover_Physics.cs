@@ -84,8 +84,11 @@ public class Hover_Physics : MonoBehaviour {
 
 					constantForce.relativeForce = Vector3.zero;
 
+
 					transform.position += -Vector3.up*Time.deltaTime;
 					//constantForce.relativeForce = -(Vector3.up) * rigidbody.mass * landingPower * rigidbody.drag * 6 * (1-Input.GetAxis("Vertical"));
+
+
 
 				}
 			}
