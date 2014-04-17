@@ -11,10 +11,10 @@ using System.Collections;
 public class MotionBlurControl : MonoBehaviour {
 
 	MotionBlur Areablur;
-	Movement StartBlur;
+	Movement Player;
 	//Recomended to keep Decrease and Increase the same
 	public float m_SpeedThreshold, m_IncreaseAmount, m_DecreaseAmount, m_BlurLimit;
-	private float zero = 0f;
+	private float zero = 0f, speed;
 	public string m_FindGameObject;
 	private Vector3 lastPosition,currentPosition;
 
@@ -22,16 +22,15 @@ public class MotionBlurControl : MonoBehaviour {
 	void Start () 
 	{
 		Areablur = gameObject.GetComponent<MotionBlur>();
-		StartBlur = GameObject.Find(m_FindGameObject).GetComponent<Movement>();
+		Player = GameObject.Find(m_FindGameObject).GetComponent<Movement>();
 		Areablur.blurAmount = zero;
 	}
 	
 	// Update is called once per frame
 	void Update () 
 	{
-		currentPosition = transform.position;
-
-		if((Vector3.Dot(currentPosition.normalized, lastPosition.normalized)/Time.deltaTime) > m_SpeedThreshold && Areablur.blurAmount < (m_BlurLimit/10))
+		Debug.Log("SPEED: " + Player.getSpeed);
+		if(Player.getSpeed > m_SpeedThreshold && Areablur.blurAmount < (m_BlurLimit/10))
 		{
 			Areablur.blurAmount += m_IncreaseAmount/100;
 		}
@@ -39,7 +38,5 @@ public class MotionBlurControl : MonoBehaviour {
 		{
 			Areablur.blurAmount -= m_DecreaseAmount/100;
 		}
-
-		lastPosition = currentPosition;
 	}
 }

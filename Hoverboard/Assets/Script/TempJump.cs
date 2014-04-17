@@ -30,6 +30,6 @@ public class TempJump : MonoBehaviour {
             animator.SetBool("Jump", false);
         }
 
-        animator.SetFloat("Speed", Input.GetAxisRaw("Vertical"));
+        animator.SetFloat("Speed", Input.GetAxis("Vertical"));
 	}
 }
