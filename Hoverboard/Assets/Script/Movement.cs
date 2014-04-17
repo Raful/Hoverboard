@@ -89,11 +89,6 @@ public class Movement : MonoBehaviour {
 			isGrounded = false;
 		}
 
-
-
-
-
-	
 		if(isGrounded)
 
 		{
