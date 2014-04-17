@@ -39,7 +39,7 @@ public class LightningHoverBoard : MonoBehaviour {
 			light.intensity = 8;
 		}
 
-		if (m_Player.m_ChargePower > 0) {
+		if (m_Player.getChargePower > 0) {
 			light.color = col_charged;
 		} else {
 			light.color = col;

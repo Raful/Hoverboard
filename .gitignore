@@ -10,6 +10,7 @@ Hoverboard/Temp
 *.suo
 *.userprefs
 *.unityproj
+*.dwlt
 
 #include these files
 #!*.meta
