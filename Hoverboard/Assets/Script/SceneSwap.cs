@@ -14,6 +14,15 @@ public class SceneSwap : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+		//Keypress to reset the scene, used specifically while testing builds outside the Unity enviroment
+		if (Input.GetKey(KeyCode.R))
+		{
+			
+			Application.LoadLevel (Application.loadedLevelName);
+			
+		}
+
 	
 		if (Input.GetKey(KeyCode.Keypad1)){
 		

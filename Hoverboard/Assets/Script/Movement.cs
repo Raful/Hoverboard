@@ -59,15 +59,6 @@ public class Movement : MonoBehaviour {
 	
 	void FixedUpdate () 
 	{
-		//Keypress to reset the scene, used specifically while testing builds outside the Unity enviroment
-		if (Input.GetKey(KeyCode.R))
-		{
-			
-			Application.LoadLevel (Application.loadedLevelName);
-			
-		}
-
-
 		RaycastHit hit;
 		if(Physics.Raycast(transform.position, rayDirection, out hit, hoverHeight+2))
 		{
