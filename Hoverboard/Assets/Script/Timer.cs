@@ -1,17 +1,23 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/*
+ * 
+ * Text that explains script
+ *
+ * Created by: Erik Åsén, 2014-04-11
+ * Edited by:
+ */
+
 public class Timer : MonoBehaviour {
 
-	float sceneTime, timeMinutes, timeSeconds, timeMilli;
+	float timeMinutes, timeSeconds, timeMilli;
 	float raceTime, leaveTime, finishTime;
 	bool noResetTimer = false;
 	
 	// Update is called once per frame
 	void Update () 
 	{
-		sceneTime = Time.time;
-
 		SetRaceTimer ();
 		SetMinSecMil ();
 
@@ -54,7 +60,6 @@ public class Timer : MonoBehaviour {
 			leaveTime = Time.time;
 			noResetTimer = true;
 		}
-
 	}
 
 	public void StopTimer()
