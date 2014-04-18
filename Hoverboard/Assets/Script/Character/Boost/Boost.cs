@@ -13,6 +13,8 @@ using System.Collections;
 
 public class Boost : MonoBehaviour {
 
+    public bool m_isBoosting;
+
     EnergyPool energyScript;
 
     [SerializeField]
@@ -27,9 +29,14 @@ public class Boost : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (Input.GetButton("Boost"))
+        if (Input.GetButton("Boost") && energyScript.m_energy > 0)
         {
             UseBoost();
+            m_isBoosting = true;
+        }
+        else
+        {
+            m_isBoosting = false;
         }
 	}
 
