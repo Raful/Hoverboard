@@ -39,8 +39,8 @@ public class Movement : MonoBehaviour {
 	public float m_MaxAccSpeed;
 	public float m_ForwardAcc;
 	public float m_BackwardAcc;
-	 public float forwardSpeed;
-	public float backwardSpeed;
+	 public float m_ForwardSpeed;
+	public float m_BackwardSpeed;
 	private float hoverHeight;
 
 	public float getChargePower
@@ -89,6 +89,7 @@ public class Movement : MonoBehaviour {
 			isGrounded = false;
 		}
 
+	
 
 
 
@@ -108,13 +109,13 @@ public class Movement : MonoBehaviour {
 			Debug.Log("Input?");
 			if(Input.GetKey(KeyCode.W))
 			{
-				forwardSpeed += m_ForwardAcc;
-				backwardSpeed += m_ForwardAcc;
+				m_ForwardSpeed += m_ForwardAcc;
+				m_BackwardSpeed += m_ForwardAcc;
 			}
 			if(Input.GetKey(KeyCode.S))
 			{
-				forwardSpeed -= m_BackwardAcc;
-				backwardSpeed -= m_BackwardAcc;
+				m_ForwardSpeed -= m_BackwardAcc;
+				m_BackwardSpeed -= m_BackwardAcc;
 			}
 			if(Input.GetKey(KeyCode.A))
 			{
@@ -149,17 +150,17 @@ public class Movement : MonoBehaviour {
 				}
 			}
 		
-			forwardSpeed-=0.2f;
-			backwardSpeed+=0.2f;
+			m_ForwardSpeed-=0.2f;
+			m_BackwardSpeed+=0.2f;
 		}
-		forwardSpeed-=0.2f;
-		backwardSpeed+=0.2f;
+		m_ForwardSpeed-=0.2f;
+		m_BackwardSpeed+=0.2f;
 
-		forwardSpeed = Mathf.Clamp (forwardSpeed, 0, m_MaxAccSpeed);
-		backwardSpeed = Mathf.Clamp (backwardSpeed, -m_MaxAccSpeed, 0);
+		m_ForwardSpeed = Mathf.Clamp (m_ForwardSpeed, 0, m_MaxAccSpeed);
+		m_BackwardSpeed = Mathf.Clamp (m_BackwardSpeed, -m_MaxAccSpeed, 0);
 
-		velocity = transform.forward.normalized *(forwardSpeed +backwardSpeed);
-		speed = (forwardSpeed + backwardSpeed);
+		velocity = transform.forward.normalized *(m_ForwardSpeed +m_BackwardSpeed);
+		speed = (m_ForwardSpeed + m_BackwardSpeed);
 
 		transform.position += velocity*Time.deltaTime;
 		

@@ -66,14 +66,15 @@ public class CameraMec : MonoBehaviour {
 		Vector3 newPos = lookPos;
 
 		//change distance to hoverboard depending on the hoverboard's speed
-		if (hoverboard.GetComponent<Movement>().forwardSpeed > 0.01f || hoverboard.GetComponent<Movement>().backwardSpeed < -0.01)
+		if (hoverboard.GetComponent<Movement>().m_ForwardSpeed > 0.01f || hoverboard.GetComponent<Movement>().m_BackwardSpeed < -0.01)
 		{
-			distance = m_DefaultDistance + (hoverboard.GetComponent<Movement>().forwardSpeed + hoverboard.GetComponent<Movement>().backwardSpeed)/20;
+			distance = m_DefaultDistance + (hoverboard.GetComponent<Movement>().m_ForwardSpeed + hoverboard.GetComponent<Movement>().m_BackwardSpeed)/20;
 		}
 		else
 		{
 			distance = m_DefaultDistance;
 		}
+	
 
 		//Then adding the angles *(new Vector3) there new Vector3 is the distance between the camera and the hoverboard in each axis.
 		 newPos +=  Quaternion.Euler(xAngle, yAngle, 0) * new Vector3(0, 0, -distance);
