@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 /*
@@ -6,28 +7,31 @@ using System.Collections;
  * The rotation is done by rotating the hoverboard by the global axis
  *
  * Created by: Niklas Åsén, 2014-04-02
- * Edited by: Wolfie
+ * Edited by:
  */
+
+[RequireComponent(typeof(Boost))]
+
 public class Movement : MonoBehaviour {
 
-	private float speed;
+    [SerializeField]
+    private float boostMaxAccSpeed; //Should be higher than m_MaxAccSpeed
+    private float boostSpeed=0;
+    [SerializeField]
+    private float boostAcceleration;
+    private Boost boostScript;
+	
+	public float m_Speed;
 
 	public float m_Acceleration;
-
-	public float m_Friction;
-	public float m_RotationSpeed;
-	public string m_input_forward;
-	public string m_input_turn;
-	public string m_input_jump;
-
 	public bool m_rotateWhileNotGrounded;
 	private bool isGrounded;
-
 	private float angle;
 	private Quaternion goToRotation;
 
 	public float m_MaxJumpPower, m_JumpAccelration;
-	private float jumpPower, chargePower;
+	bool m_Jumped = true;
+	float m_JumpPower, m_ChargePower;
 	private KeyCode lastKeyPressed;
 	private float keyTimer;
 	private float releaseKey;
@@ -39,19 +43,9 @@ public class Movement : MonoBehaviour {
 	public float m_MaxAccSpeed;
 	public float m_ForwardAcc;
 	public float m_BackwardAcc;
-	 public float forwardSpeed;
-	public float backwardSpeed;
+	private float forwardSpeed;
+	private float backwardSpeed;
 	private float hoverHeight;
-
-	public float getChargePower
-	{
-		get {return chargePower;}
-    }
-
-    public float getSpeed
-	{
-		get {return speed;}
-	}
 
 	public Vector3 setVelocity 
 	{
@@ -65,22 +59,23 @@ public class Movement : MonoBehaviour {
 	{
 
 		hoverHeight = GetComponent<Hover_Physics>().hoverHeight;
-		speed = 0;
+		m_Speed = 0;
 		pressedS = false;
 		done = false;
+
+        boostScript = gameObject.GetComponent<Boost>();
 	}
 	
 	
 	void FixedUpdate () 
 	{
-		if (Input.GetKey (KeyCode.I))
-				transform.position +=  new Vector3(0,0.1f,0);
+
 		RaycastHit hit;
 		if(Physics.Raycast(transform.position, -transform.up, out hit, hoverHeight+2))
 		{
 			isGrounded = true;
 			angle = Vector3.Angle(transform.forward, Vector3.Cross(transform.right, hit.normal));
-			goToRotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(Vector3.Cross(transform.right, hit.normal), hit.normal), Time.deltaTime *angle*(hoverHeight/hit.distance));
+			goToRotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(Vector3.Cross(transform.right, hit.normal), hit.normal), Time.deltaTime *angle/4*(hoverHeight/hit.distance));
 			transform.rotation = goToRotation;
 
 		}
@@ -89,22 +84,8 @@ public class Movement : MonoBehaviour {
 			isGrounded = false;
 		}
 
-
-
-
-
-	
 		if(isGrounded)
-
 		{
-			/*if (Input.GetAxis(m_input_forward)!=0)
-			{
-				m_Speed += Input.GetAxis(m_input_forward)*m_Acceleration/10;
-			}
-			if (Input.GetAxis(m_input_turn)!=0)
-			{
-				transform.Rotate (0,Input.GetAxis(m_input_turn)*m_rotationSpeed,0);
-			}*/
 			Debug.Log("Input?");
 			if(Input.GetKey(KeyCode.W))
 			{
@@ -151,46 +132,63 @@ public class Movement : MonoBehaviour {
 		
 			forwardSpeed-=0.2f;
 			backwardSpeed+=0.2f;
+            boostSpeed -= 0.2f;
 		}
 		forwardSpeed-=0.2f;
 		backwardSpeed+=0.2f;
+        boostSpeed -= 0.2f;
+
+        if (boostScript.m_isBoosting && Input.GetKey(KeyCode.W))
+        {
+            //Use boost
+            boostSpeed += boostAcceleration;
+        }
 
 		forwardSpeed = Mathf.Clamp (forwardSpeed, 0, m_MaxAccSpeed);
 		backwardSpeed = Mathf.Clamp (backwardSpeed, -m_MaxAccSpeed, 0);
+        boostSpeed = Mathf.Clamp(boostSpeed, 0, boostMaxAccSpeed - m_MaxAccSpeed); //boostMaxAccSpeed is set as the max speed while boosting, but boostSpeed is added to the normal speed (not overwriting it).
 
-		velocity = transform.forward.normalized *(forwardSpeed +backwardSpeed);
-		speed = (forwardSpeed + backwardSpeed);
+#if UNITY_EDITOR
+        if (boostMaxAccSpeed < m_MaxAccSpeed)
+        {
+            Debug.LogError("boostMaxAccSpeed is smaller than m_MaxAccSpeed");
+        }
+#endif
+
+		velocity = transform.forward.normalized *(forwardSpeed +backwardSpeed + boostSpeed);
+		//m_Speed = (forwardSpeed + backwardSpeed);
 
 		transform.position += velocity*Time.deltaTime;
 		
 	
 
 		//The power of jump increases when the space bar i down
-		if (Input.GetKey (KeyCode.Space) && isGrounded)
+		if (Input.GetKey (KeyCode.Space) && m_Jumped)
 		{
-			chargePower = chargePower + m_JumpAccelration;
+			m_ChargePower = m_ChargePower + m_JumpAccelration;
 		}
 		
-		if ((Input.GetKeyUp(KeyCode.Space)/* || Input.GetButton(m_input_jump)*/) && isGrounded)
+		if (Input.GetKeyUp (KeyCode.Space) && m_Jumped)
 		{
-			if(chargePower > m_MaxJumpPower)
+			if(m_ChargePower > m_MaxJumpPower)
 			{
-				chargePower = m_MaxJumpPower;
+				m_ChargePower = m_MaxJumpPower;
 			}
-			jumpPower = chargePower;
-			chargePower = 0;
+			m_JumpPower = m_ChargePower;
+			m_ChargePower = 0;
+			m_Jumped = false;
 		}
-		//Debug.Log(transform.forward.normalized *(m_Speed)*Time.deltaTime);
-		Debug.Log((transform.up.normalized * jumpPower) * Time.deltaTime);
-		transform.position += ((Vector3.up * jumpPower) * Time.deltaTime);
+		Debug.Log(transform.forward.normalized *(m_Speed)*Time.deltaTime);
+		Debug.Log((transform.up.normalized * m_JumpPower) * Time.deltaTime);
+		transform.Translate((transform.up.normalized * m_JumpPower) * Time.deltaTime);
 
-		if (jumpPower > 0.01f)
+		if (m_JumpPower > 0.01f)
 		{
-			jumpPower -= 0.05f;
+			m_JumpPower -= 0.05f;
 		}
-		if (jumpPower < 0.01f)
+		if (m_JumpPower < 0.01f)
 		{
-			jumpPower = 0f;
+			m_JumpPower = 0f;
 		}
 
 
