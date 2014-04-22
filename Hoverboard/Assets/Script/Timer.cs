@@ -66,4 +66,18 @@ public class Timer : MonoBehaviour {
 	{
 		finishTime = raceTime;
 	}
+
+	public float getMilliSeconds()
+	{
+		return timeMilli;
+	}
+
+	public float getSeconds()
+	{
+		return timeSeconds;
+	}
+	public float getMinutes()
+	{
+		return timeMinutes;
+	}
 }
