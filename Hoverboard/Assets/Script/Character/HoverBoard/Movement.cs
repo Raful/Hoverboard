@@ -12,8 +12,7 @@ using System.Collections;
 [RequireComponent(typeof(Boost))]
 
 public class Movement : MonoBehaviour {
-	
-	private float m_Speed;
+
 	
 	[SerializeField]
 	private float boostMaxAccSpeed; //Should be higher than m_MaxAccSpeed
@@ -21,20 +20,9 @@ public class Movement : MonoBehaviour {
 	[SerializeField]
 	private float boostAcceleration;
 	private Boost boostScript;
-	
-	
-	public float m_Friction;
-	public float m_RotationSpeed;
-	public string m_input_forward;
-	public string m_input_turn;
-	public string m_input_jump;
-	
-	
-	public bool m_rotateWhileNotGrounded;
+
 	private bool isGrounded;
-	
-	private float angle;
-	private Quaternion goToRotation;
+
 	
 	public float m_MaxJumpPower, m_JumpAccelration;
 	bool m_Jumped = true;
@@ -45,15 +33,17 @@ public class Movement : MonoBehaviour {
 	public float m_MaxAccSpeed;
 	public float m_ForwardAcc;
 	public float m_BackwardAcc;
-	public float m_AngleSpeed;
+	public float m_Friction;
+
 	private Vector3 direction;
 	private Vector3 rayDirection;
 	private Vector3 velocity;
-	private float gravity;
-	public float forwardSpeed;
-	public float backwardSpeed;
-	private float hoverHeight;
 
+	private float speed;
+	private float gravity;
+	private float forwardSpeed;
+	private float backwardSpeed;
+	private float hoverHeight;
 	private float speedDec;
 	
 	void Start ()
@@ -70,7 +60,7 @@ public class Movement : MonoBehaviour {
 	
 	public float getSpeed
 	{
-		get {return m_Speed;}
+		get {return speed;}
 	}
 	
 	
@@ -79,8 +69,7 @@ public class Movement : MonoBehaviour {
 		RaycastHit hit;
 		if(Physics.Raycast(transform.position, rayDirection, out hit, hoverHeight+2))
 		{
-			angle = Vector3.Angle(transform.forward,Vector3.Cross(transform.right,hit.normal));
-			if(hit.distance<4)
+			if(hit.distance<3)
 			{
 				transform.rotation = Quaternion.LookRotation(Vector3.Cross(transform.right, hit.normal), hit.normal);
 			}
@@ -93,13 +82,12 @@ public class Movement : MonoBehaviour {
 				gravity = 0;
 			}
 			Debug.DrawLine(transform.position, hit.point);
-			//Debug.Log(hit.normal.y);
 			direction = transform.forward;
 			isGrounded = true;
 			rayDirection = -transform.up;
 
-			goToRotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(Vector3.Cross(transform.right, hit.normal), hit.normal), (Time.fixedDeltaTime*(m_Speed/3)*(hoverHeight/hit.distance)));
-			transform.rotation = goToRotation;
+			transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(Vector3.Cross(transform.right, hit.normal), hit.normal), (Time.fixedDeltaTime*(speed/3)*(hoverHeight/hit.distance)));
+		
 		}
 		
 		else
@@ -162,9 +150,9 @@ public class Movement : MonoBehaviour {
 
 		}
 		addSpeed();
-		forwardSpeed-=0.2f;
-		backwardSpeed+=0.2f;
-		boostSpeed -= 0.2f;
+		forwardSpeed-= m_Friction;
+		backwardSpeed+= m_Friction;
+		boostSpeed -= m_Friction;
 		
 		if (boostScript.m_isBoosting && Input.GetKey(KeyCode.W))
 		{
@@ -172,7 +160,7 @@ public class Movement : MonoBehaviour {
 			boostSpeed += boostAcceleration;
 		}
 		
-		m_Speed = Mathf.Abs(forwardSpeed+backwardSpeed);
+		speed = Mathf.Abs(forwardSpeed+backwardSpeed);
 		forwardSpeed = Mathf.Clamp (forwardSpeed, 0, m_MaxAccSpeed);
 		backwardSpeed = Mathf.Clamp (backwardSpeed, -m_MaxAccSpeed, 0);
 		boostSpeed = Mathf.Clamp(boostSpeed, 0, boostMaxAccSpeed - m_MaxAccSpeed); //boostMaxAccSpeed is set as the max speed while boosting, but boostSpeed is added to the normal speed (not overwriting it).
