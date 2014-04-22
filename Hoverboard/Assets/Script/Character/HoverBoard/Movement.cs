@@ -104,7 +104,6 @@ public class Movement : MonoBehaviour {
 		
 		if(isGrounded)
 		{
-			
 			if(Input.GetKey(KeyCode.W))
 			{
 				forwardSpeed += m_ForwardAcc;
@@ -192,9 +191,17 @@ public class Movement : MonoBehaviour {
 		}
 		
 		transform.Translate((transform.up.normalized * m_JumpPower) * Time.fixedDeltaTime);
+<<<<<<< HEAD:Hoverboard/Assets/Script/Character/HoverBoard/Movement.cs
 		
 		
 		
+=======
+
+	
+		Debug.Log((transform.up.normalized * jumpPower) * Time.deltaTime);
+		//Debug.Log(transform.forward.normalized *(m_Speed)*Time.deltaTime);
+		//Debug.Log((transform.up.normalized * jumpPower) * Time.deltaTime);
+>>>>>>> 7566222a8e10733b223da207b0d861a443a7494f:Hoverboard/Assets/Script/Movement.cs
 		transform.position += ((Vector3.up * jumpPower) * Time.deltaTime);
 		
 		
