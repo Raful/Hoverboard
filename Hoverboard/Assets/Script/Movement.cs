@@ -117,7 +117,7 @@ public class Movement : MonoBehaviour {
 			{
 				transform.Rotate (0,Input.GetAxis(m_input_turn)*m_rotationSpeed,0);
 			}*/
-			Debug.Log("Input?");
+			//Debug.Log("Input?");
 			if(Input.GetKey(KeyCode.W))
 			{
 				forwardSpeed += m_ForwardAcc;
@@ -208,7 +208,7 @@ public class Movement : MonoBehaviour {
 			chargePower = 0;
 		}
 		//Debug.Log(transform.forward.normalized *(m_Speed)*Time.deltaTime);
-		Debug.Log((transform.up.normalized * jumpPower) * Time.deltaTime);
+		//Debug.Log((transform.up.normalized * jumpPower) * Time.deltaTime);
 		transform.position += ((Vector3.up * jumpPower) * Time.deltaTime);
 
 		if (jumpPower > 0.01f)

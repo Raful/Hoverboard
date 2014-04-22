@@ -23,7 +23,7 @@ namespace FMOD
 #else
 		public const string dll    = "fmod";
 #endif
-		public const int    number = 0x00010305;
+		public const int    number = 0x00010306;
     }
 
     /*
