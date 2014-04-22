@@ -13,7 +13,6 @@ public class Movement : MonoBehaviour {
 	
 	public float m_Speed;
 
-	public float m_Acceleration;
 	public bool m_rotateWhileNotGrounded;
 	private bool isGrounded;
 	private float angle;
@@ -22,40 +21,32 @@ public class Movement : MonoBehaviour {
 	public float m_MaxJumpPower, m_JumpAccelration;
 	bool m_Jumped = true;
 	float m_JumpPower, m_ChargePower;
-	private KeyCode lastKeyPressed;
-	private float keyTimer;
-	private float releaseKey;
-	private bool pressedS;
-	private bool done;
 
-	private Vector3 rayDirection;
-	private Vector3 velocity;
-	private Vector3 gravity;
+	public float m_Gravity;
 	public float m_MaxAccSpeed;
 	public float m_ForwardAcc;
 	public float m_BackwardAcc;
+	public float m_AngleSpeed;
+	private Vector3 direction;
+	private Vector3 rayDirection;
+	private Vector3 velocity;
+	private float gravity;
 	private float forwardSpeed;
 	private float backwardSpeed;
 	private float hoverHeight;
-
-	public Vector3 setVelocity 
-	{
-		set
-		{
-			velocity += value;
-		}
-	}
-
+	private float[] angleDistance = new float[2];
+	private Vector3 getAngleDist;
 	void Start ()
 	{
 
 		hoverHeight = GetComponent<Hover_Physics>().hoverHeight;
-		m_Speed = 0;
-		pressedS = false;
-		done = false;
 		rayDirection = -Vector3.up;
 	}
-	
+
+	void Update()
+	{
+
+	}
 	
 	void FixedUpdate () 
 	{
@@ -63,21 +54,37 @@ public class Movement : MonoBehaviour {
 		RaycastHit hit;
 		if(Physics.Raycast(transform.position, rayDirection, out hit, hoverHeight+2))
 		{
-			rayDirection = -transform.up;
+			angle = Vector3.Angle(transform.forward,Vector3.Cross(transform.right,hit.normal));
+			if(hit.distance<4)
+			{
+				transform.rotation = Quaternion.LookRotation(Vector3.Cross(transform.right, hit.normal), hit.normal);
+			}
+			else if(hit.normal.y <= 0)
+			{
+				gravity += m_Gravity;
+			}
+			else
+			{
+				gravity = 0;
+			}
+			Debug.DrawLine(transform.position, hit.point);
+			direction = transform.forward;
 			isGrounded = true;
-			angle = Vector3.Angle(transform.forward, Vector3.Cross(transform.right, hit.normal));
-			goToRotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(Vector3.Cross(transform.right, hit.normal), hit.normal), Time.deltaTime *angle*(hoverHeight/hit.distance));
+			rayDirection = -transform.up;
+			goToRotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(Vector3.Cross(transform.right, hit.normal), hit.normal), (Time.fixedDeltaTime*m_AngleSpeed*(hoverHeight/hit.distance)));/** angle*(hoverHeight/hit.distance)*/
 			transform.rotation = goToRotation;
-
 		}
+
 		else
 		{
+			gravity += m_Gravity;
 			isGrounded = false;
 		}
 
+
 		if(isGrounded)
 		{
-			//Debug.Log("Input?");
+
 			if(Input.GetKey(KeyCode.W))
 			{
 				forwardSpeed += m_ForwardAcc;
@@ -96,8 +103,6 @@ public class Movement : MonoBehaviour {
 			{
 				transform.Rotate(0,1f,0,Space.Self);
 			}
-
-
 		}
 		else 
 		{
@@ -113,25 +118,30 @@ public class Movement : MonoBehaviour {
 				}
 				if(Input.GetKey(KeyCode.A))
 				{
-					transform.Rotate(0,-1f,0f,Space.Self);
+					direction = RotateY(direction,-0.01f);
+					transform.Rotate(0,-0.4f,0f,Space.Self);
 				}
 				if(Input.GetKey(KeyCode.D))
 				{
-					transform.Rotate(0,1f,0,Space.Self);
+					direction = RotateY(direction,0.01f);
+					transform.Rotate(0,0.4f,0,Space.Self);
 				}
+
 			}
 			rayDirection = -Vector3.up;
-			forwardSpeed-=0.2f;
-			backwardSpeed+=0.2f;
+			forwardSpeed-=0.1f;
+			backwardSpeed+=0.1f;
 		}
+
 		forwardSpeed-=0.2f;
 		backwardSpeed+=0.2f;
-		//Debug.Log (forwardSpeed + backwardSpeed);
+
+		m_Speed = forwardSpeed+backwardSpeed;
 		forwardSpeed = Mathf.Clamp (forwardSpeed, 0, m_MaxAccSpeed);
 		backwardSpeed = Mathf.Clamp (backwardSpeed, -m_MaxAccSpeed, 0);
 
-		velocity = transform.forward.normalized *(forwardSpeed +backwardSpeed);
-		//m_Speed = (forwardSpeed + backwardSpeed);
+		velocity = direction.normalized *(forwardSpeed+backwardSpeed) -Vector3.up*gravity ;
+	
 
 		transform.position += velocity*Time.deltaTime;
 		
@@ -154,7 +164,7 @@ public class Movement : MonoBehaviour {
 			m_Jumped = false;
 		}
 
-		transform.Translate((transform.up.normalized * m_JumpPower) * Time.deltaTime);
+		transform.Translate((transform.up.normalized * m_JumpPower) * Time.fixedDeltaTime);
 
 		if (m_JumpPower > 0.01f)
 		{
@@ -175,5 +185,27 @@ public class Movement : MonoBehaviour {
 		if (Input.GetKey (KeyCode.L)) {
 			transform.Translate (Vector3.right*Time.deltaTime*10);
 		}
+	}
+
+	void OnTriggerEnter(Collider col)
+	{
+		forwardSpeed = 0;
+		backwardSpeed = 0;
+		Debug.Log ("KOLLIDERAR");
+	}
+	public static Vector3 RotateY( Vector3 v, float angle )
+	{
+		float sin = Mathf.Sin( angle );
+		
+		float cos = Mathf.Cos( angle );
+
+		float tx = v.x;
+		
+		float tz = v.z;
+		
+		v.x = (cos * tx) + (sin * tz);
+		
+		v.z = (cos * tz) - (sin * tx);
+		return v.normalized;
 	}
 }

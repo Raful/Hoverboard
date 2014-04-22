@@ -19,7 +19,7 @@ public class Gravity : MonoBehaviour {
 		{
 			if(hit.distance > 7)
 			{
-
+				Debug.DrawLine(transform.position, hit.point);
 				yVelocity -= m_Gravity;
 				transform.position += new Vector3(0,yVelocity * Time.deltaTime,0);
 			}

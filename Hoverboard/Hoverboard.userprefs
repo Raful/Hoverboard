@@ -1,10 +1,10 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Script\Hover_Physics.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Script\Movement.cs">
     <Files>
-      <File FileName="Assets\Script\Hover_Physics.cs" Line="43" Column="5" />
-      <File FileName="Assets\Script\Movement.cs" Line="78" Column="17" />
-      <File FileName="Assets\Gravity.cs" Line="25" Column="5" />
+      <File FileName="..\..\..\SavageAlien\Hoverboard\Hoverboard\Assets\Shooter.cs" Line="32" Column="2" />
+      <File FileName="Assets\Script\Movement.cs" Line="74" Column="38" />
+      <File FileName="Assets\Script\Hover_Physics.cs" Line="46" Column="30" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

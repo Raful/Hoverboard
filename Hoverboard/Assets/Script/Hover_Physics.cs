@@ -25,11 +25,13 @@ public class Hover_Physics : MonoBehaviour {
 	{
 	
 	}
-	
+
+
+
 	
 	void FixedUpdate()
 	{
-		
+	
 		if(physicsSetup)
 		{
 			RaycastHit hit;
@@ -40,35 +42,28 @@ public class Hover_Physics : MonoBehaviour {
 
 					hitNormal[i] = hit.normal;
 					distance = hit.distance;
-				
+
 					if(hit.distance < hoverHeight)
 					{
-						if(-average.y < 0)
-						{
-							Debug.Log("Stuff");
+						if(-average.y <= 0)
+						{	
 							average *= -1;
 						}
-						constantForce.relativeForce = (-average)*rigidbody.mass * jumpingPower * rigidbody.drag * Mathf.Min (hoverHeight,hoverHeight/distance);
+						constantForce.relativeForce = (-average +transform.up)*rigidbody.mass * jumpingPower * rigidbody.drag * Mathf.Min (hoverHeight,hoverHeight/distance);
 					}
 					else
 					{
-						if(-average.y < 0)
-						{
-							constantForce.relativeForce = (transform.up)* rigidbody.mass * landingPower * rigidbody.drag /Mathf.Min(hoverHeight, hoverHeight/distance);
-						}
-						else
+						if(-average.y > 0)
 						{
 							constantForce.relativeForce = -(transform.up)* rigidbody.mass * landingPower * rigidbody.drag /Mathf.Min(hoverHeight, hoverHeight/distance);
 						}
+					
 					}
-					Debug.DrawLine(corners[i].position, hit.point);
+					//Debug.DrawLine(corners[i].position, hit.point);
 				}
 				else
 				{
 					constantForce.relativeForce = Vector3.zero;
-
-					transform.position += -Vector3.up*Time.deltaTime;
-					//constantForce.relativeForce = -(Vector3.up) * rigidbody.mass * landingPower * rigidbody.drag * 6 * (1-Input.GetAxis("Vertical"));
 				}
 			}
 			average = -(hitNormal[0] + hitNormal[1] + hitNormal[2] + hitNormal[3] + hitNormal[4])/2;
@@ -78,7 +73,12 @@ public class Hover_Physics : MonoBehaviour {
 	void InitializePhysics()
 	{
 		cornersPoint = gameObject.GetComponentsInChildren<RayFlag> ();
-		//Debug.Log(cornersPoint[0].transform + " " + cornersPoint[1].transform+ " " + cornersPoint[2].transform+ " " + cornersPoint[3].transform+ " " + cornersPoint[4].transform);
+
+		//corners [0] = new Vector3(-0.5f,0,-0.5f);
+		//corners [1] = new Vector3(0.5f,0,-0.5f);
+		//corners [2] = new Vector3(0,0,0);
+		//corners [3] = new Vector3(-0.5f,0,0.5f);
+		//corners [4] = new Vector3(0.5f,0,0.5f);
 		corners [0] = cornersPoint[0].transform;
 		corners [1] = cornersPoint[1].transform;
 		corners [2] = cornersPoint[2].transform;
