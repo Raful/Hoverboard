@@ -8,9 +8,19 @@ using System.Collections;
  * Created by: Niklas Åsén, 2014-04-02
  * Edited by: Wolfie
  */
+
+[RequireComponent(typeof(Boost))]
+
 public class Movement : MonoBehaviour {
 
 	private float speed;
+
+    [SerializeField]
+    private float boostMaxAccSpeed; //Should be higher than m_MaxAccSpeed
+    private float boostSpeed=0;
+    [SerializeField]
+    private float boostAcceleration;
+    private Boost boostScript;
 
 	public float m_Acceleration;
 
@@ -68,6 +78,8 @@ public class Movement : MonoBehaviour {
 		speed = 0;
 		pressedS = false;
 		done = false;
+
+        boostScript = gameObject.GetComponent<Boost>();
 	}
 	
 	
@@ -151,15 +163,30 @@ public class Movement : MonoBehaviour {
 		
 			forwardSpeed-=0.2f;
 			backwardSpeed+=0.2f;
+            boostSpeed -= 0.2f;
 		}
 		forwardSpeed-=0.2f;
 		backwardSpeed+=0.2f;
+        boostSpeed -= 0.2f;
+
+        if (boostScript.m_isBoosting && Input.GetKey(KeyCode.W))
+        {
+            //Use boost
+            boostSpeed += boostAcceleration;
+        }
 
 		forwardSpeed = Mathf.Clamp (forwardSpeed, 0, m_MaxAccSpeed);
 		backwardSpeed = Mathf.Clamp (backwardSpeed, -m_MaxAccSpeed, 0);
+        boostSpeed = Mathf.Clamp(boostSpeed, 0, boostMaxAccSpeed - m_MaxAccSpeed); //boostMaxAccSpeed is set as the max speed while boosting, but boostSpeed is added to the normal speed (not overwriting it).
 
-		velocity = transform.forward.normalized *(forwardSpeed +backwardSpeed);
-		speed = (forwardSpeed + backwardSpeed);
+#if UNITY_EDITOR
+        if (boostMaxAccSpeed < m_MaxAccSpeed)
+        {
+            Debug.LogError("boostMaxAccSpeed is smaller than m_MaxAccSpeed");
+        }
+#endif
+
+		velocity = transform.forward.normalized *(forwardSpeed +backwardSpeed + boostSpeed);
 
 		transform.position += velocity*Time.deltaTime;
 		
