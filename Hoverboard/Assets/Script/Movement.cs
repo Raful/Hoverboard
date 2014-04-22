@@ -13,7 +13,7 @@ using System.Collections;
 
 public class Movement : MonoBehaviour {
 
-	private float speed;
+	private float m_Speed;
 
     [SerializeField]
     private float boostMaxAccSpeed; //Should be higher than m_MaxAccSpeed
@@ -22,9 +22,6 @@ public class Movement : MonoBehaviour {
     private float boostAcceleration;
     private Boost boostScript;
 
-<<<<<<< HEAD
-=======
-	public float m_Acceleration;
 
 	public float m_Friction;
 	public float m_RotationSpeed;
@@ -32,7 +29,7 @@ public class Movement : MonoBehaviour {
 	public string m_input_turn;
 	public string m_input_jump;
 
->>>>>>> 846ddc9af924bb6f151a377b63f60fa1833388f0
+
 	public bool m_rotateWhileNotGrounded;
 	private bool isGrounded;
 
@@ -40,38 +37,31 @@ public class Movement : MonoBehaviour {
 	private Quaternion goToRotation;
 
 	public float m_MaxJumpPower, m_JumpAccelration;
-<<<<<<< HEAD
 	bool m_Jumped = true;
 	float m_JumpPower, m_ChargePower;
-=======
 	private float jumpPower, chargePower;
-	private KeyCode lastKeyPressed;
-	private float keyTimer;
-	private float releaseKey;
-	private bool pressedS;
-	private bool done;
->>>>>>> 846ddc9af924bb6f151a377b63f60fa1833388f0
 
 	public float m_Gravity;
 	public float m_MaxAccSpeed;
 	public float m_ForwardAcc;
 	public float m_BackwardAcc;
-<<<<<<< HEAD
 	public float m_AngleSpeed;
 	private Vector3 direction;
 	private Vector3 rayDirection;
 	private Vector3 velocity;
 	private float gravity;
-	private float forwardSpeed;
-	private float backwardSpeed;
+	public float forwardSpeed;
+	public float backwardSpeed;
 	private float hoverHeight;
 	private float[] angleDistance = new float[2];
 	private Vector3 getAngleDist;
+
 	void Start ()
-=======
-	 public float forwardSpeed;
-	public float backwardSpeed;
-	private float hoverHeight;
+	{
+		boostScript = gameObject.GetComponent<Boost>();
+		hoverHeight = GetComponent<Hover_Physics>().hoverHeight;
+		rayDirection = -Vector3.up;
+	}
 
 	public float getChargePower
 	{
@@ -80,35 +70,18 @@ public class Movement : MonoBehaviour {
 
     public float getSpeed
 	{
-		get {return speed;}
+		get {return m_Speed;}
 	}
 
-	public Vector3 setVelocity 
->>>>>>> 846ddc9af924bb6f151a377b63f60fa1833388f0
-	{
-
-		hoverHeight = GetComponent<Hover_Physics>().hoverHeight;
-		rayDirection = -Vector3.up;
-	}
 
 	void Update()
 	{
 
-<<<<<<< HEAD
-=======
-		hoverHeight = GetComponent<Hover_Physics>().hoverHeight;
-		speed = 0;
-		pressedS = false;
-		done = false;
-
-        boostScript = gameObject.GetComponent<Boost>();
->>>>>>> 846ddc9af924bb6f151a377b63f60fa1833388f0
 	}
 	
 	void FixedUpdate () 
 	{
-		if (Input.GetKey (KeyCode.I))
-				transform.position +=  new Vector3(0,0.1f,0);
+
 		RaycastHit hit;
 		if(Physics.Raycast(transform.position, rayDirection, out hit, hoverHeight+2))
 		{
@@ -128,46 +101,20 @@ public class Movement : MonoBehaviour {
 			Debug.DrawLine(transform.position, hit.point);
 			direction = transform.forward;
 			isGrounded = true;
-<<<<<<< HEAD
 			rayDirection = -transform.up;
 			goToRotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(Vector3.Cross(transform.right, hit.normal), hit.normal), (Time.fixedDeltaTime*m_AngleSpeed*(hoverHeight/hit.distance)));/** angle*(hoverHeight/hit.distance)*/
-=======
-			angle = Vector3.Angle(transform.forward, Vector3.Cross(transform.right, hit.normal));
-			goToRotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(Vector3.Cross(transform.right, hit.normal), hit.normal), Time.deltaTime *angle*(hoverHeight/hit.distance));
->>>>>>> 846ddc9af924bb6f151a377b63f60fa1833388f0
 			transform.rotation = goToRotation;
 		}
-
+		
 		else
 		{
 			gravity += m_Gravity;
 			isGrounded = false;
 		}
 
-
-<<<<<<< HEAD
-=======
-
-
-
-	
->>>>>>> 846ddc9af924bb6f151a377b63f60fa1833388f0
 		if(isGrounded)
-
 		{
-<<<<<<< HEAD
-
-=======
-			/*if (Input.GetAxis(m_input_forward)!=0)
-			{
-				m_Speed += Input.GetAxis(m_input_forward)*m_Acceleration/10;
-			}
-			if (Input.GetAxis(m_input_turn)!=0)
-			{
-				transform.Rotate (0,Input.GetAxis(m_input_turn)*m_rotationSpeed,0);
-			}*/
-			Debug.Log("Input?");
->>>>>>> 846ddc9af924bb6f151a377b63f60fa1833388f0
+			
 			if(Input.GetKey(KeyCode.W))
 			{
 				forwardSpeed += m_ForwardAcc;
@@ -209,18 +156,12 @@ public class Movement : MonoBehaviour {
 					direction = RotateY(direction,0.01f);
 					transform.Rotate(0,0.4f,0,Space.Self);
 				}
-
+				
 			}
-<<<<<<< HEAD
+
 			rayDirection = -Vector3.up;
 			forwardSpeed-=0.1f;
 			backwardSpeed+=0.1f;
-=======
-		
-			forwardSpeed-=0.2f;
-			backwardSpeed+=0.2f;
-            boostSpeed -= 0.2f;
->>>>>>> 846ddc9af924bb6f151a377b63f60fa1833388f0
 		}
 
 		forwardSpeed-=0.2f;
@@ -245,24 +186,16 @@ public class Movement : MonoBehaviour {
         }
 #endif
 
-<<<<<<< HEAD
-		velocity = direction.normalized *(forwardSpeed+backwardSpeed) -Vector3.up*gravity ;
-	
-=======
-		velocity = transform.forward.normalized *(forwardSpeed +backwardSpeed + boostSpeed);
->>>>>>> 846ddc9af924bb6f151a377b63f60fa1833388f0
 
-		transform.position += velocity*Time.deltaTime;
-		
-	
+		velocity = direction.normalized *(forwardSpeed+backwardSpeed + boostSpeed) -Vector3.up*gravity ;
+		transform.position += velocity*Time.fixedDeltaTime;
 
-		//The power of jump increases when the space bar i down
 		if (Input.GetKey (KeyCode.Space) && isGrounded)
 		{
 			chargePower = chargePower + m_JumpAccelration;
 		}
 		
-		if ((Input.GetKeyUp(KeyCode.Space)/* || Input.GetButton(m_input_jump)*/) && isGrounded)
+		if ((Input.GetKeyUp(KeyCode.Space)) && isGrounded)
 		{
 			if(chargePower > m_MaxJumpPower)
 			{
@@ -271,14 +204,14 @@ public class Movement : MonoBehaviour {
 			jumpPower = chargePower;
 			chargePower = 0;
 		}
-<<<<<<< HEAD
+
 
 		transform.Translate((transform.up.normalized * m_JumpPower) * Time.fixedDeltaTime);
-=======
-		//Debug.Log(transform.forward.normalized *(m_Speed)*Time.deltaTime);
+
+	
 		Debug.Log((transform.up.normalized * jumpPower) * Time.deltaTime);
 		transform.position += ((Vector3.up * jumpPower) * Time.deltaTime);
->>>>>>> 846ddc9af924bb6f151a377b63f60fa1833388f0
+
 
 		if (jumpPower > 0.01f)
 		{
