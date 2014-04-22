@@ -208,7 +208,7 @@ public class Movement : MonoBehaviour {
 		transform.Translate((transform.up.normalized * m_JumpPower) * Time.fixedDeltaTime);
 
 	
-		Debug.Log((transform.up.normalized * jumpPower) * Time.deltaTime);
+		//Debug.Log((transform.up.normalized * jumpPower) * Time.deltaTime);
 		//Debug.Log(transform.forward.normalized *(m_Speed)*Time.deltaTime);
 		//Debug.Log((transform.up.normalized * jumpPower) * Time.deltaTime);
 		transform.position += ((Vector3.up * jumpPower) * Time.deltaTime);

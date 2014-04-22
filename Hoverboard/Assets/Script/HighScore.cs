@@ -3,7 +3,7 @@
  * Modified by: 
  * 
  * Description:
- * 
+ * Handles storing a high score list for each level
  */
 
 using UnityEngine;
@@ -18,11 +18,25 @@ public class HighScore : MonoBehaviour {
     //HighScoreList is stored on file as: username:time
     List<KeyPair> highScoreList;
 
+    bool hasAddedTime=false;
+
+    Finish finishScript;
+
 	void Start ()
     {
-        StreamReader file;
-        if ((file = new StreamReader(Application.persistentDataPath + "/" + Application.loadedLevelName)) != null)
+#if UNITY_STANDALONE
+        InitPC();
+#elif UNITY_XBOXONE
+        InitXBoxOne();
+#endif
+
+        highScoreList=new List<KeyPair>();
+        finishScript = GameObject.Find("Finish").GetComponent<Finish>();
+
+        string filePath=Application.persistentDataPath + "/" + Application.loadedLevelName+".txt";
+        if (File.Exists(filePath))
         {
+            StreamReader file = new StreamReader(filePath);
             string row;
             while ((row = file.ReadLine()) != null)
             {
@@ -30,27 +44,40 @@ public class HighScore : MonoBehaviour {
                 Debug.Log(row);
             }
         }
-
-#if UNITY_STANDALONE
-        InitPC();
-#elif UNITY_XBOXONE
-        InitXBone();
-#endif
     }
 	
-	void Update () {
-        Debug.Log(userName);
+	void Update () 
+    {
+        if (finishScript.m_finishTime > 0.0001 && hasAddedTime) //Player reached the goal
+        {
+            hasAddedTime = true;
+
+            AddToHighScore(finishScript.m_finishTime);
+            Debug.Log("Size: " + highScoreList.Count);
+        }
 	}
+
+    void AddToHighScore(float time)
+    {
+        //highScoreList.Add(new KeyPair(userName, time));
+
+        foreach (KeyPair highScoreTime in highScoreList)
+        {
+            highScoreList.Insert(0, new KeyPair(userName, time));
+        }
+
+        
+    }
 
 #if UNITY_STANDALONE
     void InitPC()
     {
-        //userName = "UserOnPC";
+        userName = "UserOnPC";
     }
 #elif UNITY_XBOXONE
-    void InitXBone()
+    void InitXBoxOne()
     {
-        userName = "UserOnXBone";
+        userName = "UserOnXBoxOne";
     }
 #endif
 }

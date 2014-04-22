@@ -6,7 +6,7 @@ using System.Collections;
  * Text that explains script
  *
  * Created by: Erik Åsén, 2014-04-11
- * Edited by:
+ * Edited by: Robbin Torstensson, 2014-04-22 (added getter for finishTime)
  */
 
 public class Timer : MonoBehaviour {
@@ -14,6 +14,11 @@ public class Timer : MonoBehaviour {
 	float timeMinutes, timeSeconds, timeMilli;
 	float raceTime, leaveTime, finishTime;
 	bool noResetTimer = false;
+
+    public float m_finishTime
+    {
+        get { return finishTime; }
+    }
 	
 	// Update is called once per frame
 	void Update () 
