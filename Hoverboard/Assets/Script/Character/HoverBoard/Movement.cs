@@ -209,7 +209,7 @@ public class Movement : MonoBehaviour {
 			jumpPower = chargePower;
 			chargePower = 0;
 		}
-		//Debug.Log (jumpPower);
+
 		transform.Translate((transform.up.normalized * m_JumpPower) * Time.fixedDeltaTime);		
 		transform.position += ((Vector3.up * jumpPower) * Time.deltaTime);
 		
