@@ -25,7 +25,11 @@ public class CameraMec : MonoBehaviour {
 
 	void Start() {
 
+
 		physics = hoverboard.GetComponent<Hover_Physics>();
+
+	
+
 		targetedPosition = hoverboard.transform.position;
 		currentYValue = targetedPosition.y;
 	}
