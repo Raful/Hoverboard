@@ -74,7 +74,7 @@ public class CameraMec : MonoBehaviour {
 		//change distance to hoverboard depending on the hoverboard's speed
 		if (hoverboard.GetComponent<Movement>().forwardSpeed > 0.01f || hoverboard.GetComponent<Movement>().backwardSpeed < -0.01)
 		{
-			distance = m_DefaultDistance + (hoverboard.GetComponent<Movement>().forwardSpeed + hoverboard.GetComponent<Movement>().backwardSpeed + hoverboard.GetComponent<Movement>().boostSpeed)/20;
+			distance = m_DefaultDistance + (hoverboard.GetComponent<Movement>().forwardSpeed + hoverboard.GetComponent<Movement>().backwardSpeed + hoverboard.GetComponent<Movement>().boostSpeed)/25;
 		}
 		else
 		{
