@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class Hover_Physics : MonoBehaviour {
@@ -25,10 +25,7 @@ public class Hover_Physics : MonoBehaviour {
 	{
 		
 	}
-	
-	
-	
-	
+
 	void FixedUpdate()
 	{
 		
