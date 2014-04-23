@@ -8,10 +8,20 @@ using System.Collections;
  * Created by: Niklas Åsén, 2014-04-02
  * Edited by: Wolfie, Andreas
  */
+
+[RequireComponent(typeof(Boost))]
+
 public class Movement : MonoBehaviour {
 
 	public GameObject hoverboard;
 	private float speed;
+
+    [SerializeField]
+    private float boostMaxAccSpeed; //Should be higher than m_MaxAccSpeed
+    private float boostSpeed=0;
+    [SerializeField]
+    private float boostAcceleration;
+    private Boost boostScript;
 
 	public float m_Acceleration;
 
@@ -42,15 +52,15 @@ public class Movement : MonoBehaviour {
 	public float m_BackwardSpeed;
 	private float hoverHeight;
 
-	private KeyCode jump;
+	/*private KeyCode jump;
 	private KeyCode forward;
 	private KeyCode back;
 	private KeyCode leftRotation;
 	private KeyCode rightRotation;
 	private KeyCode right;
-	private KeyCode left;
+	private KeyCode left;*/
 
-
+	private ButtonOption keys;
 
 
 	public float getChargePower
@@ -78,9 +88,10 @@ public class Movement : MonoBehaviour {
 		speed = 0;
 		pressedS = false;
 		done = false;
-		ButtonOption option = hoverboard.GetComponent<ButtonOption> ();
 
-		jump = option.getKey("jump");
+		 keys = hoverboard.GetComponent<ButtonOption> ();
+
+		/*jump = option.getKey("jump");
 		forward = option.getKey ("forward");
 		back = option.getKey ("back");
 		Debug.Log (back);
@@ -88,7 +99,10 @@ public class Movement : MonoBehaviour {
 		rightRotation = option.getKey ("rightRotation");
 		right = option.getKey("right");
 		left = option.getKey("left");
-		Debug.Log ("start " + leftRotation);
+		Debug.Log ("start " + leftRotation);*/
+
+
+        boostScript = gameObject.GetComponent<Boost>();
 
 	}
 	
@@ -149,21 +163,21 @@ public class Movement : MonoBehaviour {
 				transform.Rotate(0,1f,0,Space.Self);
 			}*/
 
-			if(Input.GetKey(forward))
+			if(Input.GetKey(keys.getKey("forward")))
 			{
 				m_ForwardSpeed += m_ForwardAcc;
 				m_BackwardSpeed += m_ForwardAcc;
 			}
-			if(Input.GetKey(back))
+			if(Input.GetKey(keys.getKey("back")))
 			{
 				m_ForwardSpeed -= m_BackwardAcc;
 				m_BackwardSpeed -= m_BackwardAcc;
 			}
-			if(Input.GetKey(leftRotation))
+			if(Input.GetKey(keys.getKey("leftRotation")))
 			{
 				transform.Rotate(0,-1f,0f,Space.Self);
 			}
-			if(Input.GetKey(rightRotation))
+			if(Input.GetKey(keys.getKey("rightRotation")))
 			{
 				transform.Rotate(0,1f,0,Space.Self);
 				Debug.Log("roterar höger");
@@ -192,19 +206,19 @@ public class Movement : MonoBehaviour {
 					transform.Rotate(0,1f,0,Space.Self);
 				}*/
 
-				if(Input.GetKey(forward))
+				if(Input.GetKey(keys.getKey("forward")))
 				{
 					transform.Rotate(1f,0,0f,Space.Self);
 				}
-				if(Input.GetKey(back))
+				if(Input.GetKey(keys.getKey("back")))
 				{
 					transform.Rotate(-1f,0f,0f,Space.Self);
 				}
-				if(Input.GetKey(leftRotation))
+				if(Input.GetKey(keys.getKey("leftRotation")))
 				{
 					transform.Rotate(0,-1f,0f,Space.Self);
 				}
-				if(Input.GetKey(rightRotation))
+				if(Input.GetKey(keys.getKey("rightRotation")))
 				{
 					transform.Rotate(0,1f,0,Space.Self);
 				}
@@ -212,15 +226,31 @@ public class Movement : MonoBehaviour {
 		
 			m_ForwardSpeed-=0.2f;
 			m_BackwardSpeed+=0.2f;
+            boostSpeed -= 0.2f;
 		}
 		m_ForwardSpeed-=0.2f;
 		m_BackwardSpeed+=0.2f;
+        boostSpeed -= 0.2f;
+
+		if (boostScript.m_isBoosting && Input.GetKey(keys.getKey("boost")))
+        {
+            //Use boost
+            boostSpeed += boostAcceleration;
+        }
 
 		m_ForwardSpeed = Mathf.Clamp (m_ForwardSpeed, 0, m_MaxAccSpeed);
 		m_BackwardSpeed = Mathf.Clamp (m_BackwardSpeed, -m_MaxAccSpeed, 0);
+        boostSpeed = Mathf.Clamp(boostSpeed, 0, boostMaxAccSpeed - m_MaxAccSpeed); //boostMaxAccSpeed is set as the max speed while boosting, but boostSpeed is added to the normal speed (not overwriting it).
 
-		velocity = transform.forward.normalized *(m_ForwardSpeed +m_BackwardSpeed);
-		speed = (m_ForwardSpeed + m_BackwardSpeed);
+#if UNITY_EDITOR
+        if (boostMaxAccSpeed < m_MaxAccSpeed)
+        {
+            Debug.LogError("boostMaxAccSpeed is smaller than m_MaxAccSpeed");
+        }
+#endif
+
+		velocity = transform.forward.normalized *(m_ForwardSpeed +m_BackwardSpeed + boostSpeed);
+
 
 		transform.position += velocity*Time.deltaTime;
 		
@@ -231,7 +261,7 @@ public class Movement : MonoBehaviour {
 		{
 			chargePower = chargePower + m_JumpAccelration;
 		}*/
-		if (Input.GetKey (jump) && isGrounded)
+		if (Input.GetKey (keys.getKey("jump")) && isGrounded)
 		{
 			chargePower = chargePower + m_JumpAccelration;
 		}
@@ -246,7 +276,7 @@ public class Movement : MonoBehaviour {
 			chargePower = 0;
 		}*/
 
-		if ((Input.GetKeyUp(jump)/* || Input.GetButton(m_input_jump)*/) && isGrounded)
+		if ((Input.GetKeyUp(keys.getKey("jump"))/* || Input.GetButton(m_input_jump)*/) && isGrounded)
 		{
 			if(chargePower > m_MaxJumpPower)
 			{
@@ -279,12 +309,12 @@ public class Movement : MonoBehaviour {
 			transform.Translate (Vector3.right*Time.deltaTime*10);
 		}*/
 
-		if (Input.GetKey (left)) {
+		if (Input.GetKey (keys.getKey("left"))) {
 			
 			transform.Translate (Vector3.left*Time.deltaTime*10);
 		}
 		
-		if (Input.GetKey (right)) {
+		if (Input.GetKey (keys.getKey("right"))) {
 			transform.Translate (Vector3.right*Time.deltaTime*10);
 		}
 	}

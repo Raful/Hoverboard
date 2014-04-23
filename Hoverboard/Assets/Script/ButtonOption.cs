@@ -2,26 +2,26 @@
 using System.Collections;
 
 public class ButtonOption : MonoBehaviour {
+									//Currently default if you dont want to change the buttons:
+	public KeyCode jump;          //Space
+	public KeyCode forward;       //W
+	public KeyCode back; 		  //S
+	public KeyCode leftRotation;  //A
+	public KeyCode rightRotation; //D
+	public KeyCode right;		  //L
+	public KeyCode left;		  //J
+	public KeyCode boost;		  //B
 
-	public KeyCode jump;
-	public KeyCode forward;
-	public KeyCode back;
-	public KeyCode leftRotation;
-	public KeyCode rightRotation;
-	public KeyCode right;
-	public KeyCode left;
 
 	// Use this for initialization
-	void Start () {
-	
+	void Awake () {
+		forward = KeyCode.W;
+
 
 	}
 	
 	// Update is called once per frame
-	public void Update()
-	{
 
-	}
 
 
  	/*public void setKey(string changeKey, KeyCode key)
@@ -63,11 +63,13 @@ public class ButtonOption : MonoBehaviour {
 		switch (key) 
 		{
 		case "jump":
-			Debug.Log("Returning" + jump);
+		
 			return jump;
 
 		case "forward":
+			Debug.Log("Returning" + forward);
 			return forward;
+
 
 		case "back":
 			return back;
@@ -83,6 +85,9 @@ public class ButtonOption : MonoBehaviour {
 
 		case "left":
 			return left;
+
+		case "boost":
+			return boost;
 
 		default:
 			return KeyCode.UpArrow;
