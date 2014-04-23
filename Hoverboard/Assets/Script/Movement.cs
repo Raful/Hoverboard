@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 /*
@@ -10,125 +11,167 @@ using System.Collections;
  */
 public class Movement : MonoBehaviour {
 	
-	Ray m_rayDown;
-	RaycastHit hitDown;
-	Raycast[] rayarray;
-	
-	public float m_Acceleration;
-	public float m_AngleSpeed;
-	public float m_RayLength;
 	public float m_Speed;
-	private Quaternion goToRotation;
-	private Vector3 newDirection;
-	private Vector3 rayDirDelta;
-	
-	private bool m_rotate;
-	
 
-	private float frontAngle;
-	public float forwardOn;
-	private int gravityOn;
-	public int angleOn;
-	
-	
-	void Start (){
-		
-		rayarray = GetComponentsInChildren<Raycast>();
-		angleOn = 1;
-		forwardOn = 0;
-		gravityOn = 0;
-		m_rayDown.origin = transform.position;
-		
+	public float m_Acceleration;
+	public bool m_rotateWhileNotGrounded;
+	private bool isGrounded;
+	private float angle;
+	private Quaternion goToRotation;
+
+	public float m_MaxJumpPower, m_JumpAccelration;
+	bool m_Jumped = true;
+	float m_JumpPower, m_ChargePower;
+	private KeyCode lastKeyPressed;
+	private float keyTimer;
+	private float releaseKey;
+	private bool pressedS;
+	private bool done;
+
+	private Vector3 velocity;
+	private Vector3 gravity;
+	public float m_MaxAccSpeed;
+	public float m_ForwardAcc;
+	public float m_BackwardAcc;
+	private float forwardSpeed;
+	private float backwardSpeed;
+	private float hoverHeight;
+
+	public Vector3 setVelocity 
+	{
+		set
+		{
+			velocity += value;
+		}
+	}
+
+	void Start ()
+	{
+
+		hoverHeight = GetComponent<Hover_Physics>().hoverHeight;
+		m_Speed = 0;
+		pressedS = false;
+		done = false;
 	}
 	
-	// TODO, Spara velocity, fixa gravity n push, vinklarna i luften
-	void Update () 
+	
+	void FixedUpdate () 
 	{
-		if(m_rotate)
+
+		RaycastHit hit;
+		if(Physics.Raycast(transform.position, -transform.up, out hit, hoverHeight+2))
 		{
-			if(Input.GetKey(KeyCode.W) && m_Speed <1.0f )
-			{
-				m_Speed += m_Acceleration/ 1000;
-			}
-			if(Input.GetKey(KeyCode.S))
-			{
-				m_Speed -= m_Acceleration/ 1000;
-			}
-			
-			if(Input.GetKey(KeyCode.A))
-			{
-				transform.Rotate(0,-1f,0);
-			}
-			if(Input.GetKey(KeyCode.D))
-			{
-				transform.Rotate(0,1f,0);
-			}
+			isGrounded = true;
+			angle = Vector3.Angle(transform.forward, Vector3.Cross(transform.right, hit.normal));
+			goToRotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(Vector3.Cross(transform.right, hit.normal), hit.normal), Time.deltaTime *angle/4*(hoverHeight/hit.distance));
+			transform.rotation = goToRotation;
+
 		}
-		else{
+		else
+		{
+			isGrounded = false;
+		}
+
+		if(isGrounded)
+		{
+			Debug.Log("Input?");
 			if(Input.GetKey(KeyCode.W))
 			{
-				transform.Rotate(2f,0,0);
+				forwardSpeed += m_ForwardAcc;
+				backwardSpeed += m_ForwardAcc;
 			}
 			if(Input.GetKey(KeyCode.S))
 			{
-				transform.Rotate(-2f,0,0);
+				forwardSpeed -= m_BackwardAcc;
+				backwardSpeed -= m_BackwardAcc;
 			}
-			
 			if(Input.GetKey(KeyCode.A))
 			{
-				transform.Rotate(0,-1f,0);
+				transform.Rotate(0,-1f,0f,Space.Self);
 			}
 			if(Input.GetKey(KeyCode.D))
 			{
-				transform.Rotate(0,1f,0);
+				transform.Rotate(0,1f,0,Space.Self);
 			}
+
+
 		}
-		
-		m_rayDown.direction = -transform.up;
-		m_rayDown.origin = transform.position;
-		
-		// Down
-		if (Physics.Raycast (m_rayDown, out hitDown, m_RayLength)) 
-		{	
-			Debug.DrawLine (m_rayDown.origin, hitDown.point);
-			m_rotate = true;
-		}
-		else
+		else 
 		{
-			m_rotate = false;
-			rigidbody.velocity = new Vector3(0,-5,0);
-			hitDown.distance = 4;
+			if(m_rotateWhileNotGrounded)
+			{
+				if(Input.GetKey(KeyCode.W))
+				{
+					transform.Rotate(1f,0,0f,Space.Self);
+				}
+				if(Input.GetKey(KeyCode.S))
+				{
+					transform.Rotate(-1f,0f,0f,Space.Self);
+				}
+				if(Input.GetKey(KeyCode.A))
+				{
+					transform.Rotate(0,-1f,0f,Space.Self);
+				}
+				if(Input.GetKey(KeyCode.D))
+				{
+					transform.Rotate(0,1f,0,Space.Self);
+				}
+			}
+		
+			forwardSpeed-=0.2f;
+			backwardSpeed+=0.2f;
 		}
+		forwardSpeed-=0.2f;
+		backwardSpeed+=0.2f;
+
+		forwardSpeed = Mathf.Clamp (forwardSpeed, 0, m_MaxAccSpeed);
+		backwardSpeed = Mathf.Clamp (backwardSpeed, -m_MaxAccSpeed, 0);
+
+		velocity = transform.forward.normalized *(forwardSpeed +backwardSpeed);
+		//m_Speed = (forwardSpeed + backwardSpeed);
+
+		transform.position += velocity*Time.deltaTime;
 		
-		if (hitDown.distance < 2)
-		{
-			
-			newDirection = Vector3.Cross(transform.right, hitDown.normal);
-			angleOn = 0;
-			forwardOn = 1;
-			rigidbody.AddForce (hitDown.normal * 10);
-		} 
-		//Vinkelhastighet
-		else
-		{
-			angleOn = 1;
-			forwardOn = 0;
-		}
-		
-		if(m_rotate)
-		{
-			goToRotation = Quaternion.Lerp(transform.rotation,Quaternion.LookRotation(Vector3.Cross(transform.right, hitDown.normal), hitDown.normal),Time.deltaTime*m_AngleSpeed);
-			transform.rotation = goToRotation;
-		}
-		
-		if(m_Speed > 0.01f)
-			m_Speed -= 0.001f;
-		
-		frontAngle =  (rayarray[0].m_Length+rayarray[1].m_Length+rayarray[2].m_Length+rayarray[3].m_Length);
-		if (frontAngle > 12.7f)
-			frontAngle = 12.7f;
-		
-		transform.position += (angleOn*transform.forward + newDirection*forwardOn).normalized * m_Speed*(frontAngle/(12.7f));
-	}
 	
+
+		//The power of jump increases when the space bar i down
+		if (Input.GetKey (KeyCode.Space) && m_Jumped)
+		{
+			m_ChargePower = m_ChargePower + m_JumpAccelration;
+		}
+		
+		if (Input.GetKeyUp (KeyCode.Space) && m_Jumped)
+		{
+			if(m_ChargePower > m_MaxJumpPower)
+			{
+				m_ChargePower = m_MaxJumpPower;
+			}
+			m_JumpPower = m_ChargePower;
+			m_ChargePower = 0;
+			m_Jumped = false;
+		}
+		Debug.Log(transform.forward.normalized *(m_Speed)*Time.deltaTime);
+		Debug.Log((transform.up.normalized * m_JumpPower) * Time.deltaTime);
+		transform.Translate((transform.up.normalized * m_JumpPower) * Time.deltaTime);
+
+		if (m_JumpPower > 0.01f)
+		{
+			m_JumpPower -= 0.05f;
+		}
+		if (m_JumpPower < 0.01f)
+		{
+			m_JumpPower = 0f;
+		}
+
+
+
+		if (Input.GetKey (KeyCode.J)) {
+			
+			transform.Translate (Vector3.left*Time.deltaTime*10);
+		}
+		
+		if (Input.GetKey (KeyCode.L)) {
+			transform.Translate (Vector3.right*Time.deltaTime*10);
+		}
+	}
 }

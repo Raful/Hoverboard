@@ -102,14 +102,7 @@ public class Menu : MonoBehaviour {
 
 
 	void OnGUI () {
-
-		/*
-		 * Här finns dynamiska variabler.
-		 * Centered centrerar knapparna.
-		 * Logo_center centrerar logotypen
-		 */
-
-
+	
 
 
 
