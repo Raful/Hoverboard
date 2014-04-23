@@ -30,22 +30,34 @@ public class Movement : MonoBehaviour {
 	private float jumpPower, chargePower;
 	
 	public float m_Gravity;
+	public float m_Friction;
 	public float m_MaxAccSpeed;
 	public float m_ForwardAcc;
 	public float m_BackwardAcc;
-	public float m_Friction;
+
+	public float m_AngleSpeed;
+	public float m_MaxAngle;
+
+	public float m_PotentialSpeed;
+	public float m_PotentialFriction;
 
 	private Vector3 direction;
 	private Vector3 rayDirection;
 	private Vector3 velocity;
 
+	private float bonusForward;
+	private float bonusBackward;
+	private float bonusSpeed;
 	private float speed;
 	private float gravity;
-	private float forwardSpeed;
-	private float backwardSpeed;
 	private float hoverHeight;
 	private float speedDec;
-	
+
+	[HideInInspector]
+	public float forwardSpeed;
+	[HideInInspector]
+	public float backwardSpeed;
+
 	void Start ()
 	{
 		boostScript = gameObject.GetComponent<Boost>();
@@ -67,27 +79,35 @@ public class Movement : MonoBehaviour {
 	void LateUpdate()
 	{
 		RaycastHit hit;
-		if(Physics.Raycast(transform.position, rayDirection, out hit, hoverHeight+2))
+		if(Physics.Raycast(transform.position, rayDirection, out hit, hoverHeight+1+ gravity/10))
 		{
-			if(hit.distance<3)
+
+			if(!isGrounded)
 			{
-				transform.rotation = Quaternion.LookRotation(Vector3.Cross(transform.right, hit.normal), hit.normal);
+				jumpPower = 0;
+				gravity = 0;
 			}
+
+			if(Vector3.Angle(transform.forward,Vector3.Cross(transform.right,hit.normal)) < m_MaxAngle || !isGrounded)
+			{
+				//Debug.Log(Vector3.Angle(transform.forward,Vector3.Cross(transform.right,hit.normal)));
+				if(hit.distance<3)
+				{
+					transform.rotation = Quaternion.LookRotation(Vector3.Cross(transform.right, hit.normal), hit.normal);
+				}
+
+				transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(Vector3.Cross(transform.right, hit.normal), hit.normal), (Time.fixedDeltaTime*(speed/3)*m_AngleSpeed*(hoverHeight/hit.distance)));
+			}
+
 			else if(hit.normal.y <= 0)
 			{
 				gravity += m_Gravity;
 			}
-			else
-			{
-				gravity = 0;
-			}
+
 			Debug.DrawLine(transform.position, hit.point);
 			direction = transform.forward;
 			isGrounded = true;
 			rayDirection = -transform.up;
-
-			transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(Vector3.Cross(transform.right, hit.normal), hit.normal), (Time.fixedDeltaTime*(speed/3)*(hoverHeight/hit.distance)));
-		
 		}
 		
 		else
@@ -152,14 +172,14 @@ public class Movement : MonoBehaviour {
 		forwardSpeed-= m_Friction;
 		backwardSpeed+= m_Friction;
 		boostSpeed -= m_Friction;
-		
+
 		if (boostScript.m_isBoosting && Input.GetKey(KeyCode.W))
 		{
 			//Use boost
 			boostSpeed += boostAcceleration;
 		}
-		
-		speed = Mathf.Abs(forwardSpeed+backwardSpeed);
+
+		speed = Mathf.Abs(forwardSpeed+backwardSpeed + bonusSpeed);
 		forwardSpeed = Mathf.Clamp (forwardSpeed, 0, m_MaxAccSpeed);
 		backwardSpeed = Mathf.Clamp (backwardSpeed, -m_MaxAccSpeed, 0);
 		boostSpeed = Mathf.Clamp(boostSpeed, 0, boostMaxAccSpeed - m_MaxAccSpeed); //boostMaxAccSpeed is set as the max speed while boosting, but boostSpeed is added to the normal speed (not overwriting it).
@@ -171,8 +191,8 @@ public class Movement : MonoBehaviour {
 		}
 		#endif
 		
-		
-		velocity = direction.normalized *(forwardSpeed+backwardSpeed + boostSpeed) -Vector3.up*gravity ;
+
+		velocity = direction.normalized *(forwardSpeed+backwardSpeed + boostSpeed+bonusSpeed) -Vector3.up*gravity ;
 		transform.position += velocity*Time.fixedDeltaTime;
 		
 		if (Input.GetKey (KeyCode.Space) && isGrounded)
@@ -189,19 +209,8 @@ public class Movement : MonoBehaviour {
 			jumpPower = chargePower;
 			chargePower = 0;
 		}
-		
-		transform.Translate((transform.up.normalized * m_JumpPower) * Time.fixedDeltaTime);
-<<<<<<< HEAD:Hoverboard/Assets/Script/Character/HoverBoard/Movement.cs
-		
-		
-		
-=======
-
-	
-		Debug.Log((transform.up.normalized * jumpPower) * Time.deltaTime);
-		//Debug.Log(transform.forward.normalized *(m_Speed)*Time.deltaTime);
-		//Debug.Log((transform.up.normalized * jumpPower) * Time.deltaTime);
->>>>>>> 7566222a8e10733b223da207b0d861a443a7494f:Hoverboard/Assets/Script/Movement.cs
+		//Debug.Log (jumpPower);
+		transform.Translate((transform.up.normalized * m_JumpPower) * Time.fixedDeltaTime);		
 		transform.position += ((Vector3.up * jumpPower) * Time.deltaTime);
 		
 		
@@ -213,9 +222,7 @@ public class Movement : MonoBehaviour {
 		{
 			jumpPower = 0f;
 		}
-		
-		
-		
+
 		if (Input.GetKey (KeyCode.J)) {
 			
 			transform.Translate (Vector3.left*Time.deltaTime*10);
@@ -228,6 +235,8 @@ public class Movement : MonoBehaviour {
 	
 	void OnTriggerEnter(Collider col)
 	{
+		bonusBackward = 0;
+		bonusForward = 0;
 		forwardSpeed = 0;
 		backwardSpeed = 0;
 		Debug.Log ("KOLLIDERAR");
@@ -235,24 +244,24 @@ public class Movement : MonoBehaviour {
 
 	void addSpeed()
 	{
+		// endast om grounded?
 		speedDec = transform.eulerAngles.x;
-		
 		if(speedDec >= 270)
 		{
 			speedDec = Mathf.Clamp (speedDec, 270, 360);
 			m_ForwardAcc = (speedDec-270)/90;
-			backwardSpeed+=(speedDec-360)/90;
+			bonusSpeed +=((speedDec-360)/90)*m_PotentialSpeed;
 			m_BackwardAcc = 1;
+			
 		}
 		if(speedDec <= 90)
 		{
-
 			speedDec = Mathf.Clamp (speedDec, 0, 90);
 			m_BackwardAcc = (90-speedDec)/90;
-			forwardSpeed += (speedDec)/90;
-			Debug.Log((90-speedDec)/90);
+			bonusSpeed += ((speedDec)/90)*m_PotentialSpeed;
 			m_ForwardAcc = 1;
 		}
+		bonusSpeed = Mathf.Lerp (bonusSpeed, 0, Time.deltaTime*m_PotentialFriction);
 	}
 
 	public static Vector3 RotateY( Vector3 v, float angle )
