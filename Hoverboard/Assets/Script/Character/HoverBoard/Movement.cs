@@ -13,14 +13,7 @@ using System.Collections;
 
 public class Movement : MonoBehaviour {
 
-	// FMOD VARIABLES
 
-	private FMOD.Studio.EventInstance hoverSound;
-	private FMOD.Studio.ParameterInstance soundPitch;
-
-
-
-	// --------------------------
 
 
 	[SerializeField]
@@ -54,38 +47,25 @@ public class Movement : MonoBehaviour {
 	public float backwardSpeed;
 	private float hoverHeight;
 	private float speedDec;
+
 	
 	void Start ()
 	{
 		boostScript = gameObject.GetComponent<Boost>();
 		hoverHeight = GetComponent<Hover_Physics>().hoverHeight;
 		rayDirection = -Vector3.up;
-
-		/*FMOD
-
-
-		hoverSound = FMOD_StudioSystem.instance.GetEvent("event:/Åka Båt");
-
-	
-		hoverSound.start();
-		if (hoverSound == null)
-			Debug.Log("Laddar inte in eventet!!!");
-
-		hoverSound.getParameter("Pitch", out soundPitch);
-
-		if (soundPitch == null)
-			Debug.Log("Hittar inte variabeln!!!");
-
-
-		*/ 
-		//-----------------------------
 	}
 	
 	public float getChargePower
 	{
 		get {return chargePower;}
 	}
-	
+
+	public float getForwardSpeed
+	{
+		get {return forwardSpeed;}
+	}
+
 	public float getSpeed
 	{
 		get {return speed;}
@@ -203,13 +183,7 @@ public class Movement : MonoBehaviour {
 		velocity = direction.normalized *(forwardSpeed+backwardSpeed + boostSpeed) -Vector3.up*gravity ;
 		transform.position += velocity*Time.fixedDeltaTime;
 
-		//FMOD
-
-		//hoverSound.setPitch((forwardSpeed/m_MaxAccSpeed)/100);
-		//hoverSound.setParameterValue("Pitch", (forwardSpeed/m_MaxAccSpeed)/100);
-		//soundPitch.setValue((forwardSpeed/m_MaxAccSpeed)/100);
-
-		//----------
+	
 
 
 		if (Input.GetKey (KeyCode.Space) && isGrounded)
