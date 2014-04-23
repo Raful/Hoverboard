@@ -13,7 +13,16 @@ using System.Collections;
 
 public class Movement : MonoBehaviour {
 
-	
+	// FMOD VARIABLES
+
+	private FMOD.Studio.EventInstance hoverSound;
+	private FMOD.Studio.ParameterInstance soundPitch;
+
+
+
+	// --------------------------
+
+
 	[SerializeField]
 	private float boostMaxAccSpeed; //Should be higher than m_MaxAccSpeed
 	private float boostSpeed=0;
@@ -23,7 +32,7 @@ public class Movement : MonoBehaviour {
 
 	private bool isGrounded;
 
-	
+
 	public float m_MaxJumpPower, m_JumpAccelration;
 	bool m_Jumped = true;
 	float m_JumpPower, m_ChargePower;
@@ -41,8 +50,8 @@ public class Movement : MonoBehaviour {
 
 	private float speed;
 	private float gravity;
-	private float forwardSpeed;
-	private float backwardSpeed;
+	public float forwardSpeed;
+	public float backwardSpeed;
 	private float hoverHeight;
 	private float speedDec;
 	
@@ -51,6 +60,25 @@ public class Movement : MonoBehaviour {
 		boostScript = gameObject.GetComponent<Boost>();
 		hoverHeight = GetComponent<Hover_Physics>().hoverHeight;
 		rayDirection = -Vector3.up;
+
+		/*FMOD
+
+
+		hoverSound = FMOD_StudioSystem.instance.GetEvent("event:/Åka Båt");
+
+	
+		hoverSound.start();
+		if (hoverSound == null)
+			Debug.Log("Laddar inte in eventet!!!");
+
+		hoverSound.getParameter("Pitch", out soundPitch);
+
+		if (soundPitch == null)
+			Debug.Log("Hittar inte variabeln!!!");
+
+
+		*/ 
+		//-----------------------------
 	}
 	
 	public float getChargePower
@@ -174,7 +202,16 @@ public class Movement : MonoBehaviour {
 		
 		velocity = direction.normalized *(forwardSpeed+backwardSpeed + boostSpeed) -Vector3.up*gravity ;
 		transform.position += velocity*Time.fixedDeltaTime;
-		
+
+		//FMOD
+
+		//hoverSound.setPitch((forwardSpeed/m_MaxAccSpeed)/100);
+		//hoverSound.setParameterValue("Pitch", (forwardSpeed/m_MaxAccSpeed)/100);
+		//soundPitch.setValue((forwardSpeed/m_MaxAccSpeed)/100);
+
+		//----------
+
+
 		if (Input.GetKey (KeyCode.Space) && isGrounded)
 		{
 			chargePower = chargePower + m_JumpAccelration;
@@ -191,17 +228,9 @@ public class Movement : MonoBehaviour {
 		}
 		
 		transform.Translate((transform.up.normalized * m_JumpPower) * Time.fixedDeltaTime);
-<<<<<<< HEAD:Hoverboard/Assets/Script/Character/HoverBoard/Movement.cs
-		
-		
-		
-=======
-
-	
 		Debug.Log((transform.up.normalized * jumpPower) * Time.deltaTime);
 		//Debug.Log(transform.forward.normalized *(m_Speed)*Time.deltaTime);
 		//Debug.Log((transform.up.normalized * jumpPower) * Time.deltaTime);
->>>>>>> 7566222a8e10733b223da207b0d861a443a7494f:Hoverboard/Assets/Script/Movement.cs
 		transform.position += ((Vector3.up * jumpPower) * Time.deltaTime);
 		
 		
