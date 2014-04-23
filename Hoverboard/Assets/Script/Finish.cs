@@ -28,5 +28,12 @@ public class Finish : MonoBehaviour {
 	{
 		StopTime.StopTimer();
         finishTime = StopTime.m_finishTime;
+        /*
+#if UNITY_EDITOR
+        if (Application.loadedLevelName == "Robbin")
+        {
+            Debug.Log("Finish time: "+finishTime);
+        }
+#endif*/
 	}
 }
