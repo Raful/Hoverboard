@@ -11,17 +11,10 @@ using System.Collections;
 
 public class Medal : MonoBehaviour {
 
-	  public int bronzeMinutes;
-	public int bronzeSeconds;
-	public int bronzeMilliSeconds;
+  	public int bronzeTime;
+	public int silverTime;
+	public int goldTime;
 
-	public int silverMinutes;
-	public int silverSeconds;
-	public int silverMilliSeconds;
-
-	public int goldMinutes;
-	public int goldSeconds;
-	public int goldMilliSeconds;
 
 	//public class Timer : MonoBehaviour;
 	private Timer timer;
@@ -32,7 +25,7 @@ public class Medal : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		int medal = getMedal ();
+
 		
 	}
 
@@ -57,41 +50,20 @@ public class Medal : MonoBehaviour {
 		goldMilliSeconds = milliSeconds;
 	}*/
 
-	public int getMedal()
+	public string getMedal()
 	{
 	
-		int minutes = (int)(timer.getMinutes ());
-		int seconds = (int)(timer.getSeconds());
-		int milliSeconds = (int)(timer.getMilliSeconds());
+		int time = (int)(timer.getFinishTime());
 
-		if(goldMinutes > minutes)
-		{
-			if(goldSeconds > seconds)
-			{
-				if(goldMilliSeconds > milliSeconds)
-				{
-					return 1;
-				}
-			}
-		}
-		if(silverMinutes > minutes)
-		{
-			if(silverSeconds > seconds)
-			{
-				if(silverMilliSeconds > milliSeconds)
-					return 2;
-			}
-		}
 
-		if (bronzeMinutes > minutes) 
-		{
-			if(bronzeSeconds > seconds)
-			{
-				if(bronzeMilliSeconds > milliSeconds)
-					return 3;
-			}
-		}
-		return 4;
+		if(goldTime > time)
+			return "Gold";
+		if (silverTime > time)
+			return "Silver";
+		if(bronzeTime > time)
+			return "Bronze";
+
+		return "SOCCER";
 	}
 
 }

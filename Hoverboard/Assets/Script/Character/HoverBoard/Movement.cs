@@ -16,7 +16,7 @@ public class Movement : MonoBehaviour {
 	
 	[SerializeField]
 	private float boostMaxAccSpeed; //Should be higher than m_MaxAccSpeed
-	private float boostSpeed=0;
+	public float boostSpeed=0;
 	[SerializeField]
 	private float boostAcceleration;
 	private Boost boostScript;
@@ -41,8 +41,8 @@ public class Movement : MonoBehaviour {
 
 	private float speed;
 	private float gravity;
-	private float forwardSpeed;
-	private float backwardSpeed;
+	public float forwardSpeed;
+	public float backwardSpeed;
 	private float hoverHeight;
 	private float speedDec;
 	
@@ -192,8 +192,6 @@ public class Movement : MonoBehaviour {
 		
 		transform.Translate((transform.up.normalized * m_JumpPower) * Time.fixedDeltaTime);
 
-
-	
 
 		transform.position += ((Vector3.up * jumpPower) * Time.deltaTime);
 		

@@ -12,14 +12,18 @@ using System.Collections;
 public class Finish : MonoBehaviour {
 
 	Timer StopTime;
+	Medal medal;
 
 	void Start () 
 	{
 		StopTime = GameObject.Find ("TimerText").GetComponent<Timer> ();
+
+
 	}
 
 	void OnTriggerEnter(Collider collision)
 	{
 		StopTime.StopTimer();
+
 	}
 }

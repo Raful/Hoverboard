@@ -14,6 +14,7 @@ public class Timer : MonoBehaviour {
 	float timeMinutes, timeSeconds, timeMilli;
 	float raceTime, leaveTime, finishTime;
 	bool noResetTimer = false;
+	bool running = true;
 	
 	// Update is called once per frame
 	void Update () 
@@ -21,7 +22,10 @@ public class Timer : MonoBehaviour {
 		SetRaceTimer ();
 		SetMinSecMil ();
 
-		guiText.text = timeMinutes.ToString() + " : " + timeSeconds.ToString() + " : " +  timeMilli.ToString();
+		if (running)
+			guiText.text = timeMinutes.ToString () + " : " + timeSeconds.ToString () + " : " + timeMilli.ToString ();
+		else
+			guiText.text = GetComponent<Medal> ().getMedal ();
 	}
 
 	void SetRaceTimer()
@@ -65,19 +69,13 @@ public class Timer : MonoBehaviour {
 	public void StopTimer()
 	{
 		finishTime = raceTime;
+		running = false;
 	}
 
-	public float getMilliSeconds()
+	public float getFinishTime()
 	{
-		return timeMilli;
+		return finishTime;
 	}
 
-	public float getSeconds()
-	{
-		return timeSeconds;
-	}
-	public float getMinutes()
-	{
-		return timeMinutes;
-	}
+
 }
