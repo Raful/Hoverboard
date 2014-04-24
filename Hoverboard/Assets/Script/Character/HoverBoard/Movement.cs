@@ -6,7 +6,7 @@ using System.Collections;
  * The rotation is done by rotating the hoverboard by the global axis
  *
  * Created by: Niklas Åsén, 2014-04-02
- * Edited by: Wolfie
+ * Edited by: Wolfie, fast jag skäms fan att jag inte tände eld på skiten medans jag hade chansen.
  */
 
 [RequireComponent(typeof(Boost))]
