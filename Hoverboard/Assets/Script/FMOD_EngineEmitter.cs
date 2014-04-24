@@ -5,7 +5,11 @@ using FMOD.Studio;
 public class FMOD_EngineEmitter : MonoBehaviour {
 
 	public GameObject varSource;
-
+	private float currentPitch;
+	private float pitchSmoothSpeed;
+	private bool soundPlaying;
+	private float maxSpeed = 100f;
+	private float currentSpeed;
 	// FMOD VARIABLES
 	
 	private FMOD.Studio.EventInstance hoverSound;
@@ -25,6 +29,7 @@ public class FMOD_EngineEmitter : MonoBehaviour {
 		
 		
 		hoverSound.start();
+		soundPlaying = true;
 		if (hoverSound == null)
 			Debug.Log("Laddar inte in eventet!!!");
 		
@@ -42,8 +47,23 @@ public class FMOD_EngineEmitter : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
+		if (Input.GetKeyDown(KeyCode.P)) 
+		{
+			soundPlaying = !soundPlaying;
+
+			if(soundPlaying == false)
+			{
+				hoverSound.setPaused(true);
+			}
+
+			if (soundPlaying == true)
+			{
+				hoverSound.setPaused(false);
+			}
+		}
+
 		//FMOD
-		float currentPitch;
+
 		Movement moveScript;
 		GameObject temp;
 		//hoverSound.setPitch((forwardSpeed/m_MaxAccSpeed)/100);
@@ -51,7 +71,13 @@ public class FMOD_EngineEmitter : MonoBehaviour {
 		//soundPitch.getValue (out currentPitch);
 		temp = GameObject.Find("Hoverboard 3.1");
 		moveScript = temp.transform.GetComponent<Movement>();
-		currentPitch = moveScript.forwardSpeed;
+
+		currentSpeed = (moveScript.forwardSpeed + moveScript.backwardSpeed);
+		if (currentSpeed > maxSpeed)
+						currentSpeed = maxSpeed;
+
+		currentPitch = Mathf.SmoothDamp(currentPitch, currentSpeed, ref pitchSmoothSpeed, 0.2f, 50f);
+
 		soundPitch.setValue(currentPitch);
 
 
