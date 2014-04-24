@@ -57,16 +57,6 @@ public class Movement : MonoBehaviour {
 	private float bonusSpeed;
 	private float speed;
 	private float gravity;
-<<<<<<< HEAD
-
-    //These two should be made private, but are used in CameraMec.cs
-    public float forwardSpeed;
-    public float backwardSpeed;
-
-	//private float forwardSpeed;
-	//private float backwardSpeed;
-=======
->>>>>>> 651ebbff62827ece7d5636f73e1f864d5e6db35c
 	private float hoverHeight;
 	private float speedDec;
 
@@ -279,12 +269,9 @@ public class Movement : MonoBehaviour {
 		{
 			speedDec = Mathf.Clamp (speedDec, 0, 90);
 			m_BackwardAcc = (90-speedDec)/90;
-<<<<<<< HEAD
 			forwardSpeed += (speedDec)/90;
 			//Debug.Log((90-speedDec)/90);
-=======
 			bonusSpeed += ((speedDec)/90)*m_PotentialSpeed;
->>>>>>> 651ebbff62827ece7d5636f73e1f864d5e6db35c
 			m_ForwardAcc = 1;
 		}
 		bonusSpeed = Mathf.Lerp (bonusSpeed, 0, Time.deltaTime*m_PotentialFriction);
