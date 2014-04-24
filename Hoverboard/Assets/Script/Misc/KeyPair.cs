@@ -25,4 +25,9 @@ public class KeyPair {
         return this.m_obj1.Equals(compareObject.m_obj1) 
             && this.m_obj2.Equals(compareObject.m_obj2);
     }
+
+	public bool CompareFirstObject(KeyPair compareObject)
+	{
+		return this.m_obj1.Equals(compareObject.m_obj1);
+	}
 }
