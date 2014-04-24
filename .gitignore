@@ -11,7 +11,7 @@ Hoverboard/Temp
 *.userprefs
 *.unityproj
 *.dwlt
-#att skriva läsbar kod, tydligen
+#all form av läsbarhet eller självförklarade namnkonventioner
 
 #include these files
 #!*.meta
