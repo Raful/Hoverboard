@@ -21,49 +21,46 @@ public class Movement : MonoBehaviour {
 	private float boostAcceleration;
 	private Boost boostScript;
 
+	public float m_MaxJumpPower, m_JumpAccelration;	///////////////////////////////////////////////////
+	bool m_Jumped = true;							// Det här är (tyvärr inte) det dummaste jag någonsin
+	float m_JumpPower, m_ChargePower;				// sett, men jag kan förstå varför.
+	private float jumpPower, chargePower;			//
+													// Du antog väl att ingen annan skulle kolla på koden,
+	public float m_Gravity;							// eller "äh, jag kommenterar det sen.
+	public float m_Friction;						// Nu har vi bara femton publics, odokumentrade.
+	public float m_MaxAccSpeed;						// Tjugotvå om vi räknar Boost-delen
+	public float m_ForwardAcc;						// Som påminner mig om C++-Boost, men det ska vi inte 
+	public float m_BackwardAcc;						// prata om.
+	public float m_RotateInSec;						//
+													// Men liksom, vad fan. Vad är "float m_RotateInSec"
+	public float m_AngleSpeed;						// Rotation i sekunder?
+	public float m_MaxAngle;						// Alltså, det närmaste jag kommer är
+	public bool m_SnapAngle;						// att en sekundrotation är 0,004166667 grader eller
+													// (2.3148*10^-5)π radianer.
+	public float m_PotentialSpeed;					// Det är så mycket jorden snurrar per sekund.
+	public float m_PotentialFriction;				// Jag antar att båda dem är fel.
+													// Men den verkar inte göra något ändå, så jag kanske
+	private bool getNewAngle;						// gör bäst i att anta att den är deprecated.
+	private bool isGrounded;						// 
+	private float lastAngle;						// Public bool m_SnapAngle?
+													// VINKEL? I BOOL?
+	private Vector3 direction;						// Jag ger upp
+	private Vector3 rayDirection;					// Ramma upp en stake i min röv och tänd eld på mig, 038c.
+	private Vector3 velocity;						// Public float m_MaxAngle?
+	private Vector3 lastPosition;					// Alltså, den har ju rätt datatyp för att hålla en vinkel, men...
+	private float lastTime;							//
+													// Gör PotentialFriction något? Friktion är en konstant µ
+	private float bonusSpeed;						// enligt Coulomb, och jag litar mer på honom än okommenterad kod.
+	private float speed;							// Och det har inte ens något med att jag inte gillar Microsoft att göra
+	private float gravity;							// Hoppas inte de läser det här, den här kommentaren skrivs på deras
+	private float hoverHeight;						// operativsystem för att gnälla på kod som ska köras på deras
+	private float speedDec;							// hårdvara.
+													// (Som att Microsoft kan koda)
+	[HideInInspector]								// ((Windows 8.1 är faktiskt riktigt bra))
+	public float forwardSpeed;						// (((Men vem fan bryr sig egentligen)))
+	[HideInInspector]								// Nu har jag slut på kommentarsutrymme. Det är din kod. Fucka inte upp.
+	public float backwardSpeed;						//////////////////////////////////////////////////////
 
-
-	
-	public float m_MaxJumpPower, m_JumpAccelration;
-	bool m_Jumped = true;
-	float m_JumpPower, m_ChargePower;
-	private float jumpPower, chargePower;
-
-
-	public float m_Gravity;
-	public float m_Friction;
-	public float m_MaxAccSpeed;
-	public float m_ForwardAcc;
-	public float m_BackwardAcc;
-	public float m_RotateInSec;
-
-	public float m_AngleSpeed;
-	public float m_MaxAngle;
-	public bool m_SnapAngle;
-
-	public float m_PotentialSpeed;
-	public float m_PotentialFriction;
-
-	private bool getNewAngle;
-	private bool isGrounded;
-	private float lastAngle;
-
-	private Vector3 direction;
-	private Vector3 rayDirection;
-	private Vector3 velocity;
-	private Vector3 lastPosition;
-	private float lastTime;
-
-	private float bonusSpeed;
-	private float speed;
-	private float gravity;
-	private float hoverHeight;
-	private float speedDec;
-
-	[HideInInspector]
-	public float forwardSpeed;
-	[HideInInspector]
-	public float backwardSpeed;
 
 	void Start ()
 	{
