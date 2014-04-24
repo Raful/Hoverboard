@@ -36,18 +36,12 @@ public class ButtonCombos : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(Input.anyKeyDown)
-		{
-			lastTimeSincePressed = Time.time;
+
+		if(Input.GetKeyDown(KeyCode.O)) CheckKey ("o");
+		if(Input.GetKeyDown(KeyCode.P)) CheckKey ("p");
+	
 
 
-		}
-		else if((Time.time - lastTimeSincePressed) > comboTime)
-		{
-			m_Keys = "";
-		}
-
-		m_Keys += Input.inputString.ToLower();
 		Debug.Log(m_Keys );
 
 		if(comboList.ContainsKey(m_Keys) && (Time.time - lastTimeSincePressed) > afterThisTimeTheTrickStarts)
@@ -62,9 +56,25 @@ public class ButtonCombos : MonoBehaviour {
 				default:
 					break;
 				}
+				m_Keys = "";
 			}
 		}
 
 
+	}
+
+
+	private void CheckKey(string key)
+	{
+		if((Time.time - lastTimeSincePressed) <= comboTime)
+		{
+			m_Keys += key.ToLower();
+		}
+		else
+		{
+			m_Keys = key;
+		}
+
+		lastTimeSincePressed = Time.time;
 	}
 }
