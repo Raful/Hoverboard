@@ -13,11 +13,14 @@ using System.Collections;
 public class Movement : MonoBehaviour {
 	
 	[SerializeField]
+
 	private float boostMaxAccSpeed; // The maximum speed the hoverboard can gain with boost, reqiured to be higher than Max Acc Speed.
 	private float boostSpeed=0; 	// Boost Acceleration.
+
 	[SerializeField]
 	private float boostAcceleration;	// Max Jump Power.
 	private Boost boostScript;
+
 	
 	public float m_MaxJumpPower, m_JumpAccelration;
 	bool m_Jumped = true;
@@ -61,8 +64,10 @@ public class Movement : MonoBehaviour {
 	public float forwardSpeed;		
 	[HideInInspector]
 	public float backwardSpeed;
+
+	public float speedForCamera;				//This variable is for the moment only so the camera can decide the distance from the hoverboard
 	
-	
+
 	void Start ()
 	{
 		boostScript = gameObject.GetComponent<Boost>();
@@ -166,12 +171,12 @@ public class Movement : MonoBehaviour {
 				if(Input.GetKey(KeyCode.A))
 				{
 					direction = RotateY(direction,-0.01f);
-					transform.Rotate(0,-0.4f,-1f,Space.Self);
+					transform.Rotate(0,-0.4f,0f,Space.Self);
 				}
 				if(Input.GetKey(KeyCode.D))
 				{
 					direction = RotateY(direction,0.01f);
-					transform.Rotate(0,0.4f,1,Space.Self);
+					transform.Rotate(0,0.4f,0,Space.Self);
 				}
 			}
 			rayDirection = -Vector3.up;
@@ -194,7 +199,7 @@ public class Movement : MonoBehaviour {
 		forwardSpeed = Mathf.Clamp (forwardSpeed, 0, m_MaxAccSpeed);
 		backwardSpeed = Mathf.Clamp (backwardSpeed, -m_MaxAccSpeed, 0);
 		boostSpeed = Mathf.Clamp(boostSpeed, 0, boostMaxAccSpeed - m_MaxAccSpeed); //boostMaxAccSpeed is set as the max speed while boosting, but boostSpeed is added to the normal speed (not overwriting it).
-		
+		speedForCamera = forwardSpeed + backwardSpeed + bonusSpeed;
 		#if UNITY_EDITOR
 		if (boostMaxAccSpeed < m_MaxAccSpeed)
 		{
@@ -220,8 +225,10 @@ public class Movement : MonoBehaviour {
 			jumpPower = chargePower;
 			chargePower = 0;
 		}
+
 		
 		transform.Translate((transform.up.normalized * m_JumpPower) * Time.fixedDeltaTime);		
+
 		transform.position += ((Vector3.up * jumpPower) * Time.deltaTime);
 		
 		
