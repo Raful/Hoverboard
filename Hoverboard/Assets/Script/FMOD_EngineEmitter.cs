@@ -74,12 +74,12 @@ public class FMOD_EngineEmitter : MonoBehaviour {
 
 		//currentSpeed = (moveScript.forwardSpeed + moveScript.backwardSpeed);
 
-		currentSpeed = moveScript.getSpeed;
-		if (currentSpeed > maxSpeed)
-						currentSpeed = maxSpeed;
+		currentSpeed = 100* Mathf.InverseLerp(0, moveScript.m_MaxAccSpeed, moveScript.getSpeed);
+		//if (currentSpeed > maxSpeed)
+		//				currentSpeed = maxSpeed;
 
-		currentPitch = Mathf.SmoothDamp(currentPitch, currentSpeed, ref pitchSmoothSpeed, 0.2f, 50f);
-
+		//currentPitch = Mathf.SmoothDamp(currentPitch, currentSpeed, ref pitchSmoothSpeed, 0.1f, 50f);
+		currentPitch = currentSpeed;
 		soundPitch.setValue(currentPitch);
 
 
