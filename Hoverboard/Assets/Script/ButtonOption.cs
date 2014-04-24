@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+// detta script används inte för stunden
 public class ButtonOption : MonoBehaviour {
 									//Currently default if you dont want to change the buttons:
 	public KeyCode jump;          //Space

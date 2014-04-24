@@ -10,17 +10,19 @@ using System.Collections;
  */
 
 public class CameraMec : MonoBehaviour {
-	public float m_Smooth;
-	public float m_DefaultDistance;
+	private float m_Smooth;
+	private float m_DefaultDistance = 5;
 
-	public float distance;
+
+	private float distance;
 	public GameObject hoverboard;
-	private  Hover_Physics physics;
+	private Hover_Physics physics;
+
 	private Vector3 targetedPosition;
-	private float yVelocity = 0.0F;
-	private float xVelocity = 0.0F;
-	private float zVelocity = 0.0f;
-	private float yDifference = 0;
+	private float yVelocity = 0.0F;			
+	private float xVelocity = 0.0F;		
+
+		
 	private float currentYValue = 0;
 
 	void Start() {
@@ -34,7 +36,9 @@ public class CameraMec : MonoBehaviour {
 		currentYValue = targetedPosition.y;
 	}
 
-	void Update() {
+																				
+	void Update() {																		
+
 
 		//calculating how much the camera should rotate in y- and x-axis relative to the Hoverboard
 		float yAngle = Mathf.SmoothDampAngle(transform.eulerAngles.y, hoverboard.transform.eulerAngles.y, ref yVelocity, m_Smooth);
@@ -72,9 +76,9 @@ public class CameraMec : MonoBehaviour {
 		Vector3 newPos = lookPos;
 
 		//change distance to hoverboard depending on the hoverboard's speed
-		if (hoverboard.GetComponent<Movement>().forwardSpeed > 0.01f || hoverboard.GetComponent<Movement>().backwardSpeed < -0.01)
+		if (hoverboard.GetComponent<Movement>().speedForCamera < -0.01f || hoverboard.GetComponent<Movement>().speedForCamera > 0.01f )
 		{
-			distance = m_DefaultDistance + (hoverboard.GetComponent<Movement>().forwardSpeed + hoverboard.GetComponent<Movement>().backwardSpeed + hoverboard.GetComponent<Movement>().boostSpeed)/25;
+			distance = m_DefaultDistance + (hoverboard.GetComponent<Movement>().speedForCamera/20);
 		}
 		else
 		{
@@ -90,8 +94,5 @@ public class CameraMec : MonoBehaviour {
 		//give camera the position "newPos"
 		transform.position = newPos;
 		transform.LookAt(lookPos, hoverboard.transform.up);
-
-
-
 	}
 }

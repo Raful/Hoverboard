@@ -6,7 +6,7 @@ using System.Collections;
  * The rotation is done by rotating the hoverboard by the global axis
  *
  * Created by: Niklas Åsén, 2014-04-02
- * Edited by: Wolfie
+ * Edited by: Wolfie, fast jag skäms fan att jag inte tände eld på skiten medans jag hade chansen.
  */
 
 [RequireComponent(typeof(Boost))]
@@ -21,43 +21,48 @@ public class Movement : MonoBehaviour {
 	private float boostAcceleration;
 	private Boost boostScript;
 
-	private bool isGrounded;
+	public float m_MaxJumpPower, m_JumpAccelration;	///////////////////////////////////////////////////
+	bool m_Jumped = true;							// Det här är (tyvärr inte) det dummaste jag någonsin
+	float m_JumpPower, m_ChargePower;				// sett, men jag kan förstå varför.
+	private float jumpPower, chargePower;			//
+													// Du antog väl att ingen annan skulle kolla på koden,
+	public float m_Gravity;							// eller "äh, jag kommenterar det sen.
+	public float m_Friction;						// Nu har vi bara femton publics, odokumentrade.
+	public float m_MaxAccSpeed;						// Tjugotvå om vi räknar Boost-delen
+	public float m_ForwardAcc;						// Som påminner mig om C++-Boost, men det ska vi inte 
+	public float m_BackwardAcc;						// prata om.
+	public float m_RotateInSec;						//
+													// Men liksom, vad fan. Vad är "float m_RotateInSec"
+	public float m_AngleSpeed;						// Rotation i sekunder?
+	public float m_MaxAngle;						// Alltså, det närmaste jag kommer är
+	public bool m_SnapAngle;						// att en sekundrotation är 0,004166667 grader eller
+													// (2.3148*10^-5)π radianer.
+	public float m_PotentialSpeed;					// Det är så mycket jorden snurrar per sekund.
+	public float m_PotentialFriction;				// Jag antar att båda dem är fel.
+													// Men den verkar inte göra något ändå, så jag kanske
+	private bool getNewAngle;						// gör bäst i att anta att den är deprecated.
+	private bool isGrounded;						// 
+	private float lastAngle;						// Public bool m_SnapAngle?
+													// VINKEL? I BOOL?
+	private Vector3 direction;						// Jag ger upp
+	private Vector3 rayDirection;					// Ramma upp en stake i min röv och tänd eld på mig, 038c.
+	private Vector3 velocity;						// Public float m_MaxAngle?
+	private Vector3 lastPosition;					// Alltså, den har ju rätt datatyp för att hålla en vinkel, men...
+	private float lastTime;							//
+													// Gör PotentialFriction något? Friktion är en konstant µ
+	private float bonusSpeed;						// enligt Coulomb, och jag litar mer på honom än okommenterad kod.
+	private float speed;							// Och det har inte ens något med att jag inte gillar Microsoft att göra
+	private float gravity;							// Hoppas inte de läser det här, den här kommentaren skrivs på deras
+	private float hoverHeight;						// operativsystem för att gnälla på kod som ska köras på deras
+	private float speedDec;							// hårdvara.
+													// (Som att Microsoft kan koda)
+	[HideInInspector]								// ((Windows 8.1 är faktiskt riktigt bra))
+	private float forwardSpeed;						// (((Men vem fan bryr sig egentligen)))
+	[HideInInspector]								// Nu har jag slut på kommentarsutrymme. Det är din kod. Fucka inte upp.
+	private float backwardSpeed;						//////////////////////////////////////////////////////
 
-	
-	public float m_MaxJumpPower, m_JumpAccelration;
-	bool m_Jumped = true;
-	float m_JumpPower, m_ChargePower;
-	private float jumpPower, chargePower;
-	
-	public float m_Gravity;
-	public float m_Friction;
-	public float m_MaxAccSpeed;
-	public float m_ForwardAcc;
-	public float m_BackwardAcc;
+	public float speedForCamera;				//This variable is for the moment only so the camera can decide the distance from the hoverboard
 
-	public float m_AngleSpeed;
-	public float m_MaxAngle;
-
-	public float m_PotentialSpeed;
-	public float m_PotentialFriction;
-
-	private Vector3 direction;
-	private Vector3 rayDirection;
-	private Vector3 velocity;
-
-	private float bonusForward;
-	private float bonusBackward;
-	private float bonusSpeed;
-	private float speed;
-	private float gravity;
-
-	private float hoverHeight;
-	private float speedDec;
-
-	[HideInInspector]
-	public float forwardSpeed;
-	[HideInInspector]
-	public float backwardSpeed;
 
 	void Start ()
 	{
@@ -76,13 +81,12 @@ public class Movement : MonoBehaviour {
 		get {return speed;}
 	}
 	
-	
+	// Calculates the new angle and rotates
 	void LateUpdate()
 	{
 		RaycastHit hit;
 		if(Physics.Raycast(transform.position, rayDirection, out hit, hoverHeight+1+ gravity/10))
 		{
-
 			if(!isGrounded)
 			{
 				jumpPower = 0;
@@ -91,8 +95,7 @@ public class Movement : MonoBehaviour {
 
 			if(Vector3.Angle(transform.forward,Vector3.Cross(transform.right,hit.normal)) < m_MaxAngle || !isGrounded)
 			{
-				//Debug.Log(Vector3.Angle(transform.forward,Vector3.Cross(transform.right,hit.normal)));
-				if(hit.distance<3)
+				if(hit.distance<3 && m_SnapAngle)
 				{
 					transform.rotation = Quaternion.LookRotation(Vector3.Cross(transform.right, hit.normal), hit.normal);
 				}
@@ -109,10 +112,13 @@ public class Movement : MonoBehaviour {
 			direction = transform.forward;
 			isGrounded = true;
 			rayDirection = -transform.up;
+			lastAngle = Time.time;
+			getNewAngle = false;
 		}
 		
 		else
 		{
+			newAngle();
 			gravity += m_Gravity;
 			isGrounded = false;
 		}
@@ -146,29 +152,31 @@ public class Movement : MonoBehaviour {
 		}
 		else 
 		{
-	
-			if(Input.GetKey(KeyCode.W))
+			if(getNewAngle)
 			{
-				transform.Rotate(1f,0,0f,Space.Self);
+				if(Input.GetKey(KeyCode.W))
+				{
+					transform.Rotate(1f,0,0f,Space.Self);
+				}
+				if(Input.GetKey(KeyCode.S))
+				{
+					transform.Rotate(-1f,0f,0f,Space.Self);
+				}
+				if(Input.GetKey(KeyCode.A))
+				{
+					direction = RotateY(direction,-0.01f);
+					transform.Rotate(0,-0.4f,0f,Space.Self);
+				}
+				if(Input.GetKey(KeyCode.D))
+				{
+					direction = RotateY(direction,0.01f);
+					transform.Rotate(0,0.4f,0,Space.Self);
+				}
 			}
-			if(Input.GetKey(KeyCode.S))
-			{
-				transform.Rotate(-1f,0f,0f,Space.Self);
-			}
-			if(Input.GetKey(KeyCode.A))
-			{
-				direction = RotateY(direction,-0.01f);
-				transform.Rotate(0,-0.4f,0f,Space.Self);
-			}
-			if(Input.GetKey(KeyCode.D))
-			{
-				direction = RotateY(direction,0.01f);
-				transform.Rotate(0,0.4f,0,Space.Self);
-			}
-				
 			rayDirection = -Vector3.up;
 
 		}
+		savePosition ();
 		addSpeed();
 		forwardSpeed-= m_Friction;
 		backwardSpeed+= m_Friction;
@@ -184,7 +192,7 @@ public class Movement : MonoBehaviour {
 		forwardSpeed = Mathf.Clamp (forwardSpeed, 0, m_MaxAccSpeed);
 		backwardSpeed = Mathf.Clamp (backwardSpeed, -m_MaxAccSpeed, 0);
 		boostSpeed = Mathf.Clamp(boostSpeed, 0, boostMaxAccSpeed - m_MaxAccSpeed); //boostMaxAccSpeed is set as the max speed while boosting, but boostSpeed is added to the normal speed (not overwriting it).
-		
+		speedForCamera = forwardSpeed + backwardSpeed + bonusSpeed;
 		#if UNITY_EDITOR
 		if (boostMaxAccSpeed < m_MaxAccSpeed)
 		{
@@ -240,14 +248,14 @@ public class Movement : MonoBehaviour {
 	
 	void OnTriggerEnter(Collider col)
 	{
-		bonusBackward = 0;
-		bonusForward = 0;
+		transform.position = lastPosition;
 		forwardSpeed = 0;
 		backwardSpeed = 0;
 		Debug.Log ("KOLLIDERAR");
 	}
 
-	void addSpeed()
+	// Adds speed depending on angle on the hoverboard
+	private void addSpeed()
 	{
 		// endast om grounded?
 		speedDec = transform.eulerAngles.x;
@@ -257,8 +265,8 @@ public class Movement : MonoBehaviour {
 			m_ForwardAcc = (speedDec-270)/90;
 			bonusSpeed +=((speedDec-360)/90)*m_PotentialSpeed;
 			m_BackwardAcc = 1;
-			
 		}
+
 		if(speedDec <= 90)
 		{
 			speedDec = Mathf.Clamp (speedDec, 0, 90);
@@ -267,6 +275,23 @@ public class Movement : MonoBehaviour {
 			m_ForwardAcc = 1;
 		}
 		bonusSpeed = Mathf.Lerp (bonusSpeed, 0, Time.deltaTime*m_PotentialFriction);
+	}
+
+	private void savePosition()
+	{
+		if(Time.time - lastTime >= 1f)
+		{
+			lastPosition = transform.position;
+			lastTime = Time.time;	
+		}
+	}
+
+	private void newAngle()
+	{
+		if(Time.time - lastAngle >= m_RotateInSec)
+		{
+			getNewAngle = true;
+		}
 	}
 
 	public static Vector3 RotateY( Vector3 v, float angle )
