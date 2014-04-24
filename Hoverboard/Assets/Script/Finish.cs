@@ -6,12 +6,18 @@ using System.Collections;
  * Further implementation will be done when we are at that stage.
  * 
  * Created by: Erik Åsén, 2014-04-02
- * Edited by:
+ * Edited by: Robbin Torstensson, 2014-04-22 (added variable to see if finished)
  */
 
 public class Finish : MonoBehaviour {
 
 	Timer StopTime;
+
+    float finishTime=0.0f;
+    public float m_finishTime
+    {
+        get { return finishTime; }
+    }
 
 	void Start () 
 	{
@@ -21,5 +27,13 @@ public class Finish : MonoBehaviour {
 	void OnTriggerEnter(Collider collision)
 	{
 		StopTime.StopTimer();
+        finishTime = StopTime.m_finishTime;
+        /*
+#if UNITY_EDITOR
+        if (Application.loadedLevelName == "Robbin")
+        {
+            Debug.Log("Finish time: "+finishTime);
+        }
+#endif*/
 	}
 }

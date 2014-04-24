@@ -15,22 +15,26 @@ public class CameraMec : MonoBehaviour {
 
 	private float distance;
 	private GameObject hoverboard;
-	private  Hover_Physics physics;
+	private Hover_Physics physics;
 	private Vector3 targetedPosition;
-	private float yVelocity = 0.0F;
-	private float xVelocity = 0.0F;
-	private float zVelocity = 0.0f;
-	private float yDifference = 0;
+	private float yVelocity = 0.0F;		
+	private float xVelocity = 0.0F;		
+	private float zVelocity = 0.0f;		
+	private float yDifference = 0;			
 	private float currentYValue = 0;
 
 	void Start() {
+
 		hoverboard = GameObject.Find ("Hoverboard 3.3");
 		physics = GameObject.Find ("Hoverboard 3.3").GetComponent<Hover_Physics>();
 		targetedPosition = hoverboard.transform.position;
 		currentYValue = targetedPosition.y;
 	}
 
-	void Update() {
+
+																					
+	void Update() {																		
+
 
 		//calculating how much the camera should rotate in y- and x-axis relative to the Hoverboard
 		float yAngle = Mathf.SmoothDampAngle(transform.eulerAngles.y, hoverboard.transform.eulerAngles.y, ref yVelocity, m_Smooth);
@@ -91,8 +95,5 @@ public class CameraMec : MonoBehaviour {
 		//give camera the position "newPos"
 		transform.position = newPos;
 		transform.LookAt(lookPos, hoverboard.transform.up);
-
-
-
 	}
 }
