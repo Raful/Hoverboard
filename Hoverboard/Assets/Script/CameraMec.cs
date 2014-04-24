@@ -17,10 +17,10 @@ public class CameraMec : MonoBehaviour {
 	private GameObject hoverboard;
 	private Hover_Physics physics;
 	private Vector3 targetedPosition;
-	private float yVelocity = 0.0F;			//public comment line1 = string(vec3 finns nog inte)
-	private float xVelocity = 0.0F;			//public comment line2 = string(vec3 finns nog inte)
-	private float zVelocity = 0.0f;			//public comment line3 = string(vec3 finns nog inte)
-	private float yDifference = 0;			//public vec3<comment> line= string(jo), string(jo), string(jo)
+	private float yVelocity = 0.0F;			//public comment line1 = string(vector3 finns nog inte)
+	private float xVelocity = 0.0F;			//public comment line2 = string(vector3 finns nog inte)
+	private float zVelocity = 0.0f;			//public comment line3 = string(vector3 finns nog inte)
+	private float yDifference = 0;			//public vector3<comment> line= string(jo), string(jo), string(jo)
 	private float currentYValue = 0;
 
 	void Start() {
