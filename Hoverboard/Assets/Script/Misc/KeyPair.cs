@@ -30,6 +30,7 @@ public class KeyPair {
             && this.m_obj2.Equals(compareObject.m_obj2);
     }
 
+
     public override bool Equals(object other)
     {
         if (other == null)
@@ -44,4 +45,5 @@ public class KeyPair {
 
         return Compare((KeyPair)other);
     }
+
 }

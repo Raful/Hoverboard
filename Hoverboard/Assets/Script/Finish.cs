@@ -12,6 +12,7 @@ using System.Collections;
 public class Finish : MonoBehaviour {
 
 	Timer StopTime;
+	Medal medal;
 
     float finishTime=0.0f;
     public float m_finishTime
@@ -22,11 +23,16 @@ public class Finish : MonoBehaviour {
 	void Start () 
 	{
 		StopTime = GameObject.Find ("TimerText").GetComponent<Timer> ();
+
+
 	}
 
 	void OnTriggerEnter(Collider collision)
 	{
 		StopTime.StopTimer();
+
+
+
         finishTime = StopTime.m_finishTime;
         /*
 #if UNITY_EDITOR
@@ -35,5 +41,6 @@ public class Finish : MonoBehaviour {
             Debug.Log("Finish time: "+finishTime);
         }
 #endif*/
+
 	}
 }
