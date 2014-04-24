@@ -19,6 +19,10 @@ public class HighScore : MonoBehaviour {
 
     //HighScoreList is stored on file as: username:time
     List<KeyPair> highScoreList;
+    public List<KeyPair> m_highScoreList
+    {
+        get { return highScoreList; }
+    }
 
     bool hasAddedTime=false;
 
@@ -39,7 +43,6 @@ public class HighScore : MonoBehaviour {
 
         filePath = Application.persistentDataPath + "/HighScore/" + Application.loadedLevelName + ".txt";
 
-        
         if (File.Exists(filePath))
         {
             StreamReader file = new StreamReader(filePath);
@@ -47,13 +50,6 @@ public class HighScore : MonoBehaviour {
             while ((row = file.ReadLine()) != null)
             {
                 highScoreList.Add(new KeyPair(row.Split(":".ToCharArray())[0], row.Split(":".ToCharArray())[1], true));
-
-#if UNITY_EDITOR
-                if (Application.loadedLevelName == "Robbin")
-                {
-                    Debug.Log(row);
-                }
-#endif
             }
         }
     }
@@ -65,13 +61,6 @@ public class HighScore : MonoBehaviour {
             hasAddedTime = true;
 
             AddToHighScore(finishScript.m_finishTime);
-
-#if UNITY_EDITOR
-            if (Application.loadedLevelName == "Robbin")
-            {
-                Debug.Log("Size: " + highScoreList.Count);
-            }
-#endif
         }
 	}
 

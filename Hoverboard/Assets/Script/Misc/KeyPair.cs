@@ -29,4 +29,19 @@ public class KeyPair {
         return this.m_obj1.Equals(compareObject.m_obj1) 
             && this.m_obj2.Equals(compareObject.m_obj2);
     }
+
+    public override bool Equals(object other)
+    {
+        if (other == null)
+        {
+            return false;
+        }
+
+        if ((KeyPair)other == null)
+        {
+            return false;
+        }
+
+        return Compare((KeyPair)other);
+    }
 }
