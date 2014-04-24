@@ -167,12 +167,12 @@ public class Movement : MonoBehaviour {
 				if(Input.GetKey(KeyCode.A))
 				{
 					direction = RotateY(direction,-0.01f);
-					transform.Rotate(0,-0.4f,-1f,Space.Self);
+					transform.Rotate(0,-0.4f,0f,Space.Self);
 				}
 				if(Input.GetKey(KeyCode.D))
 				{
 					direction = RotateY(direction,0.01f);
-					transform.Rotate(0,0.4f,1,Space.Self);
+					transform.Rotate(0,0.4f,0,Space.Self);
 				}
 			}
 			rayDirection = -Vector3.up;
