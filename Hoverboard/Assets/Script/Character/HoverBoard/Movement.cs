@@ -6,7 +6,6 @@ using System.Collections;
  * The rotation is done by rotating the hoverboard by the global axis
  *
  * Created by: Niklas Åsén, 2014-04-02
- * Edited by: Wolfie
  */
 
 [RequireComponent(typeof(Boost))]
@@ -14,11 +13,14 @@ using System.Collections;
 public class Movement : MonoBehaviour {
 	
 	[SerializeField]
+
 	private float boostMaxAccSpeed; // The maximum speed the hoverboard can gain with boost, reqiured to be higher than Max Acc Speed.
 	private float boostSpeed=0; 	// Boost Acceleration.
+
 	[SerializeField]
 	private float boostAcceleration;	// Max Jump Power.
 	private Boost boostScript;
+
 	
 	public float m_MaxJumpPower, m_JumpAccelration;
 	bool m_Jumped = true;
@@ -62,8 +64,10 @@ public class Movement : MonoBehaviour {
 	public float forwardSpeed;		
 	[HideInInspector]
 	public float backwardSpeed;
+
+	public float speedForCamera;				//This variable is for the moment only so the camera can decide the distance from the hoverboard
 	
-	
+
 	void Start ()
 	{
 		boostScript = gameObject.GetComponent<Boost>();
@@ -118,7 +122,7 @@ public class Movement : MonoBehaviour {
 		
 		else
 		{	
-
+			
 			allowRotateInAir();
 			gravity += m_Gravity;
 			isGrounded = false;
@@ -180,7 +184,7 @@ public class Movement : MonoBehaviour {
 		}
 		savePosition ();
 		addPotentialSpeed();
-
+		
 		forwardSpeed-= m_Friction;
 		backwardSpeed+= m_Friction;
 		boostSpeed -= m_Friction;
@@ -190,12 +194,12 @@ public class Movement : MonoBehaviour {
 			//Use boost
 			boostSpeed += boostAcceleration;
 		}
-
+		
 		speed = Mathf.Abs(forwardSpeed+backwardSpeed + bonusSpeed);
 		forwardSpeed = Mathf.Clamp (forwardSpeed, 0, m_MaxAccSpeed);
 		backwardSpeed = Mathf.Clamp (backwardSpeed, -m_MaxAccSpeed, 0);
 		boostSpeed = Mathf.Clamp(boostSpeed, 0, boostMaxAccSpeed - m_MaxAccSpeed); //boostMaxAccSpeed is set as the max speed while boosting, but boostSpeed is added to the normal speed (not overwriting it).
-		
+		speedForCamera = forwardSpeed + backwardSpeed + bonusSpeed;
 		#if UNITY_EDITOR
 		if (boostMaxAccSpeed < m_MaxAccSpeed)
 		{
@@ -221,8 +225,10 @@ public class Movement : MonoBehaviour {
 			jumpPower = chargePower;
 			chargePower = 0;
 		}
+
 		
 		transform.Translate((transform.up.normalized * m_JumpPower) * Time.fixedDeltaTime);		
+
 		transform.position += ((Vector3.up * jumpPower) * Time.deltaTime);
 		
 		
@@ -257,7 +263,7 @@ public class Movement : MonoBehaviour {
 	// Adds speed depending on angle on the hoverboard
 	private void addPotentialSpeed()
 	{
-
+		
 		potentialDecelerate = transform.eulerAngles.x;
 		if(potentialDecelerate >= 270)
 		{
@@ -277,7 +283,7 @@ public class Movement : MonoBehaviour {
 		// decelerate
 		bonusSpeed = Mathf.Lerp (bonusSpeed, 0, Time.deltaTime*m_PotentialFriction);
 	}
-
+	
 	// saves a old position every second
 	private void savePosition()
 	{
@@ -287,7 +293,7 @@ public class Movement : MonoBehaviour {
 			lastTime = Time.time;	
 		}
 	}
-
+	
 	// allows the hoverboard to rotate when not grounded, in x seconds
 	private void allowRotateInAir()
 	{
