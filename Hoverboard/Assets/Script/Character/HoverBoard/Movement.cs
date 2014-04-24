@@ -40,12 +40,12 @@ public class Movement : MonoBehaviour {
 	public float m_AngleSpeed;
 	public float m_MaxAngle;
 	public bool m_SnapAngle;
+	public float m_SnapAtHeight;
 
 	public float m_PotentialSpeed;
 	public float m_PotentialFriction;
 
 	private bool getNewAngle;
-	private bool isGrounded;
 	private float lastAngle;
 
 	private Vector3 direction;
@@ -60,6 +60,8 @@ public class Movement : MonoBehaviour {
 	private float hoverHeight;
 	private float speedDec;
 
+	[HideInInspector]
+	public bool isGrounded;
 	[HideInInspector]
 	public float forwardSpeed;
 	[HideInInspector]
@@ -96,7 +98,7 @@ public class Movement : MonoBehaviour {
 
 			if(Vector3.Angle(transform.forward,Vector3.Cross(transform.right,hit.normal)) < m_MaxAngle || !isGrounded)
 			{
-				if(hit.distance<3 && m_SnapAngle)
+				if(hit.distance<m_SnapAtHeight && m_SnapAngle)
 				{
 					transform.rotation = Quaternion.LookRotation(Vector3.Cross(transform.right, hit.normal), hit.normal);
 				}
@@ -166,12 +168,13 @@ public class Movement : MonoBehaviour {
 				if(Input.GetKey(KeyCode.A))
 				{
 					direction = RotateY(direction,-0.01f);
-					transform.Rotate(0,-0.4f,0f,Space.Self);
+					transform.Rotate(0,-0.4f,-1f,Space.Self);
 				}
 				if(Input.GetKey(KeyCode.D))
 				{
 					direction = RotateY(direction,0.01f);
-					transform.Rotate(0,0.4f,0,Space.Self);
+					transform.Rotate(0,0.4f,1,Space.Self);
+
 				}
 			}
 			rayDirection = -Vector3.up;

@@ -24,8 +24,8 @@ public class CameraMec : MonoBehaviour {
 	private float currentYValue = 0;
 
 	void Start() {
-		hoverboard = GameObject.Find ("Hoverboard 3.2");
-		physics = GameObject.Find ("Hoverboard 3.2").GetComponent<Hover_Physics>();
+		hoverboard = GameObject.Find ("Hoverboard 3.3");
+		physics = GameObject.Find ("Hoverboard 3.3").GetComponent<Hover_Physics>();
 		targetedPosition = hoverboard.transform.position;
 		currentYValue = targetedPosition.y;
 	}
