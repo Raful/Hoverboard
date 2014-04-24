@@ -17,20 +17,24 @@ public class CameraMec : MonoBehaviour {
 	private GameObject hoverboard;
 	private Hover_Physics physics;
 	private Vector3 targetedPosition;
-	private float yVelocity = 0.0F;			//public comment line1 = string(vector3 finns nog inte)
-	private float xVelocity = 0.0F;			//public comment line2 = string(vector3 finns nog inte)
-	private float zVelocity = 0.0f;			//public comment line3 = string(vector3 finns nog inte)
-	private float yDifference = 0;			//public vector3<comment> line= string(jo), string(jo), string(jo)
+	private float yVelocity = 0.0F;		
+	private float xVelocity = 0.0F;		
+	private float zVelocity = 0.0f;		
+	private float yDifference = 0;			
 	private float currentYValue = 0;
 
 	void Start() {
-		hoverboard = GameObject.Find ("Hoverboard 3.2");								// gör inte det här
-		physics = GameObject.Find ("Hoverboard 3.2").GetComponent<Hover_Physics>();		// inte det här heller
-		targetedPosition = hoverboard.transform.position;								// vad är skillnaden på 3.0 och 3.2?
-		currentYValue = targetedPosition.y;												// finns inga prefabs för 3.2
-	}																					// är det bara 3.0 med boost?
-																						// är det här pekarlekar
-	void Update() {																		// för det är typ lika dumt
+
+		hoverboard = GameObject.Find ("Hoverboard 3.3");
+		physics = GameObject.Find ("Hoverboard 3.3").GetComponent<Hover_Physics>();
+		targetedPosition = hoverboard.transform.position;
+		currentYValue = targetedPosition.y;
+	}
+
+
+																					
+	void Update() {																		
+
 
 		//calculating how much the camera should rotate in y- and x-axis relative to the Hoverboard
 		float yAngle = Mathf.SmoothDampAngle(transform.eulerAngles.y, hoverboard.transform.eulerAngles.y, ref yVelocity, m_Smooth);

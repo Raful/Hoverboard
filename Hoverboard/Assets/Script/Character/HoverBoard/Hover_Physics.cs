@@ -4,16 +4,16 @@ using System.Collections;
 public class Hover_Physics : MonoBehaviour {
 	
 	
-	public float landingPower = 1;
-	public float jumpingPower = 1;
-	public float hoverHeight = 5;
+	public float landingPower = 5;	// Force down
+	public float jumpingPower = 5;	// Force Up
+	public float hoverHeight = 5;	// Hover distance
 	
-	private Vector3[] hitNormal = new Vector3[5];
-	private bool physicsSetup = false;
-	private RayFlag[] cornersPoint;
-	private Transform[] corners = new Transform[5];
-	private float distance;
-	private Vector3 average;
+	private Vector3[] hitNormal = new Vector3[5]; 	// constains the normals of every transform
+	private bool physicsSetup = false;				// After initilize
+	private RayFlag[] cornersPoint;					// flag used to get every child-ray transform
+	private Transform[] corners = new Transform[5];		// constains every child transform
+	private float distance;							// distance between ray hitpoint and hoverboard	
+	private Vector3 average;						// an average of every normal
 	
 	void Start () 
 	{
@@ -25,7 +25,7 @@ public class Hover_Physics : MonoBehaviour {
 	{
 		
 	}
-
+	// Adds force on the hoverboards local up/down direction, depending on the distance from the ground
 	void FixedUpdate()
 	{
 		
@@ -42,6 +42,7 @@ public class Hover_Physics : MonoBehaviour {
 					
 					if(hit.distance < hoverHeight)
 					{
+						// if upside down, change force direction
 						if(-average.y <= 0)
 						{	
 							average *= -1;
@@ -66,7 +67,7 @@ public class Hover_Physics : MonoBehaviour {
 			average = -(hitNormal[0] + hitNormal[1] + hitNormal[2] + hitNormal[3] + hitNormal[4])/2;
 		}
 	}
-	
+	// gets every child transform
 	void InitializePhysics()
 	{
 		cornersPoint = gameObject.GetComponentsInChildren<RayFlag> ();
