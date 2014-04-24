@@ -19,24 +19,29 @@ public class CameraMec : MonoBehaviour {
 	private Hover_Physics physics;
 
 	private Vector3 targetedPosition;
+
 	private float yVelocity = 0.0F;			
 	private float xVelocity = 0.0F;		
 
 		
+
 	private float currentYValue = 0;
 
 	void Start() {
+
 
 
 		physics = hoverboard.GetComponent<Hover_Physics>();
 
 	
 
+
+
 		targetedPosition = hoverboard.transform.position;
 		currentYValue = targetedPosition.y;
 	}
 
-																				
+
 	void Update() {																		
 
 

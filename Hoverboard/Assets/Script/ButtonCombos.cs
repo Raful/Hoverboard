@@ -1,6 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+
+
+/*
+ * This script checks if the player is trying to do any tricks
+ * 
+ * Created by: Found on Internet by Andreas Sundberg, 2014-04-24
+ * 
+ * Edited by: Andreas Sundberg
+ */ 
+
 public class ButtonCombos : MonoBehaviour {
 
 	public string m_Keys = "";

@@ -53,7 +53,7 @@ public class Medal : MonoBehaviour {
 	public string getMedal()
 	{
 	
-		int time = (int)(timer.getFinishTime());
+		int time = (int)(timer.m_finishTime);
 
 
 		if(goldTime > time)
