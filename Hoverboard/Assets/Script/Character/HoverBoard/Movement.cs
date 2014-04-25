@@ -256,6 +256,7 @@ public class Movement : MonoBehaviour {
 	// reset position
 	void OnTriggerEnter(Collider col)
 	{
+		//constantForce.relativeForce = -direction * 1000;
 		transform.position = lastPosition;
 		forwardSpeed = 0;
 		backwardSpeed = 0;
@@ -266,7 +267,6 @@ public class Movement : MonoBehaviour {
 	// Adds speed depending on angle on the hoverboard
 	private void addPotentialSpeed()
 	{
-		
 		potentialDecelerate = transform.eulerAngles.x;
 		if(potentialDecelerate >= 270)
 		{
