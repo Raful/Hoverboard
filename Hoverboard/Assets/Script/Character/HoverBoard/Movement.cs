@@ -244,7 +244,7 @@ public class Movement : MonoBehaviour {
 		}
 	}
 	// reset position
-	void OnTriggerEnter(Collider col)
+	void OnCollisionEnter(Collision col)
 	{
 		transform.position = lastPosition;
 		forwardSpeed = 0;
