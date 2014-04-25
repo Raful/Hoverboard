@@ -111,7 +111,7 @@ public class Movement : MonoBehaviour {
 			{
 				gravity += m_Gravity;
 			}
-			
+
 			Debug.DrawLine(transform.position, hit.point);
 			direction = transform.forward;
 			isGrounded = true;
@@ -119,7 +119,6 @@ public class Movement : MonoBehaviour {
 			lastAngle = Time.time;
 			rotateWhenNotGrounded = false;
 		}
-		
 		else
 		{	
 			allowRotateInAir();
@@ -127,9 +126,7 @@ public class Movement : MonoBehaviour {
 			isGrounded = false;
 		}
 	}
-	
-	
-	
+
 	void FixedUpdate () 
 	{
 		// Add velocity and rotations
@@ -182,9 +179,9 @@ public class Movement : MonoBehaviour {
 				}
 			}
 			rayDirection = -Vector3.up;
-			
 		}
-		savePosition ();
+
+		//savePosition ();
 		addPotentialSpeed();
 		
 		forwardSpeed-= m_Friction;
@@ -210,7 +207,6 @@ public class Movement : MonoBehaviour {
 		}
 		#endif
 		
-		
 		velocity = direction.normalized *(forwardSpeed+backwardSpeed + boostSpeed+bonusSpeed) -Vector3.up*gravity ;
 		transform.position += velocity*Time.fixedDeltaTime;
 		
@@ -228,12 +224,9 @@ public class Movement : MonoBehaviour {
 			jumpPower = chargePower;
 			chargePower = 0;
 		}
-
 		
 		transform.Translate((transform.up.normalized * m_JumpPower) * Time.fixedDeltaTime);		
-
 		transform.position += ((Vector3.up * jumpPower) * Time.deltaTime);
-		
 		
 		if (jumpPower > 0.01f)
 		{
@@ -253,15 +246,15 @@ public class Movement : MonoBehaviour {
 			transform.Translate (Vector3.right*Time.deltaTime*10);
 		}
 	}
-	// reset position
-	void OnTriggerEnter(Collider col)
+
+	// reset position when collide
+	void OnCollisionEnter(Collision col)
 	{
-		//constantForce.relativeForce = -direction * 1000;
-		transform.position = lastPosition;
+		transform.position = transform.position - velocity.normalized*10;
 		forwardSpeed = 0;
 		backwardSpeed = 0;
 		bonusSpeed = 0;
-		Debug.Log ("KOLLIDERAR");
+		boostSpeed = 0;
 	}
 	
 	// Adds speed depending on angle on the hoverboard
@@ -296,7 +289,7 @@ public class Movement : MonoBehaviour {
 			lastTime = Time.time;	
 		}
 	}
-	
+
 	// allows the hoverboard to rotate when not grounded, in x seconds
 	private void allowRotateInAir()
 	{
@@ -305,7 +298,7 @@ public class Movement : MonoBehaviour {
 			rotateWhenNotGrounded = true;
 		}
 	}
-	
+
 	public static Vector3 RotateY( Vector3 v, float angle )
 	{
 		float sin = Mathf.Sin( angle );
