@@ -1,6 +1,11 @@
 using UnityEngine;
 using System.Collections;
-
+/*
+ * This script adds Forces to the hoverboard. 
+ * The forces are applied by raycasting from the hoverboard in local down.
+ *
+ * Created by: Niklas Åsén, 2014-04-02
+ */
 public class Hover_Physics : MonoBehaviour {
 	
 	

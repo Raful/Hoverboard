@@ -26,8 +26,8 @@ public class Movement : MonoBehaviour {
 	bool m_Jumped = true;
 	float m_JumpPower, m_ChargePower;
 	private float jumpPower, chargePower;
-	
-	
+
+	public float m_Rotation;		// Amount of rotation applied in the Y-axis
 	public float m_Gravity; 		// Gravity acceleration, added each frame when not grounded.
 	public float m_Friction;		// SpeedLoss, every frame.
 	public float m_MaxAccSpeed;		// The maximum speed that can be gained from accelerating.
@@ -65,7 +65,7 @@ public class Movement : MonoBehaviour {
 	[HideInInspector]
 	public float backwardSpeed;
 
-	public float speedForCamera;				//This variable is for the moment only so the camera can decide the distance from the hoverboard
+	public float speedForCamera;	//This variable is for the moment only so the camera can decide the distance from the hoverboard
 	
 
 	void Start ()
@@ -104,7 +104,7 @@ public class Movement : MonoBehaviour {
 				{
 					transform.rotation = Quaternion.LookRotation(Vector3.Cross(transform.right, hit.normal), hit.normal);
 				}
-				transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(Vector3.Cross(transform.right, hit.normal), hit.normal), (Time.fixedDeltaTime*(speed/3)*m_AngleSpeed*(hoverHeight/hit.distance)));
+				transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(Vector3.Cross(transform.right, hit.normal), hit.normal), (Time.fixedDeltaTime*(speed/5)*m_AngleSpeed*(hoverHeight/hit.distance)));
 			}
 			// adds gravity if hoverboard is upside down
 			else if(hit.normal.y <= 0)
@@ -122,7 +122,6 @@ public class Movement : MonoBehaviour {
 		
 		else
 		{	
-			
 			allowRotateInAir();
 			gravity += m_Gravity;
 			isGrounded = false;
@@ -141,18 +140,21 @@ public class Movement : MonoBehaviour {
 				forwardSpeed += m_ForwardAcc;
 				backwardSpeed += m_ForwardAcc;
 			}
+
 			if(Input.GetKey(KeyCode.S))
 			{
 				forwardSpeed -= m_BackwardAcc;
 				backwardSpeed -= m_BackwardAcc;
 			}
+
 			if(Input.GetKey(KeyCode.A))
 			{
-				transform.Rotate(0,-1f,0f,Space.Self);
+				transform.Rotate(0, -m_Rotation, 0f,Space.Self);
 			}
+
 			if(Input.GetKey(KeyCode.D))
 			{
-				transform.Rotate(0,1f,0,Space.Self);
+				transform.Rotate(0, m_Rotation, 0,Space.Self);
 			}
 		}
 		else 
@@ -200,6 +202,7 @@ public class Movement : MonoBehaviour {
 		backwardSpeed = Mathf.Clamp (backwardSpeed, -m_MaxAccSpeed, 0);
 		boostSpeed = Mathf.Clamp(boostSpeed, 0, boostMaxAccSpeed - m_MaxAccSpeed); //boostMaxAccSpeed is set as the max speed while boosting, but boostSpeed is added to the normal speed (not overwriting it).
 		speedForCamera = forwardSpeed + backwardSpeed + bonusSpeed;
+
 		#if UNITY_EDITOR
 		if (boostMaxAccSpeed < m_MaxAccSpeed)
 		{
