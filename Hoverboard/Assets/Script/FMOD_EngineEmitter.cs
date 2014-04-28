@@ -15,8 +15,8 @@ public class FMOD_EngineEmitter : MonoBehaviour {
 	private FMOD.Studio.EventInstance hoverSound;
 	private FMOD.Studio.ParameterInstance speedPitch;
 
-	private FMOD.Studio.EventInstance windSound;
-	private FMOD.Studio.ParameterInstance speedVolume;
+	//private FMOD.Studio.EventInstance windSound;
+	//private FMOD.Studio.ParameterInstance speedVolume;
 	
 	
 	// --------------------------
@@ -40,7 +40,7 @@ public class FMOD_EngineEmitter : MonoBehaviour {
 		if (speedPitch == null)
 			Debug.Log("Hittar inte variabeln!!!");
 
-
+		/*
 		windSound = FMOD_StudioSystem.instance.GetEvent("event:/Vind/Wind2");
 		
 		
@@ -53,7 +53,7 @@ public class FMOD_EngineEmitter : MonoBehaviour {
 		
 		if (speedVolume == null)
 			Debug.Log("Hittar inte wind-variabeln!!!");
-		
+		*/
 
 		
 		//-----------------------------
@@ -70,13 +70,13 @@ public class FMOD_EngineEmitter : MonoBehaviour {
 			if(soundPlaying == false)
 			{
 				hoverSound.setPaused(true);
-				windSound.setPaused(true);
+				//windSound.setPaused(true);
 			}
 
 			if (soundPlaying == true)
 			{
 				hoverSound.setPaused(false);
-				windSound.setPaused(false);
+				//windSound.setPaused(false);
 			}
 		}
 
@@ -92,18 +92,18 @@ public class FMOD_EngineEmitter : MonoBehaviour {
 
 		//currentSpeed = (moveScript.forwardSpeed + moveScript.backwardSpeed);
 
-		currentSpeed = 20* Mathf.InverseLerp(0, moveScript.m_MaxAccSpeed, moveScript.getSpeed);
+		currentSpeed = 20* Mathf.InverseLerp(0, moveScript.m_MaxAccSpeed/2, moveScript.getSpeed);
 		//if (currentSpeed > maxSpeed)
 		//				currentSpeed = maxSpeed;
 
 		//currentPitch = Mathf.SmoothDamp(currentPitch, currentSpeed, ref pitchSmoothSpeed, 0.1f, 50f);
 		//currentPitch = currentSpeed;
 		speedPitch.setValue(currentSpeed);
-		speedVolume.setValue (currentSpeed / 20);
+		//speedVolume.setValue (currentSpeed / 20);
 
 
 		hoverSound.set3DAttributes (UnityUtil.to3DAttributes (varSource));
-		windSound.set3DAttributes (UnityUtil.to3DAttributes (varSource));
+		//windSound.set3DAttributes (UnityUtil.to3DAttributes (varSource));
 		//----------
 	
 	}
