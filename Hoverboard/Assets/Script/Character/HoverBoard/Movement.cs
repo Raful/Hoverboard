@@ -73,9 +73,10 @@ public class Movement : MonoBehaviour {
 	{
 		get {return speed;}
 	}
-	public Vector3 m_getVelocity
+	public float m_getsetVelocity
 	{
-		get {return velocity;}
+		get {return velocity.y;}
+		set {velocity.y = value;}
 	}
 	// Calculates the new angle and rotates accordingly
 	void LateUpdate()
