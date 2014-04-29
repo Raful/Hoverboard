@@ -79,7 +79,7 @@ public class CameraMec : MonoBehaviour {
 		Vector3 lookPos = targetedPosition;
 		lookPos.y = targetedPosition.y + 1;
 		Vector3 newPos = lookPos;
-
+		
 		//change distance to hoverboard depending on the hoverboard's speed
 		if ((hoverboard.GetComponent<Movement>().speedForCamera < -0.01f && hoverboard.GetComponent<Movement>().speedForCamera >= -30) || hoverboard.GetComponent<Movement>().speedForCamera > 0.01f )
 		{

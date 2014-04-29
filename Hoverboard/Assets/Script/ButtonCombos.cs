@@ -47,6 +47,7 @@ public class ButtonCombos : MonoBehaviour {
 		// if a combination exist in the dictionary, and if the time value is more than the value in the variable 'afterThisTimeTheTrickStarts' then the trick starts 
 		if(comboList.ContainsKey(m_Keys) && (Time.time - lastTimeSincePressed) > afterThisTimeTheTrickStarts)
 		{
+
 			string trick = "";
 			if(comboList.TryGetValue(m_Keys, out trick)) 	//Here comboList retrieves the trick name that has the same position as m_Keys and put it in 'trick'.
 			{												
