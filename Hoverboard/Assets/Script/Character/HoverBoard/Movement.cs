@@ -214,7 +214,7 @@ public class Movement : MonoBehaviour {
 	// reset position when collide
 	void OnCollisionEnter(Collision col)
 	{
-		transform.position = transform.position - velocity.normalized;
+		transform.position = transform.position - velocity.normalized*10;
 		forwardSpeed = 0;
 		backwardSpeed = 0;
 		bonusSpeed = 0;
