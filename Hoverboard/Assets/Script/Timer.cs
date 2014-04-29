@@ -27,7 +27,7 @@ public class Timer : MonoBehaviour {
 		SetMinSecMil ();
 
 		guiText.text = timeMinutes.ToString () + " : " + timeSeconds.ToString () + " : " + timeMilli.ToString ();
-	
+
 	}
 
 	void SetRaceTimer()

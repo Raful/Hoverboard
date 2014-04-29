@@ -2,7 +2,10 @@
 using System.Collections;
 
 public class Hover_WithTransform : MonoBehaviour {
-	
+
+	[SerializeField]
+	float hoverDistance;
+
 	void Start () 
 	{
 
@@ -12,12 +15,12 @@ public class Hover_WithTransform : MonoBehaviour {
 	void Update () 
 	{
 		RaycastHit hit;
-		if (Physics.Raycast (transform.position, -transform.up, out hit, 5 )) 
+		if (Physics.Raycast (transform.position, -transform.up, out hit, hoverDistance )) 
 		{
 			Debug.Log(hit.distance);
-			if(hit.distance < 5)
+			if(hit.distance < hoverDistance)
 			{
-				transform.position = (transform.up*(5-hit.distance)) + transform.position;
+				transform.position = (transform.up*(hoverDistance-hit.distance)) + transform.position;
 			}
 		}
 	}
