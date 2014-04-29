@@ -21,6 +21,7 @@ public class Movement : MonoBehaviour {
 	private float boostAcceleration;	// Max Jump Power.
 	private Boost boostScript;
 
+	public float hoverHeight;		// HoverHeight of the hoverboard	
 	public float m_Rotation;		// Amount of rotation applied in the Y-axis
 	public float m_Gravity; 		// Gravity acceleration, added each frame when not grounded.
 	public float m_Friction;		// SpeedLoss, every frame.
@@ -49,7 +50,6 @@ public class Movement : MonoBehaviour {
 	private float bonusSpeed;		// Amount of speed gained from going downhill/uphill
 	private float speed;			// Speed gained from acceleration, only used for lerpspeed
 	private float gravity;			// Amount of gravity pulling the hoverboard down
-	private float hoverHeight;		// HoverHeight of the hoverboard	
 	private float potentialDecelerate;		// slows down the acceleration depending on uphill/downhill
 	
 	[HideInInspector]
@@ -65,7 +65,6 @@ public class Movement : MonoBehaviour {
 	void Start ()
 	{
 		boostScript = gameObject.GetComponent<Boost>();
-		hoverHeight = GetComponent<Hover_Physics>().hoverHeight;
 		rayDirection = -Vector3.up;
 	}
 	
@@ -199,6 +198,7 @@ public class Movement : MonoBehaviour {
 		#endif
 		
 		velocity = direction.normalized *(forwardSpeed+backwardSpeed + boostSpeed+bonusSpeed) -Vector3.up*gravity ;
+//		Debug (velocity.magnitude);
 		transform.position += velocity*Time.fixedDeltaTime;
 		
 		if (Input.GetKey (KeyCode.J)) {
@@ -214,17 +214,13 @@ public class Movement : MonoBehaviour {
 	// reset position when collide
 	void OnCollisionEnter(Collision col)
 	{
-		transform.position = transform.position - velocity.normalized;
+		transform.position = transform.position - velocity.normalized*10;
 		forwardSpeed = 0;
 		backwardSpeed = 0;
 		bonusSpeed = 0;
 		boostSpeed = 0;
 	}
 
-	//public void resetSpeed()
-	//{
-	//
-	//}
 	// Adds speed depending on angle on the hoverboard
 	private void addPotentialSpeed()
 	{
