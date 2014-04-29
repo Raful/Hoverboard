@@ -95,7 +95,7 @@ public class Movement : MonoBehaviour {
 				{
 					transform.rotation = Quaternion.LookRotation(Vector3.Cross(transform.right, hit.normal), hit.normal);
 				}
-				transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(Vector3.Cross(transform.right, hit.normal), hit.normal), (Time.fixedDeltaTime*(speed/5)*m_AngleSpeed*(hoverHeight/hit.distance)));
+				transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(Vector3.Cross(transform.right, hit.normal), hit.normal), (Time.fixedDeltaTime*((5+speed)/5)*m_AngleSpeed*(hoverHeight/hit.distance)));
 			}
 			// adds gravity if hoverboard is upside down
 			else if(hit.normal.y <= 0)
@@ -214,13 +214,17 @@ public class Movement : MonoBehaviour {
 	// reset position when collide
 	void OnCollisionEnter(Collision col)
 	{
-		transform.position = transform.position - velocity.normalized*10;
+		transform.position = transform.position - velocity.normalized;
 		forwardSpeed = 0;
 		backwardSpeed = 0;
 		bonusSpeed = 0;
 		boostSpeed = 0;
 	}
-	
+
+	//public void resetSpeed()
+	//{
+	//
+	//}
 	// Adds speed depending on angle on the hoverboard
 	private void addPotentialSpeed()
 	{
