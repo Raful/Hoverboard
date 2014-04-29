@@ -72,6 +72,7 @@ public class DetectState : MonoBehaviour {
         if (findInCollidersFound(new KeyPair("Bottom", "Rail")))
         {
             state = "Rail";
+			Debug.Log("RAIL");
         }
         else if (findInCollidersFound(new KeyPair("BoardRight", "Wall"))
             || findInCollidersFound(new KeyPair("BoardLeft", "Wall")))
