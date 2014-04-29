@@ -28,7 +28,7 @@ public class Jump : MonoBehaviour {
 		
 		if (Input.GetKey (KeyCode.Space) && getGrounded.isGrounded)
 		{
-			chargePower = chargePower + m_JumpAccelration;
+			chargePower = chargePower + (m_JumpAccelration);
 		}
 		
 		if ((Input.GetKeyUp(KeyCode.Space)) && getGrounded.isGrounded)
