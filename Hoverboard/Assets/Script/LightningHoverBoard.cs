@@ -5,7 +5,7 @@ public class LightningHoverBoard : MonoBehaviour {
 
 	public float m_IntensityThreshold, m_PulseSpeed;
 	public bool m_Peek;
-	Movement m_Player;
+	Jump getJumpValues;
 	public Color col;
 	public Color col_charged;
 	float TimeSin;
@@ -13,7 +13,7 @@ public class LightningHoverBoard : MonoBehaviour {
 	void Start () 
 	{
 		m_Peek = false;
-		m_Player = transform.parent.GetComponent<Movement> ();
+		getJumpValues = transform.parent.GetComponent<Jump> ();
 	}
 	
 	// Update is called once per frame
@@ -39,7 +39,7 @@ public class LightningHoverBoard : MonoBehaviour {
 			light.intensity = 8;
 		}
 
-		if (m_Player.getChargePower > 0) {
+		if (getJumpValues.getChargePower > 0) {
 			light.color = col_charged;
 		} else {
 			light.color = col;

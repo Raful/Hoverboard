@@ -31,7 +31,6 @@ public class ColliderObject : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
     {
-        
 	}
 
     void OnTriggerEnter(Collider col)
@@ -41,6 +40,7 @@ public class ColliderObject : MonoBehaviour {
         {
             m_states.Add(script.m_type);
         }
+
     }
 
     void OnTriggerExit(Collider col)

@@ -21,12 +21,6 @@ public class Movement : MonoBehaviour {
 	private float boostAcceleration;	// Max Jump Power.
 	private Boost boostScript;
 
-	
-	public float m_MaxJumpPower, m_JumpAccelration;
-	bool m_Jumped = true;
-	float m_JumpPower, m_ChargePower;
-	private float jumpPower, chargePower;
-
 	public float m_Rotation;		// Amount of rotation applied in the Y-axis
 	public float m_Gravity; 		// Gravity acceleration, added each frame when not grounded.
 	public float m_Friction;		// SpeedLoss, every frame.
@@ -75,16 +69,14 @@ public class Movement : MonoBehaviour {
 		rayDirection = -Vector3.up;
 	}
 	
-	public float getChargePower
-	{
-		get {return chargePower;}
-	}
-	
 	public float getSpeed
 	{
 		get {return speed;}
 	}
-	
+	public Vector3 m_getVelocity
+	{
+		get {return velocity;}
+	}
 	// Calculates the new angle and rotates accordingly
 	void LateUpdate()
 	{
@@ -93,7 +85,6 @@ public class Movement : MonoBehaviour {
 		{
 			if(!isGrounded)
 			{
-				jumpPower = 0;
 				gravity = 0;
 			}
 			
@@ -104,7 +95,7 @@ public class Movement : MonoBehaviour {
 				{
 					transform.rotation = Quaternion.LookRotation(Vector3.Cross(transform.right, hit.normal), hit.normal);
 				}
-				transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(Vector3.Cross(transform.right, hit.normal), hit.normal), (Time.fixedDeltaTime*(speed/5)*m_AngleSpeed*(hoverHeight/hit.distance)));
+				transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(Vector3.Cross(transform.right, hit.normal), hit.normal), (Time.fixedDeltaTime*((5+speed)/5)*m_AngleSpeed*(hoverHeight/hit.distance)));
 			}
 			// adds gravity if hoverboard is upside down
 			else if(hit.normal.y <= 0)
@@ -210,33 +201,6 @@ public class Movement : MonoBehaviour {
 		velocity = direction.normalized *(forwardSpeed+backwardSpeed + boostSpeed+bonusSpeed) -Vector3.up*gravity ;
 		transform.position += velocity*Time.fixedDeltaTime;
 		
-		if (Input.GetKey (KeyCode.Space) && isGrounded)
-		{
-			chargePower = chargePower + m_JumpAccelration;
-		}
-		
-		if ((Input.GetKeyUp(KeyCode.Space)) && isGrounded)
-		{
-			if(chargePower > m_MaxJumpPower)
-			{
-				chargePower = m_MaxJumpPower;
-			}
-			jumpPower = chargePower;
-			chargePower = 0;
-		}
-		
-		transform.Translate((transform.up.normalized * m_JumpPower) * Time.fixedDeltaTime);		
-		transform.position += ((Vector3.up * jumpPower) * Time.deltaTime);
-		
-		if (jumpPower > 0.01f)
-		{
-			jumpPower -= 0.05f;
-		}
-		if (jumpPower < 0.01f)
-		{
-			jumpPower = 0f;
-		}
-		
 		if (Input.GetKey (KeyCode.J)) {
 			
 			transform.Translate (Vector3.left*Time.deltaTime*10);
@@ -250,13 +214,17 @@ public class Movement : MonoBehaviour {
 	// reset position when collide
 	void OnCollisionEnter(Collision col)
 	{
-		transform.position = transform.position - velocity.normalized*10;
+		transform.position = transform.position - velocity.normalized;
 		forwardSpeed = 0;
 		backwardSpeed = 0;
 		bonusSpeed = 0;
 		boostSpeed = 0;
 	}
-	
+
+	//public void resetSpeed()
+	//{
+	//
+	//}
 	// Adds speed depending on angle on the hoverboard
 	private void addPotentialSpeed()
 	{

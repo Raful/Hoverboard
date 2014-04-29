@@ -12,6 +12,9 @@ using System.Collections;
 public class Finish : MonoBehaviour {
 
 	Timer StopTime;
+	public string m_NextLevelToLoad;
+	private int i;
+	private float entryTime, differens;
 	Medal medal;
 
     float finishTime=0.0f;
@@ -23,12 +26,12 @@ public class Finish : MonoBehaviour {
 	void Start () 
 	{
 		StopTime = GameObject.Find ("TimerText").GetComponent<Timer> ();
-
-
+		differens = 0;
 	}
 
 	void OnTriggerEnter(Collider collision)
 	{
+		entryTime = Time.time;
 		StopTime.StopTimer();
 
 
@@ -42,5 +45,21 @@ public class Finish : MonoBehaviour {
         }
 #endif*/
 
+	}
+	void Update()
+	{
+		if(entryTime != 0)
+		{
+			differens = Time.time - entryTime;
+		}
+		
+		if( differens > 2)
+		{
+			LoadNextLevel();
+		}
+	}
+	void LoadNextLevel()
+	{
+			Application.LoadLevel(m_NextLevelToLoad);
 	}
 }
