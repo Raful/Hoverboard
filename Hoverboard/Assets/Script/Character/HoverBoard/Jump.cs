@@ -6,6 +6,7 @@ public class Jump : MonoBehaviour {
 	public float m_MaxJumpPower, m_JumpAccelration;
 	private float jumpPower, chargePower;
 	Movement getGrounded;
+	private Vector3 speed;
 
 	
 	public float getChargePower
@@ -42,8 +43,10 @@ public class Jump : MonoBehaviour {
 		}
 		
 		//transform.Translate((transform.up.normalized * jumpPower) * Time.fixedDeltaTime);		
-		transform.position += ((Vector3.up * jumpPower) * Time.deltaTime);
-		
+		//transform.position = ((Vector3.up * jumpPower) * Time.deltaTime);
+		getGrounded.jumpVelocity = ((Vector3.up * jumpPower) * Time.deltaTime).y;
+		Debug.Log ("Setting Jump Speed");
+
 		if (jumpPower > 0.01f)
 		{
 			jumpPower -= 0.05f;
