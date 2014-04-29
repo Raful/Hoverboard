@@ -76,6 +76,13 @@ public class Movement : MonoBehaviour {
 	{
 		get {return velocity;}
 	}
+
+	void Update ()
+	{
+		if (Input.GetKey (KeyCode.Escape)) {
+			Application.Quit();
+				}
+		}
 	// Calculates the new angle and rotates accordingly
 	void LateUpdate()
 	{
@@ -189,7 +196,9 @@ public class Movement : MonoBehaviour {
 		backwardSpeed = Mathf.Clamp (backwardSpeed, -m_MaxAccSpeed, 0);
 		boostSpeed = Mathf.Clamp(boostSpeed, 0, boostMaxAccSpeed - m_MaxAccSpeed); //boostMaxAccSpeed is set as the max speed while boosting, but boostSpeed is added to the normal speed (not overwriting it).
 		speedForCamera = forwardSpeed + backwardSpeed + bonusSpeed;
-
+		if (forwardSpeed > m_MaxAccSpeed) {
+			forwardSpeed -= m_MaxAccSpeed/10;
+				}
 		#if UNITY_EDITOR
 		if (boostMaxAccSpeed < m_MaxAccSpeed)
 		{
@@ -219,6 +228,29 @@ public class Movement : MonoBehaviour {
 		backwardSpeed = 0;
 		bonusSpeed = 0;
 		boostSpeed = 0;
+	}
+
+	void OnTriggerEnter(Collider col)
+	{
+		if (col.transform.tag == "Solarpanel") {
+			boostMaxAccSpeed = 3*boostMaxAccSpeed;
+			m_MaxAccSpeed = 3*m_MaxAccSpeed;
+			m_ForwardAcc = 3*m_ForwardAcc;
+
+
+				}
+		}
+
+
+
+	void OnTriggerExit(Collider col)
+	{
+		if (col.transform.tag == "Solarpanel") {
+			m_MaxAccSpeed = m_MaxAccSpeed/3;
+			boostMaxAccSpeed = boostMaxAccSpeed/3;
+			m_ForwardAcc = m_ForwardAcc/3;
+			
+		}
 	}
 
 	// Adds speed depending on angle on the hoverboard
