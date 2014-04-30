@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-using System.Net;
 
-using System.IO;
 public class AirKeyState : KeyState
 {
 	private Movement movement;
