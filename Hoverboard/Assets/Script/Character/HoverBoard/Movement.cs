@@ -67,6 +67,18 @@ public class Movement : MonoBehaviour {
 
 	public float speedForCamera;	//This variable is for the moment only so the camera can decide the distance from the hoverboard
 	
+	private bool useVCR;
+	private InputVCR vcr;
+	
+	void Awake()
+	{
+		Transform root = transform;
+		while ( root.parent != null )
+			root = root.parent;
+		vcr = root.GetComponent<InputVCR>();
+		useVCR = vcr != null;
+		vcr.Record ();
+	}
 
 	void Start ()
 	{
@@ -132,24 +144,24 @@ public class Movement : MonoBehaviour {
 		// Add velocity and rotations
 		if(isGrounded)
 		{
-			if(Input.GetKey(KeyCode.W))
+			if(vcr.GetButton("Forward"))
 			{
 				forwardSpeed += m_ForwardAcc;
 				backwardSpeed += m_ForwardAcc;
 			}
 
-			if(Input.GetKey(KeyCode.S))
+			if(vcr.GetButton("Backward"))
 			{
 				forwardSpeed -= m_BackwardAcc;
 				backwardSpeed -= m_BackwardAcc;
 			}
 
-			if(Input.GetKey(KeyCode.A))
+			if(vcr.GetButton("LeftRotation"))
 			{
 				transform.Rotate(0, -m_Rotation, 0f,Space.Self);
 			}
 
-			if(Input.GetKey(KeyCode.D))
+			if(vcr.GetButton("RightRotation"))
 			{
 				transform.Rotate(0, m_Rotation, 0,Space.Self);
 			}
@@ -159,20 +171,20 @@ public class Movement : MonoBehaviour {
 			// rotate in are, if rotateWhenNotGrounded == true
 			if(rotateWhenNotGrounded)
 			{
-				if(Input.GetKey(KeyCode.W))
+				if(vcr.GetButton("Forward"))
 				{
 					transform.Rotate(1f,0,0f,Space.Self);
 				}
-				if(Input.GetKey(KeyCode.S))
+				if(vcr.GetButton("Backward"))
 				{
 					transform.Rotate(-1f,0f,0f,Space.Self);
 				}
-				if(Input.GetKey(KeyCode.A))
+				if(vcr.GetButton("LeftRotation"))
 				{
 					direction = RotateY(direction,-0.01f);
 					transform.Rotate(0,-0.4f,0f,Space.Self);
 				}
-				if(Input.GetKey(KeyCode.D))
+				if(vcr.GetButton("RightRotation"))
 				{
 					direction = RotateY(direction,0.01f);
 					transform.Rotate(0,0.4f,0,Space.Self);
@@ -188,7 +200,7 @@ public class Movement : MonoBehaviour {
 		backwardSpeed+= m_Friction;
 		boostSpeed -= m_Friction;
 		
-		if (boostScript.m_isBoosting && Input.GetKey(KeyCode.W))
+		if (boostScript.m_isBoosting && vcr.GetButton("Forward"))
 		{
 			//Use boost
 			boostSpeed += boostAcceleration;
@@ -213,12 +225,12 @@ public class Movement : MonoBehaviour {
 		velocity = direction.normalized *(forwardSpeed+backwardSpeed + boostSpeed+bonusSpeed) -Vector3.up*gravity ;
 		transform.position += velocity*Time.fixedDeltaTime;
 		
-		if (Input.GetKey (KeyCode.Space) && isGrounded)
+		if (vcr.GetButton("Jump") && isGrounded)
 		{
 			chargePower = chargePower + m_JumpAccelration;
 		}
 		
-		if ((Input.GetKeyUp(KeyCode.Space)) && isGrounded)
+		if ((vcr.GetButton("Jump")) && isGrounded)
 		{
 			if(chargePower > m_MaxJumpPower)
 			{
@@ -240,12 +252,12 @@ public class Movement : MonoBehaviour {
 			jumpPower = 0f;
 		}
 		
-		if (Input.GetKey (KeyCode.J)) {
+		if (vcr.GetButton("LeftStrafe")) {
 			
 			transform.Translate (Vector3.left*Time.deltaTime*10);
 		}
 		
-		if (Input.GetKey (KeyCode.L)) {
+		if (vcr.GetButton("RightStrafe")) {
 			transform.Translate (Vector3.right*Time.deltaTime*10);
 		}
 	}

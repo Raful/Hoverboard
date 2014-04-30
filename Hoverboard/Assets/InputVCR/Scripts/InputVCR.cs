@@ -113,10 +113,13 @@ public class InputVCR : MonoBehaviour
 	/// </summary>
 	public void Record()
 	{
-		if ( currentRecording == null || currentRecording.recordingLength == 0 )
-			NewRecording();
-		else
+		if (currentRecording == null || currentRecording.recordingLength == 0) {
+			NewRecording ();
+			Debug.Log (currentRecording);
+		} else {
 			_mode = InputVCRMode.Record;
+			Debug.Log (currentRecording);
+		}
 	}
 	
 	/// <summary>
@@ -126,6 +129,7 @@ public class InputVCR : MonoBehaviour
 	{
 		// start recording live input
 		currentRecording = new Recording( recordingFrameRate );
+
 		currentFrame = 0;
 		realRecordingTime = 0;
 		
@@ -232,6 +236,7 @@ public class InputVCR : MonoBehaviour
 	/// </returns>
 	public Recording GetRecording()
 	{
+
 		return new Recording( currentRecording );
 	}
 	
@@ -244,7 +249,7 @@ public class InputVCR : MonoBehaviour
 			lastFrameInputs = thisFrameInputs;
 			
 			int lastFrame = currentFrame;
-			currentFrame = currentRecording.GetClosestFrame ( playbackTime );
+			currentFrame = currentRecording.GetClosestFrame ( playbackTime );  //HÄR ÄR PROBLEM
 			
 			if ( currentFrame > currentRecording.totalFrames )
 			{
@@ -325,6 +330,7 @@ public class InputVCR : MonoBehaviour
 					else if ( input.mouseButtonNum >= 0 )	// mouse buttons recorded above 
 						input.buttonState = Input.GetButton ( input.inputName );
 					currentRecording.AddInput ( currentFrame, input );
+
 				}
 				
 				// synced location
@@ -336,8 +342,11 @@ public class InputVCR : MonoBehaviour
 				
 				// and any other properties
 				foreach( FrameProperty prop in nextPropertiesToRecord )
-					currentRecording.AddProperty ( currentFrame, prop );
-				nextPropertiesToRecord.Clear ();
+				{
+
+					currentRecording.AddProperty ( currentFrame, prop );		//HÄR ÄR PROBLEM
+				}
+					nextPropertiesToRecord.Clear ();
 				
 				currentFrame++;
 			}

@@ -118,8 +118,9 @@ public class Recording
 	/// </param>
 	public void AddProperty( int atFrame, FrameProperty propertyInfo )
 	{
+		Debug.Log (atFrame + " " + propertyInfo);
 		CheckFrame( atFrame );
-		
+
 		for( int i = 0; i < frames[atFrame].syncedProperties.Count; i++ )
 		{
 			// no duplicate properties
