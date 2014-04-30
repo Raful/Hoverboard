@@ -29,8 +29,8 @@ public class Hover_WithTransform : MonoBehaviour {
 			// Lerps to hoverHeight
 			else 
 			{
-				Debug.Log((hit.distance));
-				transform.position = Vector3.MoveTowards(transform.position,(-rayDirection*(hoverHeight-hit.distance))+ transform.position, Time.deltaTime*m_HoverSpeed);
+				transform.position = -rayDirection*(hoverHeight-hit.distance)+ transform.position;
+				//transform.position = Vector3.MoveTowards(transform.position,(-rayDirection*(hoverHeight-hit.distance))+ transform.position, Time.deltaTime*m_HoverSpeed);
 
 			}
 		}
