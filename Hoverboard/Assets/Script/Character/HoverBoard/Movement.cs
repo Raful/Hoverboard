@@ -42,7 +42,6 @@ public class Movement : MonoBehaviour {
 	private float lastAngle;				// Timestamp from when leaving ground
 	
 	private Vector3 direction;		// Direction of the hoverboard
-	private Vector3 rayDirection;	// Direction of the angle-raycast. Points in local down when grounded, else in world down
 	private Vector3 velocity;		// The vector whichs updates new positions
 	private Vector3 lastPosition;	// contains a position 1 second ago
 	private float lastTime;			// Used to save position every second
@@ -58,6 +57,8 @@ public class Movement : MonoBehaviour {
 	public float forwardSpeed;		
 	[HideInInspector]
 	public float backwardSpeed;
+	[HideInInspector]
+	public Vector3 rayDirection;	// Direction of the angle-raycast. Points in local down when grounded, else in world down
 
 	public float speedForCamera;	//This variable is for the moment only so the camera can decide the distance from the hoverboard
 	
@@ -171,7 +172,7 @@ public class Movement : MonoBehaviour {
 			rayDirection = -Vector3.up;
 		}
 
-		//savePosition ();
+
 		addPotentialSpeed();
 		
 		forwardSpeed-= m_Friction;
@@ -197,10 +198,10 @@ public class Movement : MonoBehaviour {
 		}
 		#endif
 		
-		velocity = direction.normalized *(forwardSpeed+backwardSpeed + boostSpeed+bonusSpeed) -Vector3.up*gravity ;
-//		Debug (velocity.magnitude);
+		velocity = direction.normalized *(forwardSpeed+backwardSpeed + boostSpeed+bonusSpeed) -Vector3.up*gravity;
 		transform.position += velocity*Time.fixedDeltaTime;
-		
+
+		// Strafe Input
 		if (Input.GetKey (KeyCode.J)) {
 			
 			transform.Translate (Vector3.left*Time.deltaTime*10);
@@ -211,16 +212,16 @@ public class Movement : MonoBehaviour {
 		}
 	}
 
-	// reset position when collide
-	void OnCollisionEnter(Collision col)
+	// Calls on collision, resets Speed, x-rotation and position
+	public void ResetPosition()
 	{
-		transform.position = transform.position - velocity.normalized*10;
+		transform.position = transform.position - velocity.normalized*3;
 		forwardSpeed = 0;
 		backwardSpeed = 0;
 		bonusSpeed = 0;
 		boostSpeed = 0;
+		transform.eulerAngles = new Vector3 (0, transform.eulerAngles.y, transform.eulerAngles.z);
 	}
-
 	// Adds speed depending on angle on the hoverboard
 	private void addPotentialSpeed()
 	{
@@ -243,16 +244,6 @@ public class Movement : MonoBehaviour {
 		// decelerate
 		bonusSpeed = Mathf.Lerp (bonusSpeed, 0, Time.deltaTime*m_PotentialFriction);
 	}
-	
-	// saves a old position every second
-	private void savePosition()
-	{
-		if(Time.time - lastTime >= 1f)
-		{
-			lastPosition = transform.position;
-			lastTime = Time.time;	
-		}
-	}
 
 	// allows the hoverboard to rotate when not grounded, in x seconds
 	private void allowRotateInAir()
@@ -262,7 +253,7 @@ public class Movement : MonoBehaviour {
 			rotateWhenNotGrounded = true;
 		}
 	}
-
+	// rotate a vector operation
 	public static Vector3 RotateY( Vector3 v, float angle )
 	{
 		float sin = Mathf.Sin( angle );
