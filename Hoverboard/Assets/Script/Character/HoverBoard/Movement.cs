@@ -84,6 +84,7 @@ public class Movement : MonoBehaviour {
 		RaycastHit hit;
 		if(Physics.Raycast(transform.position, rayDirection, out hit, hoverHeight+1+ gravity/10))
 		{
+			// höj maxangle om !grounded?
 			if(!isGrounded)
 			{
 				gravity = 0;
@@ -96,7 +97,7 @@ public class Movement : MonoBehaviour {
 				{
 					transform.rotation = Quaternion.LookRotation(Vector3.Cross(transform.right, hit.normal), hit.normal);
 				}
-				transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(Vector3.Cross(transform.right, hit.normal), hit.normal), (Time.fixedDeltaTime*((5+speed)/5)*m_AngleSpeed*(hoverHeight/hit.distance)));
+				transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(Vector3.Cross(transform.right, hit.normal), hit.normal), (Time.fixedDeltaTime*velocity.magnitude*m_AngleSpeed*(hoverHeight/hit.distance)));
 			}
 			// adds gravity if hoverboard is upside down
 			else if(hit.normal.y <= 0)
@@ -221,7 +222,7 @@ public class Movement : MonoBehaviour {
 		backwardSpeed = 0;
 		bonusSpeed = 0;
 		boostSpeed = 0;
-		transform.eulerAngles = new Vector3 (0, transform.eulerAngles.y, transform.eulerAngles.z);
+		//transform.eulerAngles = new Vector3 (0, transform.eulerAngles.y, transform.eulerAngles.z);
 	}
 	// Adds speed depending on angle on the hoverboard
 	private void addPotentialSpeed()
