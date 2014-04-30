@@ -12,45 +12,43 @@ using System.Collections;
 
 public class TrailRendScript : MonoBehaviour {
 	
-	Movement Player;
-	TrailRenderer Render;
+	public Movement m_MovementReference;
+	public TrailRenderer m_RenderReference;
 	public float m_MaxDisplayTime, m_DecreaseRate, m_IncreaseRate, m_ShowRayThreshold;
 	
 	void Start () 
 	{
-		Render = GetComponent<TrailRenderer>();
-		Render.enabled = true;
-		Render.time = 0;
-		Player = transform.parent.GetComponent<Movement> ();
+		m_RenderReference.enabled = true;
+		m_RenderReference.time = 0;
 	}
 	
 	void Update () {
 		//Tail will only be displayed when player is moving over a set speed
-		if (Player.forwardSpeed > m_ShowRayThreshold)
+		if (m_MovementReference.forwardSpeed > m_ShowRayThreshold)
 		{
-			Render.time += m_IncreaseRate;
-			if(Render.time > m_MaxDisplayTime)
+			m_RenderReference.time += m_IncreaseRate;
+			if(m_RenderReference.time > m_MaxDisplayTime)
 			{
-				Render.time = m_MaxDisplayTime;
+				m_RenderReference.time = m_MaxDisplayTime;
 			}
 		}
 		//When player is slowing down shorten tail, and when less
 		//then 0 set it to orignal length(time) and stop displaying
-		else if(Player.getSpeed < m_ShowRayThreshold)
+		else if(m_MovementReference.getSpeed < m_ShowRayThreshold)
 		{
-			if (Render.time < 0)
+			if (m_RenderReference.time < 0)
 			{
-				Render.time = 0;
+				m_RenderReference.time = 0;
 			}
-			else if(Player.getSpeed > 0f)
+			else if(m_MovementReference.getSpeed > 0f)
 			{
-				Render.time -= m_DecreaseRate;
+				m_RenderReference.time -= m_DecreaseRate;
 			}
 		}
 		//Going backward stop displaying tail.
 		else
 		{
-			Render.time = 0;
+			m_RenderReference.time = 0;
 		}
 		
 		

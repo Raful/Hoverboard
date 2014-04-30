@@ -5,7 +5,7 @@ public class Jump : MonoBehaviour {
 
 	public float m_MaxJumpPower, m_JumpAccelration;
 	private float jumpPower, chargePower;
-	Movement privateMovement;
+	public Movement privateMovement;
 
 	
 	public float getChargePower
@@ -15,7 +15,6 @@ public class Jump : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
-		privateMovement = GetComponent<Movement>();
 	}
 	
 	// Update is called once per frame
