@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Package xmlns="http://schemas.microsoft.com/appx/2010/manifest" 
+         xmlns:mx="http://schemas.microsoft.com/appx/2013/xbox/manifest" 
+         IgnorableNamespaces="mx">
+	<Identity Name="DefaultCompany.Hoverboard"
+	          Publisher="CN=DefaultCompany"
+	          Version="1.0.0.0" />
+	<Properties>
+		<DisplayName>Hoverboard</DisplayName>
+		<PublisherDisplayName>DefaultCompany</PublisherDisplayName>
+		<Logo>StoreLogo.png</Logo>
+		<Description>Hoverboard</Description>
+	</Properties>
+	<Prerequisites>
+		<OSMinVersion>6.2</OSMinVersion>
+		<OSMaxVersionTested>6.2</OSMaxVersionTested>
+		<mx:ApplicationEnvironment>title</mx:ApplicationEnvironment>
+		<mx:OSName>era</mx:OSName>
+	</Prerequisites>
+	<Resources>
+		<Resource Language="en-us"/>
+		<Resource Language="fr-fr"/>
+		<Resource Language="it-it"/>
+		<Resource Language="es-es"/>
+		<Resource Language="de-de"/>
+	</Resources>
+	<Applications>
+		<Application Id="App" Executable="XboxOnePlayer.exe" EntryPoint="XboxOnePlayer.app">
+			<VisualElements
+				DisplayName="Hoverboard"
+				Logo="Logo.png"
+				SmallLogo="SmallLogo.png"
+				Description="Hoverboard"
+				ForegroundText="light"
+				BackgroundColor="#464646">
+				<SplashScreen Image="SplashScreen.png"/>
+				<DefaultTile WideLogo="WideLogo.png"/>
+			</VisualElements>
+			<mx:Ratings Category="game">
+				<mx:Rating>ESRB:E10</mx:Rating>
+				<mx:Rating>PEGI:12</mx:Rating>
+				<mx:Rating>USK:6</mx:Rating>
+				<mx:Rating>COB-AU:PG</mx:Rating>
+				<mx:Rating>DJCTQ:10</mx:Rating>
+				<mx:Rating>FPB:PG</mx:Rating>
+				<mx:Rating>CERO:B</mx:Rating>
+				<mx:Rating>GRB:All</mx:Rating>
+				<mx:Rating>CSRR:PG12</mx:Rating>
+				<mx:Rating>MICROSOFT:12</mx:Rating>
+			</mx:Ratings>
+			<Extensions>
+				<mx:Extension Category="xbox.live">
+					<mx:XboxLive TitleId="3CAEEC88" PrimaryServiceConfigId="e1039253-2550-49c7-b785-4934f078c685"/>
+				</mx:Extension>
+			</Extensions>
+		</Application>
+	</Applications>
+	<Capabilities>
+		<Capability Name="internetClientServer" />
+		<mx:Capability Name="kinectVision"/>
+		<mx:Capability Name="kinectAudio"/>
+		<mx:Capability Name="kinectExpressions"/>
+		<mx:Capability Name="kinectFace"/>
+		<mx:Capability Name="kinectGamechat"/>
+	</Capabilities>
+	<Extensions>
+		<Extension Category="windows.activatableClass.inProcessServer">
+			<InProcessServer>
+				<Path>Microsoft.Xbox.Services.dll</Path>
+				<ActivatableClass ActivatableClassId="Microsoft.Xbox.Services.XboxLiveContext" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Xbox.Services.Configuration" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Xbox.Services.Multiplayer.MultiplayerQualityOfServiceMeasurements" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Xbox.Services.Multiplayer.MultiplayerSessionReference" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Xbox.Services.Multiplayer.MultiplayerSession" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Xbox.Services.Matchmaking.CreateMatchTicketResponse" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Xbox.Services.Matchmaking.HopperStatisticsResponse" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Xbox.Services.Matchmaking.MatchTicketDetailsResponse" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Xbox.Services.Presence.PresenceData" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Xbox.Services.TitleStorage.TitleStorageBlobMetadata" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Xbox.Services.UserStatistics.RequestedStatistics" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Xbox.Services.Social.SocialGroupConstants" ThreadingModel="both" />
+			</InProcessServer>
+		</Extension>
+		<Extension Category="windows.activatableClass.inProcessServer">
+			<InProcessServer>
+				<Path>Microsoft.Kinect.dll</Path>
+				<ActivatableClass ActivatableClassId="Microsoft.Kinect.FaceFrameSource" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Kinect.VisualGestureBuilderDatabase" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Kinect.VisualGestureBuilderFrameSource" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Kinect.FaceModel" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Kinect.FaceAlignment" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Kinect.FaceModelBuilder" ThreadingModel="both" />
+				<ActivatableClass ActivatableClassId="Microsoft.Kinect.HighDefinitionFaceFrameSource" ThreadingModel="both" />
+			</InProcessServer>
+		</Extension>
+		<mx:PackageExtension Category="windows.kinect">
+			<mx:Kinect IsVersionLocked="true">
+				<mx:AudioPipeline Version="1.0.0"/>
+				<mx:SpeechPipeline Version="1.0.0"/>
+				<mx:VisionPipeline Version="1.0.0"/>
+			</mx:Kinect>
+		</mx:PackageExtension>
+	</Extensions>
+</Package>

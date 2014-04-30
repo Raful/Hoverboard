@@ -23,7 +23,6 @@ public class TriggedObject : MonoBehaviour {
     public virtual void TriggerEnter() 
     {
         isActive = true;
-        Debug.Log("Entered");
     }
 
     public virtual void TriggerExit() 
