@@ -109,6 +109,8 @@ public class HighScore : MonoBehaviour {
     void InitXBoxOne()
     {
         userName = "UserOnXBoxOne";
+
+        Debug.Log("Local username: "+Social.localUsername);
     }
 #endif
 }
