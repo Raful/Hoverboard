@@ -25,9 +25,9 @@ public class ButtonCombos : MonoBehaviour {
 	public float afterThisTimeTheTrickStarts = 0.35f;
 	// Use this for initialization
 	void Start () {
-		if(combos.Count == tricks.Count)
+		if(m_Combos.Count == m_Tricks.Count)
 		{
-			for(int i = 0; i < combos.Count; i++)
+			for(int i = 0; i < m_Combos.Count; i++)
 			{
 				m_Combos[i] = m_Combos[i].ToLower();
 				m_Tricks[i] = m_Tricks[i].ToLower();
