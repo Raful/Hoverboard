@@ -3,7 +3,8 @@ using System.Collections;
 
 public class GFX_Options_popup : MonoBehaviour {
 	public UIPopupList popup;
-	public string myItem;
+
+	//string[] names = QualitySettings.names;
 	
 	void Update()
 	{
