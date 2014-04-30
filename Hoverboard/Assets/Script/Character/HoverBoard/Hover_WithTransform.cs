@@ -7,17 +7,15 @@ using System.Collections;
  */
 
 public class Hover_WithTransform : MonoBehaviour {
-	
+
+	public float m_HoverSpeed; // The speed which will hover the board to the correct Posisiton
 	private float hoverHeight;
 	private Vector3 rayDirection;
-	void Start () 
-	{
-		hoverHeight = GetComponent<Movement> ().hoverHeight;
-	}
 	
 	// Moves the hoverboard in normal.up depending on distance from ground
-	void Update () 
+	void FixedUpdate () 
 	{
+		hoverHeight = GetComponent<Movement> ().hoverHeight;
 		rayDirection = GetComponent<Movement> ().rayDirection;
 
 		RaycastHit hit;
@@ -31,7 +29,9 @@ public class Hover_WithTransform : MonoBehaviour {
 			// Lerps to hoverHeight
 			else 
 			{
-				transform.position = Vector3.Lerp(transform.position, (-rayDirection*(hoverHeight-hit.distance))+ transform.position,(hoverHeight-hit.distance)*Time.deltaTime);
+				Debug.Log((hit.distance));
+				transform.position = Vector3.MoveTowards(transform.position,(-rayDirection*(hoverHeight-hit.distance))+ transform.position, Time.deltaTime*m_HoverSpeed);
+
 			}
 		}
 	}

@@ -3,17 +3,16 @@
  * Modified by: 
  * 
  * Description:
- * Rotates the object when activated
+ * Rotates the object if the player stands on a trigger
  */
 
 using UnityEngine;
 using System.Collections;
 
-public class RotatableObject : TriggedObject
-{
+public class OpeningBridge : TriggedObject {
 
     [SerializeField]
-    Vector3 maxAngle=Vector3.right*90;
+    Vector3 maxAngle = Vector3.right * 90;
     [SerializeField]
     float rotationSpeedModifier = 1;
 
@@ -22,19 +21,19 @@ public class RotatableObject : TriggedObject
     protected override void Start()
     {
         defaultRotation = transform.rotation;
-	}
+    }
 
-    protected override void Update()
+	protected override void Update () 
     {
         if (isActive)
         {
             //Rotate until the maxAngle is reached (using the shortest way)
             transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(maxAngle), rotationSpeedModifier * Time.deltaTime);
         }
-        else
-        {
-            //Rotate until the default rotation is reached (using the shortest way)
-            transform.rotation = Quaternion.RotateTowards(transform.rotation,defaultRotation, rotationSpeedModifier * Time.deltaTime);
-        }
 	}
+
+    public override void TriggerExit()
+    {
+        //Do nothing
+    }
 }

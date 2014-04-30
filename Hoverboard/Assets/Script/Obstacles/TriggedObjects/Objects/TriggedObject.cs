@@ -3,7 +3,7 @@
  * Modified by: 
  * 
  * Description:
- * A base class for movable objects (bridges that can open etc)
+ * A base class for trigged objects (bridges that can open etc)
  */
 
 using UnityEngine;
@@ -19,21 +19,15 @@ public class TriggedObject : MonoBehaviour {
 
     protected virtual void Start(){}
     protected virtual void Update(){}
-    protected virtual void ActivateObject(){}
-    protected virtual void DeactivateObject(){}
 
-    public void Activate() 
+    public virtual void TriggerEnter() 
     {
         isActive = true;
-
-        ActivateObject();
     }
 
-    public void Deactivate() 
+    public virtual void TriggerExit() 
     {
         isActive = false;
-
-        DeactivateObject();
     }
 
 }
