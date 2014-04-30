@@ -3,7 +3,7 @@
  * Modified by: 
  * 
  * Description:
- * Rotates the object if the player stands on a trigger
+ * Rotates the object if the player collides with a trigger (never deactivates)
  */
 
 using UnityEngine;
