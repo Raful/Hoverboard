@@ -12,15 +12,16 @@ public class MoveKeyState : KeyState
 		movement = Movement;
 	}
 
-	public void Start ()
+	public override void start ()
 	{
 		forwardAcc = movement.m_ForwardAcc;
 		backWardAcc = movement.m_BackwardAcc;
+
 	}
 
 
 	// Update is called once per frame
-	public void Update () 
+	public override void update () 
 	{
 		if(Input.GetKey(KeyCode.W))
 		{
@@ -36,14 +37,24 @@ public class MoveKeyState : KeyState
 		
 		if(Input.GetKey(KeyCode.A))
 		{
-			movement.m_Rotation = -1;
-			//transform.Rotate(0, -movement.m_Rotation, 0f,Space.Self);
+			movement.rotateBoardInY(-1);
 		}
 		
 		if(Input.GetKey(KeyCode.D))
 		{
-			movement.m_Rotation = 1;
-			//transform.Rotate(0, movement.m_Rotation, 0,Space.Self);
+			movement.rotateBoardInY(1);
 		}
+
+		if (Input.GetKey (KeyCode.J)) 
+		{
+			
+			movement.Strafe(Vector3.left);
+		}
+		
+		if (Input.GetKey (KeyCode.L)) 
+		{
+			movement.Strafe(Vector3.right);
+		}
+	
 	}
 }
