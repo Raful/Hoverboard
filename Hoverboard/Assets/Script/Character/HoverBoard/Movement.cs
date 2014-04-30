@@ -221,7 +221,6 @@ public class Movement : MonoBehaviour {
 		backwardSpeed = 0;
 		bonusSpeed = 0;
 		boostSpeed = 0;
-		//transform.eulerAngles = new Vector3 (0, transform.eulerAngles.y, transform.eulerAngles.z);
 	}
 	// Adds speed depending on angle on the hoverboard
 	private void addPotentialSpeed()

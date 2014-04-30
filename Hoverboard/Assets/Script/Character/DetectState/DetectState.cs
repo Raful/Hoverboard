@@ -22,6 +22,7 @@ public class DetectState : MonoBehaviour {
     {
         get { return state; }
     }
+	public KeyState key = new MoveKeyState (GetComponent<Movement> ());
 
     ArrayList collidersFound;
 
