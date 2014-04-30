@@ -15,14 +15,14 @@ public class MotionBlurControl : MonoBehaviour {
 	//Recomended to keep Decrease and Increase the same
 	public float m_SpeedThreshold, m_IncreaseAmount, m_DecreaseAmount, m_BlurLimit;
 	private float zero = 0f, speed;
-	public string m_FindGameObject;
 	private Vector3 lastPosition,currentPosition;
+	public GameObject m_Target;
 
 	// Use this for initialization
 	void Start () 
 	{
 		Areablur = gameObject.GetComponent<MotionBlur>();
-		Player = GameObject.Find(m_FindGameObject).GetComponent<Movement>();
+		Player = m_Target.GetComponent<Movement>();
 		Areablur.blurAmount = zero;
 	}
 	

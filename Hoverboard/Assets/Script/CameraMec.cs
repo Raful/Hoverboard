@@ -11,7 +11,7 @@ using System.Collections;
 
 public class CameraMec : MonoBehaviour {
 	private float m_Smooth;
-	private float m_DefaultDistance = 5;
+	public float m_DefaultDistance = 5;
 
 
 	private float distance;
@@ -79,7 +79,7 @@ public class CameraMec : MonoBehaviour {
 		Vector3 lookPos = targetedPosition;
 		lookPos.y = targetedPosition.y + 1;
 		Vector3 newPos = lookPos;
-
+		
 		//change distance to hoverboard depending on the hoverboard's speed
 		if (hoverboard.GetComponent<Movement>().speedForCamera < -0.01f || hoverboard.GetComponent<Movement>().speedForCamera > 0.01f )
 		{
