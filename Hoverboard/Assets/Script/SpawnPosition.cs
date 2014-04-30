@@ -10,18 +10,17 @@ using System.Collections;
 
 public class SpawnPosition : MonoBehaviour {
 
-	public GameObject m_Target;
-	Timer StartTime;
+	public Transform m_Target;
+	public Timer m_TimerReference;
 
 	// Use this for initialization
 	void Start () 
 	{
 		m_Target.transform.position = transform.position;
-		StartTime = GameObject.Find ("TimerText").GetComponent<Timer> ();
 	}
 
 	void OnTriggerExit(Collider collision)
 	{
-		StartTime.RaceTime();
+		m_TimerReference.RaceTime();
 	}
 }
