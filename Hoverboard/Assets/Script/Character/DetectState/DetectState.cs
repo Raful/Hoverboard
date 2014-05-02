@@ -14,6 +14,7 @@
 
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class DetectState : MonoBehaviour {
 
@@ -22,10 +23,21 @@ public class DetectState : MonoBehaviour {
     {
         get { return state; }
     }
+	//public KeyState key = new MoveKeyState (gameObject.GetComponent<Movement>);
 
+	private Dictionary<string,KeyState> keyStateDictionary = new Dictionary<string,KeyState>();
+	private string currentKeyState;
     ArrayList collidersFound;
 
     ColliderObject[] colliderStates;
+
+	public string getKeyState
+	{
+		set {
+			currentKeyState = value;
+		}
+		get {return currentKeyState;}
+	}
 
 	// Use this for initialization
 	void Start () 
@@ -38,6 +50,9 @@ public class DetectState : MonoBehaviour {
         colliderStates = gameObject.GetComponentsInChildren<ColliderObject>();
 
         collidersFound = new ArrayList();
+		currentKeyState = "Grounded";
+		keyStateDictionary.Add ("Grounded",new MoveKeyState(GetComponent<Movement>()));
+		keyStateDictionary.Add ("Air",new AirKeyState(GetComponent<Movement>()));
 	}
 	
 	// Update is called once per frame
@@ -46,7 +61,7 @@ public class DetectState : MonoBehaviour {
         gatherColliders();
 
         setState();
-
+		updateKeyState (currentKeyState).update();
         //Clear collidersFound at each frame, to keep it updated
         collidersFound.Clear();
 	}
@@ -72,6 +87,7 @@ public class DetectState : MonoBehaviour {
         if (findInCollidersFound(new KeyPair("Bottom", "Rail")))
         {
             state = "Rail";
+			Debug.Log("RAIL");
         }
         else if (findInCollidersFound(new KeyPair("BoardRight", "Wall"))
             || findInCollidersFound(new KeyPair("BoardLeft", "Wall")))
@@ -98,4 +114,18 @@ public class DetectState : MonoBehaviour {
         //Nothing found, return false
         return false;
     }
+	public void changeKeyState(string state)
+	{
+		if(state != currentKeyState)
+		{
+			keyStateDictionary [currentKeyState].end();
+			keyStateDictionary [state].start();
+			currentKeyState = state;
+		}
+	}
+	KeyState updateKeyState(string keyState)
+	{
+
+		return keyStateDictionary[keyState];
+	}
 }
