@@ -6,10 +6,12 @@ public class GrindKeyState : KeyState
 	private Movement movement;
 	private float forwardAcc;
 	private float backWardAcc;
+
 	private float timeIni;
 
 	private bool useVCR;
 	private InputVCR vcr;
+
 	
 	public GrindKeyState(Movement Movement)
 	{
@@ -22,14 +24,14 @@ public class GrindKeyState : KeyState
 	
 	public override void start ()
 	{
-		timeIni = Time.time;
+		forwardAcc = movement.m_ForwardAcc;
+		backWardAcc = movement.m_BackwardAcc;
 	}
 	
 	public override void update () 
-	{
-		
-		if(Time.time > timeIni+1)
-		{
+	{	
+
+
 			
 			if(vcr.GetButton("LeftRotation"))
 			{
@@ -47,7 +49,10 @@ public class GrindKeyState : KeyState
 			{
 
 			}
-		}
+
+			movement.rotateBoardInZ(-1f);
+
+	
 	}
 	
 	public override void end()

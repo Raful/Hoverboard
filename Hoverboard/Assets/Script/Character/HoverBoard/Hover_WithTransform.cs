@@ -8,7 +8,6 @@ using System.Collections;
 
 public class Hover_WithTransform : MonoBehaviour {
 
-	public float m_HoverSpeed; // The speed which will hover the board to the correct Posisiton
 	private float hoverHeight;
 	private Vector3 rayDirection;
 	

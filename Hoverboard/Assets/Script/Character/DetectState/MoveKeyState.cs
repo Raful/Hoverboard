@@ -68,6 +68,9 @@ public class MoveKeyState : KeyState
 		{
 			movement.Strafe(Vector3.right);
 		}
-	
+	}
+	public override void end()
+	{
+
 	}
 }
