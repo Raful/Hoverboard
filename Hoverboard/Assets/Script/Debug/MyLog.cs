@@ -15,9 +15,17 @@ public class MyLog : MonoBehaviour
     static Queue myLogQueue = new Queue();
     public string output = "";
     public string stack = "";
-    public bool hidden = true;
+    private bool hidden = true;
     private Vector2 scrollPos;
     public int maxLines = 30;
+
+    //Show automatically if on xbox one
+#if UNITY_XBOXONE
+    void Start()
+    {
+        hidden=false;
+    }
+#endif
 
     void OnEnable()
     {
@@ -40,7 +48,6 @@ public class MyLog : MonoBehaviour
             newString = "\n" + stackTrace;
             myLogQueue.Enqueue(newString);
         }
-
         while (myLogQueue.Count > maxLines)
         {
             myLogQueue.Dequeue();

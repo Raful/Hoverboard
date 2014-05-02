@@ -13,21 +13,24 @@ using UnityEngine.SocialPlatforms;
 public class DebugScript : MonoBehaviour {
 
 	void Start () {
-        Social.localUser.Authenticate(success =>
-        {
-            if (success)
-            {
-                Debug.Log("Authentication successful");
-                string userInfo = "Username: " + Social.localUser.userName +
-                    "\nUser ID: " + Social.localUser.id +
-                    "\nIsUnderage: " + Social.localUser.underage +
-                    "\nCurrent system: "+Social.Active;
-                Debug.Log(userInfo);
-            }
-            else
-                Debug.Log("Authentication failed");
-        });
+        Social.localUser.Authenticate(Authentication);
 	}
+
+    void Authentication(bool success)
+    {
+        if (success)
+        {
+            Debug.Log("Authentication successful");
+            Debug.Log(" Username: " + Social.localUser.userName);
+            Debug.Log(" User ID: " + Social.localUser.id);
+            Debug.Log(" IsUnderage: " + Social.localUser.underage);
+            Debug.Log(" Current system: " + Social.Active);
+        }
+        else
+        {
+            Debug.Log("Authentication failed");
+        }
+    }
 	
 	void Update () {
 	
