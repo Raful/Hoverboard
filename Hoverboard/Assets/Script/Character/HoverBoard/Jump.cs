@@ -39,8 +39,8 @@ public class Jump : MonoBehaviour {
 			jumpPower = chargePower;
 			chargePower = 0;
 		}
-		Debug.Log("ChargePower: " + chargePower);
-		Debug.Log("JumpPower: " + jumpPower * Time.deltaTime);
+		//Debug.Log("ChargePower: " + chargePower);
+		//Debug.Log("JumpPower: " + jumpPower * Time.deltaTime);
 		//transform.Translate((transform.up.normalized * jumpPower) * Time.fixedDeltaTime);		
 		//transform.position += ((Vector3.up * jumpPower) * Time.deltaTime);
 		//privateMovement.m_getsetVelocity = jumpPower * Time.deltaTime;

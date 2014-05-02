@@ -65,17 +65,17 @@ public class MyLog : MonoBehaviour
         if (!hidden)
         {
             GUI.TextArea(new Rect(0, 0, Screen.width / 3, Screen.height), myLog);
-            if (GUI.Button(new Rect(Screen.width - 100, 10, 80, 20), "Hide"))
+            /*if (GUI.Button(new Rect(Screen.width - 100, 10, 80, 20), "Hide"))
             {
                 hide(true);
-            }
+            }*/
         }
         else
         {
-            if (GUI.Button(new Rect(Screen.width - 100, 10, 80, 20), "Show"))
+            /*if (GUI.Button(new Rect(Screen.width - 100, 10, 80, 20), "Show"))
             {
                 hide(false);
-            }
+            }*/
         }
     }
 
