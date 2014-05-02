@@ -39,24 +39,27 @@ public class MyLog : MonoBehaviour
 
     void HandleLog(string logString, string stackTrace, LogType type)
     {
-        output = logString;
-        stack = stackTrace;
-        string newString = "\n [" + type + "] : " + output;
-        myLogQueue.Enqueue(newString);
-        if (type == LogType.Exception)
+        if (type.ToString() != "Warning")
         {
-            newString = "\n" + stackTrace;
+            output = logString;
+            stack = stackTrace;
+            string newString = "\n [" + type + "] : " + output;
             myLogQueue.Enqueue(newString);
-        }
-        while (myLogQueue.Count > maxLines)
-        {
-            myLogQueue.Dequeue();
-        }
+            if (type == LogType.Exception)
+            {
+                newString = "\n" + stackTrace;
+                myLogQueue.Enqueue(newString);
+            }
+            while (myLogQueue.Count > maxLines)
+            {
+                myLogQueue.Dequeue();
+            }
 
-        myLog = string.Empty;
-        foreach (string s in myLogQueue)
-        {
-            myLog += s;
+            myLog = string.Empty;
+            foreach (string s in myLogQueue)
+            {
+                myLog += s;
+            }
         }
     }
 
@@ -65,17 +68,17 @@ public class MyLog : MonoBehaviour
         if (!hidden)
         {
             GUI.TextArea(new Rect(0, 0, Screen.width / 3, Screen.height), myLog);
-            /*if (GUI.Button(new Rect(Screen.width - 100, 10, 80, 20), "Hide"))
+            if (GUI.Button(new Rect(Screen.width - 100, 10, 80, 20), "Hide"))
             {
                 hide(true);
-            }*/
+            }
         }
         else
         {
-            /*if (GUI.Button(new Rect(Screen.width - 100, 10, 80, 20), "Show"))
+            if (GUI.Button(new Rect(Screen.width - 100, 10, 80, 20), "Show"))
             {
                 hide(false);
-            }*/
+            }
         }
     }
 
