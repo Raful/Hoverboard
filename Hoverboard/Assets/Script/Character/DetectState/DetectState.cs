@@ -68,7 +68,7 @@ public class DetectState : MonoBehaviour {
 	void Update () 
     {
         gatherColliders();
-		Debug.Log("CurrentState: " + currentKeyState);
+		//Debug.Log("CurrentState: " + currentKeyState);
         setState();
 		updateKeyState (currentKeyState).update();
         //Clear collidersFound at each frame, to keep it updated
