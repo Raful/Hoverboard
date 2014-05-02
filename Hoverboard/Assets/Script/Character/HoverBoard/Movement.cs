@@ -85,42 +85,45 @@ public class Movement : MonoBehaviour {
 	// Calculates the new angle and rotates accordingly
 	void LateUpdate()
 	{
-		RaycastHit hit;
-		if(Physics.Raycast(transform.position, rayDirection, out hit, hoverHeight+1+ gravity/10))
+		if(currentState.m_getRayCastState)
 		{
-			currentState.changeKeyState("Grounded");
-			// höj maxangle om !grounded?
-			if(!isGrounded)
+			RaycastHit hit;
+			if(Physics.Raycast(transform.position, rayDirection, out hit, hoverHeight+1+ gravity/10))
 			{
-				gravity = 0;
-			}
-			
-			if(Vector3.Angle(transform.forward,Vector3.Cross(transform.right,hit.normal)) < m_MaxAngle || !isGrounded)
-			{
-				// Snaps to angle
-				if(hit.distance<m_SnapAtHeight && m_SnapAngle)
+				changeState("Grounded");
+				// höj maxangle om !grounded?
+				if(!isGrounded)
 				{
-					transform.rotation = Quaternion.LookRotation(Vector3.Cross(transform.right, hit.normal), hit.normal);
+					gravity = 0;
 				}
-				transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(Vector3.Cross(transform.right, hit.normal), hit.normal), (Time.fixedDeltaTime*velocity.magnitude*m_AngleSpeed*(hoverHeight/hit.distance)));
+				
+				if(Vector3.Angle(transform.forward,Vector3.Cross(transform.right,hit.normal)) < m_MaxAngle || !isGrounded)
+				{
+					// Snaps to angle
+					if(hit.distance<m_SnapAtHeight && m_SnapAngle)
+					{
+						transform.rotation = Quaternion.LookRotation(Vector3.Cross(transform.right, hit.normal), hit.normal);
+					}
+					transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(Vector3.Cross(transform.right, hit.normal), hit.normal), (Time.fixedDeltaTime*velocity.magnitude*m_AngleSpeed*(hoverHeight/hit.distance)));
+				}
+				// adds gravity if hoverboard is upside down
+				else if(hit.normal.y <= 0)
+				{
+					gravity += m_Gravity;
+				}
+			
+				Debug.DrawLine(transform.position, hit.point);
+				direction = transform.forward;
+				isGrounded = true;
+				rayDirection = -transform.up;
 			}
-			// adds gravity if hoverboard is upside down
-			else if(hit.normal.y <= 0)
-			{
+			else
+			{	
+				changeState("Air");
 				gravity += m_Gravity;
+				isGrounded = false;
+				rayDirection = Vector3.down;
 			}
-
-			Debug.DrawLine(transform.position, hit.point);
-			direction = transform.forward;
-			isGrounded = true;
-			rayDirection = -transform.up;
-		}
-		else
-		{	
-			currentState.changeKeyState("Air");
-			gravity += m_Gravity;
-			isGrounded = false;
-			rayDirection = Vector3.down;
 		}
 	}
 
@@ -132,7 +135,7 @@ public class Movement : MonoBehaviour {
 		backwardSpeed+= m_Friction;
 		boostSpeed -= m_Friction;
 		
-		if (boostScript.m_isBoosting && Input.GetKey(KeyCode.W))
+		if (boostScript.m_isBoosting)
 		{
 			boostSpeed += boostAcceleration;
 		}
@@ -206,6 +209,10 @@ public class Movement : MonoBehaviour {
 	public void Strafe(Vector3 dir)
 	{
 		transform.Translate (dir*Time.deltaTime*10);
+	}
+	public void changeState(string state)
+	{
+		currentState.changeKeyState(state);
 	}
 
 	// rotate a vector operation
