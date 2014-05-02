@@ -22,7 +22,7 @@ public class Grindable : MonoBehaviour {
 		RailCounter.incNum();
 		col.gameObject.GetComponent<DetectState>().m_getRayCastState = false;
 		col.gameObject.GetComponent<DetectState>().changeKeyState("Rail");
-		col.transform.GetComponent<Movement>().Direction = (invisTarget.transform.position - col.transform.position).normalized;
+		col.transform.GetComponent<Movement>().Direction =  invisTarget.transform.position - col.transform.position;
 	}
 
 	void OnTriggerExit(Collider col)

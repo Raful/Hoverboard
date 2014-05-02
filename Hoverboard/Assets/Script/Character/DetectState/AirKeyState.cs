@@ -21,7 +21,7 @@ public class AirKeyState : KeyState
 	public override void update () 
 	{
 
-		if(Time.time > timeIni+1)
+		if(Time.time > timeIni+0.3f)
 		{
 
 			if(Input.GetKey(KeyCode.A))
