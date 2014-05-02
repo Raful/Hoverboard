@@ -5,7 +5,7 @@ public class LightningHoverBoard : MonoBehaviour {
 
 	public float m_IntensityThreshold, m_PulseSpeed;
 	public bool m_Peek;
-	Jump getJumpValues;
+	public Jump getJumpValues;
 	public Color col;
 	public Color col_charged;
 	float TimeSin;
@@ -13,7 +13,6 @@ public class LightningHoverBoard : MonoBehaviour {
 	void Start () 
 	{
 		m_Peek = false;
-		getJumpValues = transform.parent.GetComponent<Jump> ();
 	}
 	
 	// Update is called once per frame

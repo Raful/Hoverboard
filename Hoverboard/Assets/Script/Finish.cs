@@ -11,7 +11,7 @@ using System.Collections;
 
 public class Finish : MonoBehaviour {
 
-	Timer StopTime;
+	public Timer m_TimerReference;
 	public string m_NextLevelToLoad;
 	private int i;
 	private float entryTime, differens;
@@ -25,18 +25,17 @@ public class Finish : MonoBehaviour {
 
 	void Start () 
 	{
-		StopTime = GameObject.Find ("TimerText").GetComponent<Timer> ();
 		differens = 0;
 	}
 
 	void OnTriggerEnter(Collider collision)
 	{
 		entryTime = Time.time;
-		StopTime.StopTimer();
+		m_TimerReference.StopTimer();
 
 
 
-        finishTime = StopTime.m_finishTime;
+		finishTime = m_TimerReference.m_finishTime;
         /*
 #if UNITY_EDITOR
         if (Application.loadedLevelName == "Robbin")
