@@ -105,6 +105,7 @@ public class CameraMec : MonoBehaviour {
 
 		//give camera the position "newPos"
 		transform.position = newPos;
-		transform.LookAt(lookPos, hoverboard.transform.up);
+		//hoverboard.transform.up
+		transform.LookAt(lookPos );
 	}
 }

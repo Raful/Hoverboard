@@ -38,7 +38,6 @@ public class DetectState : MonoBehaviour {
 		}
 		get {return currentKeyState;}
 	}
-
 	// Use this for initialization
 	void Start () 
     {

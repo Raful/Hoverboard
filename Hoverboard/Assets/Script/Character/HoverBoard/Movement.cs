@@ -13,17 +13,17 @@ using System.Collections;
 public class Movement : MonoBehaviour {
 	
 	[SerializeField]
-
+	
 	private float boostMaxAccSpeed; // The maximum speed the hoverboard can gain with boost, reqiured to be higher than Max Acc Speed.
 	private float boostSpeed=0; 	// Boost Acceleration.
-
+	
 	[SerializeField]
 	private float boostAcceleration;	// Max Jump Power.
 	private Boost boostScript;
-
+	
 	public float hoverHeight;		// HoverHeight of the hoverboard	
 	public float m_Rotation;		// Amount of rotation applied 
-
+	
 	public float m_Gravity; 		// Gravity acceleration, added each frame when not grounded.
 	public float m_Friction;		// SpeedLoss, every frame.
 	public float m_MaxAccSpeed;		// The maximum speed that can be gained from accelerating.
@@ -47,9 +47,9 @@ public class Movement : MonoBehaviour {
 	private float speed;			// Speed gained from acceleration, only used for lerpspeed
 	private float gravity;			// Amount of gravity pulling the hoverboard down
 	private float potentialDecelerate;		// slows down the acceleration depending on uphill/downhill
-
+	
 	private DetectState currentState;
-
+	
 	[HideInInspector]
 	public bool isGrounded;			// true if the raycast hits something, false otherwise
 	[HideInInspector]
@@ -58,24 +58,9 @@ public class Movement : MonoBehaviour {
 	public float backwardSpeed;
 	[HideInInspector]
 	public Vector3 rayDirection;	// Direction of the angle-raycast. Points in local down when grounded, else in world down
-
+	
 	public float speedForCamera;	//This variable is for the moment only so the camera can decide the distance from the hoverboard
-
 	
-	private bool useVCR;
-	private InputVCR vcr;
-	
-	void Awake()
-	{
-		Transform root = transform;
-		while ( root.parent != null )
-			root = root.parent;
-		vcr = root.GetComponent<InputVCR>();
-		useVCR = vcr != null;
-		vcr.Record ();
-	}
-
-
 	public float getSpeed
 	{
 		get {return speed;}
@@ -90,14 +75,14 @@ public class Movement : MonoBehaviour {
 		set{direction = value;}
 		get{return direction;}
 	}
-
+	
 	void Start ()
 	{
 		currentState = gameObject.GetComponent<DetectState> ();
 		boostScript = gameObject.GetComponent<Boost>();
 		rayDirection = -Vector3.up;
 	}
-
+	
 	// Calculates the new angle and rotates accordingly
 	void LateUpdate()
 	{
@@ -125,7 +110,7 @@ public class Movement : MonoBehaviour {
 			{
 				gravity += m_Gravity;
 			}
-
+			
 			Debug.DrawLine(transform.position, hit.point);
 			direction = transform.forward;
 			isGrounded = true;
@@ -139,86 +124,27 @@ public class Movement : MonoBehaviour {
 			rayDirection = Vector3.down;
 		}
 	}
-
+	
 	void FixedUpdate () 
 	{
-
-		// Add velocity and rotations
-		if(isGrounded)
-		{
-			if(vcr.GetButton("Forward"))
-			{
-				forwardSpeed += m_ForwardAcc;
-				backwardSpeed += m_ForwardAcc;
-			}
-
-			if(vcr.GetButton("Backward"))
-			{
-				forwardSpeed -= m_BackwardAcc;
-				backwardSpeed -= m_BackwardAcc;
-			}
-
-			if(vcr.GetButton("LeftRotation"))
-			{
-				transform.Rotate(0, -m_Rotation, 0f,Space.Self);
-			}
-
-			if(vcr.GetButton("RightRotation"))
-			{
-				transform.Rotate(0, m_Rotation, 0,Space.Self);
-			}
-		}
-		else 
-		{
-			// rotate in are, if rotateWhenNotGrounded == true
-			if(rotateWhenNotGrounded)
-			{
-				if(vcr.GetButton("Forward"))
-				{
-					transform.Rotate(1f,0,0f,Space.Self);
-				}
-				if(vcr.GetButton("Backward"))
-				{
-					transform.Rotate(-1f,0f,0f,Space.Self);
-				}
-				if(vcr.GetButton("LeftRotation"))
-				{
-					direction = RotateY(direction,-0.01f);
-					transform.Rotate(0,-0.4f,0f,Space.Self);
-				}
-				if(vcr.GetButton("RightRotation"))
-				{
-					direction = RotateY(direction,0.01f);
-					transform.Rotate(0,0.4f,0,Space.Self);
-				}
-			}
-			rayDirection = -Vector3.up;
-		}
-
-		//savePosition ();
-
-
 		addPotentialSpeed();
 		//Friction
 		forwardSpeed-= m_Friction;
 		backwardSpeed+= m_Friction;
 		boostSpeed -= m_Friction;
 		
-		if (boostScript.m_isBoosting && vcr.GetButton("Forward"))
+		if (boostScript.m_isBoosting && Input.GetKey(KeyCode.W))
 		{
 			boostSpeed += boostAcceleration;
 		}
-
+		
 		// Speed Restrictions
 		speed = Mathf.Abs(forwardSpeed+backwardSpeed + bonusSpeed);
 		forwardSpeed = Mathf.Clamp (forwardSpeed, 0, m_MaxAccSpeed);
 		backwardSpeed = Mathf.Clamp (backwardSpeed, -m_MaxAccSpeed, 0);
 		boostSpeed = Mathf.Clamp(boostSpeed, 0, boostMaxAccSpeed - m_MaxAccSpeed); //boostMaxAccSpeed is set as the max speed while boosting, but boostSpeed is added to the normal speed (not overwriting it).
-
-		speedForCamera = forwardSpeed + backwardSpeed + boostSpeed;
-
-
-
+		speedForCamera = forwardSpeed + backwardSpeed + bonusSpeed;
+		
 		#if UNITY_EDITOR
 		if (boostMaxAccSpeed < m_MaxAccSpeed)
 		{
@@ -229,47 +155,10 @@ public class Movement : MonoBehaviour {
 		velocity = direction.normalized *(forwardSpeed+backwardSpeed + boostSpeed+bonusSpeed) -Vector3.up*gravity;
 		transform.position += velocity*Time.fixedDeltaTime;
 		
-
-		if (vcr.GetButton("Jump") && isGrounded)
-		{
-			chargePower = chargePower + m_JumpAccelration;
-		}
-		
-		if ((vcr.GetButton("Jump")) && isGrounded)
-		{
-			if(chargePower > m_MaxJumpPower)
-			{
-				chargePower = m_MaxJumpPower;
-			}
-			jumpPower = chargePower;
-			chargePower = 0;
-		}
-		
-		transform.Translate((transform.up.normalized * m_JumpPower) * Time.fixedDeltaTime);		
-		transform.position += ((Vector3.up * jumpPower) * Time.deltaTime);
-		
-		if (jumpPower > 0.01f)
-		{
-			jumpPower -= 0.05f;
-		}
-		if (jumpPower < 0.01f)
-		{
-			jumpPower = 0f;
-		}
-		
-		if (vcr.GetButton("LeftStrafe")) {
-			
-			transform.Translate (Vector3.left*Time.deltaTime*10);
-		}
-		
-		if (vcr.GetButton("RightStrafe")) {
-			transform.Translate (Vector3.right*Time.deltaTime*10);
-		}
-
 	}
-
+	
 	// Calls on collision, resets Speed, x-rotation and position
-
+	
 	public void ResetPosition()
 	{
 		transform.position = transform.position - velocity.normalized;
@@ -279,7 +168,7 @@ public class Movement : MonoBehaviour {
 		boostSpeed = 0;
 		transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
 	}
-
+	
 	// Adds speed depending on angle on the hoverboard
 	private void addPotentialSpeed()
 	{
@@ -302,7 +191,7 @@ public class Movement : MonoBehaviour {
 		// decelerate
 		bonusSpeed = Mathf.Lerp (bonusSpeed, 0, Time.deltaTime*m_PotentialFriction);
 	}
-
+	
 	public void rotateBoardInX(float x)
 	{
 		transform.Rotate (x, 0, 0);
@@ -319,7 +208,7 @@ public class Movement : MonoBehaviour {
 	{
 		transform.Translate (dir*Time.deltaTime*10);
 	}
-
+	
 	// rotate a vector operation
-
+	
 }
