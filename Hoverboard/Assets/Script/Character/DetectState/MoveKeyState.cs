@@ -6,11 +6,24 @@ public class MoveKeyState : KeyState
 	private Movement movement;
 	private float forwardAcc;
 	private float backWardAcc;
+	private bool useVCR;
+	private InputVCR vcr;
+
 
 	public MoveKeyState(Movement Movement)
 	{
 		movement = Movement;
+		vcr =  movement.gameObject.GetComponent<InputVCR>();
+		useVCR = vcr != null;
+		Debug.Log (vcr);
+		vcr.NewRecording();
 	}
+
+
+
+		
+		
+
 
 	public override void start ()
 	{
@@ -23,35 +36,35 @@ public class MoveKeyState : KeyState
 	// Update is called once per frame
 	public override void update () 
 	{
-		if(Input.GetKey(KeyCode.W))
+		if(vcr.GetButton("Forward"))
 		{
 			movement.forwardSpeed += movement.m_ForwardAcc;
 			movement.backwardSpeed += movement.m_ForwardAcc;
 		}
 		
-		if(Input.GetKey(KeyCode.S))
+		if(vcr.GetButton("Backward"))
 		{
 			movement.forwardSpeed -= movement.m_BackwardAcc;
 			movement.backwardSpeed -= movement.m_BackwardAcc;
 		}
 		
-		if(Input.GetKey(KeyCode.A))
+		if(vcr.GetButton("LeftRotation"))
 		{
 			movement.rotateBoardInY(-1);
 		}
 		
-		if(Input.GetKey(KeyCode.D))
+		if(vcr.GetButton("RightRotation"))
 		{
 			movement.rotateBoardInY(1);
 		}
 
-		if (Input.GetKey (KeyCode.J)) 
+		if (vcr.GetButton("LeftStrafe")) 
 		{
 			
 			movement.Strafe(Vector3.left);
 		}
 		
-		if (Input.GetKey (KeyCode.L)) 
+		if (vcr.GetButton("RightStrafe")) 
 		{
 			movement.Strafe(Vector3.right);
 		}

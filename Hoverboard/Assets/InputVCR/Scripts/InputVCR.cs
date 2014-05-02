@@ -262,7 +262,7 @@ public class InputVCR : MonoBehaviour
 			{
 				// go through all changes in recorded input since last frame
 				var changedInputs = new Dictionary<string, InputInfo>();
-				for( int frame = lastFrame + 1; frame <= currentFrame; frame++ )
+				for( int frame = lastFrame ; frame < currentFrame; frame++ )
 				{
 					foreach( InputInfo input in currentRecording.GetInputs ( frame ) )
 					{

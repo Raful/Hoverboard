@@ -8,12 +8,19 @@ public class AirKeyState : KeyState
 	private float backWardAcc;
 	private float timeIni;
 
+	private bool useVCR;
+	private InputVCR vcr;
+
 	public AirKeyState(Movement Movement)
 	{
 		movement = Movement;
+		vcr =  movement.gameObject.GetComponent<InputVCR>();
+		useVCR = vcr != null;
 	}
+
+
 	
-	public override void start ()
+	public override void start()
 	{
 		timeIni = Time.time;
 	}
@@ -24,21 +31,21 @@ public class AirKeyState : KeyState
 		if(Time.time > timeIni+1)
 		{
 
-			if(Input.GetKey(KeyCode.A))
+			if(vcr.GetButton("LeftRotation"))
 			{
 				movement.Direction = RotateY(movement.Direction,-0.01f);
 				movement.rotateBoardInY(-1);
 			}
-			if(Input.GetKey(KeyCode.D))
+			if(vcr.GetButton("RightRotation"))
 			{
 				movement.Direction = RotateY(movement.Direction,0.01f);
 				movement.rotateBoardInY(1);
 			}
-			if(Input.GetKey(KeyCode.W))
+			if(vcr.GetButton("Forward"))
 			{
 				movement.rotateBoardInX(1);
 			}
-			if(Input.GetKey(KeyCode.S))
+			if(vcr.GetButton("Backward"))
 			{
 				movement.rotateBoardInX(-1);
 			}

@@ -7,11 +7,18 @@ public class GrindKeyState : KeyState
 	private float forwardAcc;
 	private float backWardAcc;
 	private float timeIni;
+
+	private bool useVCR;
+	private InputVCR vcr;
 	
 	public GrindKeyState(Movement Movement)
 	{
 		movement = Movement;
+		vcr =  movement.gameObject.GetComponent<InputVCR>();
+		useVCR = vcr != null;
 	}
+
+
 	
 	public override void start ()
 	{
@@ -24,19 +31,19 @@ public class GrindKeyState : KeyState
 		if(Time.time > timeIni+1)
 		{
 			
-			if(Input.GetKey(KeyCode.A))
+			if(vcr.GetButton("LeftRotation"))
 			{
 
 			}
-			if(Input.GetKey(KeyCode.D))
+			if(vcr.GetButton("RightRotation"))
 			{
 
 			}
-			if(Input.GetKey(KeyCode.W))
+			if(vcr.GetButton("Forward"))
 			{
 
 			}
-			if(Input.GetKey(KeyCode.S))
+			if(vcr.GetButton("Backward"))
 			{
 
 			}
