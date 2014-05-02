@@ -68,6 +68,7 @@ public class Movement : MonoBehaviour {
 	public Vector3 m_getVelocity
 	{
 		get {return velocity;}
+		set {velocity = value;}
 	}
 	public Vector3 Direction
 	{
