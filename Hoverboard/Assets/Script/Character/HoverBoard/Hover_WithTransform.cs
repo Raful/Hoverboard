@@ -32,7 +32,6 @@ public class Hover_WithTransform : MonoBehaviour {
 			// Lerps to hoverHeight
 			else //if(hit.distance <= 4.5f)
 			{
-
 				transform.position = -rayDirection*(hoverHeight-hit.distance-0.5f)+ transform.position;
 			}
 		}
