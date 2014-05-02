@@ -41,8 +41,7 @@ public class HighScore : MonoBehaviour {
         highScoreList=new List<KeyPair>();
         finishScript = GameObject.Find("Finish").GetComponent<Finish>();
 
-        filePath = Application.persistentDataPath + "/HighScore/" + Application.loadedLevelName + ".txt";
-
+        filePath = Application.persistentDataPath + "/" + Application.loadedLevelName + ".txt";
         if (File.Exists(filePath))
         {
             StreamReader file = new StreamReader(filePath);

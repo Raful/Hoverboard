@@ -27,12 +27,12 @@ public class Jump : MonoBehaviour {
 		
 		if (Input.GetKey (KeyCode.Space) && privateMovement.isGrounded)
 		{
-			chargePower = chargePower + (m_JumpAccelration * Time.deltaTime);
+			chargePower = chargePower + (m_JumpAccelration * Time.deltaTime) * 10000;
 		}
 		
 		if ((Input.GetKeyUp(KeyCode.Space)) && privateMovement.isGrounded)
 		{
-			if(chargePower > m_MaxJumpPower)
+			if(chargePower > m_MaxJumpPower * 100000)
 			{
 				chargePower = m_MaxJumpPower;
 			}
@@ -41,9 +41,6 @@ public class Jump : MonoBehaviour {
 		}
 
 		rigidbody.AddExplosionForce(jumpPower * Time.deltaTime,transform.position,1);
-
-		//privateMovement.jumpVelocity = ((Vector3.up * jumpPower) * Time.deltaTime).y;
-		//Debug.Log ("Setting Jump Speed");
 
 		if (jumpPower > 0.01f)
 		{

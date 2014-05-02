@@ -19,6 +19,14 @@ using System.Collections.Generic;
 public class DetectState : MonoBehaviour {
 
     private string state = "Default"; //What state the player is in (grinding etc)
+	private bool rayCastState = true;
+
+	public bool m_getRayCastState
+	{
+		get { return rayCastState; }
+		set { rayCastState = value;}
+	}
+
     public string m_state
     {
         get { return state; }
@@ -53,13 +61,13 @@ public class DetectState : MonoBehaviour {
 		currentKeyState = "Grounded";
 		keyStateDictionary.Add ("Grounded",new MoveKeyState(GetComponent<Movement>()));
 		keyStateDictionary.Add ("Air",new AirKeyState(GetComponent<Movement>()));
+		keyStateDictionary.Add("Rail",new GrindKeyState(GetComponent<Movement>()));
 	}
 	
 	// Update is called once per frame
 	void Update () 
     {
         gatherColliders();
-
         setState();
 		updateKeyState (currentKeyState).update();
         //Clear collidersFound at each frame, to keep it updated
@@ -86,8 +94,10 @@ public class DetectState : MonoBehaviour {
     {
         if (findInCollidersFound(new KeyPair("Bottom", "Rail")))
         {
+			rayCastState = false;
             state = "Rail";
-			Debug.Log("RAIL");
+			currentKeyState = "Rail";
+			//Debug.Log("RAIL");
         }
         else if (findInCollidersFound(new KeyPair("BoardRight", "Wall"))
             || findInCollidersFound(new KeyPair("BoardLeft", "Wall")))
