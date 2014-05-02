@@ -13,7 +13,6 @@ using System.Collections;
 public class Movement : MonoBehaviour {
 	
 	[SerializeField]
-
 	private float boostMaxAccSpeed; // The maximum speed the hoverboard can gain with boost, reqiured to be higher than Max Acc Speed.
 	private float boostSpeed=0; 	// Boost Acceleration.
 
