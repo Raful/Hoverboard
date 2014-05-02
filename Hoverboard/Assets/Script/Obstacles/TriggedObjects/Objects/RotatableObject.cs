@@ -3,7 +3,7 @@
  * Modified by: 
  * 
  * Description:
- * Rotates the object when activated
+ * Rotates the object at its' origin when activated
  */
 
 using UnityEngine;

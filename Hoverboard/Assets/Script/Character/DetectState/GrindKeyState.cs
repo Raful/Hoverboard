@@ -24,11 +24,11 @@ public class GrindKeyState : KeyState
 		movement.setGravity = 0;
 		if(Input.GetKey(KeyCode.A))
 		{
-			movement.rotateBoardInZ(-1f);
+			movement.rotateBoardInZ(1f);
 		}
 		if(Input.GetKey(KeyCode.D))
 		{
-			movement.rotateBoardInZ(1f);
+			movement.rotateBoardInZ(-1f);
 		}
 	}
 	
