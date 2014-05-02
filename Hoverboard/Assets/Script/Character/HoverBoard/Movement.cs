@@ -133,7 +133,7 @@ public class Movement : MonoBehaviour {
 		backwardSpeed+= m_Friction;
 		boostSpeed -= m_Friction;
 		
-		if (boostScript.m_isBoosting && Input.GetKey(KeyCode.W))
+		if (boostScript.m_isBoosting)
 		{
 			boostSpeed += boostAcceleration;
 		}
