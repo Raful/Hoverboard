@@ -5,12 +5,9 @@ public class Jump : MonoBehaviour {
 
 	public float m_MaxJumpPower, m_JumpAccelration;
 	private float jumpPower, chargePower;
-<<<<<<< HEAD
 	Movement getGrounded;
 	private Vector3 speed;
-=======
 	public Movement privateMovement;
->>>>>>> 0ff09a9c46ca97eaf58898fccd4b64b478e31876
 
 	
 	public float getChargePower
