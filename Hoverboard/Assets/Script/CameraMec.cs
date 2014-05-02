@@ -10,7 +10,10 @@ using System.Collections;
  */
 
 public class CameraMec : MonoBehaviour {
+
 	public float m_Smooth = 0.5f;					//How smooth the camera should rotate around the hoverboard
+
+
 	public float m_DefaultDistance = 5;
 
 

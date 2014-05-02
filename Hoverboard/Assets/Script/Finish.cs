@@ -11,7 +11,10 @@ using System.Collections;
 
 public class Finish : MonoBehaviour {
 
-	Timer StopTime;
+	public Timer m_TimerReference;
+	public string m_NextLevelToLoad;
+	private int i;
+	private float entryTime, differens;
 	Medal medal;
 
     float finishTime=0.0f;
@@ -22,18 +25,17 @@ public class Finish : MonoBehaviour {
 
 	void Start () 
 	{
-		StopTime = GameObject.Find ("TimerText").GetComponent<Timer> ();
-
-
+		differens = 0;
 	}
 
 	void OnTriggerEnter(Collider collision)
 	{
-		StopTime.StopTimer();
+		entryTime = Time.time;
+		m_TimerReference.StopTimer();
 
 
 
-        finishTime = StopTime.m_finishTime;
+		finishTime = m_TimerReference.m_finishTime;
         /*
 #if UNITY_EDITOR
         if (Application.loadedLevelName == "Robbin")
@@ -42,5 +44,21 @@ public class Finish : MonoBehaviour {
         }
 #endif*/
 
+	}
+	void Update()
+	{
+		if(entryTime != 0)
+		{
+			differens = Time.time - entryTime;
+		}
+		
+		if( differens > 2)
+		{
+			LoadNextLevel();
+		}
+	}
+	void LoadNextLevel()
+	{
+			Application.LoadLevel(m_NextLevelToLoad);
 	}
 }
