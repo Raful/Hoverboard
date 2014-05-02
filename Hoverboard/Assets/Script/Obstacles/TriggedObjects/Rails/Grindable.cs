@@ -15,6 +15,8 @@ public class Grindable : MonoBehaviour {
 
 	void OnTriggerEnter(Collider col)
 	{
+		Debug.Log (col);
+		Debug.Log (col.gameObject.GetComponent<DetectState> ());
 		col.gameObject.GetComponent<DetectState>().m_getRayCastState = false;
 		col.gameObject.GetComponent<DetectState>().changeKeyState("Rail");
 		col.transform.GetComponent<Movement>().Direction = (invisTarget.transform.position - col.transform.position).normalized;
