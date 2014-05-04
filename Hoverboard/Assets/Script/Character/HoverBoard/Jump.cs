@@ -7,6 +7,10 @@ public class Jump : MonoBehaviour {
 	private float jumpPower, chargePower;
 	public Movement privateMovement;
 
+	private float stickDeltaOne;
+	private float stickDeltaTwo;
+	private float stickDeltaThree;
+	private float stickDeltaFour;
 	
 	public float getChargePower
 	{
@@ -15,32 +19,40 @@ public class Jump : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
+	privateMovement = gameObject.GetComponent<Movement>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
+		stickDeltaFour = stickDeltaThree;
+		stickDeltaThree = stickDeltaTwo;
+		stickDeltaTwo = stickDeltaOne;
+		stickDeltaOne = Input.GetAxisRaw("RightVertical");
+		
+		
 		if(!privateMovement.isGrounded)
 		{
 			jumpPower = 0;
 		}
 		
-		if (Input.GetKey (KeyCode.Space) && privateMovement.isGrounded)
+		if (privateMovement.isGrounded)
 		{
-			chargePower = chargePower + (m_JumpAccelration * Time.deltaTime) * 10000;
+			chargePower = (-1*(stickDeltaFour-stickDeltaThree) + -1*(stickDeltaThree-stickDeltaTwo) + -1*(stickDeltaTwo-stickDeltaOne))/4;
 		}
-		
-		if ((Input.GetKeyUp(KeyCode.Space)) && privateMovement.isGrounded)
+		Debug.Log (chargePower);
+		if ((Input.GetAxisRaw("RightVertical") > 0.8f) && privateMovement.isGrounded)
 		{
 			if(chargePower > m_MaxJumpPower * 100000)
 			{
 				chargePower = m_MaxJumpPower;
 			}
-			jumpPower = chargePower;
+			jumpPower = chargePower * 10000;
 			chargePower = 0;
 		}
+		
 
-		rigidbody.AddExplosionForce(jumpPower * Time.deltaTime,transform.position,1);
+		rigidbody.AddExplosionForce(jumpPower,transform.position,1);
 
 		if (jumpPower > 0.01f)
 		{

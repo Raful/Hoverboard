@@ -23,7 +23,9 @@ public class MoveKeyState : KeyState
 	// Update is called once per frame
 	public override void update () 
 	{
-		if(Input.GetKey(KeyCode.W))
+		movement.forwardSpeed += movement.m_ForwardAcc * Input.GetAxisRaw("Triggers");
+		movement.backwardSpeed += movement.m_ForwardAcc * Input.GetAxisRaw("Triggers");
+		/*if(Input.GetKey(KeyCode.W))
 		{
 			movement.forwardSpeed += movement.m_ForwardAcc;
 			movement.backwardSpeed += movement.m_ForwardAcc;
@@ -33,9 +35,11 @@ public class MoveKeyState : KeyState
 		{
 			movement.forwardSpeed -= movement.m_BackwardAcc;
 			movement.backwardSpeed -= movement.m_BackwardAcc;
-		}
+		}*/
 		
-		if(Input.GetKey(KeyCode.A))
+		movement.rotateBoardInY(Input.GetAxisRaw("RightHorizontal"));
+		
+		/*if(Input.GetKey(KeyCode.A))
 		{
 			movement.rotateBoardInY(-1);
 		}
@@ -43,9 +47,11 @@ public class MoveKeyState : KeyState
 		if(Input.GetKey(KeyCode.D))
 		{
 			movement.rotateBoardInY(1);
-		}
+		}*/
 
-		if (Input.GetKey (KeyCode.J)) 
+		movement.Strafe(new Vector3 (Input.GetAxisRaw("LeftHorizontal"), 0, 0));
+		
+		/*if (Input.GetKey (KeyCode.J)) 
 		{
 			
 			movement.Strafe(Vector3.left);
@@ -54,7 +60,7 @@ public class MoveKeyState : KeyState
 		if (Input.GetKey (KeyCode.L)) 
 		{
 			movement.Strafe(Vector3.right);
-		}
+		}*/
 	}
 	public override void end()
 	{
