@@ -136,6 +136,12 @@ public class Movement : MonoBehaviour {
 
 	void FixedUpdate () 
 	{
+	
+		if (Input.GetKey(KeyCode.R))
+		{
+			Application.LoadLevel(Application.loadedLevel);
+		}
+				
 		addPotentialSpeed();
 		//Friction
 		forwardSpeed-= m_Friction;
