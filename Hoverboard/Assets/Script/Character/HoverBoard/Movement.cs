@@ -90,7 +90,6 @@ public class Movement : MonoBehaviour {
 	// Calculates the new angle and rotates accordingly
 	void LateUpdate()
 	{
-
 		if(currentState.m_getRayCastState)
 		{
 			RaycastHit hit;
