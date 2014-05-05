@@ -8,6 +8,7 @@ using System.Collections;
 public class Grindable : MonoBehaviour {
 	public GameObject Exit;
 	public GameObject Entry;
+	private DetectState detecState;
 	// Use this for initialization
 	void Start () 
 	{
@@ -21,8 +22,10 @@ public class Grindable : MonoBehaviour {
 
 	void OnTriggerEnter(Collider col)
 	{
-		col.gameObject.GetComponent<DetectState>().m_getRayCastState = false;
-		col.gameObject.GetComponent<DetectState>().changeKeyState("Rail");
+		detecState = col.gameObject.GetComponent<DetectState> ();
+
+		detecState.m_getRayCastState = false;
+		detecState.changeKeyState("Rail");
 		RailCounter.incNum();
 		Debug.Log(Vector3.Angle(transform.forward, col.transform.forward));
 		if(Vector3.Angle(transform.forward, col.transform.right) <90)
@@ -33,6 +36,7 @@ public class Grindable : MonoBehaviour {
 		{
 			col.transform.GetComponent<Movement>().Direction =  Entry.transform.position - col.transform.position;
 		}
+		detecState.updateKeyState ("Rail").setVector = transform.forward;
 	}
 
 	void OnTriggerExit(Collider col)

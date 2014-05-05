@@ -19,6 +19,7 @@ using System.Collections.Generic;
 public class DetectState : MonoBehaviour {
 
     private string state = "Default"; //What state the player is in (grinding etc)
+	private KeyState currentState;
 	private bool rayCastState = true;
 
 	public bool m_getRayCastState
@@ -27,10 +28,6 @@ public class DetectState : MonoBehaviour {
 		set { rayCastState = value;}
 	}
 
-    public string m_state
-    {
-        get { return state; }
-    }
 	//public KeyState key = new MoveKeyState (gameObject.GetComponent<Movement>);
 
 	private Dictionary<string,KeyState> keyStateDictionary = new Dictionary<string,KeyState>();
@@ -38,6 +35,7 @@ public class DetectState : MonoBehaviour {
     ArrayList collidersFound;
 
     ColliderObject[] colliderStates;
+
 
 	public string getKeyState
 	{
@@ -133,7 +131,7 @@ public class DetectState : MonoBehaviour {
 			currentKeyState = state;
 		}
 	}
-	KeyState updateKeyState(string keyState)
+	public KeyState updateKeyState(string keyState)
 	{
 
 		return keyStateDictionary[keyState];
