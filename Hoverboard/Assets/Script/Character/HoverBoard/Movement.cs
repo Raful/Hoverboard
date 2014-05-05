@@ -160,10 +160,10 @@ public class Movement : MonoBehaviour {
 			Debug.LogError("boostMaxAccSpeed is smaller than m_MaxAccSpeed");
 		}
 		#endif
-		
+		//Debug.Log (direction.normalized);
 		velocity = direction.normalized *(forwardSpeed+backwardSpeed + boostSpeed+bonusSpeed) -Vector3.up*gravity;
 		transform.position += velocity*Time.fixedDeltaTime;
-		Debug.Log (direction + " Gravity " + gravity);
+
 	}
 
 	// Calls on collision, resets Speed, x-rotation and position

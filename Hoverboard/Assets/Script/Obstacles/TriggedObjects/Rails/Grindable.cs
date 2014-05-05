@@ -6,10 +6,12 @@ using System.Collections;
  */
 
 public class Grindable : MonoBehaviour {
-	public GameObject invisTarget;
-
+	public GameObject Exit;
+	public GameObject Entry;
 	// Use this for initialization
-	void Start () {
+	void Start () 
+	{
+	
 	}
 	
 	// Update is called once per frame
@@ -19,10 +21,18 @@ public class Grindable : MonoBehaviour {
 
 	void OnTriggerEnter(Collider col)
 	{
-		RailCounter.incNum();
 		col.gameObject.GetComponent<DetectState>().m_getRayCastState = false;
 		col.gameObject.GetComponent<DetectState>().changeKeyState("Rail");
-		col.transform.GetComponent<Movement>().Direction =  invisTarget.transform.position - col.transform.position;
+		RailCounter.incNum();
+		Debug.Log(Vector3.Angle(transform.forward, col.transform.forward));
+		if(Vector3.Angle(transform.forward, col.transform.right) <90)
+		{
+			col.transform.GetComponent<Movement>().Direction =  Exit.transform.position - col.transform.position;
+		}
+		else
+		{
+			col.transform.GetComponent<Movement>().Direction =  Entry.transform.position - col.transform.position;
+		}
 	}
 
 	void OnTriggerExit(Collider col)
