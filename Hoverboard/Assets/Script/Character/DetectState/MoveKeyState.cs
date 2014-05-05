@@ -27,18 +27,20 @@ public class MoveKeyState : KeyState
 
 		movement.forwardSpeed += movement.m_ForwardAcc * Input.GetAxisRaw("Triggers");
 		movement.backwardSpeed += movement.m_ForwardAcc * Input.GetAxisRaw("Triggers");
-		/*if(Input.GetKey(KeyCode.W))
+		//lerpToNewDirection ();
+		
 
-		lerpToNewDirection ();
+		
 		if (movement.Direction != movement.transform.forward)
 		{
 			Debug.Log("Same");
-			movement.Direction = Vector3.Slerp (movement.Direction, movement.transform.forward, Time.deltaTime * 2f);
+			movement.Direction = Vector3.Slerp (movement.Direction, movement.transform.forward, Time.deltaTime * 5f);
 		}
 		else
 		{
 			movement.Direction = movement.transform.forward;
 		}
+		/*
 		if(Input.GetKey(KeyCode.W))
 
 		{
@@ -83,6 +85,6 @@ public class MoveKeyState : KeyState
 	}
 	private void lerpToNewDirection()
 	{
-		movement.Direction = Vector3.Slerp (lerpToDirection, movement.Direction, 2f);
+		movement.Direction = Vector3.Slerp (lerpToDirection, movement.Direction, 5f);
 	}
 }
