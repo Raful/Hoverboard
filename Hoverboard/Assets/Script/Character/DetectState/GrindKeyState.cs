@@ -79,7 +79,7 @@ public class GrindKeyState : KeyState
 			//Push person of to the left
 			//movement.rigidbody.AddForce(new Vector3(-pushOfStrength,0,0));
 			//movement.Strafe(new Vector3(-pushOfStrength,0,0));
-			movement.transform.Translate(Vector3.left * Time.deltaTime * 2f,Camera.main.transform);
+			//movement.transform.Translate(Vector3.left * Time.deltaTime * 2f,Camera.main.transform);
 		}
 		else if(movement.transform.eulerAngles.z < 330f && movement.transform.eulerAngles.z > 180f)
 		{
@@ -87,7 +87,7 @@ public class GrindKeyState : KeyState
 			//Push person of to the right
 			//movement.rigidbody.AddForce(new Vector3(pushOfStrength,0,0));
 			//movement.Strafe(new Vector3(pushOfStrength,0,0));
-			movement.transform.Translate(Vector3.right * Time.deltaTime * 2f,Camera.main.transform);
+			//movement.transform.Translate(Vector3.right * Time.deltaTime * 2f,Camera.main.transform);
 		}
 	}
 }
