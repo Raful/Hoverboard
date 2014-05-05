@@ -137,7 +137,7 @@ public class Movement : MonoBehaviour {
 	void FixedUpdate () 
 	{
 	
-		if (Input.GetKey(KeyCode.R))
+		if (Input.GetKey(KeyCode.Joystick1Button7))
 		{
 			Application.LoadLevel(Application.loadedLevel);
 		}
