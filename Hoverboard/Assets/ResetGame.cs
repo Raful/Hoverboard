@@ -21,5 +21,11 @@ public class ResetGame : MonoBehaviour {
         {
             Application.LoadLevel(Application.loadedLevel);
         }
+#if UNITY_XBOXONE
+        if (XboxOneInput.GetKeyDown(XboxOneKeyCode.Gamepad1ButtonView))
+        {
+            Application.LoadLevel(Application.loadedLevel);
+        }
+#endif
 	}
 }

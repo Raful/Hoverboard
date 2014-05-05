@@ -6,7 +6,6 @@ public class GrindKeyState : KeyState
 	private Movement movement;
 	private float forwardAcc;
 	private float backWardAcc;
-	private float timeIni;
 	
 	public GrindKeyState(Movement Movement)
 	{
@@ -15,36 +14,26 @@ public class GrindKeyState : KeyState
 	
 	public override void start ()
 	{
-		timeIni = Time.time;
+		movement.gameObject.GetComponent<Hover_WithTransform> ().enabled = false;
+		forwardAcc = movement.m_ForwardAcc;
+		backWardAcc = movement.m_BackwardAcc;
 	}
 	
 	public override void update () 
-	{
-		
-		if(Time.time > timeIni+1)
+	{	
+		movement.setGravity = 0;
+		if(Input.GetKey(KeyCode.A))
 		{
-			
-			if(Input.GetKey(KeyCode.A))
-			{
-
-			}
-			if(Input.GetKey(KeyCode.D))
-			{
-
-			}
-			if(Input.GetKey(KeyCode.W))
-			{
-
-			}
-			if(Input.GetKey(KeyCode.S))
-			{
-
-			}
+			movement.rotateBoardInZ(1f);
+		}
+		if(Input.GetKey(KeyCode.D))
+		{
+			movement.rotateBoardInZ(-1f);
 		}
 	}
 	
 	public override void end()
 	{
-		
+		movement.gameObject.GetComponent<Hover_WithTransform> ().enabled = true;
 	}
 }

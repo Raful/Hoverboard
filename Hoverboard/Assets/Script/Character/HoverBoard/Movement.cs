@@ -13,16 +13,15 @@ using System.Collections;
 public class Movement : MonoBehaviour {
 	
 	[SerializeField]
-
 	private float boostMaxAccSpeed; // The maximum speed the hoverboard can gain with boost, reqiured to be higher than Max Acc Speed.
 	private float boostSpeed=0; 	// Boost Acceleration.
 
 	[SerializeField]
 	private float boostAcceleration;	// Max Jump Power.
 	private Boost boostScript;
-
 	public float hoverHeight;		// HoverHeight of the hoverboard	
-	public float m_Rotation;		// Amount of rotation applied 
+	public Vector3 m_RotationSpeed;	// Amount of rotation applied 
+	public float m_StrafeSpeed;		// Amount of speed applied to the strafe action
 
 	public float m_Gravity; 		// Gravity acceleration, added each frame when not grounded.
 	public float m_Friction;		// SpeedLoss, every frame.
@@ -64,6 +63,11 @@ public class Movement : MonoBehaviour {
 	[HideInInspector]
 	public float jumpVelocity; //Jump feeds into this
 
+	public float setGravity
+	{
+		set{gravity = value;}
+	}
+
 	public float getSpeed
 	{
 		get {return speed;}
@@ -89,42 +93,47 @@ public class Movement : MonoBehaviour {
 	// Calculates the new angle and rotates accordingly
 	void LateUpdate()
 	{
-		RaycastHit hit;
-		if(Physics.Raycast(transform.position, rayDirection, out hit, hoverHeight+1+ gravity/10))
-		{
-			currentState.changeKeyState("Grounded");
-			// höj maxangle om !grounded?
-			if(!isGrounded)
-			{
-				gravity = 0;
-			}
-			
-			if(Vector3.Angle(transform.forward,Vector3.Cross(transform.right,hit.normal)) < m_MaxAngle || !isGrounded)
-			{
-				// Snaps to angle
-				if(hit.distance<m_SnapAtHeight && m_SnapAngle)
-				{
-					transform.rotation = Quaternion.LookRotation(Vector3.Cross(transform.right, hit.normal), hit.normal);
-				}
-				transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(Vector3.Cross(transform.right, hit.normal), hit.normal), (Time.fixedDeltaTime*velocity.magnitude*m_AngleSpeed*(hoverHeight/hit.distance)));
-			}
-			// adds gravity if hoverboard is upside down
-			else if(hit.normal.y <= 0)
-			{
-				gravity += m_Gravity;
-			}
 
-			Debug.DrawLine(transform.position, hit.point);
-			direction = transform.forward;
-			isGrounded = true;
-			rayDirection = -transform.up;
-		}
-		else
-		{	
-			currentState.changeKeyState("Air");
-			gravity += m_Gravity;
-			isGrounded = false;
-			rayDirection = Vector3.down;
+		if(currentState.m_getRayCastState)
+		{
+			RaycastHit hit;
+			if(Physics.Raycast(transform.position, rayDirection, out hit, hoverHeight))
+			{
+				changeState("Grounded");
+				// höj maxangle om !grounded?
+				if(!isGrounded)
+				{
+					gravity = 0;
+					rigidbody.velocity = Vector3.zero;
+				}
+				
+				if(Vector3.Angle(transform.forward,Vector3.Cross(transform.right,hit.normal)) < m_MaxAngle || !isGrounded)
+				{
+					// Snaps to angle
+					if(hit.distance<m_SnapAtHeight && m_SnapAngle)
+					{
+						transform.rotation = Quaternion.LookRotation(Vector3.Cross(transform.right, hit.normal), hit.normal);
+					}
+					transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(Vector3.Cross(transform.right, hit.normal), hit.normal), (Time.fixedDeltaTime*velocity.magnitude*m_AngleSpeed*(hoverHeight/hit.distance)));
+				}
+				// adds gravity if hoverboard is upside down
+				else if(hit.normal.y <= 0)
+				{
+					gravity += m_Gravity;
+				}
+			
+				Debug.DrawLine(transform.position, hit.point);
+				direction = transform.forward;
+				isGrounded = true;
+				rayDirection = -transform.up;
+			}
+			else
+			{	
+				changeState("Air");
+				gravity += m_Gravity;
+				isGrounded = false;
+				rayDirection = Vector3.down;
+			}
 		}
 	}
 
@@ -136,7 +145,7 @@ public class Movement : MonoBehaviour {
 		backwardSpeed+= m_Friction;
 		boostSpeed -= m_Friction;
 		
-		if (boostScript.m_isBoosting && Input.GetKey(KeyCode.W))
+		if (boostScript.m_isBoosting)
 		{
 			boostSpeed += boostAcceleration;
 		}
@@ -158,7 +167,7 @@ public class Movement : MonoBehaviour {
 		velocity = direction.normalized *(forwardSpeed+backwardSpeed + boostSpeed+bonusSpeed) -Vector3.up*gravity;
 		//velocity.y += jumpVelocity;
 		transform.position += velocity*Time.fixedDeltaTime;
-		
+		Debug.Log (direction + " Gravity " + gravity);
 	}
 
 	// Calls on collision, resets Speed, x-rotation and position
@@ -198,15 +207,15 @@ public class Movement : MonoBehaviour {
 
 	public void rotateBoardInX(float x)
 	{
-		transform.Rotate (x, 0, 0);
+		transform.Rotate (x * m_RotationSpeed.x, 0, 0);
 	}
 	public void rotateBoardInY(float y)
 	{
-		transform.Rotate (0, y, 0);
+		transform.Rotate (0, y * m_RotationSpeed.y, 0);
 	}
 	public void rotateBoardInZ(float z)
 	{
-		transform.Rotate (0, 0, z);
+		transform.Rotate (0, 0, z * m_RotationSpeed.z);
 	}
 
 	public void setVelocity(Vector3 Velocity){
@@ -215,7 +224,11 @@ public class Movement : MonoBehaviour {
 
 	public void Strafe(Vector3 dir)
 	{
-		transform.Translate (dir*Time.deltaTime*10);
+		transform.Translate (dir*Time.deltaTime*m_StrafeSpeed);
+	}
+	public void changeState(string state)
+	{
+		currentState.changeKeyState(state);
 	}
 
 	// rotate a vector operation
