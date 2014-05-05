@@ -24,6 +24,7 @@ public class GrindKeyState : KeyState
 	
 	public override void start ()
 	{
+		movement.gameObject.GetComponent<Hover_WithTransform> ().enabled = false;
 		forwardAcc = movement.m_ForwardAcc;
 		backWardAcc = movement.m_BackwardAcc;
 	}
@@ -32,14 +33,15 @@ public class GrindKeyState : KeyState
 	{	
 
 
-			
+
+			movement.setGravity = 0;
 			if(vcr.GetButton("LeftRotation"))
 			{
-
+				movement.rotateBoardInZ(1f);
 			}
 			if(vcr.GetButton("RightRotation"))
 			{
-
+				movement.rotateBoardInZ(-1f);
 			}
 			if(vcr.GetButton("Forward"))
 			{
@@ -49,14 +51,11 @@ public class GrindKeyState : KeyState
 			{
 
 			}
-
-			movement.rotateBoardInZ(-1f);
-
-	
+		
 	}
 	
 	public override void end()
 	{
-		
+		movement.gameObject.GetComponent<Hover_WithTransform> ().enabled = true;
 	}
 }

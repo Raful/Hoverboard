@@ -68,7 +68,6 @@ public class DetectState : MonoBehaviour {
     {
         gatherColliders();
 
-
         setState();
 		updateKeyState (currentKeyState).update();
         //Clear collidersFound at each frame, to keep it updated

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 /*
 	This script keeps the hoverboard a certain distance from the ground (local down)
@@ -8,13 +8,17 @@ using System.Collections;
 
 public class Hover_WithTransform : MonoBehaviour {
 
+
 	private float hoverHeight;
 	private Vector3 rayDirection;
-	
+
+	void Start()
+	{
+		hoverHeight = GetComponent<Movement> ().hoverHeight;
+	}
 	// Moves the hoverboard in normal.up depending on distance from ground
 	void FixedUpdate () 
 	{
-		hoverHeight = GetComponent<Movement> ().hoverHeight;
 		rayDirection = GetComponent<Movement> ().rayDirection;
 
 		RaycastHit hit;
@@ -26,11 +30,9 @@ public class Hover_WithTransform : MonoBehaviour {
 				transform.position = (-rayDirection*(2-hit.distance))+ transform.position;
 			}
 			// Lerps to hoverHeight
-			else 
+			else //if(hit.distance <= 4.5f)
 			{
-				transform.position = -rayDirection*(hoverHeight-hit.distance)+ transform.position;
-				//transform.position = Vector3.MoveTowards(transform.position,(-rayDirection*(hoverHeight-hit.distance))+ transform.position, Time.deltaTime*m_HoverSpeed);
-
+				transform.position = -rayDirection*(hoverHeight-hit.distance-0.5f)+ transform.position;
 			}
 		}
 	}

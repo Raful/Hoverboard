@@ -20,10 +20,12 @@ public class Movement : MonoBehaviour {
 	[SerializeField]
 	private float boostAcceleration;	// Max Jump Power.
 	private Boost boostScript;
-	
+
 	public float hoverHeight;		// HoverHeight of the hoverboard	
-	public float m_Rotation;		// Amount of rotation applied 
-	
+	public Vector3 m_RotationSpeed;	// Amount of rotation applied 
+	public float m_StrafeSpeed;		// Amount of speed applied to the strafe action
+
+
 	public float m_Gravity; 		// Gravity acceleration, added each frame when not grounded.
 	public float m_Friction;		// SpeedLoss, every frame.
 	public float m_MaxAccSpeed;		// The maximum speed that can be gained from accelerating.
@@ -60,7 +62,14 @@ public class Movement : MonoBehaviour {
 	public Vector3 rayDirection;	// Direction of the angle-raycast. Points in local down when grounded, else in world down
 	
 	public float speedForCamera;	//This variable is for the moment only so the camera can decide the distance from the hoverboard
-	
+
+
+	public float setGravity
+	{
+		set{gravity = value;}
+	}
+
+
 	public float getSpeed
 	{
 		get {return speed;}
@@ -86,16 +95,18 @@ public class Movement : MonoBehaviour {
 	// Calculates the new angle and rotates accordingly
 	void LateUpdate()
 	{
+
 		if(currentState.m_getRayCastState)
 		{
 			RaycastHit hit;
-			if(Physics.Raycast(transform.position, rayDirection, out hit, hoverHeight+1+ gravity/10))
+			if(Physics.Raycast(transform.position, rayDirection, out hit, hoverHeight))
 			{
 				changeState("Grounded");
 				// höj maxangle om !grounded?
 				if(!isGrounded)
 				{
 					gravity = 0;
+					rigidbody.velocity = Vector3.zero;
 				}
 				
 				if(Vector3.Angle(transform.forward,Vector3.Cross(transform.right,hit.normal)) < m_MaxAngle || !isGrounded)
@@ -171,7 +182,7 @@ public class Movement : MonoBehaviour {
 		
 		velocity = direction.normalized *(forwardSpeed+backwardSpeed + boostSpeed+bonusSpeed) -Vector3.up*gravity;
 		transform.position += velocity*Time.fixedDeltaTime;
-		
+		Debug.Log (direction + " Gravity " + gravity);
 	}
 	
 	// Calls on collision, resets Speed, x-rotation and position
@@ -211,19 +222,19 @@ public class Movement : MonoBehaviour {
 	
 	public void rotateBoardInX(float x)
 	{
-		transform.Rotate (x, 0, 0);
+		transform.Rotate (x * m_RotationSpeed.x, 0, 0);
 	}
 	public void rotateBoardInY(float y)
 	{
-		transform.Rotate (0, y, 0);
+		transform.Rotate (0, y * m_RotationSpeed.y, 0);
 	}
 	public void rotateBoardInZ(float z)
 	{
-		transform.Rotate (0, 0, z);
+		transform.Rotate (0, 0, z * m_RotationSpeed.z);
 	}
 	public void Strafe(Vector3 dir)
 	{
-		transform.Translate (dir*Time.deltaTime*10);
+		transform.Translate (dir*Time.deltaTime*m_StrafeSpeed);
 	}
 
 	public void changeState(string state)
