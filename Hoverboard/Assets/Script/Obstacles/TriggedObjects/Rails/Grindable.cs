@@ -23,20 +23,26 @@ public class Grindable : MonoBehaviour {
 	void OnTriggerEnter(Collider col)
 	{
 		detecState = col.gameObject.GetComponent<DetectState> ();
+		if(detecState.m_getRailPermission)
+		{
+			detecState.m_getRayCastState = false;
+			detecState.changeKeyState("Rail");
+			detecState.m_getRailPermission = false;
 
-		detecState.m_getRayCastState = false;
-		detecState.changeKeyState("Rail");
+		}
 		RailCounter.incNum();
-		Debug.Log(Vector3.Angle(transform.forward, col.transform.forward));
+
 		if(Vector3.Angle(transform.forward, col.transform.right) <90)
 		{
-			col.transform.GetComponent<Movement>().Direction =  Exit.transform.position - col.transform.position;
+			detecState.updateKeyState ("Rail").setVector =  Exit.transform.position - col.transform.position;
+			//col.transform.GetComponent<Movement>().Direction =  Exit.transform.position - col.transform.position;
 		}
 		else
 		{
-			col.transform.GetComponent<Movement>().Direction =  Entry.transform.position - col.transform.position;
+			detecState.updateKeyState ("Rail").setVector =  Entry.transform.position - col.transform.position;
+			//col.transform.GetComponent<Movement>().Direction =  Entry.transform.position - col.transform.position;
 		}
-		detecState.updateKeyState ("Rail").setVector = transform.forward;
+		//detecState.updateKeyState ("Rail").setVector = transform.forward;
 	}
 
 	void OnTriggerExit(Collider col)

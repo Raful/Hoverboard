@@ -21,7 +21,14 @@ public class DetectState : MonoBehaviour {
     private string state = "Default"; //What state the player is in (grinding etc)
 	private KeyState currentState;
 	private bool rayCastState = true;
+	private bool railKeyPressed;
+	private float keyIsPressed;
 
+	public bool m_getRailPermission
+	{
+		get{return railKeyPressed;}
+		set{railKeyPressed = value;}
+	}
 	public bool m_getRayCastState
 	{
 		get { return rayCastState; }
@@ -65,6 +72,7 @@ public class DetectState : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
     {
+		RailKey ();
         gatherColliders();
         setState();
 		updateKeyState (currentKeyState).update();
@@ -126,6 +134,7 @@ public class DetectState : MonoBehaviour {
 	{
 		if(state != currentKeyState)
 		{
+			Debug.Log (state);
 			keyStateDictionary [currentKeyState].end();
 			keyStateDictionary [state].start();
 			currentKeyState = state;
@@ -135,5 +144,20 @@ public class DetectState : MonoBehaviour {
 	{
 
 		return keyStateDictionary[keyState];
+	}
+
+	private void RailKey()
+	{
+
+		if(Input.GetKeyDown(KeyCode.Q))
+		{
+			keyIsPressed = Time.time;
+			railKeyPressed = true;
+		}
+		if(Time.time > keyIsPressed+0.5f)
+		{
+			railKeyPressed = false;
+		}
+
 	}
 }
