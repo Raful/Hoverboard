@@ -7,7 +7,9 @@ public class GrindKeyState : KeyState
 	private float constantRotationSpeed;
 	private float pushOfStrength = 100f;
 	private bool firstRotationOnGoing = true;
-	
+	private float time;
+	private bool startTimer;
+
 	public GrindKeyState(Movement Movement)
 	{
 		movement = Movement;
@@ -20,23 +22,31 @@ public class GrindKeyState : KeyState
 		{
 			constantRotationSpeed = Random.Range(-1f,1f);
 		}
-
+		startTimer = true;
 	}
 	
 	public override void update () 
 	{	
 		movement.setGravity = 0;
-
+		movement.Direction = m_keyVector;
 		constantRotation();
-		whenToFall();
+		//whenToFall();
 
-		if(Input.GetKey(KeyCode.A))
+		if(Input.GetKey(KeyCode.W))
 		{
 			movement.rotateBoardInZ(1f);
 		}
-		if(Input.GetKey(KeyCode.D))
+		if(Input.GetKey(KeyCode.S))
 		{
 			movement.rotateBoardInZ(-1f);
+		}
+		if(Input.GetKey(KeyCode.A))
+		{
+			movement.rotateBoardInWorldY(-1f);
+		}
+		if(Input.GetKey(KeyCode.D))
+		{
+			movement.rotateBoardInWorldY(1f);
 		}
 	}
 	
@@ -44,8 +54,18 @@ public class GrindKeyState : KeyState
 	{
 		movement.gameObject.GetComponent<Hover_WithTransform> ().enabled = true;
 		firstRotationOnGoing = true;
+
 	}
 
+	//private void changeRayState ()
+	//{	
+	//	if(RailCounter.getNum() <=0 && startTimer)
+	//	{
+	//		startTimer = false;
+	//		time = Time.time;
+	//	}
+	//}
+	
 	private void constantRotation()
 	{
 		if(firstRotationOnGoing)
@@ -54,11 +74,11 @@ public class GrindKeyState : KeyState
 			firstRotationOnGoing = false;
 		}
 		
-		if(movement.transform.eulerAngles.z > 0.00001f && movement.transform.eulerAngles.z < 30f)
+		if(movement.transform.eulerAngles.z > 0f && movement.transform.eulerAngles.z < 30f)
 		{
 			movement.rotateBoardInZ(Mathf.Abs(constantRotationSpeed));
 		}
-		else if(movement.transform.eulerAngles.z < 359.99999f && movement.transform.eulerAngles.z > 330f)
+		else if(movement.transform.eulerAngles.z < 360f && movement.transform.eulerAngles.z > 330f)
 		{
 			if(constantRotationSpeed < 0)
 			{
@@ -75,19 +95,11 @@ public class GrindKeyState : KeyState
 	{
 		if(movement.transform.eulerAngles.z > 30f && movement.transform.eulerAngles.z < 180f)
 		{
-			//DO STUFF
-			//Push person of to the left
-			//movement.rigidbody.AddForce(new Vector3(-pushOfStrength,0,0));
-			//movement.Strafe(new Vector3(-pushOfStrength,0,0));
-			movement.transform.Translate(Vector3.left * Time.deltaTime * 2f,Camera.main.transform);
+			movement.transform.position = -m_keyVector;
 		}
 		else if(movement.transform.eulerAngles.z < 330f && movement.transform.eulerAngles.z > 180f)
 		{
-			//DO STUFF
-			//Push person of to the right
-			//movement.rigidbody.AddForce(new Vector3(pushOfStrength,0,0));
-			//movement.Strafe(new Vector3(pushOfStrength,0,0));
-			movement.transform.Translate(Vector3.right * Time.deltaTime * 2f,Camera.main.transform);
+			movement.transform.position += m_keyVector;
 		}
 	}
 }
