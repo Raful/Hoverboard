@@ -251,8 +251,14 @@ public class InputVCR : MonoBehaviour
 			int lastFrame = currentFrame;
 			currentFrame = currentRecording.GetClosestFrame ( playbackTime );  //HÄR ÄR PROBLEM
 			
-			if ( currentFrame > currentRecording.totalFrames )
+			if ( currentFrame >= currentRecording.totalFrames )
 			{
+				string filePath = Application.persistentDataPath + "/Ghost.txt";
+				StreamWriter file = new StreamWriter(filePath);
+				//Store recording in to a file
+				file.WriteLine(currentRecording.ToString());
+				file.Close();
+
 				// end of recording
 				if ( finishedPlayback != null )
 					finishedPlayback( );

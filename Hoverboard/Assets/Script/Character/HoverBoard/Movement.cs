@@ -182,7 +182,6 @@ public class Movement : MonoBehaviour {
 		
 		velocity = direction.normalized *(forwardSpeed+backwardSpeed + boostSpeed+bonusSpeed) -Vector3.up*gravity;
 		transform.position += velocity*Time.fixedDeltaTime;
-		Debug.Log (direction + " Gravity " + gravity);
 	}
 	
 	// Calls on collision, resets Speed, x-rotation and position
