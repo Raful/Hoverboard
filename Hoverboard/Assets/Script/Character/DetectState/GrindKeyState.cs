@@ -8,7 +8,6 @@ public class GrindKeyState : KeyState
 	private float pushOfStrength = 100f;
 	private bool firstRotationOnGoing = true;
 	private float time;
-	public static bool m_StandardPushOfDir;
 
 	public GrindKeyState(Movement Movement)
 	{
@@ -56,15 +55,6 @@ public class GrindKeyState : KeyState
 
 	}
 
-	//private void changeRayState ()
-	//{	
-	//	if(RailCounter.getNum() <=0 && startTimer)
-	//	{
-	//		startTimer = false;
-	//		time = Time.time;
-	//	}
-	//}
-	
 	private void constantRotation()
 	{
 		if(firstRotationOnGoing)
@@ -94,27 +84,12 @@ public class GrindKeyState : KeyState
 	{
 		if(movement.transform.eulerAngles.z > 30f && movement.transform.eulerAngles.z < 180f)
 		{
-			if(m_StandardPushOfDir)
-			{
-				movement.transform.position += -m_keyVector;
-			}
-			else
-			{
-				movement.transform.position += m_keyVector;
-			}
+				movement.transform.Translate(new Vector3(-1,0,0));
 
 		}
 		else if(movement.transform.eulerAngles.z < 330f && movement.transform.eulerAngles.z > 180f)
 		{
-			if(m_StandardPushOfDir)
-			{
-				movement.transform.position += m_keyVector;
-			}
-			else
-			{
-				movement.transform.position += -m_keyVector;
-			}
-
+				movement.transform.Translate(new Vector3(1,0,0));
 		}
 	}
 }
