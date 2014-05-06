@@ -8,7 +8,7 @@ public class GrindKeyState : KeyState
 	private float pushOfStrength = 100f;
 	private bool firstRotationOnGoing = true;
 	private float time;
-	private bool startTimer;
+	public static bool m_StandardPushOfDir;
 
 	public GrindKeyState(Movement Movement)
 	{
@@ -22,7 +22,6 @@ public class GrindKeyState : KeyState
 		{
 			constantRotationSpeed = Random.Range(-1f,1f);
 		}
-		startTimer = true;
 	}
 	
 	public override void update () 
@@ -30,7 +29,7 @@ public class GrindKeyState : KeyState
 		movement.setGravity = 0;
 		movement.Direction = m_keyVector;
 		constantRotation();
-		//whenToFall();
+		whenToFall();
 
 		if(Input.GetKey(KeyCode.W))
 		{
@@ -95,11 +94,27 @@ public class GrindKeyState : KeyState
 	{
 		if(movement.transform.eulerAngles.z > 30f && movement.transform.eulerAngles.z < 180f)
 		{
-			movement.transform.position = -m_keyVector;
+			if(m_StandardPushOfDir)
+			{
+				movement.transform.position += -m_keyVector;
+			}
+			else
+			{
+				movement.transform.position += m_keyVector;
+			}
+
 		}
 		else if(movement.transform.eulerAngles.z < 330f && movement.transform.eulerAngles.z > 180f)
 		{
-			movement.transform.position += m_keyVector;
+			if(m_StandardPushOfDir)
+			{
+				movement.transform.position += m_keyVector;
+			}
+			else
+			{
+				movement.transform.position += -m_keyVector;
+			}
+
 		}
 	}
 }

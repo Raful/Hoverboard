@@ -151,6 +151,7 @@ public class DetectState : MonoBehaviour {
 
 		if(Input.GetKeyDown(KeyCode.Q))
 		{
+			Debug.Log("GRIND KEY PRESS");
 			keyIsPressed = Time.time;
 			railKeyPressed = true;
 		}
