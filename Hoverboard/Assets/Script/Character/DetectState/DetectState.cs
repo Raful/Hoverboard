@@ -19,18 +19,22 @@ using System.Collections.Generic;
 public class DetectState : MonoBehaviour {
 
     private string state = "Default"; //What state the player is in (grinding etc)
+	private KeyState currentState;
 	private bool rayCastState = true;
+	private bool railKeyPressed;
+	private float keyIsPressed;
 
+	public bool m_getRailPermission
+	{
+		get{return railKeyPressed;}
+		set{railKeyPressed = value;}
+	}
 	public bool m_getRayCastState
 	{
 		get { return rayCastState; }
 		set { rayCastState = value;}
 	}
 
-    public string m_state
-    {
-        get { return state; }
-    }
 	//public KeyState key = new MoveKeyState (gameObject.GetComponent<Movement>);
 
 	private Dictionary<string,KeyState> keyStateDictionary = new Dictionary<string,KeyState>();
@@ -38,6 +42,7 @@ public class DetectState : MonoBehaviour {
     ArrayList collidersFound;
 
     ColliderObject[] colliderStates;
+
 
 	public string getKeyState
 	{
@@ -66,6 +71,7 @@ public class DetectState : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
     {
+		RailKey ();
         gatherColliders();
 
         setState();
@@ -128,14 +134,30 @@ public class DetectState : MonoBehaviour {
 	{
 		if(state != currentKeyState)
 		{
+			Debug.Log (state);
 			keyStateDictionary [currentKeyState].end();
 			keyStateDictionary [state].start();
 			currentKeyState = state;
 		}
 	}
-	KeyState updateKeyState(string keyState)
+	public KeyState updateKeyState(string keyState)
 	{
 
 		return keyStateDictionary[keyState];
+	}
+
+	private void RailKey()
+	{
+
+		if(Input.GetKeyDown(KeyCode.Q))
+		{
+			keyIsPressed = Time.time;
+			railKeyPressed = true;
+		}
+		if(Time.time > keyIsPressed+0.5f)
+		{
+			railKeyPressed = false;
+		}
+
 	}
 }

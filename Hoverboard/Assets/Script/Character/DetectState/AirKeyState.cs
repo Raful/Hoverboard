@@ -23,6 +23,7 @@ public class AirKeyState : KeyState
 	public override void start()
 	{
 		timeIni = Time.time;
+		movement.hoverHeight = 5;
 	}
 
 	public override void update () 

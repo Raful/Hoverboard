@@ -6,9 +6,13 @@ public class MoveKeyState : KeyState
 	private Movement movement;
 	private float forwardAcc;
 	private float backWardAcc;
+
 	private bool useVCR;
 	private InputVCR vcr;
 
+
+
+	private Vector3 lerpToDirection;
 
 	public MoveKeyState(Movement Movement)
 	{
@@ -25,6 +29,7 @@ public class MoveKeyState : KeyState
 	{
 		forwardAcc = movement.m_ForwardAcc;
 		backWardAcc = movement.m_BackwardAcc;
+		movement.hoverHeight = movement.hoverHeight + 3;
 
 	}
 
@@ -32,8 +37,11 @@ public class MoveKeyState : KeyState
 	// Update is called once per frame
 	public override void update () 
 	{
+
 		if(vcr.GetButton("Forward"))
 		{
+			movement.Direction = movement.transform.forward;
+
 			movement.forwardSpeed += movement.m_ForwardAcc;
 			movement.backwardSpeed += movement.m_ForwardAcc;
 		}

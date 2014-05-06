@@ -100,7 +100,7 @@ public class CameraMec : MonoBehaviour {
 
 
 
-		if(currentState.m_state == "Air")
+		if(currentState.getKeyState == "Air")
 		{
 			if(distanceY < 2)
 			{

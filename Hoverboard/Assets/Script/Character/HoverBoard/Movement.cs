@@ -64,6 +64,9 @@ public class Movement : MonoBehaviour {
 	public float speedForCamera;	//This variable is for the moment only so the camera can decide the distance from the hoverboard
 
 
+	[HideInInspector]
+	public float jumpVelocity; //Jump feeds into this
+
 	public float setGravity
 	{
 		set{gravity = value;}
@@ -90,12 +93,13 @@ public class Movement : MonoBehaviour {
 		currentState = gameObject.GetComponent<DetectState> ();
 		boostScript = gameObject.GetComponent<Boost>();
 		rayDirection = -Vector3.up;
+		direction = transform.forward;
 	}
 	
 	// Calculates the new angle and rotates accordingly
 	void LateUpdate()
 	{
-
+	
 		if(currentState.m_getRayCastState)
 		{
 			RaycastHit hit;
@@ -108,7 +112,10 @@ public class Movement : MonoBehaviour {
 					gravity = 0;
 					rigidbody.velocity = Vector3.zero;
 				}
-				
+				if (hit.distance > hoverHeight-3)
+				{
+					gravity += 0.2f;
+				}
 				if(Vector3.Angle(transform.forward,Vector3.Cross(transform.right,hit.normal)) < m_MaxAngle || !isGrounded)
 				{
 					// Snaps to angle
@@ -118,14 +125,14 @@ public class Movement : MonoBehaviour {
 					}
 					transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(Vector3.Cross(transform.right, hit.normal), hit.normal), (Time.fixedDeltaTime*velocity.magnitude*m_AngleSpeed*(hoverHeight/hit.distance)));
 				}
+
+
 				// adds gravity if hoverboard is upside down
 				else if(hit.normal.y <= 0)
 				{
 					gravity += m_Gravity;
 				}
-			
 				Debug.DrawLine(transform.position, hit.point);
-				direction = transform.forward;
 				isGrounded = true;
 				rayDirection = -transform.up;
 			}
@@ -179,9 +186,11 @@ public class Movement : MonoBehaviour {
 			Debug.LogError("boostMaxAccSpeed is smaller than m_MaxAccSpeed");
 		}
 		#endif
-		
+
 		velocity = direction.normalized *(forwardSpeed+backwardSpeed + boostSpeed+bonusSpeed) -Vector3.up*gravity;
+		//velocity.y += jumpVelocity;
 		transform.position += velocity*Time.fixedDeltaTime;
+
 	}
 	
 	// Calls on collision, resets Speed, x-rotation and position
@@ -227,10 +236,19 @@ public class Movement : MonoBehaviour {
 	{
 		transform.Rotate (0, y * m_RotationSpeed.y, 0);
 	}
+	public void rotateBoardInWorldY(float y)
+	{
+		transform.Rotate (0, y * m_RotationSpeed.y, 0,Space.World);
+	}
 	public void rotateBoardInZ(float z)
 	{
 		transform.Rotate (0, 0, z * m_RotationSpeed.z);
 	}
+
+	public void setVelocity(Vector3 Velocity){
+		velocity = Velocity;
+	}
+
 	public void Strafe(Vector3 dir)
 	{
 		transform.Translate (dir*Time.deltaTime*m_StrafeSpeed);
@@ -241,7 +259,4 @@ public class Movement : MonoBehaviour {
 		currentState.changeKeyState(state);
 	}
 
-
-	// rotate a vector operation
-	
 }
