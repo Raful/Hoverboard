@@ -6,7 +6,7 @@ public class MoveKeyState : KeyState
 	private Movement movement;
 	private float forwardAcc;
 	private float backWardAcc;
-
+	private Vector3 lerpToDirection;
 	public MoveKeyState(Movement Movement)
 	{
 		movement = Movement;
@@ -14,6 +14,7 @@ public class MoveKeyState : KeyState
 
 	public override void start ()
 	{
+		lerpToDirection = movement.Direction;
 		forwardAcc = movement.m_ForwardAcc;
 		backWardAcc = movement.m_BackwardAcc;
 
@@ -23,6 +24,16 @@ public class MoveKeyState : KeyState
 	// Update is called once per frame
 	public override void update () 
 	{
+		//lerpToNewDirection ();
+		//if (movement.Direction != movement.transform.forward)
+		//{
+		//	Debug.Log("Same");
+		//	movement.Direction = Vector3.Slerp (movement.Direction, movement.transform.forward, Time.deltaTime * 2f);
+		//}
+		//else
+		//{
+			movement.Direction = movement.transform.forward;
+		//}
 		if(Input.GetKey(KeyCode.W))
 		{
 			movement.forwardSpeed += movement.m_ForwardAcc;
@@ -59,5 +70,9 @@ public class MoveKeyState : KeyState
 	public override void end()
 	{
 
+	}
+	private void lerpToNewDirection()
+	{
+		movement.Direction = Vector3.Slerp (lerpToDirection, movement.Direction, 2f);
 	}
 }
