@@ -21,10 +21,6 @@ public class MoveKeyState : KeyState
 
 
 
-		
-		
-
-
 	public override void start ()
 	{
 		forwardAcc = movement.m_ForwardAcc;
@@ -69,6 +65,7 @@ public class MoveKeyState : KeyState
 			movement.Strafe(Vector3.right);
 		}
 	}
+
 	public override void end()
 	{
 

@@ -249,7 +249,7 @@ public class InputVCR : MonoBehaviour
 			lastFrameInputs = thisFrameInputs;
 			
 			int lastFrame = currentFrame;
-			currentFrame = currentRecording.GetClosestFrame ( playbackTime );  //HÄR ÄR PROBLEM
+			currentFrame = currentRecording.GetClosestFrame ( playbackTime );  
 			
 			if ( currentFrame >= currentRecording.totalFrames )
 			{
@@ -350,7 +350,7 @@ public class InputVCR : MonoBehaviour
 				foreach( FrameProperty prop in nextPropertiesToRecord )
 				{
 
-					currentRecording.AddProperty ( currentFrame, prop );		//HÄR ÄR PROBLEM
+					currentRecording.AddProperty ( currentFrame, prop );		
 				}
 					nextPropertiesToRecord.Clear ();
 				
