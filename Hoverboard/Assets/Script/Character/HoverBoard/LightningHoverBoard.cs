@@ -19,6 +19,27 @@ public class LightningHoverBoard : MonoBehaviour {
 	void Update () {
 		TimeSin = Mathf.Sin(Time.time*m_PulseSpeed);
 
+		zeroLightOnButton();
+		fluctuateLightStrength();
+
+		if(m_Peek)
+		{
+			light.intensity = 8;
+		}
+
+		changeColor();
+	}
+
+	private void zeroLightOnButton()
+	{
+		if((Input.GetKeyDown(KeyCode.Space)))
+		{
+			light.intensity = 0; 
+		}
+	}
+
+	private void fluctuateLightStrength()
+	{
 		if((Input.GetKey(KeyCode.Space)))
 		{
 			light.intensity += 0.1f; 
@@ -29,15 +50,12 @@ public class LightningHoverBoard : MonoBehaviour {
 			{
 				TimeSin *= -1;
 			}
-
+			
 			light.intensity = m_IntensityThreshold * TimeSin;
 		}
-
-		if(m_Peek)
-		{
-			light.intensity = 8;
-		}
-
+	}
+	private void changeColor()
+	{
 		if (getJumpValues.getChargePower > 0) {
 			light.color = col_charged;
 		} else {
