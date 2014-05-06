@@ -19,7 +19,7 @@ public class LightningHoverBoard : MonoBehaviour {
 	void Update () {
 		TimeSin = Mathf.Sin(Time.time*m_PulseSpeed);
 
-		if((Input.GetKey(KeyCode.Space)/*||Input.GetButton(m_Player.m_input_jump)*/))
+		if((Input.GetKey(KeyCode.Space)))
 		{
 			light.intensity += 0.1f; 
 		}
