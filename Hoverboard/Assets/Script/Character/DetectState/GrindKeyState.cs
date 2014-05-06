@@ -7,6 +7,8 @@ public class GrindKeyState : KeyState
 	private float constantRotationSpeed;
 	private float pushOfStrength = 100f;
 	private bool firstRotationOnGoing = true;
+	private float AngleAmount = 40;								//Used to calculate the angel for the hoverboard to fall of with
+	private const float zero = 0, circel = 360, halfCircel = 180;//Constant variabels that are used to calc the angle for the fall of
 	private float time;
 
 	public GrindKeyState(Movement Movement)
@@ -63,13 +65,13 @@ public class GrindKeyState : KeyState
 			firstRotationOnGoing = false;
 		}
 		
-		if(movement.transform.eulerAngles.z > 0f && movement.transform.eulerAngles.z < 30f)
+		if(movement.transform.eulerAngles.z > zero && movement.transform.eulerAngles.z < (zero + AngleAmount))
 		{
 			movement.rotateBoardInZ(Mathf.Abs(constantRotationSpeed));
 		}
-		else if(movement.transform.eulerAngles.z < 360f && movement.transform.eulerAngles.z > 330f)
+		else if(movement.transform.eulerAngles.z < circel && movement.transform.eulerAngles.z > (circel - AngleAmount))
 		{
-			if(constantRotationSpeed < 0)
+			if(constantRotationSpeed < zero)
 			{
 				movement.rotateBoardInZ(constantRotationSpeed);
 			}
@@ -82,12 +84,12 @@ public class GrindKeyState : KeyState
 
 	private void whenToFall()
 	{
-		if(movement.transform.eulerAngles.z > 30f && movement.transform.eulerAngles.z < 180f)
+		if(movement.transform.eulerAngles.z > (zero + AngleAmount) && movement.transform.eulerAngles.z < halfCircel)
 		{
 				movement.transform.Translate(new Vector3(-1,0,0));
 
 		}
-		else if(movement.transform.eulerAngles.z < 330f && movement.transform.eulerAngles.z > 180f)
+		else if(movement.transform.eulerAngles.z < (circel - AngleAmount) && movement.transform.eulerAngles.z > halfCircel)
 		{
 				movement.transform.Translate(new Vector3(1,0,0));
 		}
