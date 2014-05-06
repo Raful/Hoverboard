@@ -14,10 +14,9 @@ public class MoveKeyState : KeyState
 
 	public override void start ()
 	{
-		lerpToDirection = movement.Direction;
 		forwardAcc = movement.m_ForwardAcc;
 		backWardAcc = movement.m_BackwardAcc;
-		movement.hoverHeight = 8;
+		movement.hoverHeight = movement.hoverHeight + 3;
 
 	}
 
@@ -64,9 +63,5 @@ public class MoveKeyState : KeyState
 	public override void end()
 	{
 
-	}
-	private void lerpToNewDirection()
-	{
-		movement.Direction = Vector3.Slerp (lerpToDirection, movement.Direction, 2f);
 	}
 }

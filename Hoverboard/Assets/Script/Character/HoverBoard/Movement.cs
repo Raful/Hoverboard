@@ -107,7 +107,10 @@ public class Movement : MonoBehaviour {
 					gravity = 0;
 					rigidbody.velocity = Vector3.zero;
 				}
-				
+				if (hit.distance > hoverHeight-3)
+				{
+					gravity += 0.2f;
+				}
 				if(Vector3.Angle(transform.forward,Vector3.Cross(transform.right,hit.normal)) < m_MaxAngle || !isGrounded)
 				{
 					// Snaps to angle
@@ -117,6 +120,8 @@ public class Movement : MonoBehaviour {
 					}
 					transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(Vector3.Cross(transform.right, hit.normal), hit.normal), (Time.fixedDeltaTime*velocity.magnitude*m_AngleSpeed*(hoverHeight/hit.distance)));
 				}
+
+
 				// adds gravity if hoverboard is upside down
 				else if(hit.normal.y <= 0)
 				{
