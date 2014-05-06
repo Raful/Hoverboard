@@ -6,10 +6,13 @@ using System.Collections;
  */
 
 public class Grindable : MonoBehaviour {
-	public GameObject invisTarget;
-
+	public GameObject Exit;
+	public GameObject Entry;
+	private DetectState detecState;
 	// Use this for initialization
-	void Start () {
+	void Start () 
+	{
+	
 	}
 	
 	// Update is called once per frame
@@ -19,10 +22,27 @@ public class Grindable : MonoBehaviour {
 
 	void OnTriggerEnter(Collider col)
 	{
+		detecState = col.gameObject.GetComponent<DetectState> ();
+		if(detecState.m_getRailPermission)
+		{
+			detecState.m_getRayCastState = false;
+			detecState.changeKeyState("Rail");
+			detecState.m_getRailPermission = false;
+
+		}
 		RailCounter.incNum();
-		col.gameObject.GetComponent<DetectState>().m_getRayCastState = false;
-		col.gameObject.GetComponent<DetectState>().changeKeyState("Rail");
-		col.transform.GetComponent<Movement>().Direction =  invisTarget.transform.position - col.transform.position;
+
+		if(Vector3.Angle(transform.forward, col.transform.right) <90)
+		{
+			detecState.updateKeyState ("Rail").setVector =  Exit.transform.position - col.transform.position;
+			//col.transform.GetComponent<Movement>().Direction =  Exit.transform.position - col.transform.position;
+		}
+		else
+		{
+			detecState.updateKeyState ("Rail").setVector =  Entry.transform.position - col.transform.position;
+			//col.transform.GetComponent<Movement>().Direction =  Entry.transform.position - col.transform.position;
+		}
+		//detecState.updateKeyState ("Rail").setVector = transform.forward;
 	}
 
 	void OnTriggerExit(Collider col)

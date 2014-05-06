@@ -17,4 +17,8 @@ public class RailCounter {
 	{
 		tal++;
 	}
+	public static void nullNum()
+	{
+		tal = 0;
+	}
 }

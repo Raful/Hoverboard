@@ -88,12 +88,13 @@ public class Movement : MonoBehaviour {
 		currentState = gameObject.GetComponent<DetectState> ();
 		boostScript = gameObject.GetComponent<Boost>();
 		rayDirection = -Vector3.up;
+		direction = transform.forward;
 	}
 
 	// Calculates the new angle and rotates accordingly
 	void LateUpdate()
 	{
-
+	
 		if(currentState.m_getRayCastState)
 		{
 			RaycastHit hit;
@@ -103,6 +104,7 @@ public class Movement : MonoBehaviour {
 				// höj maxangle om !grounded?
 				if(!isGrounded)
 				{
+					//transform.rotation = Quaternion.LookRotation(Vector3.Cross(transform.right, hit.normal), hit.normal);
 					gravity = 0;
 					rigidbody.velocity = Vector3.zero;
 				}
@@ -121,9 +123,7 @@ public class Movement : MonoBehaviour {
 				{
 					gravity += m_Gravity;
 				}
-			
 				Debug.DrawLine(transform.position, hit.point);
-				direction = transform.forward;
 				isGrounded = true;
 				rayDirection = -transform.up;
 			}
@@ -156,18 +156,18 @@ public class Movement : MonoBehaviour {
 		backwardSpeed = Mathf.Clamp (backwardSpeed, -m_MaxAccSpeed, 0);
 		boostSpeed = Mathf.Clamp(boostSpeed, 0, boostMaxAccSpeed - m_MaxAccSpeed); //boostMaxAccSpeed is set as the max speed while boosting, but boostSpeed is added to the normal speed (not overwriting it).
 		speedForCamera = forwardSpeed + backwardSpeed + bonusSpeed;
-
+		
 		#if UNITY_EDITOR
 		if (boostMaxAccSpeed < m_MaxAccSpeed)
 		{
 			Debug.LogError("boostMaxAccSpeed is smaller than m_MaxAccSpeed");
 		}
 		#endif
-		
+
 		velocity = direction.normalized *(forwardSpeed+backwardSpeed + boostSpeed+bonusSpeed) -Vector3.up*gravity;
 		//velocity.y += jumpVelocity;
 		transform.position += velocity*Time.fixedDeltaTime;
-		Debug.Log (direction + " Gravity " + gravity);
+
 	}
 
 	// Calls on collision, resets Speed, x-rotation and position
@@ -213,6 +213,10 @@ public class Movement : MonoBehaviour {
 	{
 		transform.Rotate (0, y * m_RotationSpeed.y, 0);
 	}
+	public void rotateBoardInWorldY(float y)
+	{
+		transform.Rotate (0, y * m_RotationSpeed.y, 0,Space.World);
+	}
 	public void rotateBoardInZ(float z)
 	{
 		transform.Rotate (0, 0, z * m_RotationSpeed.z);
@@ -230,6 +234,5 @@ public class Movement : MonoBehaviour {
 	{
 		currentState.changeKeyState(state);
 	}
-
 	// rotate a vector operation
 }
