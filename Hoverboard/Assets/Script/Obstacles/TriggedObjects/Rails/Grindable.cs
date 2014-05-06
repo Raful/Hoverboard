@@ -35,14 +35,11 @@ public class Grindable : MonoBehaviour {
 		if(Vector3.Angle(transform.forward, col.transform.right) <90)
 		{
 			detecState.updateKeyState ("Rail").setVector =  Exit.transform.position - col.transform.position;
-			//col.transform.GetComponent<Movement>().Direction =  Exit.transform.position - col.transform.position;
 		}
 		else
 		{
 			detecState.updateKeyState ("Rail").setVector =  Entry.transform.position - col.transform.position;
-			//col.transform.GetComponent<Movement>().Direction =  Entry.transform.position - col.transform.position;
 		}
-		//detecState.updateKeyState ("Rail").setVector = transform.forward;
 	}
 
 	void OnTriggerExit(Collider col)

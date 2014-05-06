@@ -101,7 +101,6 @@ public class Movement : MonoBehaviour {
 				// höj maxangle om !grounded?
 				if(!isGrounded)
 				{
-					//transform.rotation = Quaternion.LookRotation(Vector3.Cross(transform.right, hit.normal), hit.normal);
 					gravity = 0;
 					rigidbody.velocity = Vector3.zero;
 				}
