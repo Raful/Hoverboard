@@ -31,7 +31,11 @@ public class GrindKeyState : KeyState
 		movement.Direction = m_keyVector;
 		constantRotation();
 		//whenToFall();
-
+		
+		movement.rotateBoardInZ(-Input.GetAxisRaw("LeftHorizontal"));
+		
+		movement.rotateBoardInWorldY(Input.GetAxisRaw("RightHorizontal"));
+		/*
 		if(Input.GetKey(KeyCode.W))
 		{
 			movement.rotateBoardInZ(1f);
@@ -48,6 +52,7 @@ public class GrindKeyState : KeyState
 		{
 			movement.rotateBoardInWorldY(1f);
 		}
+		*/
 	}
 	
 	public override void end()
