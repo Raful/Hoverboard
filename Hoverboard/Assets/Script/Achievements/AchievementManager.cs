@@ -4,7 +4,7 @@
  * 
  * Description:
  * Script for handling achievements.
- * Needs to be credited according to the link above.
+ * The script is under the MIT license. It's free to use (even commercially), but needs to be credited by using the readme.txt in this folder (check the link above for more info)
  */
 
 using System.Linq;
