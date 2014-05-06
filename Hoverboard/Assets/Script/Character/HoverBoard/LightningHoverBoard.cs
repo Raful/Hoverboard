@@ -32,7 +32,7 @@ public class LightningHoverBoard : MonoBehaviour {
 
 	private void zeroLightOnButton()
 	{
-		if((Input.GetKeyDown(KeyCode.Space)))
+		if(Input.GetKeyDown(KeyCode.Space) && getJumpValues.privateMovement.isGrounded)
 		{
 			light.intensity = 0; 
 		}
@@ -40,7 +40,7 @@ public class LightningHoverBoard : MonoBehaviour {
 
 	private void fluctuateLightStrength()
 	{
-		if((Input.GetKey(KeyCode.Space)))
+		if(Input.GetKey(KeyCode.Space) && getJumpValues.privateMovement.isGrounded)
 		{
 			light.intensity += 0.1f; 
 		}
