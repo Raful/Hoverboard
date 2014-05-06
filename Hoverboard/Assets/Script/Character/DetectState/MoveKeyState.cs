@@ -14,9 +14,9 @@ public class MoveKeyState : KeyState
 
 	public override void start ()
 	{
-		lerpToDirection = movement.Direction;
 		forwardAcc = movement.m_ForwardAcc;
 		backWardAcc = movement.m_BackwardAcc;
+		movement.hoverHeight = movement.hoverHeight + 3;
 
 	}
 
@@ -25,9 +25,10 @@ public class MoveKeyState : KeyState
 	public override void update () 
 	{
 
+
 		movement.forwardSpeed += movement.m_ForwardAcc * Input.GetAxisRaw("Triggers");
 		movement.backwardSpeed += movement.m_ForwardAcc * Input.GetAxisRaw("Triggers");
-		//lerpToNewDirection ();
+		lerpToNewDirection ();
 		
 
 		
@@ -41,6 +42,10 @@ public class MoveKeyState : KeyState
 			movement.Direction = movement.transform.forward;
 		}
 		/*
+
+		movement.Direction = movement.transform.forward;
+
+
 		if(Input.GetKey(KeyCode.W))
 
 		{
@@ -83,8 +88,10 @@ public class MoveKeyState : KeyState
 	{
 
 	}
+
 	private void lerpToNewDirection()
 	{
 		movement.Direction = Vector3.Slerp (lerpToDirection, movement.Direction, 5f);
 	}
+
 }

@@ -5,6 +5,8 @@ public class Jump : MonoBehaviour {
 
 	public float m_MaxJumpPower, m_JumpAccelration;
 	private float jumpPower, chargePower;
+	Movement getGrounded;
+	private Vector3 speed;
 	public Movement privateMovement;
 
 	private float stickDeltaOne;
@@ -23,7 +25,7 @@ public class Jump : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void FixedUpdate () {
 
 		stickDeltaFour = stickDeltaThree;
 		stickDeltaThree = stickDeltaTwo;

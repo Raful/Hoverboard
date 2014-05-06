@@ -8,7 +8,6 @@ public class GrindKeyState : KeyState
 	private float pushOfStrength = 100f;
 	private bool firstRotationOnGoing = true;
 	private float time;
-	private bool startTimer;
 
 	public GrindKeyState(Movement Movement)
 	{
@@ -22,7 +21,6 @@ public class GrindKeyState : KeyState
 		{
 			constantRotationSpeed = Random.Range(-1f,1f);
 		}
-		startTimer = true;
 	}
 	
 	public override void update () 
@@ -30,11 +28,13 @@ public class GrindKeyState : KeyState
 		movement.setGravity = 0;
 		movement.Direction = m_keyVector;
 		constantRotation();
-		//whenToFall();
 		
 		movement.rotateBoardInZ(-Input.GetAxisRaw("LeftHorizontal"));
 		
 		movement.rotateBoardInWorldY(Input.GetAxisRaw("RightHorizontal"));
+		
+
+		whenToFall();
 		/*
 		if(Input.GetKey(KeyCode.W))
 		{
@@ -62,15 +62,6 @@ public class GrindKeyState : KeyState
 
 	}
 
-	//private void changeRayState ()
-	//{	
-	//	if(RailCounter.getNum() <=0 && startTimer)
-	//	{
-	//		startTimer = false;
-	//		time = Time.time;
-	//	}
-	//}
-	
 	private void constantRotation()
 	{
 		if(firstRotationOnGoing)
@@ -100,11 +91,12 @@ public class GrindKeyState : KeyState
 	{
 		if(movement.transform.eulerAngles.z > 30f && movement.transform.eulerAngles.z < 180f)
 		{
-			movement.transform.position = -m_keyVector;
+				movement.transform.Translate(new Vector3(-1,0,0));
+
 		}
 		else if(movement.transform.eulerAngles.z < 330f && movement.transform.eulerAngles.z > 180f)
 		{
-			movement.transform.position += m_keyVector;
+				movement.transform.Translate(new Vector3(1,0,0));
 		}
 	}
 }
