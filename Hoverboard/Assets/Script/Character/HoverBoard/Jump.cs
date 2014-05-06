@@ -40,7 +40,7 @@ public class Jump : MonoBehaviour {
 		
 		if (privateMovement.isGrounded)
 		{
-			chargePower = (-1*(stickDeltaFour-stickDeltaThree) + -1*(stickDeltaThree-stickDeltaTwo) + -1*(stickDeltaTwo-stickDeltaOne))/4;
+			chargePower = ((Mathf.Abs(stickDeltaFour)+Mathf.Abs (stickDeltaThree))/2 + (Mathf.Abs(stickDeltaThree)+Mathf.Abs (stickDeltaTwo))/2 + (Mathf.Abs(stickDeltaTwo)+Mathf.Abs(stickDeltaOne))/2)/3;
 		}
 		
 		if ((Input.GetAxisRaw("RightVertical") > 0.8f) && privateMovement.isGrounded)
@@ -57,7 +57,7 @@ public class Jump : MonoBehaviour {
 		Debug.Log("Grounded: " + privateMovement.isGrounded);
 		
 		
-		rigidbody.AddExplosionForce(jumpPower,transform.position,1f,1f);
+		rigidbody.AddExplosionForce(jumpPower,transform.position,1f);
 		
 		if (jumpPower > 0.01f)
 		{

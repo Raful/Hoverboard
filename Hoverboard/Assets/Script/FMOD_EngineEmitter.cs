@@ -112,7 +112,7 @@ public class FMOD_EngineEmitter : MonoBehaviour {
 		
 		//currentPitch = Mathf.SmoothDamp(currentPitch, currentSpeed, ref pitchSmoothSpeed, 0.1f, 50f);
 		//currentPitch = currentSpeed;
-		speedPitch.setValue(Input.GetAxisRaw("Triggers"));
+		speedPitch.setValue(Mathf.Lerp (0, Input.GetAxisRaw("Triggers"), 0.5f));
 		speedVolume.setValue (currentSpeed);
 		
 		
