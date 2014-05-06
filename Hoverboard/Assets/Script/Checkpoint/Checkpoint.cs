@@ -3,7 +3,7 @@
  * Modified by: 
  * 
  * Description:
- * Looks for checkpoints, to spawn at when the player dies
+ * Looks for checkpoints (object with the tag "Checkpoint"), to spawn at when the player dies
  */
 
 using UnityEngine;
