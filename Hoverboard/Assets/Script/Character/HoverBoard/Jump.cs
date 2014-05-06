@@ -51,13 +51,14 @@ public class Jump : MonoBehaviour {
 			}
 			jumpPower = chargePower * m_JumpAccelration;
 			chargePower = 0;
+			
 		}
 		
-		
-		Debug.Log("Grounded: " + privateMovement.isGrounded);
-		
-		
 		rigidbody.AddExplosionForce(jumpPower,transform.position,1f);
+	
+		
+		
+
 		
 		if (jumpPower > 0.01f)
 		{
