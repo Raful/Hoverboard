@@ -5,6 +5,8 @@ public class Jump : MonoBehaviour {
 
 	public float m_MaxJumpPower, m_JumpAccelration;
 	private float jumpPower, chargePower;
+	Movement getGrounded;
+	private Vector3 speed;
 	public Movement privateMovement;
 
 	
@@ -18,7 +20,7 @@ public class Jump : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void FixedUpdate () {
 
 		if(!privateMovement.isGrounded)
 		{
@@ -39,6 +41,18 @@ public class Jump : MonoBehaviour {
 			jumpPower = chargePower;
 			chargePower = 0;
 		}
+		Debug.Log("ChargePower: " + chargePower);
+		Debug.Log("JumpPower: " + jumpPower * Time.deltaTime);
+		//transform.Translate((transform.up.normalized * jumpPower) * Time.fixedDeltaTime);		
+
+		//transform.position = ((Vector3.up * jumpPower) * Time.deltaTime);
+		//getGrounded.jumpVelocity = ((Vector3.up * jumpPower) * Time.deltaTime).y;
+		//Debug.Log ("Setting Jump Speed");
+
+		// ^ här ^ //
+
+		//transform.position += ((Vector3.up * jumpPower) * Time.deltaTime);
+		//privateMovement.m_getsetVelocity = jumpPower * Time.deltaTime;
 
 		rigidbody.AddExplosionForce(jumpPower * Time.deltaTime,transform.position,1);
 

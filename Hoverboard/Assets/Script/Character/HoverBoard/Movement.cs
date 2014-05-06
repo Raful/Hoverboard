@@ -60,6 +60,9 @@ public class Movement : MonoBehaviour {
 
 	public float speedForCamera;	//This variable is for the moment only so the camera can decide the distance from the hoverboard
 
+	[HideInInspector]
+	public float jumpVelocity; //Jump feeds into this
+
 	public float setGravity
 	{
 		set{gravity = value;}
@@ -161,6 +164,7 @@ public class Movement : MonoBehaviour {
 		#endif
 
 		velocity = direction.normalized *(forwardSpeed+backwardSpeed + boostSpeed+bonusSpeed) -Vector3.up*gravity;
+		//velocity.y += jumpVelocity;
 		transform.position += velocity*Time.fixedDeltaTime;
 
 	}
@@ -216,6 +220,11 @@ public class Movement : MonoBehaviour {
 	{
 		transform.Rotate (0, 0, z * m_RotationSpeed.z);
 	}
+
+	public void setVelocity(Vector3 Velocity){
+		velocity = Velocity;
+	}
+
 	public void Strafe(Vector3 dir)
 	{
 		transform.Translate (dir*Time.deltaTime*m_StrafeSpeed);
@@ -224,4 +233,5 @@ public class Movement : MonoBehaviour {
 	{
 		currentState.changeKeyState(state);
 	}
+	// rotate a vector operation
 }
