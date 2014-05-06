@@ -16,6 +16,7 @@ public class CameraMec : MonoBehaviour {
 
 	private float distance;
 	public GameObject hoverboard;
+	public Movement movement;
 	private Hover_Physics physics;
 
 	private Vector3 targetedPosition;
@@ -81,9 +82,9 @@ public class CameraMec : MonoBehaviour {
 		Vector3 newPos = lookPos;
 		
 		//change distance to hoverboard depending on the hoverboard's speed
-		if (hoverboard.GetComponent<Movement>().speedForCamera < -0.01f || hoverboard.GetComponent<Movement>().speedForCamera > 0.01f )
+		if (movement.speedForCamera < -0.01f || movement.speedForCamera > 0.01f )
 		{
-			distance = m_DefaultDistance + (hoverboard.GetComponent<Movement>().speedForCamera/20);
+			distance = m_DefaultDistance + (movement.speedForCamera/20);
 		}
 		else
 		{

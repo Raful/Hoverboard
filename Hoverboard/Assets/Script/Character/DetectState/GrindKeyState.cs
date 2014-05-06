@@ -16,6 +16,7 @@ public class GrindKeyState : KeyState
 	
 	public override void start ()
 	{
+		movement.hoverHeight = 5;
 		movement.gameObject.GetComponent<Hover_WithTransform> ().enabled = false;
 		if(RailCounter.getNum() < 2)
 		{
