@@ -35,12 +35,10 @@ public class Grindable : MonoBehaviour {
 		if(Vector3.Angle(transform.forward, col.transform.right) <90)
 		{
 			detecState.updateKeyState ("Rail").setVector =  Exit.transform.position - col.transform.position;
-			GrindKeyState.m_StandardPushOfDir = true;
 		}
 		else
 		{
 			detecState.updateKeyState ("Rail").setVector =  Entry.transform.position - col.transform.position;
-			GrindKeyState.m_StandardPushOfDir = false;
 		}
 	}
 
