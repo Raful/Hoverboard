@@ -14,6 +14,8 @@ public class Jump : MonoBehaviour {
 	private float stickDeltaThree;
 	private float stickDeltaFour;
 	
+	//private float[] stickInput = new float[10];
+	
 	public float getChargePower
 	{
 		get {return chargePower;}
@@ -27,10 +29,13 @@ public class Jump : MonoBehaviour {
 	// Update is called once per frame
 	void FixedUpdate () {
 
+		
 		stickDeltaFour = stickDeltaThree;
 		stickDeltaThree = stickDeltaTwo;
 		stickDeltaTwo = stickDeltaOne;
 		stickDeltaOne = Input.GetAxisRaw("RightVertical");
+		
+		
 		
 		
 		if(!privateMovement.isGrounded)
@@ -40,27 +45,58 @@ public class Jump : MonoBehaviour {
 		
 		if (privateMovement.isGrounded)
 		{
-			chargePower = ((Mathf.Abs(stickDeltaFour)+Mathf.Abs (stickDeltaThree))/2 + (Mathf.Abs(stickDeltaThree)+Mathf.Abs (stickDeltaTwo))/2 + (Mathf.Abs(stickDeltaTwo)+Mathf.Abs(stickDeltaOne))/2)/3;
-			chargePower = chargePower + (m_JumpAccelration * Time.deltaTime) * 10000;
+			/*
+			for (int i = stickInput.Length-1; i > -1; i--)
+			{
+				if (i == 0)
+					{stickInput[i]=Input.GetAxisRaw("RightHorizontal");}
+				
+				else
+					{stickInput[i]=stickInput[i-1];}
+				if (i < stickInput.Length-1)
+					chargePower += (stickInput[i+1] - stickInput[i]);
+					
+				Debug.Log(stickInput[0],stickInput[1],stickInput[2],stickInput[3],stickInput[4],stickInput[5],stickInput[6],stickInput[7],stickInput[8],stickInput[9])
+			}
+			Debug.Log(chargePower);
+			chargePower = chargePower / stickInput.Length;
+			chargePower = chargePower * m_JumpAccelration;
+			*/
+			chargePower = (-1*(stickDeltaFour-stickDeltaThree) + -1*(stickDeltaThree-stickDeltaTwo) + -1*(stickDeltaTwo-stickDeltaOne))/4;
 		}
 		
 		if (Input.GetKey (KeyCode.Space) && privateMovement.isGrounded)
 		{
-			chargePower = chargePower + (m_JumpAccelration * Time.deltaTime) * 10000;
+			chargePower = chargePower + m_JumpAccelration;
 		}
 		
-		if (((Input.GetAxisRaw("RightVertical") > 0.8f) || Input.GetKeyUp(KeyCode.Space)) && privateMovement.isGrounded)
+		if ((Input.GetAxisRaw("RightVertical") > 0.8f) && privateMovement.isGrounded)
 		{
+			
 			if(chargePower > m_MaxJumpPower * 100000)
 			{
 				chargePower = m_MaxJumpPower;
 			}
-			jumpPower = chargePower;
+			jumpPower = chargePower * 10000;
 			chargePower = 0;
 			
 		}
 		
-		rigidbody.AddExplosionForce(jumpPower,transform.position,1f);
+		
+		if (Input.GetKey(KeyCode.Space) && privateMovement.isGrounded)
+		{
+			
+			if(chargePower > m_MaxJumpPower * 100000)
+			{
+				chargePower = m_MaxJumpPower;
+			}
+			jumpPower = chargePower * 1000;
+			chargePower = 0;
+			
+		} 
+		
+		//rigidbody.AddForce(Vector3.up * chargePower);
+		rigidbody.AddExplosionForce(jumpPower, transform.position, 1f);
 	
 		
 		
