@@ -5,15 +5,17 @@ public class LightningHoverBoard : MonoBehaviour {
 
 	public float m_IntensityThreshold, m_PulseSpeed;
 	public bool m_Peek;
-	public Jump getJumpValues;
+	public Jump m_JumpScript;
+	public Movement m_MovementScript;
 	public Color col;
 	public Color col_charged;
+
 	float TimeSin;
 	// Use this for initialization
 	void Start () 
 	{
 		m_Peek = false;
-		getJumpValues = GameObject.Find ("Hoverboard 3.4").GetComponent<Jump>();
+		
 	}
 	
 	// Update is called once per frame
@@ -33,7 +35,7 @@ public class LightningHoverBoard : MonoBehaviour {
 
 	private void zeroLightOnButton()
 	{
-		if((Input.GetKeyDown(KeyCode.Space)))
+		if(Input.GetKeyDown(KeyCode.Space) && m_MovementScript.isGrounded)
 		{
 			light.intensity = 0; 
 		}
@@ -41,7 +43,7 @@ public class LightningHoverBoard : MonoBehaviour {
 
 	private void fluctuateLightStrength()
 	{
-		if((Input.GetKey(KeyCode.Space)))
+		if(Input.GetKey(KeyCode.Space) && m_MovementScript.isGrounded)
 		{
 			light.intensity += 0.1f; 
 		}
@@ -57,7 +59,7 @@ public class LightningHoverBoard : MonoBehaviour {
 	}
 	private void changeColor()
 	{
-		if (getJumpValues.getChargePower > 0) {
+		if (m_JumpScript.getChargePower > 0) {
 			light.color = col_charged;
 		} else {
 			light.color = col;
