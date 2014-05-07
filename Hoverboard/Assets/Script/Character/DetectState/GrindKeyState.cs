@@ -17,8 +17,10 @@ public class GrindKeyState : KeyState
 	
 	public override void start ()
 	{
-		movement.hoverHeight = 5;
+		movement.rigidbody.velocity = Vector3.zero;
 		movement.gameObject.GetComponent<Hover_WithTransform> ().enabled = false;
+		movement.isGrounded = true;
+
 		if(RailCounter.getNum() < 2)
 		{
 			constantRotationSpeed = Random.value;
@@ -35,8 +37,6 @@ public class GrindKeyState : KeyState
 	
 	public override void update () 
 	{	
-
-		Debug.Log(constantRotationSpeed);
 		movement.setGravity = 0;
 		movement.Direction = m_keyVector;
 		constantRotation();
@@ -96,12 +96,12 @@ public class GrindKeyState : KeyState
 	{
 		if(movement.transform.eulerAngles.z > (zero + AngleAmount) && movement.transform.eulerAngles.z < halfCircel)
 		{
-			movement.transform.Translate(new Vector3(-pushOfStrength,0,0));
+			movement.transform.Translate(new Vector3(-pushOfStrength,0,0),Space.World);
 
 		}
 		else if(movement.transform.eulerAngles.z < (circel - AngleAmount) && movement.transform.eulerAngles.z > halfCircel)
 		{
-			movement.transform.Translate(new Vector3(pushOfStrength,0,0));
+			movement.transform.Translate(new Vector3(pushOfStrength,0,0),Space.World);
 		}
 	}
 }
