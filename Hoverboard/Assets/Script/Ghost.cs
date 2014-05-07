@@ -32,8 +32,9 @@ public class Ghost : MonoBehaviour {
 			PlayBack ();
 		}
 		else
+		{
 			Recording();
-	
+		}
 	}
 
 
@@ -79,6 +80,7 @@ public class Ghost : MonoBehaviour {
 			}
 			timeToChange = Time.time + (1f/m_howManyTimesPerSecond);
 		}
+		isRecording = true;
 	}
 
 	int smallestSize(int a, int b, int c)
