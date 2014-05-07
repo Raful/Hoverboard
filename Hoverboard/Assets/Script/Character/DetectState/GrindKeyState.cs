@@ -5,7 +5,7 @@ public class GrindKeyState : KeyState
 {
 	private Movement movement;
 	private float constantRotationSpeed;
-	private float pushOfStrength = 1f;
+	private float pushOfStrength = 1f, rotationZSpeed = 1.5f, rotationYSpeed = 1f;
 	private bool firstRotationOnGoing = true;
 	private float AngleAmount = 40;								//Used to calculate the angel for the hoverboard to fall of with
 	private const float zero = 0, circel = 360, halfCircel = 180;//Constant variabels that are used to calc the angle for the fall of
@@ -44,19 +44,19 @@ public class GrindKeyState : KeyState
 
 		if(Input.GetKey(KeyCode.W))
 		{
-			movement.rotateBoardInZ(1.5f);
+			movement.rotateBoardInZ(rotationZSpeed);
 		}
 		if(Input.GetKey(KeyCode.S))
 		{
-			movement.rotateBoardInZ(-1.5f);
+			movement.rotateBoardInZ(-rotationZSpeed);
 		}
 		if(Input.GetKey(KeyCode.A))
 		{
-			movement.rotateBoardInWorldY(-1f);
+			movement.rotateBoardInWorldY(-rotationYSpeed);
 		}
 		if(Input.GetKey(KeyCode.D))
 		{
-			movement.rotateBoardInWorldY(1f);
+			movement.rotateBoardInWorldY(rotationYSpeed);
 		}
 	}
 	
