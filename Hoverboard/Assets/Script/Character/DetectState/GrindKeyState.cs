@@ -7,7 +7,7 @@ public class GrindKeyState : KeyState
 	private float constantRotationSpeed;
 	private float pushOfStrength = 1f;
 	private bool firstRotationOnGoing = true;
-	private float AngleAmount = 40;								//Used to calculate the angel for the hoverboard to fall of with
+	private float AngleAmount = 90;								//Used to calculate the angel for the hoverboard to fall of with
 	private const float zero = 0, circel = 360, halfCircel = 180;//Constant variabels that are used to calc the angle for the fall of
 
 	public GrindKeyState(Movement Movement)
@@ -17,10 +17,9 @@ public class GrindKeyState : KeyState
 	
 	public override void start ()
 	{
-		movement.hoverHeight = 5;
+		movement.rigidbody.velocity = Vector3.zero;
 		movement.gameObject.GetComponent<Hover_WithTransform> ().enabled = false;
-		if(RailCounter.getNum() < 2)
-		{
+
 			constantRotationSpeed = Random.value;
 			if(constantRotationSpeed < 0.5)
 			{
@@ -30,13 +29,12 @@ public class GrindKeyState : KeyState
 			{
 				constantRotationSpeed = 1;
 			}
-		}
+
 	}
 	
 	public override void update () 
 	{	
-
-		Debug.Log(constantRotationSpeed);
+		
 		movement.setGravity = 0;
 		movement.Direction = m_keyVector;
 		constantRotation();
