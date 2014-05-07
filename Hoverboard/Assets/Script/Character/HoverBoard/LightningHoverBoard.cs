@@ -15,7 +15,7 @@ public class LightningHoverBoard : MonoBehaviour {
 	void Start () 
 	{
 		m_Peek = false;
-		getJumpValues = GameObject.Find ("Hoverboard 3.4").GetComponent<Jump>();
+		
 	}
 	
 	// Update is called once per frame
