@@ -154,7 +154,7 @@ public class DetectState : MonoBehaviour {
 			keyIsPressed = Time.time;
 			railKeyPressed = true;
 		}
-		if(Time.time > keyIsPressed+0.5f)
+		if(Time.time > keyIsPressed+1.5f)
 		{
 			railKeyPressed = false;
 		}

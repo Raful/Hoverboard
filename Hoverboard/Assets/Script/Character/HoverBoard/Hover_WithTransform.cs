@@ -25,15 +25,17 @@ public class Hover_WithTransform : MonoBehaviour {
 		if (Physics.Raycast (transform.position, rayDirection, out hit, hoverHeight )) 
 		{
 			// Snaps to Height 2
-			if(hit.distance <= 2)
-			{
-				transform.position = (-rayDirection*(2-hit.distance))+ transform.position;
-			}
-			// Lerps to hoverHeight
-			else //if(hit.distance <= 4.5f)
-			{
+			//if(hit.distance <= 2)
+			//{
+			//	Debug.Log("Flytta upp");
+			//	transform.position = (-rayDirection*(2-hit.distance))+ transform.position;
+			//}
+			//// Lerps to hoverHeight
+			//else //if(hit.distance <= 4.5f)
+			//{
+
 				transform.position = -rayDirection*(hoverHeight-hit.distance-0.5f)+ transform.position;
-			}
+			//}
 		}
 	}
 }

@@ -45,6 +45,7 @@ public class Movement : MonoBehaviour {
 	private float bonusSpeed;		// Amount of speed gained from going downhill/uphill
 	private float speed;			// Speed gained from acceleration, only used for lerpspeed
 	private float gravity;			// Amount of gravity pulling the hoverboard down
+	private float loopGravity;
 	private float potentialDecelerate;		// slows down the acceleration depending on uphill/downhill
 
 	private DetectState currentState;
@@ -101,37 +102,41 @@ public class Movement : MonoBehaviour {
 			{
 				changeState("Grounded");
 				// höj maxangle om !grounded?
+
 				if(!isGrounded)
 				{
+				
 					gravity = 0;
 					rigidbody.velocity = Vector3.zero;
 				}
-				if (hit.distance > hoverHeight-3)
-				{
-					gravity += 0.2f;
-				}
+			
 				if(Vector3.Angle(transform.forward,Vector3.Cross(transform.right,hit.normal)) < m_MaxAngle || !isGrounded)
 				{
-					// Snaps to angle
 					if(hit.distance<m_SnapAtHeight && m_SnapAngle)
 					{
 						transform.rotation = Quaternion.LookRotation(Vector3.Cross(transform.right, hit.normal), hit.normal);
 					}
-					transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(Vector3.Cross(transform.right, hit.normal), hit.normal), (Time.fixedDeltaTime*velocity.magnitude*m_AngleSpeed*(hoverHeight/hit.distance)));
+					transform.rotation = Quaternion.LookRotation(Vector3.Cross(transform.right, hit.normal), hit.normal);
+					//transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(Vector3.Cross(transform.right, hit.normal), hit.normal), (Time.fixedDeltaTime*velocity.magnitude*m_AngleSpeed*(hoverHeight/hit.distance)));
 				}
-
-
+			
 				// adds gravity if hoverboard is upside down
-				else if(hit.normal.y <= 0)
+				if(hit.normal.y < 0)
 				{
-					gravity += m_Gravity;
+					loopGravity += m_Gravity;
+					gravity = loopGravity;
 				}
+				else
+					loopGravity = 0;
+
 				Debug.DrawLine(transform.position, hit.point);
 				isGrounded = true;
 				rayDirection = -transform.up;
+
 			}
 			else
 			{	
+				loopGravity = 0;
 				changeState("Air");
 				gravity += m_Gravity;
 				isGrounded = false;
@@ -167,9 +172,7 @@ public class Movement : MonoBehaviour {
 		}
 		#endif
 
-		velocity = direction.normalized *(forwardSpeed+backwardSpeed + boostSpeed+bonusSpeed) -Vector3.up*gravity;
-
-		//velocity.y += jumpVelocity;
+		velocity = direction.normalized *(forwardSpeed+backwardSpeed + boostSpeed+bonusSpeed) -Vector3.up*gravity + loopGravity*-Vector3.up;
 		transform.position += velocity*Time.fixedDeltaTime;
 	}
 
