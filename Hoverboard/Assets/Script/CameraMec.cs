@@ -20,13 +20,14 @@ public class CameraMec : MonoBehaviour {
 
 	private float distanceZ;
 	public GameObject hoverboard;
+	public Movement movement;
 	private Hover_Physics physics;
 
 	private Vector3 targetedPosition;
 
 	private float yVelocity = 0.0F;			
 	private float xVelocity = 0.0F;		
-	public bool inAir = true;
+	private bool inAir = false;
 
 	private DetectState currentState;	
 
@@ -85,13 +86,11 @@ public class CameraMec : MonoBehaviour {
 		Vector3 newPos = lookPos;
 		
 		//change distance to hoverboard depending on the hoverboard's speed
-		if ((hoverboard.GetComponent<Movement>().speedForCamera < -0.01f && hoverboard.GetComponent<Movement>().speedForCamera >= -30) || hoverboard.GetComponent<Movement>().speedForCamera > 0.01f )
+
+		if (movement.speedForCamera < -0.01f || movement.speedForCamera > 0.01f )
 		{
-			distanceZ = m_DefaultDistanceZ + (hoverboard.GetComponent<Movement>().speedForCamera/20);
-		}
-		else if(hoverboard.GetComponent<Movement>().speedForCamera < -30)
-		{
-			distanceZ = distanceZ;
+			distanceZ = m_DefaultDistanceZ + (movement.speedForCamera/20);
+
 		}
 		else
 		{

@@ -15,10 +15,15 @@ public class GrindKeyState : KeyState
 
 
 	private float constantRotationSpeed;
-	private float pushOfStrength = 100f;
+	private float pushOfStrength = 1f;
 	private bool firstRotationOnGoing = true;
 
+
 	private float time;
+
+	private float AngleAmount = 40;								//Used to calculate the angel for the hoverboard to fall of with
+	private const float zero = 0, circel = 360, halfCircel = 180;//Constant variabels that are used to calc the angle for the fall of
+
 
 
 	public GrindKeyState(Movement Movement)
@@ -33,38 +38,49 @@ public class GrindKeyState : KeyState
 	
 	public override void start ()
 	{
+		movement.hoverHeight = 5;
 		movement.gameObject.GetComponent<Hover_WithTransform> ().enabled = false;
 		if(RailCounter.getNum() < 2)
 		{
-			constantRotationSpeed = Random.Range(-1f,1f);
+			constantRotationSpeed = Random.value;
+			if(constantRotationSpeed < 0.5)
+			{
+				constantRotationSpeed = -1;
+			}
+			else
+			{
+				constantRotationSpeed = 1;
+			}
 		}
 	}
 	
 	public override void update () 
 	{	
 
+
 		
+			Debug.Log(constantRotationSpeed);
 			movement.setGravity = 0;
-			constantRotation();
 			movement.Direction = m_keyVector;
+			constantRotation();
 			whenToFall();
 			if(vcr.GetButton("LeftRotation"))
 			{
-				movement.rotateBoardInZ(1f);
+			movement.rotateBoardInWorldY(-1f);
 			}
 			if(vcr.GetButton("RightRotation"))
 			{
-				movement.rotateBoardInZ(-1f);
+			movement.rotateBoardInWorldY(1f);
 			}
 			if(vcr.GetButton("Forward"))
 			{
-				movement.rotateBoardInZ(1f);
+			movement.rotateBoardInZ(1.5f);
 			}
 			if(vcr.GetButton("Backward"))
 			{
-				movement.rotateBoardInZ(-1f);
+			movement.rotateBoardInZ(-1.5f);
 			}
-
+		
 	}
 	
 	public override void end()
@@ -82,13 +98,13 @@ public class GrindKeyState : KeyState
 			firstRotationOnGoing = false;
 		}
 		
-		if(movement.transform.eulerAngles.z > 0f && movement.transform.eulerAngles.z < 30f)
+		if(movement.transform.eulerAngles.z > zero && movement.transform.eulerAngles.z < (zero + AngleAmount))
 		{
 			movement.rotateBoardInZ(Mathf.Abs(constantRotationSpeed));
 		}
-		else if(movement.transform.eulerAngles.z < 360f && movement.transform.eulerAngles.z > 330f)
+		else if(movement.transform.eulerAngles.z < circel && movement.transform.eulerAngles.z > (circel - AngleAmount))
 		{
-			if(constantRotationSpeed < 0)
+			if(constantRotationSpeed < zero)
 			{
 				movement.rotateBoardInZ(constantRotationSpeed);
 			}
@@ -101,14 +117,14 @@ public class GrindKeyState : KeyState
 
 	private void whenToFall()
 	{
-		if(movement.transform.eulerAngles.z > 30f && movement.transform.eulerAngles.z < 180f)
+		if(movement.transform.eulerAngles.z > (zero + AngleAmount) && movement.transform.eulerAngles.z < halfCircel)
 		{
-				movement.transform.Translate(new Vector3(-1,0,0));
+			movement.transform.Translate(new Vector3(-pushOfStrength,0,0));
 
 		}
-		else if(movement.transform.eulerAngles.z < 330f && movement.transform.eulerAngles.z > 180f)
+		else if(movement.transform.eulerAngles.z < (circel - AngleAmount) && movement.transform.eulerAngles.z > halfCircel)
 		{
-				movement.transform.Translate(new Vector3(1,0,0));
+			movement.transform.Translate(new Vector3(pushOfStrength,0,0));
 		}
 	}
 }
