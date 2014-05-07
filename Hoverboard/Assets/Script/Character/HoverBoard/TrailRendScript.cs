@@ -20,7 +20,7 @@ public class TrailRendScript : MonoBehaviour {
 	{
 		m_RenderReference.enabled = true;
 		m_RenderReference.time = 0;
-		m_MovementReference = GameObject.Find("Hoverboard 3.4").GetComponent<Movement>();
+		m_MovementReference = GameObject.Find("Hoverboard 4.0").GetComponent<Movement>();
 	}
 	
 	void Update () {

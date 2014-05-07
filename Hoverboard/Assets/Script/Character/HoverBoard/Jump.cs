@@ -97,7 +97,7 @@ public class Jump : MonoBehaviour {
 		} 
 		
 		//rigidbody.AddForce(Vector3.up * chargePower);
-		rigidbody.AddExplosionForce(jumpPower, transform.position, 1f);
+		//rigidbody.AddExplosionForce(jumpPower, transform.position, 1f);
 	
 		
 		
