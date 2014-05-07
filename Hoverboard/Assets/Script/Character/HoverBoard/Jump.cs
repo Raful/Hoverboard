@@ -70,7 +70,7 @@ public class Jump : MonoBehaviour {
 			chargePower = chargePower + m_JumpAccelration;
 		}
 		
-		if (((Input.GetAxisRaw("RightVertical") > 0.8f) || Input.GetKeyUp(KeyCode.Space)) && privateMovement.isGrounded)
+		if ((Input.GetAxisRaw("RightVertical") > 0.8f) && privateMovement.isGrounded)
 		{
 			
 			if(chargePower > m_MaxJumpPower * 100000)
@@ -81,6 +81,19 @@ public class Jump : MonoBehaviour {
 			chargePower = 0;
 			
 		}
+		
+		
+		if (Input.GetKey(KeyCode.Space) && privateMovement.isGrounded)
+		{
+			
+			if(chargePower > m_MaxJumpPower * 100000)
+			{
+				chargePower = m_MaxJumpPower;
+			}
+			jumpPower = chargePower * 1000;
+			chargePower = 0;
+			
+		} 
 		
 		//rigidbody.AddForce(Vector3.up * chargePower);
 		rigidbody.AddExplosionForce(jumpPower, transform.position, 1f);
