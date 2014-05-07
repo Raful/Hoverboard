@@ -43,7 +43,7 @@ public class Checkpoint : MonoBehaviour {
         //Reset speed
         movementScript.ResetPosition();
 
-        //Reset achievements' progress (unless storeProgress is true)
+        //Reset achievements' temporary progress
         achievementScript.LoadProgressFromFile();
     }
 

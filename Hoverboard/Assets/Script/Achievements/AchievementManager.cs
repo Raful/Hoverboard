@@ -112,6 +112,8 @@ public class AchievementManager : MonoBehaviour
     public GUIStyle GUIStyleAchievementEarned;
     public GUIStyle GUIStyleAchievementNotEarned;
 
+    public bool m_visible = false;
+
     private int currentRewardPoints = 0;
     private int potentialRewardPoints = 0;
     private Vector2 achievementScrollviewLocation = Vector2.zero;
@@ -301,25 +303,28 @@ public class AchievementManager : MonoBehaviour
 
     void OnGUI()
     {
-        float yValue = 5.0f;
-        float achievementGUIWidth = 500.0f;
-
-        GUI.Label(new Rect(200.0f, 5.0f, 200.0f, 25.0f), "-- Achievements --");
-
-        // Setup a scrollview, and then fill it with each achievement in our list.
-
-        achievementScrollviewLocation = GUI.BeginScrollView(new Rect(0.0f, 25.0f, achievementGUIWidth + 25.0f, 400.0f), achievementScrollviewLocation,
-                                                            new Rect(0.0f, 0.0f, achievementGUIWidth, Achievements.Count() * 80.0f));
-
-        foreach (Achievement achievement in Achievements)
+        if (m_visible)
         {
-            Rect position = new Rect(5.0f, yValue, achievementGUIWidth, 75.0f);
-            achievement.OnGUI(position, GUIStyleAchievementEarned, GUIStyleAchievementNotEarned);
-            yValue += 80.0f;
+            float yValue = 5.0f;
+            float achievementGUIWidth = 500.0f;
+
+            GUI.Label(new Rect(200.0f, 5.0f, 200.0f, 25.0f), "-- Achievements --");
+
+            // Setup a scrollview, and then fill it with each achievement in our list.
+
+            achievementScrollviewLocation = GUI.BeginScrollView(new Rect(0.0f, 25.0f, achievementGUIWidth + 25.0f, 400.0f), achievementScrollviewLocation,
+                                                                new Rect(0.0f, 0.0f, achievementGUIWidth, Achievements.Count() * 80.0f));
+
+            foreach (Achievement achievement in Achievements)
+            {
+                Rect position = new Rect(5.0f, yValue, achievementGUIWidth, 75.0f);
+                achievement.OnGUI(position, GUIStyleAchievementEarned, GUIStyleAchievementNotEarned);
+                yValue += 80.0f;
+            }
+
+            GUI.EndScrollView();
+
+            GUI.Label(new Rect(10.0f, 440.0f, 200.0f, 25.0f), "Reward Points: [" + currentRewardPoints + " out of " + potentialRewardPoints + "]");
         }
-
-        GUI.EndScrollView();
-
-        GUI.Label(new Rect(10.0f, 440.0f, 200.0f, 25.0f), "Reward Points: [" + currentRewardPoints + " out of " + potentialRewardPoints + "]");
     }
 }
