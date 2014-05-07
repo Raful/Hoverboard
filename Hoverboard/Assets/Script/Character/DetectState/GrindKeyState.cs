@@ -64,19 +64,19 @@ public class GrindKeyState : KeyState
 			movement.Direction = m_keyVector;
 			constantRotation();
 			whenToFall();
-			if(vcr.GetButton("LeftRotation"))
+			if(Input.GetKey(KeyCode.A))
 			{
 			movement.rotateBoardInWorldY(-1f);
 			}
-			if(vcr.GetButton("RightRotation"))
+			if(Input.GetKey(KeyCode.D))
 			{
 			movement.rotateBoardInWorldY(1f);
 			}
-			if(vcr.GetButton("Forward"))
+			if(Input.GetKey(KeyCode.W))
 			{
 			movement.rotateBoardInZ(1.5f);
 			}
-			if(vcr.GetButton("Backward"))
+			if(Input.GetKey(KeyCode.S))
 			{
 			movement.rotateBoardInZ(-1.5f);
 			}

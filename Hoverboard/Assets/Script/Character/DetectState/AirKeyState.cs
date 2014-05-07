@@ -32,21 +32,21 @@ public class AirKeyState : KeyState
 		if(Time.time > timeIni+0.3f)
 		{
 
-			if(vcr.GetButton("LeftRotation"))
+			if(Input.GetKey(KeyCode.A))
 			{
 				movement.Direction = RotateY(movement.Direction,-0.01f);
 				movement.rotateBoardInY(-1);
 			}
-			if(vcr.GetButton("RightRotation"))
+			if(Input.GetKey(KeyCode.D))
 			{
 				movement.Direction = RotateY(movement.Direction,0.01f);
 				movement.rotateBoardInY(1);
 			}
-			if(vcr.GetButton("Forward"))
+			if(Input.GetKey(KeyCode.W))
 			{
 				movement.rotateBoardInX(1);
 			}
-			if(vcr.GetButton("Backward"))
+			if(Input.GetKey(KeyCode.S))
 			{
 				movement.rotateBoardInX(-1);
 			}

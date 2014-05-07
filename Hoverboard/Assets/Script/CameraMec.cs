@@ -15,7 +15,7 @@ public class CameraMec : MonoBehaviour {
 	public float m_Smooth = 0.5f;					//How smooth the camera should rotate around the hoverboard
 
 
-	public float m_DefaultDistanceZ;
+	public float m_DefaultDistanceZ;				//The distance between camera and the hoverboard in z-axis when hoverboard's speed is 0
 
 
 	private float distanceZ;
@@ -27,7 +27,7 @@ public class CameraMec : MonoBehaviour {
 
 	private float yVelocity = 0.0F;			
 	private float xVelocity = 0.0F;		
-	private bool inAir = false;
+	public bool inAir = false;
 
 	private DetectState currentState;	
 
@@ -99,7 +99,7 @@ public class CameraMec : MonoBehaviour {
 
 
 
-		if(currentState.getKeyState == "Air" || inAir)
+		/*if(currentState.getKeyState == "Air" || inAir)
 		{
 			if(distanceY < 2)
 			{
@@ -130,6 +130,17 @@ public class CameraMec : MonoBehaviour {
 			
 			//hoverboard.transform.up
 			transform.LookAt(lookPos, hoverboard.transform.up);
-		}
+		}*/
+
+		newPos +=  Quaternion.Euler(xAngle, yAngle, 0) * new Vector3(0, 0, -distanceZ);
+		
+		
+		
+		//give camera the position "newPos"
+		transform.position = newPos;
+		
+		
+		//hoverboard.transform.up
+		transform.LookAt(lookPos, hoverboard.transform.up);
 	}
 }
