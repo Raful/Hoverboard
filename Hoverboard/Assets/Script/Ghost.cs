@@ -14,7 +14,7 @@ public class Ghost : MonoBehaviour {
 
 	private Vector3 positionMovingTo = new Vector3(0,0,0);
 	private Quaternion anglesMovingTo;
-	private string  stateItShouldBeIn = "";
+
 
 	private DetectState currentState;
 	// Use this for initialization
@@ -55,7 +55,7 @@ public class Ghost : MonoBehaviour {
 		{
 			if(i == 0)
 			{
-				stateItShouldBeIn = stateList[i];
+				currentState.changeKeyState(stateList[i]);
 				hoverboard.transform.position = positionMovingTo = positionList[i];
 				anglesMovingTo.Set(transformationList[i].x, transformationList[i].y, transformationList[i].z,transformationList[i].w);
 				transform.rotation.Set(anglesMovingTo.x,anglesMovingTo.y,anglesMovingTo.z,anglesMovingTo.w);
@@ -70,7 +70,10 @@ public class Ghost : MonoBehaviour {
 
 			if(i != 0)
 			{
-				stateItShouldBeIn = stateList[i];
+				if(currentState.getKeyState != stateList[i])
+					currentState.changeKeyState(stateList[i]);
+
+
 				positionMovingTo = positionList[i];
 				anglesMovingTo.Set(transformationList[i].x, transformationList[i].y, transformationList[i].z,transformationList[i].w);
 			}

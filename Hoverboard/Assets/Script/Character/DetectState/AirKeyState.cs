@@ -14,8 +14,7 @@ public class AirKeyState : KeyState
 	public AirKeyState(Movement Movement)
 	{
 		movement = Movement;
-		vcr =  movement.gameObject.GetComponent<InputVCR>();
-		useVCR = vcr != null;
+	
 	}
 
 
