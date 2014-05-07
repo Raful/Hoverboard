@@ -98,12 +98,12 @@ public class FMOD_EngineEmitter : MonoBehaviour {
 		//hoverSound.setPitch((forwardSpeed/m_MaxAccSpeed)/100);
 		//hoverSound.setParameterValue("Pitch", (forwardSpeed/m_MaxAccSpeed)/100);
 		//soundPitch.getValue (out currentPitch);
-		temp = GameObject.Find("Hoverboard 3.4");
+		temp = GameObject.Find("Hoverboard 4.0");
 		moveScript = temp.transform.GetComponent<Movement>();
 		
 		//currentSpeed = (moveScript.forwardSpeed + moveScript.backwardSpeed);
 		
-		currentSpeed = Mathf.InverseLerp(0, moveScript.m_MaxAccSpeed, moveScript.getSpeed);
+		currentSpeed = Mathf.InverseLerp(0, moveScript.boostMaxAccSpeed, moveScript.getSpeed);
 		
 		//currentSpeed = Input.GetAxisRaw("Triggers");
 		
