@@ -40,7 +40,7 @@ public class Jump : MonoBehaviour {
 		
 		if (privateMovement.isGrounded)
 		{
-			chargePower = ((Mathf.Abs(stickDeltaFour)+Mathf.Abs (stickDeltaThree))/2 + (Mathf.Abs(stickDeltaThree)+Mathf.Abs (stickDeltaTwo))/2 + (Mathf.Abs(stickDeltaTwo)+Mathf.Abs(stickDeltaOne))/2)/3;
+			chargePower = ((Mathf.Abs(stickDeltaFour)+Mathf.Abs (stickDeltaThree))/2 + (Mathf.Abs(stickDeltaThree)+Mathf.Abs (stickDeltaTwo))/2 + (Mathf.Abs(stickDeltaTwo)+Mathf.Abs(stickDeltaOne))/2);
 			chargePower = chargePower + (m_JumpAccelration * Time.deltaTime) * 10000;
 		}
 		
