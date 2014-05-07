@@ -300,7 +300,7 @@ public class AchievementManager : MonoBehaviour
 
         return achievement.Earned;
     }
-
+     
     void OnGUI()
     {
         if (m_visible)
