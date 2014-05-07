@@ -41,6 +41,7 @@ public class Jump : MonoBehaviour {
 		if(!privateMovement.isGrounded)
 		{
 			jumpPower = 0;
+			privateMovement.jumpVelocity -= privateMovement.m_Gravity;
 		}
 		
 		if (privateMovement.isGrounded)
@@ -67,12 +68,12 @@ public class Jump : MonoBehaviour {
 		
 		if (Input.GetKey (KeyCode.Space) && privateMovement.isGrounded)
 		{
-			chargePower = chargePower + m_JumpAccelration;
+			chargePower = chargePower + (m_JumpAccelration * Time.deltaTime);
+
 		}
 		
 		if ((Input.GetAxisRaw("RightVertical") > 0.8f) && privateMovement.isGrounded)
 		{
-			
 			if(chargePower > m_MaxJumpPower * 100000)
 			{
 				chargePower = m_MaxJumpPower;
@@ -101,15 +102,9 @@ public class Jump : MonoBehaviour {
 		
 		
 
-		
-		if (jumpPower > 0.01f)
-		{
-			jumpPower -= 0.05f;
-		}
-		if (jumpPower < 0.01f)
-		{
-			jumpPower = 0f;
-		}
+
+		privateMovement.jumpVelocity += jumpPower * Time.deltaTime;
+
 	
 	}
 }
