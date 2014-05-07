@@ -101,35 +101,11 @@ public class CameraMec : MonoBehaviour {
 
 		/*if(currentState.getKeyState == "Air" || inAir)
 		{
-			if(distanceY < 2)
-			{
-				distanceY += 0.05f;
-			}
-			//Adding the angles *(new Vector3) there new Vector3 is the distance between the camera and the hoverboard in each axis.
-			newPos +=  Quaternion.Euler(0, yAngle, 0) * new Vector3(0, distanceY, -distanceZ);
 
-
-
-			//give camera the position "newPos"
-			transform.position = newPos;
-
-
-			//hoverboard.transform.up
-			transform.LookAt(targetedPosition, hoverboard.transform.up);
 		}
 		else
 		{
-			distanceY = 1;
-			newPos +=  Quaternion.Euler(xAngle, yAngle, 0) * new Vector3(0, 0, -distanceZ);
-			
-			
-			
-			//give camera the position "newPos"
-			transform.position = newPos;
-			
-			
-			//hoverboard.transform.up
-			transform.LookAt(lookPos, hoverboard.transform.up);
+
 		}*/
 
 		newPos +=  Quaternion.Euler(xAngle, yAngle, 0) * new Vector3(0, 0, -distanceZ);

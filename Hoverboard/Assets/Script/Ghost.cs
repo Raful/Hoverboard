@@ -15,10 +15,13 @@ public class Ghost : MonoBehaviour {
 	private Vector3 positionMovingTo = new Vector3(0,0,0);
 	private Quaternion anglesMovingTo;
 	private string  stateItShouldBeIn = "";
+
+	private DetectState currentState;
 	// Use this for initialization
 	void Start () {
 		timeToChange = 0;
 		anglesMovingTo.Set (0, 0, 0, 0);
+		currentState = hoverboard.GetComponent<DetectState>();
 	}
 	
 	// Update is called once per frame
@@ -38,6 +41,7 @@ public class Ghost : MonoBehaviour {
 	{
 		if(Time.time > timeToChange)
 		{
+			stateList.Add(currentState.getKeyState);
 			positionList.Add(hoverboard.transform.position);
 			transformationList.Add(hoverboard.transform.rotation);
 			timeToChange += 1f/m_howManyTimesPerSecond;
@@ -52,9 +56,10 @@ public class Ghost : MonoBehaviour {
 			if(i == 0)
 			{
 				stateItShouldBeIn = stateList[i];
-				positionMovingTo = positionList[i];
-				anglesMovingTo = transformationList[i];
-				timeToChange = Time.time + (1f/m_howManyTimesPerSecond);
+				hoverboard.transform.position = positionMovingTo = positionList[i];
+				anglesMovingTo.Set(transformationList[i].x, transformationList[i].y, transformationList[i].z,transformationList[i].w);
+				transform.rotation.Set(anglesMovingTo.x,anglesMovingTo.y,anglesMovingTo.z,anglesMovingTo.w);
+
 			}
 			while(Time.time < timeToChange)
 			{
@@ -67,7 +72,7 @@ public class Ghost : MonoBehaviour {
 			{
 				stateItShouldBeIn = stateList[i];
 				positionMovingTo = positionList[i];
-				anglesMovingTo = transformationList[i];
+				anglesMovingTo.Set(transformationList[i].x, transformationList[i].y, transformationList[i].z,transformationList[i].w);
 			}
 			timeToChange = Time.time + (1f/m_howManyTimesPerSecond);
 		}
