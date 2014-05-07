@@ -50,6 +50,7 @@ public class HighScore : MonoBehaviour {
             {
                 highScoreList.Add(new KeyPair(row.Split(":".ToCharArray())[0], row.Split(":".ToCharArray())[1], true));
             }
+            file.Close();
         }
     }
 	

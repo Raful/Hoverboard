@@ -11,12 +11,15 @@ using System.Collections;
 
 public class Checkpoint : MonoBehaviour {
 
-    float timeSeconds; //NYI
+    float timeSeconds; 
     Vector3 position;
     Quaternion rotation;
 
+    [SerializeField]
     Timer timerScript;
-    string timerName = "TimerText";
+
+    [SerializeField]
+    AchievementManager achievementScript;
 
     Movement movementScript;
 
@@ -26,7 +29,6 @@ public class Checkpoint : MonoBehaviour {
         position = transform.position;
         rotation = transform.rotation;
 
-        timerScript = GameObject.Find(timerName).GetComponent<Timer>();
         movementScript = gameObject.GetComponent<Movement>();
 	}
 
@@ -40,6 +42,9 @@ public class Checkpoint : MonoBehaviour {
          
         //Reset speed
         movementScript.ResetPosition();
+
+        //Reset achievements' progress (unless storeProgress is true)
+        achievementScript.LoadProgressFromFile();
     }
 
 #if UNITY_EDITOR

@@ -10,6 +10,7 @@
 using System.Linq;
 using UnityEngine;
 using System.Collections;
+using System.IO;
 
 [System.Serializable]
 public class Achievement
@@ -21,15 +22,18 @@ public class Achievement
     public int RewardPoints;
     public float TargetProgress;
     public bool Secret;
+    public bool StoreProgress;
 
     [HideInInspector]
     public bool Earned = false;
     private float currentProgress = 0.0f;
+    public float CurrentProgress { get { return currentProgress; } }
 
     public bool AddProgress(float progress)
     {
         if (Earned)
         {
+            currentProgress = TargetProgress;
             return false;
         }
 
@@ -47,12 +51,14 @@ public class Achievement
     {
         if (Earned)
         {
+            currentProgress = TargetProgress;
             return false;
         }
 
         currentProgress = progress;
         if (progress >= TargetProgress)
         {
+            currentProgress = TargetProgress;
             Earned = true;
             return true;
         }
@@ -109,9 +115,14 @@ public class AchievementManager : MonoBehaviour
     private int currentRewardPoints = 0;
     private int potentialRewardPoints = 0;
     private Vector2 achievementScrollviewLocation = Vector2.zero;
+    private string filePath, attributeSeparator="\t";
 
     void Start()
     {
+        filePath = Application.persistentDataPath + "/AchievementProgress.txt";
+
+        LoadProgressFromFile();
+
         ValidateAchievements();
         UpdateRewardPointTotals();
     }
@@ -156,6 +167,11 @@ public class AchievementManager : MonoBehaviour
         }
     }
 
+    public int GetCurrentRewardPoints()
+    {
+        return currentRewardPoints;
+    }
+
     private void AchievementEarned()
     {
         UpdateRewardPointTotals();
@@ -167,7 +183,7 @@ public class AchievementManager : MonoBehaviour
         Achievement achievement = GetAchievementByName(achievementName);
         if (achievement == null)
         {
-            Debug.LogWarning("AchievementManager::AddProgressToAchievement() - Trying to add progress to an achievemnet that doesn't exist: " + achievementName);
+            Debug.LogWarning("AchievementManager::AddProgressToAchievement() - Trying to add progress to an achievement that doesn't exist: " + achievementName);
             return;
         }
 
@@ -175,6 +191,8 @@ public class AchievementManager : MonoBehaviour
         {
             AchievementEarned();
         }
+
+        SaveProgressToFile();
     }
 
     public void SetProgressToAchievement(string achievementName, float newProgress)
@@ -182,13 +200,89 @@ public class AchievementManager : MonoBehaviour
         Achievement achievement = GetAchievementByName(achievementName);
         if (achievement == null)
         {
-            Debug.LogWarning("AchievementManager::SetProgressToAchievement() - Trying to add progress to an achievemnet that doesn't exist: " + achievementName);
+            Debug.LogWarning("AchievementManager::SetProgressToAchievement() - Trying to add progress to an achievement that doesn't exist: " + achievementName);
             return;
         }
 
         if (achievement.SetProgress(newProgress))
         {
             AchievementEarned();
+
+            if (!achievement.StoreProgress) //This is run below if achievement.StoreProgress is true
+            {
+                SaveProgressToFile(); //Store that the achievement is earned
+            }
+        }
+
+        if (achievement.StoreProgress)
+        {
+            SaveProgressToFile(); //Store the progress
+        }
+    }
+
+    //Saves the progress of all achievements to file
+    private void SaveProgressToFile()
+    {
+        StreamWriter file = new StreamWriter(filePath);
+        string stringToStore="";
+
+        //Store the achievements, one row per achievement
+        foreach (Achievement achievement in Achievements)
+        {
+            stringToStore = achievement.Name; //Add achievement name
+            stringToStore += attributeSeparator + achievement.Earned; //Add wether the achivement is earned or not
+            if (achievement.StoreProgress) //Check if the progress should be stored
+            {
+                stringToStore += attributeSeparator + achievement.CurrentProgress; //Add current progress of the achievement
+            }
+            else
+            {
+                stringToStore += attributeSeparator + "0"; //Add 0 as progress
+            }
+
+            file.WriteLine(stringToStore);
+        }
+
+        file.Close();
+    }
+
+    //Loads the progress of the file. Assumes each row use the format "name:::earned:::progress(optional)"
+    public void LoadProgressFromFile()
+    {
+        if (File.Exists(filePath))
+        {
+            StreamReader file = new StreamReader(filePath);
+
+            string row;
+            string name, earned, progress;
+            string [] splitRow;
+            Achievement achievement;
+
+            while ((row = file.ReadLine()) != null)
+            {
+                splitRow = row.Split(attributeSeparator.ToCharArray());
+
+                name = splitRow[0];
+                earned = splitRow[1];
+                progress = splitRow[2];
+
+                achievement = GetAchievementByName(name);
+
+                //Set if the achievement is earned or not
+                if (earned == "True")
+                {
+                    achievement.Earned = true;
+                }
+                else
+                {
+                    achievement.Earned = false;
+                }
+
+                Debug.Log("Progress: " + progress);
+                achievement.SetProgress(float.Parse(progress));
+            }
+
+            file.Close();
         }
     }
 

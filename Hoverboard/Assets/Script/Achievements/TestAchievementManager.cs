@@ -13,13 +13,13 @@ using System.Collections;
 public class TestAchievementManager : MonoBehaviour {
 
     [SerializeField]
-    bool progressingAchievement;
+    bool progressingAchievement1, progressingAchievement2;
 
 #if UNITY_EDITOR
 	void Update () {
         if (Application.loadedLevelName == "Robbin")
         {
-            if (progressingAchievement)
+            if (progressingAchievement1)
             {
                 gameObject.GetComponent<AchievementManager>().AddProgressToAchievement("Test achievement", Time.deltaTime);
             }
@@ -28,10 +28,13 @@ public class TestAchievementManager : MonoBehaviour {
                 gameObject.GetComponent<AchievementManager>().SetProgressToAchievement("Test achievement", 0);
             }
 
-            if (gameObject.GetComponent<AchievementManager>().IsAchievementReached("Test achievement"))
+            if (progressingAchievement2)
             {
-                //this.enabled = false;
+                gameObject.GetComponent<AchievementManager>().AddProgressToAchievement("Test achievement 2", Time.deltaTime);
             }
+
+            gameObject.GetComponent<AchievementManager>().SetProgressToAchievement("It's over 9000!!!!!!!", gameObject.GetComponent<AchievementManager>().GetCurrentRewardPoints());
+
         }
 	}
 #endif
