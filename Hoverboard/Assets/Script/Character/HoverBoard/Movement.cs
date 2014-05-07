@@ -102,7 +102,7 @@ public class Movement : MonoBehaviour {
 			if(Physics.Raycast(transform.position, rayDirection, out hit, hoverHeight))
 			{
 
-				if((int)Vector3.Angle(Vector3.up,hit.normal) != 90)
+				if((int)Vector3.Angle(Vector3.up,hit.normal) != 90 ||(int)Vector3.Angle(Vector3.up,hit.normal) != 270)
 				{
 					changeState("Grounded");
 					if(hit.normal.y <= 0)
@@ -114,7 +114,6 @@ public class Movement : MonoBehaviour {
 						loopGravity = 0;
 					}
 				}
-
 
 				if(Vector3.Angle(transform.forward,Vector3.Cross(transform.right,hit.normal)) < m_MaxAngle || !isGrounded)
 				{

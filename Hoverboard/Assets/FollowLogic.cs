@@ -15,6 +15,6 @@ public class FollowLogic : MonoBehaviour {
 	{
 
 		transform.position = logicBoard.transform.position;
-		transform.rotation = Quaternion.Lerp (transform.rotation, logicBoard.transform.rotation, Time.deltaTime*movement.m_getVelocity.magnitude/4);
+		transform.rotation = Quaternion.Lerp (transform.rotation, logicBoard.transform.rotation, Time.deltaTime*movement.m_getVelocity.magnitude/4 + Time.deltaTime);
 	}
 }
