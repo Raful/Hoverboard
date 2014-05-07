@@ -33,7 +33,6 @@ public class GrindKeyState : KeyState
 				constantRotationSpeed = 1;
 			}
 		}
-
 	}
 	
 	public override void update () 
