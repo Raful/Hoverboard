@@ -76,23 +76,14 @@ public class Jump : MonoBehaviour {
 		
 		if (Input.GetKey (KeyCode.Space) && privateMovement.isGrounded)
 		{
-<<<<<<< HEAD
-			chargePower = chargePower + (m_JumpAccelration * Time.deltaTime);
 
-=======
 			chargePower = chargePower + m_JumpAccelration;
->>>>>>> 46354df43ff9c7c239be3186d530b23dcfb52ce6
+
 		}
 		
 		if ((Input.GetAxisRaw("RightVertical") > 0.8f) && privateMovement.isGrounded)
 		{
-<<<<<<< HEAD
-			if(chargePower > m_MaxJumpPower * 1)
-			{
-				chargePower = m_MaxJumpPower;
-			}
-			jumpPower = chargePower * 1;
-=======
+
 			Debug.Log("KEYUP");
 			if(chargePower > m_MaxJumpPower)
 			{
@@ -104,7 +95,7 @@ public class Jump : MonoBehaviour {
 			}
 
 			jumpPower = chargePower;
->>>>>>> 46354df43ff9c7c239be3186d530b23dcfb52ce6
+
 			chargePower = 0;
 			
 		}
@@ -129,10 +120,7 @@ public class Jump : MonoBehaviour {
 		
 
 
-<<<<<<< HEAD
-		privateMovement.jumpVelocity += jumpPower * Time.deltaTime;
 
-=======
 		#if UNITY_EDITOR
 		if (m_MaxJumpPower < m_MinJumpPower)
 		{
@@ -147,7 +135,7 @@ public class Jump : MonoBehaviour {
 		#endif
 
 		privateMovement.jumpVelocity += (jumpPower);
->>>>>>> 46354df43ff9c7c239be3186d530b23dcfb52ce6
+
 	
 	}
 }
