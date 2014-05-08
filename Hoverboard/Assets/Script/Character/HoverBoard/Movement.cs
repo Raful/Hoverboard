@@ -191,7 +191,7 @@ public class Movement : MonoBehaviour {
 	public void ResetPosition()
 	{
 		//transform.GetComponent<FMOD_EngineEmitter>().;
-		FMOD_StudioSystem.instance.PlayOneShot("event:/Impact/impact3",transform.position);
+		FMOD_StudioSystem.instance.PlayOneShot("event:/Impact/impact1",transform.position);
 		transform.position = transform.position - velocity.normalized;
 		forwardSpeed = 0;
 		backwardSpeed = 0;

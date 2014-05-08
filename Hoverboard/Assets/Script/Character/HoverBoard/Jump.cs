@@ -38,10 +38,10 @@ public class Jump : MonoBehaviour {
 			jumpPower = 0;
 		}
 		
-		if (privateMovement.isGrounded)
-		{
-			chargePower = (-1*(stickDeltaFour-stickDeltaThree) + -1*(stickDeltaThree-stickDeltaTwo) + -1*(stickDeltaTwo-stickDeltaOne))/4;
-		}
+		//if (privateMovement.isGrounded)
+		//{
+		//	chargePower = (-1*(stickDeltaFour-stickDeltaThree) + -1*(stickDeltaThree-stickDeltaTwo) + -1*(stickDeltaTwo-stickDeltaOne))/4;
+		//}
 		
 		if (Input.GetKey (KeyCode.Space) && privateMovement.isGrounded)
 		{
