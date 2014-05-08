@@ -50,7 +50,7 @@ public class Ghost : MonoBehaviour {
 	}
 
 	void PlayBack()
-	{
+	{ 								//LOOP MÅSTE FIXAS
 		int size = smallestSize (stateList.Count, positionList.Count, transformationList.Count);
 		for(int i = 0; i < size; i++)
 		{
@@ -62,14 +62,13 @@ public class Ghost : MonoBehaviour {
 				transform.rotation.Set(anglesMovingTo.x,anglesMovingTo.y,anglesMovingTo.z,anglesMovingTo.w);
 
 			}
-			while(Time.time < timeToChange)
-			{
+
 
 				hoverboard.transform.position = Vector3.Lerp (hoverboard.transform.position, positionMovingTo, 1f / m_howManyTimesPerSecond);
 				hoverboard.transform.rotation = Quaternion.Lerp (hoverboard.transform.rotation, anglesMovingTo, 1f / m_howManyTimesPerSecond);
-			}
 
-			if(i != 0)
+
+			if(i != 0 && Time.time > timeToChange)
 			{
 				if(currentState.getKeyState != stateList[i])
 					currentState.changeKeyState(stateList[i]);
@@ -77,8 +76,9 @@ public class Ghost : MonoBehaviour {
 
 				positionMovingTo = positionList[i];
 				anglesMovingTo.Set(transformationList[i].x, transformationList[i].y, transformationList[i].z,transformationList[i].w);
+				timeToChange = Time.time + (1f/m_howManyTimesPerSecond);
 			}
-			timeToChange = Time.time + (1f/m_howManyTimesPerSecond);
+
 		}
 		isRecording = true;
 	}
