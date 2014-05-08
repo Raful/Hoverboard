@@ -33,7 +33,7 @@ public class Ghost : MonoBehaviour {
 
 		if (!isRecording)
 		{
-			PlayBack ();
+			PlayBack();
 			hoverboard.transform.position = Vector3.Lerp (hoverboard.transform.position, positionMovingTo, 1f / m_howManyTimesPerSecond);
 			hoverboard.transform.rotation = Quaternion.Lerp (hoverboard.transform.rotation, anglesMovingTo, 1f / m_howManyTimesPerSecond);
 		}
@@ -58,30 +58,88 @@ public class Ghost : MonoBehaviour {
 	}
 
 	void PlayBack()
-	{ 								
+	{ 							
+		int readInfo = 0;
+		if(positionList.Count == 0)
+		{
+			StreamReader readText = new StreamReader(filepath);
+			while(!readText.EndOfStream)
+			{
+			
+				string info = readText.ReadLine();
+				if(info == "Rotation" && info == "State")
+				{
+					if(info == "Rotation")
+						readInfo = 2;
+					if(info == "State")
+						readInfo = 1;
+				}
+				else
+				{
+					if(readInfo == 0)
+					{
+						string[] xyz = info.Split(',');
+						if(xyz.Length == 3)
+						{
+							float x = float.Parse(xyz[0]);
+							float y = float.Parse(xyz[1]);
+							float z = float.Parse(xyz[2]);
+							positionList.Add(new Vector3(x,y,z));
+						}
+					}
+					else if(readInfo == 1)
+					{
+						stateList.Add(info);
+					}
+					else if(readInfo == 2)
+					{
+						string[] xyzw = info.Split(',');
+						if(xyzw.Length == 4)
+						{
+
+							float x = float.Parse(xyzw[0]);
+							float y = float.Parse(xyzw[1]);
+							float z = float.Parse(xyzw[2]);
+							float w = float.Parse(xyzw[3]);
+							Quaternion angle = new Quaternion(x,y,z,w);
+							
+							transformationList.Add(angle);
+						}
+
+					}
+				}
+
+			}
+			readText.Close();
+
+
+		}
 		int size = smallestSize (stateList.Count, positionList.Count, transformationList.Count);
 		if(i < size && Time.time > timeToChange)
 		{
 			if(i == 0)
 			{
-				StreamWriter text = new StreamWriter(filepath);
+				/*StreamWriter text = new StreamWriter(filepath);
+			
+				for(int j = 0; j < positionList.Count; j++)
+				{
+					text.WriteLine(positionList[i].x + "," + positionList[i].y + "," + positionList[i].z);
+				}
+			
+				text.WriteLine("State");
 				for(int j = 0; j < stateList.Count; j++)
 				{
 					text.WriteLine(stateList[i]);
 				}
-				text.WriteLine("Position");
 
-				for(int j = 0; j < positionList.Count; j++)
-				{
-					text.WriteLine(positionList[i].ToString());
-				}
 				text.WriteLine("Rotation");
 
 				for(int j = 0; j < transformationList.Count; j++)
 				{
-					text.WriteLine(transformationList[i].ToString());
+					text.WriteLine(transformationList[i].x + "," + transformationList[i].y + "," + transformationList[i].z + "," + transformationList[i].w);
 				}
 
+				text.Close();*/
 				hoverboard.GetComponent<Movement>().ResetPosition();
 				hoverboard.GetComponent<Movement>().isRecording = false;
 				currentState.changeKeyState(stateList[i]);
