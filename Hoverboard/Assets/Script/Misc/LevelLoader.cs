@@ -58,7 +58,6 @@ public class LevelLoader : MonoBehaviour
 
         //Set the texture
         newGuiTexture.texture = texture;
-
         //Set the text
         newGuiText.text = text;
         newGuiText.anchor = TextAnchor.MiddleCenter;
