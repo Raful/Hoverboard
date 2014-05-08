@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Jump : MonoBehaviour {
 
-	public float m_MaxJumpPower, m_JumpAccelration;
+	public float m_MaxJumpPower, m_JumpAccelration, m_MinJumpPower;
 	private float jumpPower, chargePower;
 	Movement getGrounded;
 	private Vector3 speed;
@@ -29,29 +29,29 @@ public class Jump : MonoBehaviour {
 		
 		if (Input.GetKey (KeyCode.Space) && privateMovement.isGrounded)
 		{
-			chargePower = chargePower + (m_JumpAccelration * Time.deltaTime) * 10000 ;
+
+			chargePower = chargePower + (m_JumpAccelration * Time.deltaTime);
+
 		}
 		
 		if ((Input.GetKeyUp(KeyCode.Space)) && privateMovement.isGrounded)
 		{
-			if(chargePower > m_MaxJumpPower * 100000)
+			Debug.Log("KEYUP");
+			if(chargePower > m_MaxJumpPower)
 			{
 				chargePower = m_MaxJumpPower;
 			}
+			else if(chargePower < m_MinJumpPower)
+			{
+				chargePower = m_MinJumpPower;
+			}
+
 			jumpPower = chargePower;
 			chargePower = 0;
 		}
 
-		rigidbody.AddForce(Vector3.up * jumpPower * Time.deltaTime);
+		privateMovement.jumpVelocity += jumpPower * Time.deltaTime;
 
-		if (jumpPower > 0.01f)
-		{
-			jumpPower -= 0.05f;
-		}
-		if (jumpPower < 0.01f)
-		{
-			jumpPower = 0f;
-		}
 	
 	}
 }

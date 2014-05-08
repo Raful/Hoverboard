@@ -13,7 +13,6 @@ public class FollowLogic : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
 	{
-
 		transform.position = logicBoard.transform.position;
 		transform.rotation = Quaternion.Lerp (transform.rotation, logicBoard.transform.rotation, Time.deltaTime*movement.m_getVelocity.magnitude/4 + Time.deltaTime);
 	}
