@@ -132,6 +132,7 @@ public class AchievementManager : MonoBehaviour
     // Make sure the setup assumptions we have are met.
     private void ValidateAchievements()
     {
+#if UNITY_EDITOR
         ArrayList usedNames = new ArrayList();
         foreach (Achievement achievement in Achievements)
         {
@@ -146,6 +147,7 @@ public class AchievementManager : MonoBehaviour
             }
             usedNames.Add(achievement.Name);
         }
+#endif
     }
 
     private Achievement GetAchievementByName(string achievementName)
@@ -248,7 +250,7 @@ public class AchievementManager : MonoBehaviour
         file.Close();
     }
 
-    //Loads the progress of the file. Assumes each row use the format "name:::earned:::progress(optional)"
+    //Loads the progress of the file. Assumes each row use the format "name:::earned:::progress"
     public void LoadProgressFromFile()
     {
         if (File.Exists(filePath))
@@ -280,7 +282,6 @@ public class AchievementManager : MonoBehaviour
                     achievement.Earned = false;
                 }
 
-                Debug.Log("Progress: " + progress);
                 achievement.SetProgress(float.Parse(progress));
             }
 
