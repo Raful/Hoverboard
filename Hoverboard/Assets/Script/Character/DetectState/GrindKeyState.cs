@@ -15,7 +15,7 @@ public class GrindKeyState : KeyState
 
 
 	private float constantRotationSpeed;
-	private float pushOfStrength = 1f;
+	private float pushOfStrength = 1f, rotationZSpeed = 1.5f, rotationYSpeed = 1f;
 	private bool firstRotationOnGoing = true;
 
 
@@ -44,7 +44,10 @@ public class GrindKeyState : KeyState
 	{
 		movement.rigidbody.velocity = Vector3.zero;
 		movement.gameObject.GetComponent<Hover_WithTransform> ().enabled = false;
+		movement.isGrounded = true;
 
+		if(RailCounter.getNum() < 2)
+		{
 			constantRotationSpeed = Random.value;
 			if(constantRotationSpeed < 0.5)
 			{
@@ -54,38 +57,36 @@ public class GrindKeyState : KeyState
 			{
 				constantRotationSpeed = 1;
 			}
-
+		}
 	}
 	
 	public override void update () 
 	{	
 
 
-
-		
 		movement.setGravity = 0;
 		movement.Direction = m_keyVector;
 		constantRotation();
 		whenToFall();
 
-		
-			if(Input.GetKey(KeyCode.A))
-			{
-			movement.rotateBoardInWorldY(-1f);
-			}
-			if(Input.GetKey(KeyCode.D))
-			{
-			movement.rotateBoardInWorldY(1f);
-			}
-			if(Input.GetKey(KeyCode.W))
-			{
-			movement.rotateBoardInZ(1.5f);
-			}
-			if(Input.GetKey(KeyCode.S))
-			{
-			movement.rotateBoardInZ(-1.5f);
-			}
-		
+
+		if(Input.GetKey(KeyCode.W))
+		{
+			movement.rotateBoardInZ(rotationZSpeed);
+		}
+		if(Input.GetKey(KeyCode.S))
+		{
+			movement.rotateBoardInZ(-rotationZSpeed);
+		}
+		if(Input.GetKey(KeyCode.A))
+		{
+			movement.rotateBoardInWorldY(-rotationYSpeed);
+		}
+		if(Input.GetKey(KeyCode.D))
+		{
+			movement.rotateBoardInWorldY(rotationYSpeed);
+		}
+
 	}
 	
 	public override void end()
@@ -124,12 +125,12 @@ public class GrindKeyState : KeyState
 	{
 		if(movement.transform.eulerAngles.z > (zero + AngleAmount) && movement.transform.eulerAngles.z < halfCircel)
 		{
-			movement.transform.Translate(new Vector3(-pushOfStrength,0,0));
+			movement.transform.Translate(new Vector3(-pushOfStrength,0,0),Space.World);
 
 		}
 		else if(movement.transform.eulerAngles.z < (circel - AngleAmount) && movement.transform.eulerAngles.z > halfCircel)
 		{
-			movement.transform.Translate(new Vector3(pushOfStrength,0,0));
+			movement.transform.Translate(new Vector3(pushOfStrength,0,0),Space.World);
 		}
 	}
 }

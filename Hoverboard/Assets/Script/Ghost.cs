@@ -11,6 +11,7 @@ public class Ghost : MonoBehaviour {
 	private List<Quaternion> transformationList = new List<Quaternion>();
 	public GameObject hoverboard;
 	public bool isRecording = true;
+	private int i = 0;
 
 	private Vector3 positionMovingTo = new Vector3(0,0,0);
 	private Quaternion anglesMovingTo;
@@ -30,10 +31,13 @@ public class Ghost : MonoBehaviour {
 		if (!isRecording)
 		{
 			PlayBack ();
+			hoverboard.transform.position = Vector3.Lerp (hoverboard.transform.position, positionMovingTo, 1f / m_howManyTimesPerSecond);
+			hoverboard.transform.rotation = Quaternion.Lerp (hoverboard.transform.rotation, anglesMovingTo, 1f / m_howManyTimesPerSecond);
 		}
 		else
 		{
 			Recording();
+
 		}
 	}
 
@@ -52,7 +56,7 @@ public class Ghost : MonoBehaviour {
 	void PlayBack()
 	{ 								//LOOP MÅSTE FIXAS
 		int size = smallestSize (stateList.Count, positionList.Count, transformationList.Count);
-		for(int i = 0; i < size; i++)
+		if(i < size && Time.time > timeToChange)
 		{
 			if(i == 0)
 			{
@@ -61,11 +65,11 @@ public class Ghost : MonoBehaviour {
 				anglesMovingTo.Set(transformationList[i].x, transformationList[i].y, transformationList[i].z,transformationList[i].w);
 				transform.rotation.Set(anglesMovingTo.x,anglesMovingTo.y,anglesMovingTo.z,anglesMovingTo.w);
 
+
 			}
 
 
-				hoverboard.transform.position = Vector3.Lerp (hoverboard.transform.position, positionMovingTo, 1f / m_howManyTimesPerSecond);
-				hoverboard.transform.rotation = Quaternion.Lerp (hoverboard.transform.rotation, anglesMovingTo, 1f / m_howManyTimesPerSecond);
+				
 
 
 			if(i != 0 && Time.time > timeToChange)
@@ -76,11 +80,12 @@ public class Ghost : MonoBehaviour {
 
 				positionMovingTo = positionList[i];
 				anglesMovingTo.Set(transformationList[i].x, transformationList[i].y, transformationList[i].z,transformationList[i].w);
-				timeToChange = Time.time + (1f/m_howManyTimesPerSecond);
+			
 			}
-
+			timeToChange = Time.time + (1f/m_howManyTimesPerSecond);
+			i++;
 		}
-		isRecording = true;
+	
 	}
 
 	int smallestSize(int a, int b, int c)

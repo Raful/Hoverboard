@@ -65,7 +65,7 @@ public class Movement : MonoBehaviour {
 	public float speedForCamera;	//This variable is for the moment only so the camera can decide the distance from the hoverboard
 
 
-	[HideInInspector]
+	//[HideInInspector]
 	public float jumpVelocity; //Jump feeds into this
 
 	public float setGravity
@@ -100,7 +100,6 @@ public class Movement : MonoBehaviour {
 	// Calculates the new angle and rotates accordingly
 	void LateUpdate()
 	{
-	
 		if(currentState.m_getRayCastState)
 		{
 			RaycastHit hit;
@@ -124,7 +123,6 @@ public class Movement : MonoBehaviour {
 				if(Vector3.Angle(transform.forward,Vector3.Cross(transform.right,hit.normal)) < m_MaxAngle || !isGrounded)
 				{
 					gravity = 0;
-					rigidbody.velocity = Vector3.zero;
 					transform.rotation = Quaternion.LookRotation(Vector3.Cross(transform.right, hit.normal), hit.normal);
 				}
 
@@ -186,7 +184,7 @@ public class Movement : MonoBehaviour {
 		}
 		#endif
 
-		velocity = direction.normalized *(forwardSpeed+backwardSpeed + boostSpeed+bonusSpeed) -Vector3.up*gravity;
+		velocity = direction.normalized *(forwardSpeed+backwardSpeed + boostSpeed+bonusSpeed) -Vector3.up*gravity + (jumpVelocity * Vector3.up);
 		transform.position += velocity*Time.fixedDeltaTime;
 
 	}
