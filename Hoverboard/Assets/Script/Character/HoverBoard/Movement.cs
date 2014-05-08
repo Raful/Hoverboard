@@ -97,6 +97,16 @@ public class Movement : MonoBehaviour {
 	// Calculates the new angle and rotates accordingly
 	void LateUpdate()
 	{
+		if(!isGrounded && m_getVelocity.y > 0f)
+		{
+			jumpVelocity -= setGravity;
+		}
+		
+		if(!isGrounded && m_getVelocity.y < -0.1f)
+		{
+			jumpVelocity = 0;
+		}
+
 		if(currentState.m_getRayCastState)
 		{
 			RaycastHit hit;
