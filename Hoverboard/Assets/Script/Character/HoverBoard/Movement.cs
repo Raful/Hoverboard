@@ -61,7 +61,7 @@ public class Movement : MonoBehaviour {
 
 	public float speedForCamera;	//This variable is for the moment only so the camera can decide the distance from the hoverboard
 
-	[HideInInspector]
+	//[HideInInspector]
 	public float jumpVelocity; //Jump feeds into this
 
 	public float setGravity
@@ -100,35 +100,28 @@ public class Movement : MonoBehaviour {
 			RaycastHit hit;
 			if(Physics.Raycast(transform.position, rayDirection, out hit, hoverHeight))
 			{
-				changeState("Grounded");
-				// höj maxangle om !grounded?
 
-				if(!isGrounded)
+				if((int)Vector3.Angle(Vector3.up,hit.normal) != 90)
 				{
-				
-					gravity = 0;
-					rigidbody.velocity = Vector3.zero;
+					changeState("Grounded");
+					if(hit.normal.y <= 0)
+					{
+						loopGravity += 0.1f;
+					}
+					else
+					{
+						loopGravity = 0;
+					}
 				}
-			
+
+
 				if(Vector3.Angle(transform.forward,Vector3.Cross(transform.right,hit.normal)) < m_MaxAngle || !isGrounded)
 				{
-					if(hit.distance<m_SnapAtHeight && m_SnapAngle)
-					{
-						transform.rotation = Quaternion.LookRotation(Vector3.Cross(transform.right, hit.normal), hit.normal);
-					}
+					gravity = 0;
 					transform.rotation = Quaternion.LookRotation(Vector3.Cross(transform.right, hit.normal), hit.normal);
-					//transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(Vector3.Cross(transform.right, hit.normal), hit.normal), (Time.fixedDeltaTime*velocity.magnitude*m_AngleSpeed*(hoverHeight/hit.distance)));
 				}
-			
-				// adds gravity if hoverboard is upside down
-				if(hit.normal.y < 0)
-				{
-					loopGravity += m_Gravity;
-					gravity = loopGravity;
-				}
-				else
-					loopGravity = 0;
 
+				gravity = loopGravity;
 				Debug.DrawLine(transform.position, hit.point);
 				isGrounded = true;
 				rayDirection = -transform.up;
@@ -172,7 +165,7 @@ public class Movement : MonoBehaviour {
 		}
 		#endif
 
-		velocity = direction.normalized *(forwardSpeed+backwardSpeed + boostSpeed+bonusSpeed) -Vector3.up*gravity + loopGravity*-Vector3.up;
+		velocity = direction.normalized *(forwardSpeed+backwardSpeed + boostSpeed+bonusSpeed) -Vector3.up*gravity + (jumpVelocity * Vector3.up);
 		transform.position += velocity*Time.fixedDeltaTime;
 	}
 
