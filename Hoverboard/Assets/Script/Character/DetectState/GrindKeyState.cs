@@ -27,6 +27,7 @@ public class GrindKeyState : KeyState
 	private float AngleAmount = 90;								//Used to calculate the angel for the hoverboard to fall of with
 
 	private const float zero = 0, circel = 360, halfCircel = 180;//Constant variabels that are used to calc the angle for the fall of
+	DetectState detectState;
 
 
 
@@ -42,9 +43,10 @@ public class GrindKeyState : KeyState
 	
 	public override void start ()
 	{
-		movement.rigidbody.velocity = Vector3.zero;
+		detectState = movement.GetComponent<DetectState> ();
 		movement.gameObject.GetComponent<Hover_WithTransform> ().enabled = false;
 		movement.isGrounded = true;
+		movement.GetComponent<DetectState>().m_getRayCastState = false;
 
 		if(RailCounter.getNum() < 2)
 		{
@@ -61,13 +63,21 @@ public class GrindKeyState : KeyState
 	}
 	
 	public override void update () 
-	{	
+	{		
 
 
 		movement.setGravity = 0;
 		movement.Direction = m_keyVector;
 		constantRotation();
+
+		
+		movement.rotateBoardInZ(-Input.GetAxisRaw("LeftHorizontal"));
+		
+		movement.rotateBoardInWorldY(Input.GetAxisRaw("RightHorizontal"));
+		
+
 		whenToFall();
+		/*
 
 
 		if(Input.GetKey(KeyCode.W))
@@ -87,10 +97,13 @@ public class GrindKeyState : KeyState
 			movement.rotateBoardInWorldY(rotationYSpeed);
 		}
 
+		*/
+		
 	}
 	
 	public override void end()
 	{
+
 		movement.gameObject.GetComponent<Hover_WithTransform> ().enabled = true;
 		firstRotationOnGoing = true;
 
@@ -126,11 +139,12 @@ public class GrindKeyState : KeyState
 		if(movement.transform.eulerAngles.z > (zero + AngleAmount) && movement.transform.eulerAngles.z < halfCircel)
 		{
 			movement.transform.Translate(new Vector3(-pushOfStrength,0,0),Space.World);
-
+	
 		}
 		else if(movement.transform.eulerAngles.z < (circel - AngleAmount) && movement.transform.eulerAngles.z > halfCircel)
 		{
 			movement.transform.Translate(new Vector3(pushOfStrength,0,0),Space.World);
+
 		}
 	}
 }

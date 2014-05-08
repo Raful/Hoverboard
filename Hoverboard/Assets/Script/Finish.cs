@@ -52,13 +52,14 @@ public class Finish : MonoBehaviour {
 			differens = Time.time - entryTime;
 		}
 		
-		if( differens > 2)
+		if( differens > 0.1)
 		{
 			LoadNextLevel();
 		}
 	}
 	void LoadNextLevel()
 	{
-			Application.LoadLevel(m_NextLevelToLoad);
+        gameObject.GetComponent<LevelLoader>().LoadLevel(m_NextLevelToLoad);
+			//Application.LoadLevel(m_NextLevelToLoad);
 	}
 }

@@ -11,21 +11,27 @@ using UnityEngine;
 using System.Collections;
 
 public class ResetGame : MonoBehaviour {
-
-	void Start () {
-	
-	}
-	
-	void Update () {
+   
+	void Update () 
+    {
+#if UNITY_EDITOR
         if (Input.GetKeyDown(KeyCode.Delete))
         {
-            Application.LoadLevel(Application.loadedLevel);
+            RestartGame();
         }
 #if UNITY_XBOXONE
         if (XboxOneInput.GetKeyDown(XboxOneKeyCode.Gamepad1ButtonView))
         {
-            Application.LoadLevel(Application.loadedLevel);
+            RestartGame();
         }
 #endif
-	}
+#endif
+    }
+
+#if UNITY_EDITOR
+    void RestartGame()
+    {
+        gameObject.GetComponent<LevelLoader>().LoadLevel(Application.loadedLevel);
+    }
+#endif
 }

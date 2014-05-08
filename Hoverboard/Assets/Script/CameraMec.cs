@@ -21,6 +21,8 @@ public class CameraMec : MonoBehaviour {
 	private float distanceZ;
 	public GameObject hoverboard;
 	public Movement movement;
+	
+	public float yOffset;
 	private Hover_Physics physics;
 
 	private Vector3 targetedPosition;
@@ -55,6 +57,7 @@ public class CameraMec : MonoBehaviour {
 		float xAngle = Mathf.SmoothDampAngle(transform.eulerAngles.x, hoverboard.transform.eulerAngles.x, ref xVelocity, m_Smooth);
 	
 		Vector3 position = hoverboard.transform.position;
+		position.y += yOffset;
 
 		//these three if-satser decide how the camera's y position should change. the x and z position always follow the hoveboard. 
 		//if the hoverboard's position is higher than targetedPosition.y + 1 the camera is moving up
