@@ -150,7 +150,7 @@ public class DetectState : MonoBehaviour {
 	private void RailKey()
 	{
 
-		if(Input.GetKeyDown(KeyCode.Q))
+		if(Input.GetButtonDown("Y-button"))
 		{
 			keyIsPressed = Time.time;
 			railKeyPressed = true;

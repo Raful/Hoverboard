@@ -39,7 +39,7 @@ public class EnergyPool : MonoBehaviour {
             //Increase the energy at a constant speed
             Increase(energyRegenRate * Time.deltaTime);
         }
-        
+
 	}
 
     //Pause the regeneration

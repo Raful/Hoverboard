@@ -9,6 +9,12 @@ public class Jump : MonoBehaviour {
 	private Vector3 speed;
 	public Movement privateMovement;
 
+	private float stickDeltaOne;
+	private float stickDeltaTwo;
+	private float stickDeltaThree;
+	private float stickDeltaFour;
+	
+	//private float[] stickInput = new float[10];
 	
 	public float getChargePower
 	{
@@ -22,30 +28,31 @@ public class Jump : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		Debug.Log(privateMovement.m_getVelocity);
-		if(!privateMovement.isGrounded && privateMovement.m_getVelocity.y > 0f)
-		{
-			privateMovement.jumpVelocity -= privateMovement.setGravity;
-		}
-
-		if(!privateMovement.isGrounded && privateMovement.m_getVelocity.y < -0.1f)
-		{
-			privateMovement.jumpVelocity = 0;
-		}
+		stickDeltaFour = stickDeltaThree;
+		stickDeltaThree = stickDeltaTwo;
+		stickDeltaTwo = stickDeltaOne;
+		stickDeltaOne = Input.GetAxisRaw("RightVertical");
 
 		if(!privateMovement.isGrounded)
 		{
 			jumpPower = 0;
 		}
 		
-		if (Input.GetKey (KeyCode.Space) && privateMovement.isGrounded)
+		if (privateMovement.isGrounded)
 		{
-			chargePower = chargePower + m_JumpAccelration;
+			chargePower = (-1*(stickDeltaFour-stickDeltaThree) + -1*(stickDeltaThree-stickDeltaTwo) + -1*(stickDeltaTwo-stickDeltaOne))/4;
 		}
 		
-		if ((Input.GetKeyUp(KeyCode.Space)) && privateMovement.isGrounded)
+		if (Input.GetKey (KeyCode.Space) && privateMovement.isGrounded)
 		{
-			Debug.Log("KEYUP");
+
+			chargePower = chargePower + m_JumpAccelration;
+
+		}
+		
+		if ((Input.GetAxisRaw("RightVertical") > 0.8f) && privateMovement.isGrounded)
+		{
+
 			if(chargePower > m_MaxJumpPower)
 			{
 				chargePower = m_MaxJumpPower;
@@ -56,23 +63,31 @@ public class Jump : MonoBehaviour {
 			}
 
 			jumpPower = chargePower;
+
+			chargePower = 0;
+			
+		}
+		
+		
+		if (Input.GetKeyUp(KeyCode.Space) && privateMovement.isGrounded)
+		{
+			
+			if(chargePower > m_MaxJumpPower)
+			{
+				chargePower = m_MaxJumpPower;
+			}
+			else if(chargePower < m_MinJumpPower)
+			{
+				chargePower = m_MinJumpPower;
+			}
+			
+			jumpPower = chargePower;
+			
 			chargePower = 0;
 		}
 
-		#if UNITY_EDITOR
-		if (m_MaxJumpPower < m_MinJumpPower)
-		{
-			Debug.LogError("m_MaxJumpPower is smaller than m_MinJumpPower");
-		}
-		#endif
-		#if UNITY_EDITOR
-		if (m_MinJumpPower < m_JumpAccelration)
-		{
-			Debug.LogError("m_MinJumpPower is smaller than m_JumpAccelration");
-		}
-		#endif
+		privateMovement.jumpVelocity += jumpPower;
 
-		privateMovement.jumpVelocity += (jumpPower);
 	
 	}
 }
