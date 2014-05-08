@@ -29,14 +29,12 @@ public class Jump : MonoBehaviour {
 		
 		if (Input.GetKey (KeyCode.Space) && privateMovement.isGrounded)
 		{
-
 			chargePower = chargePower + (m_JumpAccelration * Time.deltaTime);
-
 		}
 		
 		if ((Input.GetKeyUp(KeyCode.Space)) && privateMovement.isGrounded)
 		{
-			Debug.Log("KEYUP");
+	
 			if(chargePower > m_MaxJumpPower)
 			{
 				chargePower = m_MaxJumpPower;
