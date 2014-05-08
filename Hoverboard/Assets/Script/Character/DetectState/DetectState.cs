@@ -67,6 +67,7 @@ public class DetectState : MonoBehaviour {
 		keyStateDictionary.Add ("Grounded",new MoveKeyState(GetComponent<Movement>()));
 		keyStateDictionary.Add ("Air",new AirKeyState(GetComponent<Movement>()));
 		keyStateDictionary.Add("Rail",new GrindKeyState(GetComponent<Movement>()));
+		keyStateDictionary.Add("Wall",new WallKeyState(GetComponent<Movement>()));
 	}
 	
 	// Update is called once per frame
@@ -149,7 +150,7 @@ public class DetectState : MonoBehaviour {
 	private void RailKey()
 	{
 
-		if(Input.GetKeyDown(KeyCode.Q))
+		if(Input.GetButtonDown("Y-button"))
 		{
 			keyIsPressed = Time.time;
 			railKeyPressed = true;

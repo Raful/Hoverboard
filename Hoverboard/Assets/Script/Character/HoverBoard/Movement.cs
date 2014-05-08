@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using FMOD.Studio;
 
 /*
  * This script adds rotation to the hoverboard. 
@@ -13,7 +14,7 @@ using System.Collections;
 public class Movement : MonoBehaviour {
 	
 	[SerializeField]
-	private float boostMaxAccSpeed; // The maximum speed the hoverboard can gain with boost, reqiured to be higher than Max Acc Speed.
+	public float boostMaxAccSpeed; // The maximum speed the hoverboard can gain with boost, reqiured to be higher than Max Acc Speed.
 	private float boostSpeed=0; 	// Boost Acceleration.
 
 	[SerializeField]
@@ -66,6 +67,7 @@ public class Movement : MonoBehaviour {
 
 	public float setGravity
 	{
+		get{return gravity;}
 		set{gravity = value;}
 	}
 
@@ -101,7 +103,7 @@ public class Movement : MonoBehaviour {
 			if(Physics.Raycast(transform.position, rayDirection, out hit, hoverHeight))
 			{
 
-				if((int)Vector3.Angle(Vector3.up,hit.normal) != 90)
+				if((int)Vector3.Angle(Vector3.up,hit.normal) != 90 ||(int)Vector3.Angle(Vector3.up,hit.normal) != 270)
 				{
 					changeState("Grounded");
 					if(hit.normal.y <= 0)
@@ -114,11 +116,10 @@ public class Movement : MonoBehaviour {
 					}
 				}
 
-
 				if(Vector3.Angle(transform.forward,Vector3.Cross(transform.right,hit.normal)) < m_MaxAngle || !isGrounded)
 				{
-					gravity = 0;
 					transform.rotation = Quaternion.LookRotation(Vector3.Cross(transform.right, hit.normal), hit.normal);
+					gravity = 0;
 				}
 
 				gravity = loopGravity;
@@ -140,6 +141,12 @@ public class Movement : MonoBehaviour {
 
 	void FixedUpdate () 
 	{
+	
+		if (Input.GetKey(KeyCode.Joystick1Button7) || Input.GetKeyDown(KeyCode.R))
+		{
+			Application.LoadLevel(Application.loadedLevel);
+		}
+				
 		addPotentialSpeed();
 		//Friction
 		forwardSpeed-= m_Friction;
@@ -165,7 +172,7 @@ public class Movement : MonoBehaviour {
 		}
 		#endif
 
-		velocity = direction.normalized *(forwardSpeed+backwardSpeed + boostSpeed+bonusSpeed) -Vector3.up*gravity + (jumpVelocity * Vector3.up);
+		velocity = direction.normalized *(forwardSpeed+backwardSpeed + boostSpeed+bonusSpeed) -Vector3.up*gravity + (jumpVelocity * Vector3.up.normalized);
 		transform.position += velocity*Time.fixedDeltaTime;
 	}
 
@@ -173,12 +180,17 @@ public class Movement : MonoBehaviour {
 
 	public void ResetPosition()
 	{
+		//transform.GetComponent<FMOD_EngineEmitter>().;
+		FMOD_StudioSystem.instance.PlayOneShot("event:/Impact/impact3",transform.position);
 		transform.position = transform.position - velocity.normalized;
 		forwardSpeed = 0;
 		backwardSpeed = 0;
 		bonusSpeed = 0;
 		boostSpeed = 0;
 		transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
+		
+		
+		
 	}
 
 	// Adds speed depending on angle on the hoverboard
