@@ -22,15 +22,25 @@ public class Jump : MonoBehaviour {
 	// Update is called once per frame
 	void FixedUpdate () {
 
+		Debug.Log(privateMovement.m_getVelocity);
+		if(!privateMovement.isGrounded && privateMovement.m_getVelocity.y > 0f)
+		{
+			privateMovement.jumpVelocity -= privateMovement.setGravity;
+		}
+
+		if(!privateMovement.isGrounded && privateMovement.m_getVelocity.y < -0.1f)
+		{
+			privateMovement.jumpVelocity = 0;
+		}
+
 		if(!privateMovement.isGrounded)
 		{
 			jumpPower = 0;
-			privateMovement.jumpVelocity -= privateMovement.m_Gravity;
 		}
 		
 		if (Input.GetKey (KeyCode.Space) && privateMovement.isGrounded)
 		{
-			chargePower = chargePower + (m_JumpAccelration * Time.deltaTime);
+			chargePower = chargePower + m_JumpAccelration;
 		}
 		
 		if ((Input.GetKeyUp(KeyCode.Space)) && privateMovement.isGrounded)
@@ -47,8 +57,19 @@ public class Jump : MonoBehaviour {
 			jumpPower = chargePower;
 			chargePower = 0;
 		}
-
-		privateMovement.jumpVelocity += jumpPower * Time.deltaTime;
+		#if UNITY_EDITOR
+		if (m_MaxJumpPower < m_MinJumpPower)
+		{
+			Debug.LogError("m_MaxJumpPower is smaller than m_MinJumpPower");
+		}
+		#endif
+		#if UNITY_EDITOR
+		if (m_MinJumpPower < m_JumpAccelration)
+		{
+			Debug.LogError("m_MinJumpPower is smaller than m_JumpAccelration");
+		}
+		#endif
+		privateMovement.jumpVelocity += (jumpPower);
 	
 	}
 }

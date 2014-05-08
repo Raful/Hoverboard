@@ -66,6 +66,7 @@ public class Movement : MonoBehaviour {
 
 	public float setGravity
 	{
+		get{return gravity;}
 		set{gravity = value;}
 	}
 
@@ -165,7 +166,7 @@ public class Movement : MonoBehaviour {
 		}
 		#endif
 
-		velocity = direction.normalized *(forwardSpeed+backwardSpeed + boostSpeed+bonusSpeed) -Vector3.up*gravity + (jumpVelocity * Vector3.up);
+		velocity = direction.normalized *(forwardSpeed+backwardSpeed + boostSpeed+bonusSpeed) -Vector3.up*gravity + (jumpVelocity * Vector3.up.normalized);
 		transform.position += velocity*Time.fixedDeltaTime;
 
 	}
