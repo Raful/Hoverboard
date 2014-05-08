@@ -45,6 +45,7 @@ public class Jump : MonoBehaviour {
 		
 		if ((Input.GetKeyUp(KeyCode.Space)) && privateMovement.isGrounded)
 		{
+			Debug.Log("KEYUP");
 			if(chargePower > m_MaxJumpPower)
 			{
 				chargePower = m_MaxJumpPower;
@@ -57,6 +58,7 @@ public class Jump : MonoBehaviour {
 			jumpPower = chargePower;
 			chargePower = 0;
 		}
+
 		#if UNITY_EDITOR
 		if (m_MaxJumpPower < m_MinJumpPower)
 		{
@@ -69,6 +71,7 @@ public class Jump : MonoBehaviour {
 			Debug.LogError("m_MinJumpPower is smaller than m_JumpAccelration");
 		}
 		#endif
+
 		privateMovement.jumpVelocity += (jumpPower);
 	
 	}
