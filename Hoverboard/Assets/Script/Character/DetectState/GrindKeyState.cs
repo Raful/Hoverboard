@@ -20,6 +20,7 @@ public class GrindKeyState : KeyState
 		movement.rigidbody.velocity = Vector3.zero;
 		movement.gameObject.GetComponent<Hover_WithTransform> ().enabled = false;
 		movement.isGrounded = true;
+		movement.GetComponent<DetectState>().m_getRayCastState = false;
 
 		if(RailCounter.getNum() < 2)
 		{
@@ -63,6 +64,7 @@ public class GrindKeyState : KeyState
 	
 	public override void end()
 	{
+
 		movement.gameObject.GetComponent<Hover_WithTransform> ().enabled = true;
 		firstRotationOnGoing = true;
 

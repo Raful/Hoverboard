@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Jump : MonoBehaviour {
 
-	public float m_MaxJumpPower, m_JumpAccelration;
+	public float m_MaxJumpPower, m_JumpAccelration, m_MinJumpPower;
 	private float jumpPower, chargePower;
 	Movement getGrounded;
 	private Vector3 speed;
@@ -39,6 +39,11 @@ public class Jump : MonoBehaviour {
 			{
 				chargePower = m_MaxJumpPower;
 			}
+			else if(chargePower < m_MinJumpPower)
+			{
+				chargePower = m_MinJumpPower;
+			}
+
 			jumpPower = chargePower;
 			chargePower = 0;
 		}
