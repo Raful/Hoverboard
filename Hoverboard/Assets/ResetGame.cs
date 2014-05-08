@@ -28,8 +28,10 @@ public class ResetGame : MonoBehaviour {
 #endif
     }
 
+#if UNITY_EDITOR
     void RestartGame()
     {
         gameObject.GetComponent<LevelLoader>().LoadLevel(Application.loadedLevel);
     }
+#endif
 }

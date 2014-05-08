@@ -18,30 +18,49 @@ public class LevelLoader : MonoBehaviour
 
     public void LoadLevel(string levelName)
     {
-        EnableLoadingScreen();
+        ShowLoadingScreen();
 
-        Application.LoadLevel(levelName);
+        //Load new scene
+        if (Application.HasProLicense())
+        {
+            Application.LoadLevelAsync(levelName);
+        }
+        else
+        {
+            Application.LoadLevel(levelName);
+        }
     }
 
     public void LoadLevel(int level)
     {
-        EnableLoadingScreen();
+        ShowLoadingScreen();
 
-        Application.LoadLevel(level);
+        //Load new scene
+        if (Application.HasProLicense())
+        {
+            Application.LoadLevelAsync(level);
+        }
+        else
+        {
+            Application.LoadLevel(level);
+        }
     }
 
-    void EnableLoadingScreen()
+    void ShowLoadingScreen()
     {
+        //Create an empty object to put the gui elements in
+        GameObject newObject = Instantiate(new GameObject()) as GameObject;
+        newObject.transform.position = new Vector3(0.5f, 0.5f, 0); //This is to place the gui elements in the center of the screen
+
         //Create the gui components
-        GUIText newGuiText = gameObject.AddComponent<GUIText>();
-        GUITexture newGuiTexture = gameObject.AddComponent<GUITexture>();
+        GUIText newGuiText = newObject.AddComponent<GUIText>();
+        GUITexture newGuiTexture = newObject.AddComponent<GUITexture>();
 
-        //Enable the texture
+        //Set the texture
         newGuiTexture.texture = texture;
-        newGuiTexture.enabled = true;
 
-        //Enable the text
+        //Set the text
         newGuiText.text = text;
-        newGuiText.enabled = true;
+        newGuiText.anchor = TextAnchor.MiddleCenter;
     }
 }
