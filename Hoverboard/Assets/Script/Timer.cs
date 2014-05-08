@@ -19,6 +19,11 @@ public class Timer : MonoBehaviour {
     {
         get { return finishTime; }
     }
+
+    public float m_raceTime
+    {
+        get { return raceTime; }
+    }
 	
 	// Update is called once per frame
 	void Update () 
@@ -29,6 +34,12 @@ public class Timer : MonoBehaviour {
 		guiText.text = timeMinutes.ToString () + " : " + timeSeconds.ToString () + " : " + timeMilli.ToString ();
 	
 	}
+
+    //Sets the raceTimer to a specific time
+    public void SetRaceTimer(float time)
+    {
+        leaveTime = Time.time - time;
+    }
 
 	void SetRaceTimer()
 	{

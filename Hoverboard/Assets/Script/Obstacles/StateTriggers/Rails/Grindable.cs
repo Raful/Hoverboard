@@ -28,7 +28,6 @@ public class Grindable : MonoBehaviour {
 				detectState.m_getRayCastState = false;
 				detectState.changeKeyState("Rail");
 				detectState.m_getRailPermission = false;
-				
 			}
 		}
 	}

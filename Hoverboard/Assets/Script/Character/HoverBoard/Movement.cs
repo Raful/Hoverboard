@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using FMOD.Studio;
 
 /*
  * This script adds rotation to the hoverboard. 
@@ -13,7 +14,7 @@ using System.Collections;
 public class Movement : MonoBehaviour {
 	
 	[SerializeField]
-	private float boostMaxAccSpeed; // The maximum speed the hoverboard can gain with boost, reqiured to be higher than Max Acc Speed.
+	public float boostMaxAccSpeed; // The maximum speed the hoverboard can gain with boost, reqiured to be higher than Max Acc Speed.
 	private float boostSpeed=0; 	// Boost Acceleration.
 
 	[SerializeField]
@@ -66,6 +67,7 @@ public class Movement : MonoBehaviour {
 
 	public float setGravity
 	{
+		get{return gravity;}
 		set{gravity = value;}
 	}
 
@@ -139,6 +141,12 @@ public class Movement : MonoBehaviour {
 
 	void FixedUpdate () 
 	{
+	
+		if (Input.GetKey(KeyCode.Joystick1Button7) || Input.GetKeyDown(KeyCode.R))
+		{
+			Application.LoadLevel(Application.loadedLevel);
+		}
+				
 		addPotentialSpeed();
 		//Friction
 		forwardSpeed-= m_Friction;
@@ -164,21 +172,25 @@ public class Movement : MonoBehaviour {
 		}
 		#endif
 
-		velocity = direction.normalized *(forwardSpeed+backwardSpeed + boostSpeed+bonusSpeed) -Vector3.up*gravity + (jumpVelocity * Vector3.up);
+		velocity = direction.normalized *(forwardSpeed+backwardSpeed + boostSpeed+bonusSpeed) -Vector3.up*gravity + (jumpVelocity * Vector3.up.normalized);
 		transform.position += velocity*Time.fixedDeltaTime;
-
 	}
 
 	// Calls on collision, resets Speed, x-rotation and position
 
 	public void ResetPosition()
 	{
+		//transform.GetComponent<FMOD_EngineEmitter>().;
+		FMOD_StudioSystem.instance.PlayOneShot("event:/Impact/impact1",transform.position);
 		transform.position = transform.position - velocity.normalized;
 		forwardSpeed = 0;
 		backwardSpeed = 0;
 		bonusSpeed = 0;
 		boostSpeed = 0;
 		transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
+		
+		
+		
 	}
 
 	// Adds speed depending on angle on the hoverboard

@@ -20,7 +20,7 @@ public class CalcCollision : MonoBehaviour {
 		direction = movement.m_getVelocity;
 		RaycastHit hit;
 
-		if (Physics.Raycast (transform.position, direction.normalized, out hit, direction.magnitude*Time.fixedDeltaTime )) 
+		if (Physics.Raycast (transform.position, direction.normalized, out hit, 0.1f+direction.magnitude*Time.fixedDeltaTime )) 
 		{
 			Debug.Log ("Ray Collides");
 			movement.ResetPosition();

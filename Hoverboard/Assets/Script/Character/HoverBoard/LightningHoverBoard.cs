@@ -15,6 +15,7 @@ public class LightningHoverBoard : MonoBehaviour {
 	void Start () 
 	{
 		m_Peek = false;
+		
 	}
 	
 	// Update is called once per frame
