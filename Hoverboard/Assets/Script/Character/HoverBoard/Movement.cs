@@ -117,9 +117,12 @@ public class Movement : MonoBehaviour {
 
 				if(Vector3.Angle(transform.forward,Vector3.Cross(transform.right,hit.normal)) < m_MaxAngle || !isGrounded)
 				{
+					//if(Vector3.Cross(transform.right, hit.normal).magnitude > 0.1f)
+						transform.rotation = Quaternion.LookRotation(Vector3.Cross(transform.right, hit.normal), hit.normal);
+					//else if(Vector3.Cross(transform.right, hit.normal).magnitude < 0.1f)
+					//	transform.rotation = Quaternion.LookRotation(Vector3.Cross(transform.forward, hit.normal), hit.normal);
 					gravity = 0;
-					rigidbody.velocity = Vector3.zero;
-					transform.rotation = Quaternion.LookRotation(Vector3.Cross(transform.right, hit.normal), hit.normal);
+
 				}
 
 				gravity = loopGravity;

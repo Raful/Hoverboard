@@ -19,7 +19,6 @@ public class GrindKeyState : KeyState
 	public override void start ()
 	{
 		detectState = movement.GetComponent<DetectState> ();
-		movement.rigidbody.velocity = Vector3.zero;
 		movement.gameObject.GetComponent<Hover_WithTransform> ().enabled = false;
 
 			constantRotationSpeed = Random.value;
