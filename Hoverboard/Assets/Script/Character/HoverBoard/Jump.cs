@@ -74,11 +74,11 @@ public class Jump : MonoBehaviour {
 		
 		if ((Input.GetAxisRaw("RightVertical") > 0.8f) && privateMovement.isGrounded)
 		{
-			if(chargePower > m_MaxJumpPower * 100000)
+			if(chargePower > m_MaxJumpPower * 1)
 			{
 				chargePower = m_MaxJumpPower;
 			}
-			jumpPower = chargePower * 10000;
+			jumpPower = chargePower * 1;
 			chargePower = 0;
 			
 		}
