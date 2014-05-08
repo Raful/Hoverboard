@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 
 public class Ghost : MonoBehaviour {
 
@@ -16,6 +17,7 @@ public class Ghost : MonoBehaviour {
 	private Vector3 positionMovingTo = new Vector3(0,0,0);
 	private Quaternion anglesMovingTo;
 
+	private string filepath;
 
 	private DetectState currentState;
 	// Use this for initialization
@@ -23,6 +25,7 @@ public class Ghost : MonoBehaviour {
 		timeToChange = 0;
 		anglesMovingTo.Set (0, 0, 0, 0);
 		currentState = hoverboard.GetComponent<DetectState>();
+		filepath = Application.persistentDataPath + "/Ghost.txt";
 	}
 	
 	// Update is called once per frame
@@ -36,6 +39,7 @@ public class Ghost : MonoBehaviour {
 		}
 		else
 		{
+
 			Recording();
 
 		}
@@ -49,17 +53,37 @@ public class Ghost : MonoBehaviour {
 			stateList.Add(currentState.getKeyState);
 			positionList.Add(hoverboard.transform.position);
 			transformationList.Add(hoverboard.transform.rotation);
-			timeToChange += 1f/m_howManyTimesPerSecond;
+			timeToChange = Time.time + 1f/m_howManyTimesPerSecond;
 		}
 	}
 
 	void PlayBack()
-	{ 								//LOOP MÅSTE FIXAS
+	{ 								
 		int size = smallestSize (stateList.Count, positionList.Count, transformationList.Count);
 		if(i < size && Time.time > timeToChange)
 		{
 			if(i == 0)
 			{
+				StreamWriter text = new StreamWriter(filepath);
+				for(int j = 0; j < stateList.Count; j++)
+				{
+					text.WriteLine(stateList[i]);
+				}
+				text.WriteLine("Position");
+
+				for(int j = 0; j < positionList.Count; j++)
+				{
+					text.WriteLine(positionList[i].ToString());
+				}
+				text.WriteLine("Rotation");
+
+				for(int j = 0; j < transformationList.Count; j++)
+				{
+					text.WriteLine(transformationList[i].ToString());
+				}
+
+				hoverboard.GetComponent<Movement>().ResetPosition();
+				hoverboard.GetComponent<Movement>().isRecording = false;
 				currentState.changeKeyState(stateList[i]);
 				hoverboard.transform.position = positionMovingTo = positionList[i];
 				anglesMovingTo.Set(transformationList[i].x, transformationList[i].y, transformationList[i].z,transformationList[i].w);
@@ -84,6 +108,11 @@ public class Ghost : MonoBehaviour {
 			}
 			timeToChange = Time.time + (1f/m_howManyTimesPerSecond);
 			i++;
+		}
+		if(i == size && Time.time > timeToChange)
+		{
+			isRecording = true;
+			hoverboard.GetComponent<Movement>().isRecording = true;
 		}
 	
 	}
