@@ -20,7 +20,7 @@ public class Jump : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void FixedUpdate () {
+	void Update () {
 
 		Debug.Log(privateMovement.m_getVelocity);
 		if(!privateMovement.isGrounded && privateMovement.m_getVelocity.y > 0f)
