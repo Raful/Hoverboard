@@ -104,11 +104,11 @@ public class Jump : MonoBehaviour {
 		if (Input.GetKey(KeyCode.Space) && privateMovement.isGrounded)
 		{
 			
-			if(chargePower > m_MaxJumpPower * 100000)
+			if(chargePower > m_MaxJumpPower)
 			{
 				chargePower = m_MaxJumpPower;
 			}
-			jumpPower = chargePower * 1000;
+			jumpPower = chargePower;
 			chargePower = 0;
 			
 		} 
