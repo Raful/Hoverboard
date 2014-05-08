@@ -67,6 +67,7 @@ public class Movement : MonoBehaviour {
 
 	public float setGravity
 	{
+		get{return gravity;}
 		set{gravity = value;}
 	}
 
@@ -102,7 +103,7 @@ public class Movement : MonoBehaviour {
 			if(Physics.Raycast(transform.position, rayDirection, out hit, hoverHeight))
 			{
 
-				if((int)Vector3.Angle(Vector3.up,hit.normal) != 90)
+				if((int)Vector3.Angle(Vector3.up,hit.normal) != 90 ||(int)Vector3.Angle(Vector3.up,hit.normal) != 270)
 				{
 					changeState("Grounded");
 					if(hit.normal.y <= 0)
@@ -115,11 +116,10 @@ public class Movement : MonoBehaviour {
 					}
 				}
 
-
 				if(Vector3.Angle(transform.forward,Vector3.Cross(transform.right,hit.normal)) < m_MaxAngle || !isGrounded)
 				{
-					gravity = 0;
 					transform.rotation = Quaternion.LookRotation(Vector3.Cross(transform.right, hit.normal), hit.normal);
+					gravity = 0;
 				}
 
 				gravity = loopGravity;
@@ -172,7 +172,7 @@ public class Movement : MonoBehaviour {
 		}
 		#endif
 
-		velocity = direction.normalized *(forwardSpeed+backwardSpeed + boostSpeed+bonusSpeed) -Vector3.up*gravity + (jumpVelocity * Vector3.up);
+		velocity = direction.normalized *(forwardSpeed+backwardSpeed + boostSpeed+bonusSpeed) -Vector3.up*gravity + (jumpVelocity * Vector3.up.normalized);
 		transform.position += velocity*Time.fixedDeltaTime;
 
 	}

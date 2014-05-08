@@ -14,6 +14,7 @@ public class MoveKeyState : KeyState
 
 	public override void start ()
 	{
+
 		forwardAcc = movement.m_ForwardAcc;
 		backWardAcc = movement.m_BackwardAcc;
 		movement.hoverHeight = movement.hoverHeight;

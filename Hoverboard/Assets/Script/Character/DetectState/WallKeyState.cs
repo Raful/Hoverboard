@@ -5,9 +5,8 @@ public class WallKeyState : KeyState
 {
 
 	private Movement movement;
-	private Vector3 internalSpeed;
-	private float distance;
-	private float decDistance = 0.01f;
+	private float length;
+	private Vector3 enterPoint;
 
 	public WallKeyState(Movement Movement)
 	{
@@ -16,19 +15,29 @@ public class WallKeyState : KeyState
 	
 	public override void start ()
 	{
-		internalSpeed = movement.m_getVelocity;
-		distance = Mathf.Abs(internalSpeed.magnitude) * Time.deltaTime;
+		movement.jumpVelocity = 0;
+		length = new Vector3(movement.m_getVelocity.x, 0, movement.m_getVelocity.z).magnitude;
+		movement.setGravity = 0;
+		enterPoint = movement.transform.position;
+		movement.transform.LookAt (10*m_keyVector + movement.transform.position);
+		movement.transform.eulerAngles = new Vector3 (movement.transform.eulerAngles.x, movement.transform.eulerAngles.y, 90);
+		
 	}
 	
 	public override void update () 
 	{	
-		distance -= decDistance;
+		movement.Direction = m_keyVector;
+		if((enterPoint-movement.transform.position).magnitude >length)
+		{
+			movement.changeState("Grounded");
+		}
 	}
 	
 	public override void end()
 	{
+		movement.transform.LookAt (10*m_keyVector + movement.transform.position);
+		movement.GetComponent<DetectState> ().m_getRayCastState = true;
 
-		
 	}
 	
 
