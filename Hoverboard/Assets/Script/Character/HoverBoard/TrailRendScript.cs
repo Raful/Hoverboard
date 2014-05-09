@@ -23,6 +23,7 @@ public class TrailRendScript : MonoBehaviour {
 	}
 	
 	void Update () {
+
 		//Tail will only be displayed when player is moving over a set speed
 		if (m_MovementReference.forwardSpeed > m_ShowRayThreshold)
 		{
