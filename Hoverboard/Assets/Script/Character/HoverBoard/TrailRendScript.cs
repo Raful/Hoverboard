@@ -20,7 +20,6 @@ public class TrailRendScript : MonoBehaviour {
 	{
 		m_RenderReference.enabled = true;
 		m_RenderReference.time = 0;
-		m_MovementReference = GameObject.Find("Hoverboard 4.0").GetComponent<Movement>();
 	}
 	
 	void Update () {
@@ -35,7 +34,7 @@ public class TrailRendScript : MonoBehaviour {
 		}
 		//When player is slowing down shorten tail, and when less
 		//then 0 set it to orignal length(time) and stop displaying
-		else if(m_MovementReference.getSpeed < m_ShowRayThreshold)
+		else if(m_MovementReference.forwardSpeed < m_ShowRayThreshold)
 		{
 			if (m_RenderReference.time < 0)
 			{

@@ -27,8 +27,7 @@ public class MotionBlurControl : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
-		//Debug.Log("SPEED: " + Player.getSpeed);
-		if(m_MovementReference.getSpeed > m_SpeedThreshold && m_BlurReference.blurAmount < (m_BlurLimit/10))
+		if(m_MovementReference.m_getVelocity.magnitude > m_SpeedThreshold && m_BlurReference.blurAmount < (m_BlurLimit/10))
 		{
 			m_BlurReference.blurAmount += m_IncreaseAmount/100;
 		}

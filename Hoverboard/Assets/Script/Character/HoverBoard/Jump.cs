@@ -4,10 +4,11 @@ using System.Collections;
 public class Jump : MonoBehaviour {
 	
 	public float m_MaxJumpPower, m_JumpAccelration, m_MinJumpPower;
-	private float jumpPower, chargePower;
-	Movement getGrounded;
-	private Vector3 speed;
 	public Movement privateMovement;
+	public bool m_ControllerYes = false;
+	private float jumpPower, chargePower;
+	private Vector3 speed;
+
 	
 	private float stickDeltaOne;
 	private float stickDeltaTwo;
@@ -37,12 +38,16 @@ public class Jump : MonoBehaviour {
 		{
 			jumpPower = 0;
 		}
-		
-		//if (privateMovement.isGrounded)
-		//{
-		//	chargePower = (-1*(stickDeltaFour-stickDeltaThree) + -1*(stickDeltaThree-stickDeltaTwo) + -1*(stickDeltaTwo-stickDeltaOne))/4;
-		//}
-		
+
+		if(m_ControllerYes)
+		{
+			if (privateMovement.isGrounded)
+			{
+				chargePower = (-1*(stickDeltaFour-stickDeltaThree) + -1*(stickDeltaThree-stickDeltaTwo) + -1*(stickDeltaTwo-stickDeltaOne))/4;
+			}
+
+		}
+
 		if (Input.GetKey (KeyCode.Space) && privateMovement.isGrounded)
 		{
 			
