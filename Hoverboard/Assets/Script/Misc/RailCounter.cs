@@ -3,6 +3,7 @@ using System.Collections;
 
 public class RailCounter {
 	private static int tal;
+	private static bool rail;
 
 	public static int getNum()
 	{
@@ -21,4 +22,17 @@ public class RailCounter {
 	{
 		tal = 0;
 	}
+	public static void railFalse()
+	{
+		rail = false;
+	}
+	public static void railTrue()
+	{
+		rail = true;
+	}
+	public static bool getRailbool()
+	{
+		return rail;
+	}
+
 }

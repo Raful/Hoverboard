@@ -13,7 +13,6 @@ public class Finish : MonoBehaviour {
 
 	public Timer m_TimerReference;
 	public string m_NextLevelToLoad;
-	private int i;
 	private float entryTime, differens;
 	private GameObject levelLoader;
 	Medal medal;
@@ -33,17 +32,8 @@ public class Finish : MonoBehaviour {
 	{
 		entryTime = Time.time;
 		m_TimerReference.StopTimer();
-
-
-
+		
 		finishTime = m_TimerReference.m_finishTime;
-        /*
-#if UNITY_EDITOR
-        if (Application.loadedLevelName == "Robbin")
-        {
-            Debug.Log("Finish time: "+finishTime);
-        }
-#endif*/
 
 	}
 	void Update()
@@ -60,6 +50,6 @@ public class Finish : MonoBehaviour {
 	}
 	void LoadNextLevel()
 	{
-		StartCoroutine(gameObject.GetComponent<LevelLoader>().LoadLevel(m_NextLevelToLoad));
+		gameObject.GetComponent<LevelLoader>().LoadLevel(m_NextLevelToLoad);
 	}
 }

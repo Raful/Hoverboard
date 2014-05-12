@@ -24,6 +24,7 @@ public class Movement : MonoBehaviour {
 
 	public float hoverHeight;		// HoverHeight of the hoverboard	
 	public Vector3 m_RotationSpeed;	// Amount of rotation applied 
+	public float m_MinigameRotSpeed; //  Constant rotation speed for the grind minigame
 	public float m_StrafeSpeed;		// Amount of speed applied to the strafe action
 
 
@@ -40,7 +41,7 @@ public class Movement : MonoBehaviour {
 	
 	public float m_PotentialSpeed;		// Multiplier, Speed gained from going downhill/uphill, separated from normal Speed.
 	public float m_PotentialFriction;	// Friction loss on going downhill/uphill, separated from normal Friction.
-	
+		
 	private Vector3 direction;		// Direction of the hoverboard
 	public Vector3 velocity;		// The vector whichs updates new positions
 	private Vector3 lastPosition;	// contains a position 1 second ago
@@ -205,16 +206,25 @@ public class Movement : MonoBehaviour {
 		//transform.GetComponent<FMOD_EngineEmitter>().;
 	//	FMOD_StudioSystem.instance.PlayOneShot("event:/Impact/impact1",transform.position); TA TILLBAKA DENNA NÄR DU MERGEAR
 		transform.position = transform.position - velocity.normalized;
-		forwardSpeed = 0;
-		backwardSpeed = 0;
-		bonusSpeed = 0;
-		boostSpeed = 0;
+
+        ResetSpeed();
+
 		transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
 		
 		
 		
 	}
-	
+
+
+    public void ResetSpeed()
+    {
+        forwardSpeed = 0;
+        backwardSpeed = 0;
+        bonusSpeed = 0;
+        boostSpeed = 0;
+    }
+
+
 	// Adds speed depending on angle on the hoverboard
 	private void addPotentialSpeed()
 	{
@@ -269,6 +279,11 @@ public class Movement : MonoBehaviour {
 		currentState.changeKeyState(state);
 	}
 
+	public void miniGameCOnstantRotationSpeed(float z)
+	{
+		transform.Rotate (0,0,z * m_MinigameRotSpeed);
+	}
 
+	// rotate a vector operation
 }
 
