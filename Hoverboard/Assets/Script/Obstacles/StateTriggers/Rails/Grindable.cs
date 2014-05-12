@@ -25,7 +25,6 @@ public class Grindable : MonoBehaviour {
 		{
 			if(detectState.m_getRailPermission && RailCounter.getNum() > 0)
 			{
-
 				detectState.m_getRayCastState = false;
 				detectState.changeKeyState("Rail");
 				detectState.m_getRailPermission = false;
@@ -39,7 +38,7 @@ public class Grindable : MonoBehaviour {
 		player = col.gameObject;
 		active = true;
 
-	
+
 		detectState = col.gameObject.GetComponent<DetectState> ();
 		if(RailCounter.getNum() == 0)
 		{
@@ -56,13 +55,14 @@ public class Grindable : MonoBehaviour {
 		}
 		else 
 		{
-
 			if(RailCounter.getRailbool())
 			{
+				col.transform.LookAt(transform.right+ col.transform.position);
 				detectState.updateKeyState ("Rail").setVector = transform.right;
 			}
 			else
 			{
+				col.transform.LookAt(-transform.right+ col.transform.position);
 				detectState.updateKeyState ("Rail").setVector = -transform.right;
 			}
 		}
@@ -71,7 +71,11 @@ public class Grindable : MonoBehaviour {
 		if(active)
 		{
 			if(detectState.m_getRailPermission && RailCounter.getNum() > 0)
-			{
+			{	
+				if(RailCounter.getRailbool())
+					col.transform.LookAt(transform.right+ col.transform.position);
+				else
+					col.transform.LookAt(-transform.right+ col.transform.position);
 				detectState.m_getRayCastState = false;
 				detectState.changeKeyState("Rail");
 				detectState.m_getRailPermission = false;
