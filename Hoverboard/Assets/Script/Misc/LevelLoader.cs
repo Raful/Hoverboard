@@ -70,12 +70,9 @@ public class LevelLoader : MonoBehaviour
         newObject.transform.position = new Vector3(0.5f, 0.5f, 0); //This is to place the gui elements in the center of the screen
 
         //Create a gui text (if a text is specified)
-        if (text != "")
-        {
-            newGuiText = newObject.AddComponent<GUIText>();
-            newGuiText.text = text;
-            newGuiText.anchor = TextAnchor.MiddleCenter;
-        }
+        newGuiText = newObject.AddComponent<GUIText>();
+        newGuiText.text = text;
+        newGuiText.anchor = TextAnchor.MiddleCenter;
 
         //Create a gui texture
         if (texture != null)
