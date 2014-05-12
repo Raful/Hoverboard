@@ -87,6 +87,7 @@ public class Jump : MonoBehaviour {
 			jumpPower = chargePower;
 			chargePower = 0;
 		}
+		Debug.Log (transform.eulerAngles);
 
 			privateMovement.jumpVelocity += jumpPower;
 	}
