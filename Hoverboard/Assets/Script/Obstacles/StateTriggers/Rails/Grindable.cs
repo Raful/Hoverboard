@@ -42,10 +42,12 @@ public class Grindable : MonoBehaviour {
 		if(Vector3.Angle(transform.forward, player.transform.right) <90)
 		{
 			detectState.updateKeyState ("Rail").setVector = Exit.transform.position - player.transform.position;
+			calc(Entry.transform.position,transform.position,col.transform.position);
 		}
 		else
 		{
 			detectState.updateKeyState ("Rail").setVector = Entry.transform.position - player.transform.position;
+			calc(Exit.transform.position,transform.position,col.transform.position);
 		}
 		if(active)
 		{
@@ -67,5 +69,11 @@ public class Grindable : MonoBehaviour {
 		{
 			col.gameObject.GetComponent<DetectState>().m_getRayCastState = true;
 		}
+	}
+
+	float calc(Vector3 firstPoint, Vector3 secondPoint, Vector3 col)
+	{
+		Debug.Log(Mathf.Rad2Deg * Mathf.Acos(((firstPoint-secondPoint).magnitude/2)/(firstPoint - col).magnitude));
+		return Mathf.Rad2Deg * Mathf.Acos(((firstPoint-secondPoint).magnitude/2)/(firstPoint - col).magnitude);
 	}
 }

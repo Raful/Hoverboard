@@ -5,7 +5,7 @@ public class GrindKeyState : KeyState
 {
 
 	private float constantRotationSpeed = 1f;			//Rotation speed that will be applied every frame
-	private const float rotationZSpeed = 1.5f;			//Players rotation speed on the z-axis
+	private const float rotationZSpeed = 1f;			//Players rotation speed on the z-axis
 	private const float rotationYSpeed = 1f;			//Players rotation speed on the y-axis
 	private const float pushOfStrength = 1f;			//How far the player will be pushed of the grind
 
@@ -87,11 +87,11 @@ public class GrindKeyState : KeyState
 		
 		if(movement.transform.eulerAngles.z > zero && movement.transform.eulerAngles.z < (zero + AngleAmount))
 		{
-			movement.rotateBoardInZ(Mathf.Abs(constantRotationSpeed));
+			movement.miniGameCOnstantRotationSpeed(Mathf.Abs(constantRotationSpeed));
 		}
 		else if(movement.transform.eulerAngles.z < circel && movement.transform.eulerAngles.z > (circel - AngleAmount))
 		{
-			movement.rotateBoardInZ(constantRotationSpeed);
+			movement.miniGameCOnstantRotationSpeed(constantRotationSpeed);
 		}
 	}
 

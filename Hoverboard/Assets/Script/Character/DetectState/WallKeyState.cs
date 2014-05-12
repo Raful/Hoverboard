@@ -8,6 +8,7 @@ public class WallKeyState : KeyState
 	private float length;
 	private Vector3 enterPoint;
 	private Vector3 direction;
+	private bool jumpOfAngle;
 	public WallKeyState(Movement Movement)
 	{
 		movement = Movement;
@@ -25,21 +26,25 @@ public class WallKeyState : KeyState
 		if(m_keyVector.y == 0)
 		{
 			movement.transform.eulerAngles = new Vector3 (movement.transform.eulerAngles.x, movement.transform.eulerAngles.y, 90);
+			jumpOfAngle = false;
 		}
 
 		if(m_keyVector.y == 1)
 		{
 			movement.transform.eulerAngles = new Vector3 (0, movement.transform.eulerAngles.y, 270);
+			jumpOfAngle = true;
 		}
 	}
 	
 	public override void update () 
 	{	
 		movement.Direction = direction;
+
 		if((enterPoint-movement.transform.position).magnitude >=length || movement.m_getVelocity.magnitude <= 0)
 		{
 			movement.changeState("Grounded");
 		}
+
 	}
 	
 	public override void end()
