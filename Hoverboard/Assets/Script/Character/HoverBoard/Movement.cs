@@ -104,39 +104,52 @@ public class Movement : MonoBehaviour {
 	void LateUpdate()
 	{
 
+
 		if (isRecording) {
 	
-			RaycastHit hit;
-			if (Physics.Raycast (transform.position, rayDirection, out hit, hoverHeight)) {
 
-				if ((int)Vector3.Angle (Vector3.up, hit.normal) != 90 || (int)Vector3.Angle (Vector3.up, hit.normal) != 270) {
-					changeState ("Grounded");
-					if (hit.normal.y <= 0) {
-						loopGravity += 0.1f;
-					} else {
+			if (!isGrounded && m_getVelocity.y > 0f) {
+				jumpVelocity -= setGravity;
+			}
+		
+			if (!isGrounded && m_getVelocity.y < -0.1f) {
+				jumpVelocity = 0;
+			}
+
+			if (currentState.m_getRayCastState) {
+
+				RaycastHit hit;
+				if (Physics.Raycast (transform.position, rayDirection, out hit, hoverHeight)) {
+
+					if ((int)Vector3.Angle (Vector3.up, hit.normal) != 90 || (int)Vector3.Angle (Vector3.up, hit.normal) != 270) {
+						changeState ("Grounded");
+						if (hit.normal.y <= 0) {
+							loopGravity += 0.1f;
+						} else {
+							loopGravity = 0;
+
+						}
+
+
+
+						if (Vector3.Angle (transform.forward, Vector3.Cross (transform.right, hit.normal)) < m_MaxAngle || !isGrounded) {
+							gravity = 0;
+							transform.rotation = Quaternion.LookRotation (Vector3.Cross (transform.right, hit.normal), hit.normal);
+						}
+
+						gravity = loopGravity;
+						Debug.DrawLine (transform.position, hit.point);
+						isGrounded = true;
+						rayDirection = -transform.up;
+
+					} else {	
 						loopGravity = 0;
+						changeState ("Air");
+						gravity += m_Gravity;
+						isGrounded = false;
+						rayDirection = Vector3.down;
 
 					}
-
-
-
-					if (Vector3.Angle (transform.forward, Vector3.Cross (transform.right, hit.normal)) < m_MaxAngle || !isGrounded) {
-						gravity = 0;
-						transform.rotation = Quaternion.LookRotation (Vector3.Cross (transform.right, hit.normal), hit.normal);
-					}
-
-					gravity = loopGravity;
-					Debug.DrawLine (transform.position, hit.point);
-					isGrounded = true;
-					rayDirection = -transform.up;
-
-				} else {	
-					loopGravity = 0;
-					changeState ("Air");
-					gravity += m_Gravity;
-					isGrounded = false;
-					rayDirection = Vector3.down;
-
 				}
 			}
 		}
@@ -190,7 +203,7 @@ public class Movement : MonoBehaviour {
 	public void ResetPosition()
 	{
 		//transform.GetComponent<FMOD_EngineEmitter>().;
-		FMOD_StudioSystem.instance.PlayOneShot("event:/Impact/impact3",transform.position);
+		FMOD_StudioSystem.instance.PlayOneShot("event:/Impact/impact1",transform.position);
 		transform.position = transform.position - velocity.normalized;
 		forwardSpeed = 0;
 		backwardSpeed = 0;

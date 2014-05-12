@@ -149,8 +149,13 @@ public class DetectState : MonoBehaviour {
 
 	private void RailKey()
 	{
-
-		if(Input.GetButtonDown("Y-button"))
+		// för XBOX
+		//if(Input.GetButtonDown("Y-button"))
+		//{
+		//	keyIsPressed = Time.time;
+		//	railKeyPressed = true;
+		//}
+		if(Input.GetKeyDown(KeyCode.Q))
 		{
 			keyIsPressed = Time.time;
 			railKeyPressed = true;

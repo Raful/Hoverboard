@@ -22,13 +22,13 @@ public class CalcCollision : MonoBehaviour {
 
 		if (Physics.Raycast (transform.position, direction.normalized, out hit, 0.1f+direction.magnitude*Time.fixedDeltaTime )) 
 		{
-			//Debug.Log ("Ray Collides");
+			Debug.Log ("Ray Collides");
 			movement.ResetPosition();
 		}
 	}
 	void OnCollisionEnter(Collision col)
 	{
-		//Debug.Log ("Collides");
-		movement.ResetPosition();
+		Debug.Log ("Collides");
+		//movement.ResetPosition();
 	}
 }

@@ -8,7 +8,7 @@ using System.Collections;
 public class Grindable : MonoBehaviour {
 	public GameObject Exit;
 	public GameObject Entry;
-	private DetectState detecState;
+	private DetectState detectState;
 	private bool active;
 	private GameObject player;
 
@@ -23,12 +23,11 @@ public class Grindable : MonoBehaviour {
 	{
 		if(active)
 		{
-			if(detecState.m_getRailPermission && RailCounter.getNum() > 0)
+			if(detectState.m_getRailPermission && RailCounter.getNum() > 0)
 			{
-				detecState.m_getRayCastState = false;
-				detecState.changeKeyState("Rail");
-				detecState.m_getRailPermission = false;
-				
+				detectState.m_getRayCastState = false;
+				detectState.changeKeyState("Rail");
+				detectState.m_getRailPermission = false;
 			}
 		}
 	}
@@ -38,14 +37,25 @@ public class Grindable : MonoBehaviour {
 		player = col.gameObject;
 		active = true;
 		RailCounter.incNum();
-		detecState = col.gameObject.GetComponent<DetectState> ();
+
+		detectState = col.gameObject.GetComponent<DetectState> ();
 		if(Vector3.Angle(transform.forward, player.transform.right) <90)
 		{
-			detecState.updateKeyState ("Rail").setVector = Exit.transform.position - player.transform.position;
+			detectState.updateKeyState ("Rail").setVector = Exit.transform.position - player.transform.position;
 		}
 		else
 		{
-			detecState.updateKeyState ("Rail").setVector = Entry.transform.position - player.transform.position;
+			detectState.updateKeyState ("Rail").setVector = Entry.transform.position - player.transform.position;
+		}
+		if(active)
+		{
+			if(detectState.m_getRailPermission && RailCounter.getNum() > 0)
+			{
+				detectState.m_getRayCastState = false;
+				detectState.changeKeyState("Rail");
+				detectState.m_getRailPermission = false;
+				
+			}
 		}
 	}
 
