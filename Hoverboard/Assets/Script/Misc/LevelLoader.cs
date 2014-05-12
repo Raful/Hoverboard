@@ -15,34 +15,55 @@ public class LevelLoader : MonoBehaviour
     Texture texture=null;
     [SerializeField]
     string text="";
+	AsyncOperation operation;
 
-    public void LoadLevel(string levelName)
+	public IEnumerator LoadLevel(string levelName)
     {
+		Debug.Log("Foo");
+
         ShowLoadingScreen();
 
         //Load new scene
         if (Application.HasProLicense())
         {
-            Application.LoadLevelAsync(levelName);
+			operation = Application.LoadLevelAsync(levelName);
+
+			while (!operation.isDone)
+			{
+				print(operation.progress);
+				yield return operation;
+			}
         }
         else
         {
             Application.LoadLevel(levelName);
+			yield return 0;
         }
+
+		//yield return 0;
     }
 
-    public void LoadLevel(int level)
+	public IEnumerator LoadLevel(int level)
     {
+		Debug.Log("Foo");
+
         ShowLoadingScreen();
 
         //Load new scene
         if (Application.HasProLicense())
         {
-            Application.LoadLevelAsync(level);
+			AsyncOperation operation = Application.LoadLevelAsync(level);
+
+			while (!operation.isDone)
+			{
+				print(operation.progress);
+				yield return 0;
+			}
         }
         else
         {
             Application.LoadLevel(level);
+			yield return 0;
         }
     }
 

@@ -41,8 +41,8 @@ public class MoveKeyState : KeyState
 
 
 
-		movement.forwardSpeed += movement.m_ForwardAcc * Input.GetAxisRaw("Triggers");
-		movement.backwardSpeed += movement.m_ForwardAcc * Input.GetAxisRaw("Triggers");
+		//movement.forwardSpeed += movement.m_ForwardAcc * Input.GetAxisRaw("Triggers");
+		//movement.backwardSpeed += movement.m_ForwardAcc * Input.GetAxisRaw("Triggers");
 		lerpToNewDirection ();
 		
 
@@ -56,7 +56,7 @@ public class MoveKeyState : KeyState
 		{
 			movement.Direction = movement.transform.forward;
 		}
-		/*
+
 
 		movement.Direction = movement.transform.forward;
 
@@ -75,11 +75,11 @@ public class MoveKeyState : KeyState
 		{
 			movement.forwardSpeed -= movement.m_BackwardAcc;
 			movement.backwardSpeed -= movement.m_BackwardAcc;
-		}*/
+		}
 		
-		movement.rotateBoardInY(Input.GetAxisRaw("RightHorizontal"));
+
 		
-		/*if(Input.GetKey(KeyCode.A))
+		if(Input.GetKey(KeyCode.A))
 		{
 			movement.rotateBoardInY(-1);
 		}
@@ -87,13 +87,12 @@ public class MoveKeyState : KeyState
 		if(Input.GetKey(KeyCode.D))
 		{
 			movement.rotateBoardInY(1);
-		}*/
+		}
 
 
-		if (Input.GetKey(KeyCode.J)) 
-		movement.Strafe(new Vector3 (Input.GetAxisRaw("LeftHorizontal"), 0, 0));
+
 		
-		/*if (Input.GetKey (KeyCode.J)) 
+		if (Input.GetKey (KeyCode.J)) 
 
 		{
 			
@@ -103,7 +102,7 @@ public class MoveKeyState : KeyState
 		if (Input.GetKey(KeyCode.L)) 
 		{
 			movement.Strafe(Vector3.right);
-		}*/
+		}
 	}
 
 	public override void end()

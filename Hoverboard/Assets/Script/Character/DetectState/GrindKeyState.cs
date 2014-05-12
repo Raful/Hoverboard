@@ -3,7 +3,14 @@ using System.Collections;
 
 public class GrindKeyState : KeyState
 {
+
+	private float constantRotationSpeed = 1f;			//Rotation speed that will be applied every frame
+	private const float rotationZSpeed = 1.5f;			//Players rotation speed on the z-axis
+	private const float rotationYSpeed = 1f;			//Players rotation speed on the y-axis
+	private const float pushOfStrength = 1f;			//How far the player will be pushed of the grind
+
 	private Movement movement;
+
 
 	private float forwardAcc;
 	private float backWardAcc;
@@ -14,8 +21,9 @@ public class GrindKeyState : KeyState
 	private InputVCR vcr;
 
 
-	private float constantRotationSpeed;
-	private float pushOfStrength = 1f, rotationZSpeed = 1.5f, rotationYSpeed = 1f;
+
+
+
 	private bool firstRotationOnGoing = true;
 
 
@@ -31,6 +39,7 @@ public class GrindKeyState : KeyState
 	private float AngleAmount = 89;								//Used to calculate the angel for the hoverboard to fall of with
 
 	private const float zero = 0, circel = 360, halfCircel = 180;//Constant variabels that are used to calc the angle for the fall of
+
 	DetectState detectState;
 
 
@@ -54,14 +63,9 @@ public class GrindKeyState : KeyState
 
 		if(RailCounter.getNum() < 2)
 		{
-			constantRotationSpeed = Random.value;
-			if(constantRotationSpeed < 0.5)
+			if(Random.value < 0.5)
 			{
-				constantRotationSpeed = -1;
-			}
-			else
-			{
-				constantRotationSpeed = 1;
+				constantRotationSpeed = constantRotationSpeed * -1;
 			}
 		}
 	}
@@ -74,14 +78,11 @@ public class GrindKeyState : KeyState
 		movement.Direction = m_keyVector;
 		constantRotation();
 
-		
 		//movement.rotateBoardInZ(-Input.GetAxisRaw("LeftHorizontal"));
 		//
 		//movement.rotateBoardInWorldY(Input.GetAxisRaw("RightHorizontal"));
 		
-
 		whenToFall();
-
 
 
 		if(Input.GetKey(KeyCode.W))
@@ -126,14 +127,7 @@ public class GrindKeyState : KeyState
 		}
 		else if(movement.transform.eulerAngles.z < circel && movement.transform.eulerAngles.z > (circel - AngleAmount))
 		{
-			if(constantRotationSpeed < zero)
-			{
-				movement.rotateBoardInZ(constantRotationSpeed);
-			}
-			else
-			{
-				movement.rotateBoardInZ(constantRotationSpeed * -1);
-			}
+			movement.rotateBoardInZ(constantRotationSpeed);
 		}
 	}
 

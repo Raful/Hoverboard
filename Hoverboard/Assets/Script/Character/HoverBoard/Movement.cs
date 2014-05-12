@@ -42,7 +42,7 @@ public class Movement : MonoBehaviour {
 	public float m_PotentialFriction;	// Friction loss on going downhill/uphill, separated from normal Friction.
 	
 	private Vector3 direction;		// Direction of the hoverboard
-	private Vector3 velocity;		// The vector whichs updates new positions
+	public Vector3 velocity;		// The vector whichs updates new positions
 	private Vector3 lastPosition;	// contains a position 1 second ago
 	private float lastTime;			// Used to save position every second
 	
@@ -203,7 +203,7 @@ public class Movement : MonoBehaviour {
 	public void ResetPosition()
 	{
 		//transform.GetComponent<FMOD_EngineEmitter>().;
-		FMOD_StudioSystem.instance.PlayOneShot("event:/Impact/impact1",transform.position);
+	//	FMOD_StudioSystem.instance.PlayOneShot("event:/Impact/impact1",transform.position); TA TILLBAKA DENNA NÄR DU MERGEAR
 		transform.position = transform.position - velocity.normalized;
 		forwardSpeed = 0;
 		backwardSpeed = 0;
@@ -269,4 +269,6 @@ public class Movement : MonoBehaviour {
 		currentState.changeKeyState(state);
 	}
 
+
 }
+
