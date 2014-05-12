@@ -16,17 +16,18 @@ public class LevelLoader : MonoBehaviour
     [SerializeField]
     string text="";
 	AsyncOperation operation;
+	GUIText newGuiText;
 
 	public void LoadLevel(string levelName)
     {
-		Debug.Log("Foo");
-
         ShowLoadingScreen();
 
         //Load new scene
         if (Application.HasProLicense())
         {
-            StartCoroutine(LoadLevelAsync(levelName));
+			operation = Application.LoadLevelAsync(levelName);
+			
+			StartCoroutine(SetProgressText());
         }
         else
         {
@@ -34,40 +35,33 @@ public class LevelLoader : MonoBehaviour
         }
     }
 
-    IEnumerator LoadLevelAsync(string levelName)
+	public void LoadLevel(int level)
     {
-        operation = Application.LoadLevelAsync(levelName);
-
-        while (!operation.isDone)
-        {
-            print(operation.progress);
-            yield return operation;
-        }
+		ShowLoadingScreen();
+		
+		//Load new scene
+		if (Application.HasProLicense())
+		{
+			operation = Application.LoadLevelAsync(level);
+			
+			StartCoroutine(SetProgressText());
+		}
+		else
+		{
+			Application.LoadLevel(level);
+		}
     }
 
-	public IEnumerator LoadLevel(int level)
-    {
-		Debug.Log("Foo");
-
-        ShowLoadingScreen();
-
-        //Load new scene
-        if (Application.HasProLicense())
-        {
-			AsyncOperation operation = Application.LoadLevelAsync(level);
-
-			while (!operation.isDone)
-			{
-				print(operation.progress);
-				yield return 0;
-			}
-        }
-        else
-        {
-            Application.LoadLevel(level);
-			yield return 0;
-        }
-    }
+	
+	IEnumerator SetProgressText()
+	{
+		while (!operation.isDone)
+		{
+			newGuiText.text = text + (int)(operation.progress * 100) + "%";
+			
+			yield return(0);
+		}
+	}
 
     void ShowLoadingScreen()
     {
@@ -78,7 +72,7 @@ public class LevelLoader : MonoBehaviour
         //Create a gui text (if a text is specified)
         if (text != "")
         {
-            GUIText newGuiText = newObject.AddComponent<GUIText>();
+            newGuiText = newObject.AddComponent<GUIText>();
             newGuiText.text = text;
             newGuiText.anchor = TextAnchor.MiddleCenter;
         }
@@ -89,7 +83,5 @@ public class LevelLoader : MonoBehaviour
             GUITexture newGuiTexture = newObject.AddComponent<GUITexture>();
             newGuiTexture.texture = texture;
         }
-
-        
     }
 }
