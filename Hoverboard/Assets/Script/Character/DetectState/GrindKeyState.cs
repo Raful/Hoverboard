@@ -59,15 +59,6 @@ public class GrindKeyState : KeyState
 		{
 			movement.rotateBoardInZ(-rotationZSpeed);
 		}
-		if(Input.GetKey(KeyCode.W))
-		{
-			movement.rotateBoardInWorldY(-rotationYSpeed);
-		}
-		if(Input.GetKey(KeyCode.S))
-		{
-			movement.rotateBoardInWorldY(rotationYSpeed);
-		}
-
 	}
 	
 	public override void end()

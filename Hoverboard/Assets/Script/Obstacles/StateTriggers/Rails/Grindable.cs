@@ -72,6 +72,7 @@ public class Grindable : MonoBehaviour {
 		{
 			if(detectState.m_getRailPermission && RailCounter.getNum() > 0)
 			{	
+				//col.transform.position = transform.position+transform.right*transform.localScale.x;
 				if(RailCounter.getRailbool())
 					col.transform.LookAt(transform.right+ col.transform.position);
 				else
