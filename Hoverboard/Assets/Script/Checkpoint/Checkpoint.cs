@@ -4,6 +4,7 @@
  * 
  * Description:
  * Looks for checkpoints (object with the tag "Checkpoint"), to spawn at when the player dies
+ * Put this script on the player object
  */
 
 using UnityEngine;
@@ -11,7 +12,7 @@ using System.Collections;
 
 public class Checkpoint : MonoBehaviour {
 
-    float timeSeconds; 
+    float timeSeconds;
     Vector3 position;
     Quaternion rotation;
 
@@ -25,7 +26,7 @@ public class Checkpoint : MonoBehaviour {
 
 	void Start () 
     {
-        timeSeconds = 0;
+        timeSeconds = timerScript.m_raceTime;
         position = transform.position;
         rotation = transform.rotation;
 
@@ -34,15 +35,17 @@ public class Checkpoint : MonoBehaviour {
 
     public void SpawnAtCheckpoint()
     {
+        //Reset speed
+        movementScript.ResetSpeed();
+
+        //Reset transform
         transform.position = position;
         transform.rotation = rotation;
 
-        //Set speed to 0
+        //Reset timer
         timerScript.SetRaceTimer(timeSeconds);
-         
-        //Reset speed
-        movementScript.ResetPosition();
-
+        Debug.Log("Time: " + timerScript.m_raceTime);
+        
         //Reset achievements' temporary progress
         achievementScript.LoadProgressFromFile();
     }

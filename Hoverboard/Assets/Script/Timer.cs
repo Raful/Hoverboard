@@ -38,7 +38,15 @@ public class Timer : MonoBehaviour {
     //Sets the raceTimer to a specific time
     public void SetRaceTimer(float time)
     {
-        leaveTime = Time.time - time;
+        if (time != 0)
+        {
+            leaveTime = Time.time - time;
+        }
+        else
+        {
+            leaveTime = 0;
+            noResetTimer = 0;
+        }
     }
 
 	void SetRaceTimer()
