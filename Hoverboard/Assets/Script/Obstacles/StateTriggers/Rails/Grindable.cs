@@ -6,12 +6,11 @@ using System.Collections;
  */
 
 public class Grindable : MonoBehaviour {
-	public GameObject Exit;
-	public GameObject Entry;
+
 	private DetectState detectState;
 	private bool active;
 	private GameObject player;
-
+	private Vector3 push;
 	// Use this for initialization
 	void Start () 
 	{
@@ -21,10 +20,12 @@ public class Grindable : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
+
 		if(active)
 		{
 			if(detectState.m_getRailPermission && RailCounter.getNum() > 0)
 			{
+
 				detectState.m_getRayCastState = false;
 				detectState.changeKeyState("Rail");
 				detectState.m_getRailPermission = false;
@@ -34,19 +35,38 @@ public class Grindable : MonoBehaviour {
 
 	void OnTriggerEnter(Collider col)
 	{
+	
 		player = col.gameObject;
 		active = true;
-		RailCounter.incNum();
 
+	
 		detectState = col.gameObject.GetComponent<DetectState> ();
-		if(Vector3.Angle(transform.forward, player.transform.right) <90)
+		if(RailCounter.getNum() == 0)
 		{
-			detectState.updateKeyState ("Rail").setVector = Exit.transform.position - player.transform.position;
+			if(Vector3.Angle(transform.forward, player.transform.right) <90)
+			{
+				RailCounter.railFalse();
+				detectState.updateKeyState ("Rail").setVector = -transform.right;
+			}
+			else
+			{
+				RailCounter.railTrue();
+				detectState.updateKeyState ("Rail").setVector = transform.right;
+			}
 		}
-		else
+		else 
 		{
-			detectState.updateKeyState ("Rail").setVector = Entry.transform.position - player.transform.position;
+			if(RailCounter.getRailbool())
+			{
+				detectState.updateKeyState ("Rail").setVector = transform.right;
+			}
+			else
+			{
+				detectState.updateKeyState ("Rail").setVector = -transform.right;
+			}
 		}
+
+		RailCounter.incNum();
 		if(active)
 		{
 			if(detectState.m_getRailPermission && RailCounter.getNum() > 0)
@@ -54,7 +74,6 @@ public class Grindable : MonoBehaviour {
 				detectState.m_getRayCastState = false;
 				detectState.changeKeyState("Rail");
 				detectState.m_getRailPermission = false;
-				
 			}
 		}
 	}

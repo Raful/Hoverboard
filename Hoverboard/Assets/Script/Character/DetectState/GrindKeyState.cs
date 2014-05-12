@@ -4,9 +4,9 @@ using System.Collections;
 public class GrindKeyState : KeyState
 {
 
-	private float constantRotationSpeed = 1f;			//Rotation speed that will be applied every frame
-	private const float rotationZSpeed = 1.5f;			//Players rotation speed on the z-axis
-	private const float rotationYSpeed = 1f;			//Players rotation speed on the y-axis
+	private float constantRotationSpeed = 0.1f;			//Rotation speed that will be applied every frame
+	private const float rotationZSpeed = 1f;			//Players rotation speed on the z-axis
+	private const float rotationYSpeed = 1.5f;			//Players rotation speed on the y-axis
 	private const float pushOfStrength = 1f;			//How far the player will be pushed of the grind
 
 	private Movement movement;
