@@ -31,7 +31,7 @@ public class ResetGame : MonoBehaviour {
 #if UNITY_EDITOR
     void RestartGame()
     {
-        gameObject.GetComponent<LevelLoader>().LoadLevel(Application.loadedLevel);
+        gameObject.GetComponent<LevelLoader>().LoadLevel(Application.loadedLevelName);
     }
 #endif
 }

@@ -60,6 +60,6 @@ public class Finish : MonoBehaviour {
 	}
 	void LoadNextLevel()
 	{
-		StartCoroutine(gameObject.GetComponent<LevelLoader>().LoadLevel(m_NextLevelToLoad));
+		gameObject.GetComponent<LevelLoader>().LoadLevel(m_NextLevelToLoad);
 	}
 }

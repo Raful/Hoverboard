@@ -17,7 +17,7 @@ public class LevelLoader : MonoBehaviour
     string text="";
 	AsyncOperation operation;
 
-	public IEnumerator LoadLevel(string levelName)
+	public void LoadLevel(string levelName)
     {
 		Debug.Log("Foo");
 
@@ -26,21 +26,23 @@ public class LevelLoader : MonoBehaviour
         //Load new scene
         if (Application.HasProLicense())
         {
-			operation = Application.LoadLevelAsync(levelName);
-
-			while (!operation.isDone)
-			{
-				print(operation.progress);
-				yield return operation;
-			}
+            StartCoroutine(LoadLevelAsync(levelName));
         }
         else
         {
             Application.LoadLevel(levelName);
-			yield return 0;
         }
+    }
 
-		//yield return 0;
+    IEnumerator LoadLevelAsync(string levelName)
+    {
+        operation = Application.LoadLevelAsync(levelName);
+
+        while (!operation.isDone)
+        {
+            print(operation.progress);
+            yield return operation;
+        }
     }
 
 	public IEnumerator LoadLevel(int level)
