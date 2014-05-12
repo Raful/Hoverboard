@@ -194,15 +194,22 @@ public class Movement : MonoBehaviour {
 		//transform.GetComponent<FMOD_EngineEmitter>().;
 		FMOD_StudioSystem.instance.PlayOneShot("event:/Impact/impact1",transform.position);
 		transform.position = transform.position - velocity.normalized;
-		forwardSpeed = 0;
-		backwardSpeed = 0;
-		bonusSpeed = 0;
-		boostSpeed = 0;
+
+        ResetSpeed();
+
 		transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
 		
 		
 		
 	}
+
+    public void ResetSpeed()
+    {
+        forwardSpeed = 0;
+        backwardSpeed = 0;
+        bonusSpeed = 0;
+        boostSpeed = 0;
+    }
 
 	// Adds speed depending on angle on the hoverboard
 	private void addPotentialSpeed()
