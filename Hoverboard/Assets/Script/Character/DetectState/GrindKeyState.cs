@@ -4,6 +4,7 @@ using System.Collections;
 public class GrindKeyState : KeyState
 {
 
+
 	private float constantRotationSpeed = 1f;			//Rotation speed that will be applied every frame
 	private const float rotationZSpeed = 1f;			//Players rotation speed on the z-axis
 	private const float rotationYSpeed = 1f;			//Players rotation speed on the y-axis
@@ -58,15 +59,6 @@ public class GrindKeyState : KeyState
 		{
 			movement.rotateBoardInZ(-rotationZSpeed);
 		}
-		if(Input.GetKey(KeyCode.W))
-		{
-			movement.rotateBoardInWorldY(-rotationYSpeed);
-		}
-		if(Input.GetKey(KeyCode.S))
-		{
-			movement.rotateBoardInWorldY(rotationYSpeed);
-		}
-
 	}
 	
 	public override void end()

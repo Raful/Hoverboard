@@ -6,12 +6,11 @@ using System.Collections;
  */
 
 public class Grindable : MonoBehaviour {
-	public GameObject Exit;
-	public GameObject Entry;
+
 	private DetectState detectState;
 	private bool active;
 	private GameObject player;
-
+	private Vector3 push;
 	// Use this for initialization
 	void Start () 
 	{
@@ -21,6 +20,7 @@ public class Grindable : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
+
 		if(active)
 		{
 			if(detectState.m_getRailPermission && RailCounter.getNum() > 0)
@@ -34,29 +34,52 @@ public class Grindable : MonoBehaviour {
 
 	void OnTriggerEnter(Collider col)
 	{
+	
 		player = col.gameObject;
 		active = true;
-		RailCounter.incNum();
+
 
 		detectState = col.gameObject.GetComponent<DetectState> ();
-		if(Vector3.Angle(transform.forward, player.transform.right) <90)
+		if(RailCounter.getNum() == 0)
 		{
-			detectState.updateKeyState ("Rail").setVector = Exit.transform.position - player.transform.position;
-			calc(Entry.transform.position,transform.position,col.transform.position);
+			if(Vector3.Angle(transform.forward, player.transform.right) <90)
+			{
+				RailCounter.railFalse();
+				detectState.updateKeyState ("Rail").setVector = -transform.right;
+			}
+			else
+			{
+				RailCounter.railTrue();
+				detectState.updateKeyState ("Rail").setVector = transform.right;
+			}
 		}
-		else
+		else 
 		{
-			detectState.updateKeyState ("Rail").setVector = Entry.transform.position - player.transform.position;
-			calc(Exit.transform.position,transform.position,col.transform.position);
+			if(RailCounter.getRailbool())
+			{
+				col.transform.LookAt(transform.right+ col.transform.position);
+				detectState.updateKeyState ("Rail").setVector = transform.right;
+			}
+			else
+			{
+				col.transform.LookAt(-transform.right+ col.transform.position);
+				detectState.updateKeyState ("Rail").setVector = -transform.right;
+			}
 		}
+
+		RailCounter.incNum();
 		if(active)
 		{
 			if(detectState.m_getRailPermission && RailCounter.getNum() > 0)
-			{
+			{	
+				//col.transform.position = transform.position+transform.right*transform.localScale.x;
+				if(RailCounter.getRailbool())
+					col.transform.LookAt(transform.right+ col.transform.position);
+				else
+					col.transform.LookAt(-transform.right+ col.transform.position);
 				detectState.m_getRayCastState = false;
 				detectState.changeKeyState("Rail");
 				detectState.m_getRailPermission = false;
-				
 			}
 		}
 	}
@@ -71,9 +94,4 @@ public class Grindable : MonoBehaviour {
 		}
 	}
 
-	float calc(Vector3 firstPoint, Vector3 secondPoint, Vector3 col)
-	{
-		Debug.Log(Mathf.Rad2Deg * Mathf.Acos(((firstPoint-secondPoint).magnitude/2)/(firstPoint - col).magnitude));
-		return Mathf.Rad2Deg * Mathf.Acos(((firstPoint-secondPoint).magnitude/2)/(firstPoint - col).magnitude);
-	}
 }
