@@ -6,9 +6,9 @@ public class Jump : MonoBehaviour {
 	public float m_MaxJumpPower, m_JumpAccelration, m_MinJumpPower;
 	public Movement privateMovement;
 	public bool m_ControllerYes = false;
+
 	private float jumpPower, chargePower;
 	private Vector3 speed;
-
 	
 	private float stickDeltaOne;
 	private float stickDeltaTwo;
@@ -23,8 +23,7 @@ public class Jump : MonoBehaviour {
 	}
 	
 	// Use this for initialization
-	void Start () {
-	}
+	void Start () {}
 
 	/*
 	 * 
@@ -67,7 +66,6 @@ public class Jump : MonoBehaviour {
 				jumpPower = chargePower;
 				chargePower = 0;
 			}
-
 		}
 
 		if (Input.GetKey (KeyCode.Space) && privateMovement.isGrounded)
@@ -89,7 +87,8 @@ public class Jump : MonoBehaviour {
 			jumpPower = chargePower;
 			chargePower = 0;
 		}
-		
-		privateMovement.jumpVelocity += jumpPower;
+		Debug.Log (transform.eulerAngles);
+
+			privateMovement.jumpVelocity += jumpPower;
 	}
 }

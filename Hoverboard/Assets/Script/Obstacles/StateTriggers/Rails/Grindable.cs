@@ -56,6 +56,7 @@ public class Grindable : MonoBehaviour {
 		}
 		else 
 		{
+
 			if(RailCounter.getRailbool())
 			{
 				detectState.updateKeyState ("Rail").setVector = transform.right;
@@ -87,4 +88,5 @@ public class Grindable : MonoBehaviour {
 			col.gameObject.GetComponent<DetectState>().m_getRayCastState = true;
 		}
 	}
+
 }
