@@ -16,56 +16,52 @@ public class LevelLoader : MonoBehaviour
     [SerializeField]
     string text="";
 	AsyncOperation operation;
+	GUIText newGuiText;
 
-	public IEnumerator LoadLevel(string levelName)
+	public void LoadLevel(string levelName)
     {
-		Debug.Log("Foo");
-
         ShowLoadingScreen();
 
         //Load new scene
         if (Application.HasProLicense())
         {
 			operation = Application.LoadLevelAsync(levelName);
-
-			while (!operation.isDone)
-			{
-				print(operation.progress);
-				yield return operation;
-			}
+			
+			StartCoroutine(SetProgressText());
         }
         else
         {
             Application.LoadLevel(levelName);
-			yield return 0;
         }
-
-		//yield return 0;
     }
 
-	public IEnumerator LoadLevel(int level)
+	public void LoadLevel(int level)
     {
-		Debug.Log("Foo");
-
-        ShowLoadingScreen();
-
-        //Load new scene
-        if (Application.HasProLicense())
-        {
-			AsyncOperation operation = Application.LoadLevelAsync(level);
-
-			while (!operation.isDone)
-			{
-				print(operation.progress);
-				yield return 0;
-			}
-        }
-        else
-        {
-            Application.LoadLevel(level);
-			yield return 0;
-        }
+		ShowLoadingScreen();
+		
+		//Load new scene
+		if (Application.HasProLicense())
+		{
+			operation = Application.LoadLevelAsync(level);
+			
+			StartCoroutine(SetProgressText());
+		}
+		else
+		{
+			Application.LoadLevel(level);
+		}
     }
+
+	
+	IEnumerator SetProgressText()
+	{
+		while (!operation.isDone)
+		{
+			newGuiText.text = text + (int)(operation.progress * 100) + "%";
+			
+			yield return(0);
+		}
+	}
 
     void ShowLoadingScreen()
     {
@@ -73,14 +69,16 @@ public class LevelLoader : MonoBehaviour
         GameObject newObject = Instantiate(new GameObject()) as GameObject;
         newObject.transform.position = new Vector3(0.5f, 0.5f, 0); //This is to place the gui elements in the center of the screen
 
-        //Create the gui components
-        GUIText newGuiText = newObject.AddComponent<GUIText>();
-        GUITexture newGuiTexture = newObject.AddComponent<GUITexture>();
-
-        //Set the texture
-        newGuiTexture.texture = texture;
-        //Set the text
+        //Create a gui text (if a text is specified)
+        newGuiText = newObject.AddComponent<GUIText>();
         newGuiText.text = text;
         newGuiText.anchor = TextAnchor.MiddleCenter;
+
+        //Create a gui texture
+        if (texture != null)
+        {
+            GUITexture newGuiTexture = newObject.AddComponent<GUITexture>();
+            newGuiTexture.texture = texture;
+        }
     }
 }
