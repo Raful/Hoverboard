@@ -33,21 +33,18 @@ public class TrailRendScript : MonoBehaviour {
 				m_RenderReference.time = m_MaxDisplayTime;
 			}
 		}
-		//When player is slowing down shorten tail, and when less
-		//then 0 set it to orignal length(time) and stop displaying
-		else if(m_MovementReference.forwardSpeed < m_ShowRayThreshold)
+		else if(m_MovementReference.forwardSpeed < m_ShowRayThreshold) //When player is slowing down shorten tail, and when less then 0 set it to orignal length(time) and stop displaying
 		{
+			m_RenderReference.time -= m_DecreaseRate;
+
 			if (m_RenderReference.time < 0)
 			{
 				m_RenderReference.time = 0;
 			}
-			else if(m_MovementReference.getSpeed > 0f)
-			{
-				m_RenderReference.time -= m_DecreaseRate;
-			}
+
 		}
 		//Going backward stop displaying tail.
-		else
+		else if(m_MovementReference.backwardSpeed > 0f)
 		{
 			m_RenderReference.time = 0;
 		}

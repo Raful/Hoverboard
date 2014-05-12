@@ -89,7 +89,8 @@ public class GrindKeyState : KeyState
 		{
 			movement.miniGameCOnstantRotationSpeed(Mathf.Abs(constantRotationSpeed));
 		}
-		else if(movement.transform.eulerAngles.z < circel && movement.transform.eulerAngles.z > (circel - AngleAmount))
+		else if(movement.transform.eulerAngles.z < circel && movement.transform.eulerAngles.z > (circel - AngleAmount)
+		        || movement.transform.eulerAngles.z < zero)
 		{
 			if(constantRotationSpeed > 0)
 			{
