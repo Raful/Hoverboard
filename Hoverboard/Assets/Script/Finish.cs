@@ -15,6 +15,7 @@ public class Finish : MonoBehaviour {
 	public string m_NextLevelToLoad;
 	private int i;
 	private float entryTime, differens;
+	private GameObject levelLoader;
 	Medal medal;
 
     float finishTime=0.0f;
@@ -52,13 +53,13 @@ public class Finish : MonoBehaviour {
 			differens = Time.time - entryTime;
 		}
 		
-		if( differens > 2)
+		if( differens > 0.1)
 		{
 			LoadNextLevel();
 		}
 	}
 	void LoadNextLevel()
 	{
-			Application.LoadLevel(m_NextLevelToLoad);
+		gameObject.GetComponent<LevelLoader>().LoadLevel(m_NextLevelToLoad);
 	}
 }

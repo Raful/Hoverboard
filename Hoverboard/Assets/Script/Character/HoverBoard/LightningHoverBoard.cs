@@ -20,6 +20,7 @@ public class LightningHoverBoard : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
 		TimeSin = Mathf.Sin(Time.time*m_PulseSpeed);
 
 		zeroLightOnButton();

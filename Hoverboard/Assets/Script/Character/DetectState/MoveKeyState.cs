@@ -35,7 +35,7 @@ public class MoveKeyState : KeyState
 		
 		if (movement.Direction != movement.transform.forward)
 		{
-			Debug.Log("Same");
+			//Debug.Log("Same");
 			movement.Direction = Vector3.Slerp (movement.Direction, movement.transform.forward, Time.deltaTime * 5f);
 		}
 		else

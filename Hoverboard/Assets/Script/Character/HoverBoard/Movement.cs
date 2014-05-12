@@ -97,6 +97,16 @@ public class Movement : MonoBehaviour {
 	// Calculates the new angle and rotates accordingly
 	void LateUpdate()
 	{
+		if(!isGrounded && m_getVelocity.y > 0f)
+		{
+			jumpVelocity -= setGravity;
+		}
+		
+		if(!isGrounded && m_getVelocity.y < -0.1f)
+		{
+			jumpVelocity = 0;
+		}
+
 		if(currentState.m_getRayCastState)
 		{
 			RaycastHit hit;
@@ -174,7 +184,6 @@ public class Movement : MonoBehaviour {
 
 		velocity = direction.normalized *(forwardSpeed+backwardSpeed + boostSpeed+bonusSpeed) -Vector3.up*gravity + (jumpVelocity * Vector3.up.normalized);
 		transform.position += velocity*Time.fixedDeltaTime;
-
 	}
 
 	// Calls on collision, resets Speed, x-rotation and position
@@ -182,7 +191,7 @@ public class Movement : MonoBehaviour {
 	public void ResetPosition()
 	{
 		//transform.GetComponent<FMOD_EngineEmitter>().;
-		FMOD_StudioSystem.instance.PlayOneShot("event:/Impact/impact3",transform.position);
+		FMOD_StudioSystem.instance.PlayOneShot("event:/Impact/impact1",transform.position);
 		transform.position = transform.position - velocity.normalized;
 		forwardSpeed = 0;
 		backwardSpeed = 0;
