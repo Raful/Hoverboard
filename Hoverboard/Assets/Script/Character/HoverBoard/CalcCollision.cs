@@ -21,10 +21,22 @@ public class CalcCollision : MonoBehaviour {
 		direction = movement.m_getVelocity;
 		RaycastHit hit;
 
-        if (Physics.Raycast(transform.position, direction.normalized, out hit, 0.1f + direction.magnitude * Time.fixedDeltaTime + (transform.localScale.z / 2))) 
+        float hoverboardLengthFromOrigin = transform.localScale.z / 2;
+
+        if (Physics.Raycast(transform.position, direction.normalized, out hit, 0.1f + direction.magnitude * Time.fixedDeltaTime + hoverboardLengthFromOrigin)) 
 		{
 			//Debug.Log ("Ray Collides");
-			movement.ResetPosition(hit.point - (transform.forward * (transform.localScale.z / 2))); //Set the position to the ray's end point, minus half the length of the hoverboard
+            float speed = movement.forwardSpeed + movement.backwardSpeed;
+
+            if (speed > 0) //Check if going forward
+            {
+                movement.ResetPosition(hit.point - (transform.forward * hoverboardLengthFromOrigin)); //Set the position to the ray's end point, minus half the length of the hoverboard
+            }
+            else
+            {
+                Debug.Log("Foo");
+                movement.ResetPosition(hit.point + (transform.forward * hoverboardLengthFromOrigin)); //Set the position to the ray's end point, minus half the length of the hoverboard
+            }
 		}
 	}
 	void OnCollisionEnter(Collision col)

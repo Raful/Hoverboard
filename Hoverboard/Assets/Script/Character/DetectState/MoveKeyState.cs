@@ -17,7 +17,7 @@ public class MoveKeyState : KeyState
 
 		forwardAcc = movement.m_ForwardAcc;
 		backWardAcc = movement.m_BackwardAcc;
-		movement.hoverHeight = movement.hoverHeight;
+		//movement.hoverHeight = movement.hoverHeight;
 
 	}
 
