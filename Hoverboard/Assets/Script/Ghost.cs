@@ -24,6 +24,8 @@ public class Ghost : MonoBehaviour {
 	private float timeToLerp;
 	private float reduceLerpTime;
 
+	public bool canRecordThisHoverboard;
+
 
 	private string filepath;
 
@@ -32,11 +34,15 @@ public class Ghost : MonoBehaviour {
 	void Start () {
 		timeToChange = 0;
 		anglesMovingTo.Set (0, 0, 0, 0);
-		currentState = hoverboard.GetComponent<DetectState>();
-		movement = hoverboard.GetComponent<Movement>();
+		if(canRecordThisHoverboard)
+		{
+			currentState = hoverboard.GetComponent<DetectState>();
+			movement = hoverboard.GetComponent<Movement>();
+		}
+
 		filepath = Application.persistentDataPath + "/Ghost.txt";
-		timeToLerp = 1/m_howManyTimesPerSecond;
-		reduceLerpTime = timeToLerp / m_howManyTimesPerSecond;
+		timeToLerp = 1/(m_howManyTimesPerSecond);
+		reduceLerpTime = timeToLerp / (m_howManyTimesPerSecond);
 	}
 	
 	// Update is called once per frame
@@ -45,8 +51,8 @@ public class Ghost : MonoBehaviour {
 		if (!isRecording)
 		{
 			PlayBack();
-			hoverboard.transform.position = Vector3.Lerp (hoverboard.transform.position, positionMovingTo, timeToLerp);
-			hoverboard.transform.rotation = Quaternion.Lerp (hoverboard.transform.rotation, anglesMovingTo, timeToLerp);
+			hoverboard.transform.position = Vector3.Lerp (hoverboard.transform.position, positionMovingTo, (1/(m_howManyTimesPerSecond)));
+			hoverboard.transform.rotation = Quaternion.Lerp (hoverboard.transform.rotation, anglesMovingTo, (1/(m_howManyTimesPerSecond)));
 			if(timeToLerp > 0)
 				timeToLerp -= reduceLerpTime;
 			else
@@ -56,7 +62,7 @@ public class Ghost : MonoBehaviour {
 		}
 		else
 		{
-
+			if(canRecordThisHoverboard)
 			Recording();
 
 		}
@@ -67,7 +73,10 @@ public class Ghost : MonoBehaviour {
 	{
 		if(Time.time > timeToChange)
 		{
+			if(canRecordThisHoverboard)
+			{
 			stateList.Add(currentState.getKeyState);
+			}
 			positionList.Add(hoverboard.transform.position);
 			transformationList.Add(hoverboard.transform.rotation);
 			timeToChange = Time.time + 1f/m_howManyTimesPerSecond;
@@ -76,7 +85,10 @@ public class Ghost : MonoBehaviour {
 	}
 
 	void PlayBack()
-	{ 							
+	{ 					
+
+		Debug.Log (transform.position.ToString ());
+		Debug.Log (positionMovingTo.ToString ());
 		int readInfo = 0;
 		if(positionList.Count == 0)
 		{
@@ -167,15 +179,19 @@ public class Ghost : MonoBehaviour {
 
 				text.Close();
 				}
-				movement.ResetPosition();
-				movement.isRecording = false;
+				if(canRecordThisHoverboard)
+				{
+					movement.ResetPosition();
+					movement.isRecording = false;
+					currentState.changeKeyState(stateList[i]);
+				}
 
-				currentState.changeKeyState(stateList[i]);
+			
 				hoverboard.transform.position = positionMovingTo = positionList[i];
 				anglesMovingTo.Set(transformationList[i].x, transformationList[i].y, transformationList[i].z,transformationList[i].w);
 				transform.rotation.Set(anglesMovingTo.x,anglesMovingTo.y,anglesMovingTo.z,anglesMovingTo.w);
 
-				timeToLerp = 1/m_howManyTimesPerSecond;
+				timeToLerp = 1/(m_howManyTimesPerSecond );
 
 
 			}
@@ -183,17 +199,20 @@ public class Ghost : MonoBehaviour {
 
 				
 
-
-			if(i != 0 && Time.time > timeToChange)
+			float x = Mathf.Abs(positionMovingTo.x - hoverboard.transform.position.x);
+			float z = Mathf.Abs(positionMovingTo.z - hoverboard.transform.position.z);
+			if(i != 0 && Time.time > timeToChange  )
 			{
+				if(canRecordThisHoverboard)
+				{
 				if(currentState.getKeyState != stateList[i])
 					currentState.changeKeyState(stateList[i]);
-
+				}
 
 				positionMovingTo = positionList[i];
 				anglesMovingTo.Set(transformationList[i].x, transformationList[i].y, transformationList[i].z,transformationList[i].w);
 			
-				timeToLerp = 1/m_howManyTimesPerSecond;
+				timeToLerp = 1/(m_howManyTimesPerSecond);
 			}
 			i++;
 			timeToChange = Time.time + (1f/m_howManyTimesPerSecond);
@@ -202,15 +221,16 @@ public class Ghost : MonoBehaviour {
 		if(i == size && Time.time > timeToChange)
 		{
 			isRecording = true;
+			if(canRecordThisHoverboard)
+			{
 			hoverboard.GetComponent<Movement>().isRecording = true;
-
+			}
 		}
 	
 	}
 
 	int smallestSize(int a, int b, int c)
 	{
-		Debug.Log (a + ", " + b + ", " + c);
 		if (a <= b && a <= c)
 			return a;
 		if (b <= a && b <= c)
