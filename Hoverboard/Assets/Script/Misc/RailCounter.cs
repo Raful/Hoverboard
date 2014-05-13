@@ -4,6 +4,7 @@ using System.Collections;
 public class RailCounter {
 	private static int tal;
 	private static bool rail;
+	private static bool allowRail;
 
 	public static int getNum()
 	{
@@ -30,9 +31,25 @@ public class RailCounter {
 	{
 		rail = true;
 	}
+	public static void railSwap()
+	{
+		rail = !rail;
+	}
 	public static bool getRailbool()
 	{
 		return rail;
 	}
 
+	public static void allowRailFalse()
+	{
+		allowRail = false;
+	}
+	public static void allowRailTrue()
+	{
+		allowRail = true;
+	}
+	public static bool getallowRail()
+	{
+		return allowRail;
+	}
 }
