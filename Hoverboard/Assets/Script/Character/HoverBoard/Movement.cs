@@ -192,11 +192,11 @@ public class Movement : MonoBehaviour {
 	public void ResetPosition()
 	{
 		//transform.GetComponent<FMOD_EngineEmitter>().;
-		FMOD_StudioSystem.instance.PlayOneShot("event:/Impact/impact1",transform.position);
+
 		transform.position = transform.position - velocity.normalized;
 
         ResetSpeed();
-
+		//FMOD_StudioSystem.instance.PlayOneShot("event:/Impact/Impact1",transform.position);
 		transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
 		
 		
@@ -265,7 +265,7 @@ public class Movement : MonoBehaviour {
 	}
 	public void miniGameCOnstantRotationSpeed(float z)
 	{
-		transform.Rotate (0,0,z * m_MinigameRotSpeed);
+		transform.Rotate (0,0,z * (m_MinigameRotSpeed/velocity.magnitude));
 	}
 
 	// rotate a vector operation
