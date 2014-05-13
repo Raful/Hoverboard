@@ -92,7 +92,7 @@ public class CameraMec : MonoBehaviour {
 
 		if (movement.speedForCamera < -0.01f || movement.speedForCamera > 0.01f )
 		{
-			distanceZ = m_DefaultDistanceZ + (movement.speedForCamera/10);
+			distanceZ = m_DefaultDistanceZ + (movement.speedForCamera/20);
 
 		}
 		else
