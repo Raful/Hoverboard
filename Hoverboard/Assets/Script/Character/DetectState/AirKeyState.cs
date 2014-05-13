@@ -25,7 +25,7 @@ public class AirKeyState : KeyState
 		if(Time.time > timeIni+0.3f)
 		{
 			
-			movement.Strafe(new Vector3 (Input.GetAxisRaw("LeftHorizontal")/2, 0, 0));
+			movement.Strafe(Input.GetAxisRaw("LeftHorizontal")/2);
 			
 			//movement.Direction = RotateY(movement.Direction, Input.GetAxisRaw("RightHorizontal")/10);
 			movement.rotateBoardInY(Input.GetAxisRaw("RightHorizontal"));

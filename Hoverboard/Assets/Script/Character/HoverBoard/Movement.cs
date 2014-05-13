@@ -23,7 +23,8 @@ public class Movement : MonoBehaviour {
 	public float hoverHeight;		// HoverHeight of the hoverboard	
 	public Vector3 m_RotationSpeed;	// Amount of rotation applied 
 	public float m_MinigameRotSpeed; //  Constant rotation speed for the grind minigame
-	public float m_StrafeSpeed;		// Amount of speed applied to the strafe action
+    [SerializeField]
+	private float strafeModifier;		// Amount of speed applied to the strafe action
 
 	public float m_Gravity; 		// Gravity acceleration, added each frame when not grounded.
 	public float m_Friction;		// SpeedLoss, every frame.
@@ -51,6 +52,12 @@ public class Movement : MonoBehaviour {
 	private float potentialDecelerate;		// slows down the acceleration depending on uphill/downhill
 
 	private DetectState currentState;
+
+    private float strafeSpeed;
+    public float m_strafeSpeed
+    {
+        get { return strafeSpeed; }
+    }
 
 	[HideInInspector]
 	public bool isGrounded;			// true if the raycast hits something, false otherwise
@@ -184,7 +191,7 @@ public class Movement : MonoBehaviour {
 		}
 		#endif
 
-		velocity = direction.normalized *(forwardSpeed+backwardSpeed + boostSpeed+bonusSpeed) -Vector3.up*gravity + (jumpVelocity * Vector3.up.normalized);
+		velocity = direction.normalized *(forwardSpeed+backwardSpeed + boostSpeed+bonusSpeed) + Vector3.Cross(direction, Vector3.up).normalized * (-strafeSpeed) -Vector3.up*gravity + (jumpVelocity * Vector3.up.normalized);
 		transform.position += velocity*Time.fixedDeltaTime;
 	}
 
@@ -199,9 +206,6 @@ public class Movement : MonoBehaviour {
         ResetSpeed();
 
 		transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
-		
-		
-		
 	}
 
     public void ResetSpeed()
@@ -210,6 +214,7 @@ public class Movement : MonoBehaviour {
         backwardSpeed = 0;
         bonusSpeed = 0;
         boostSpeed = 0;
+        strafeSpeed = 0;
     }
 
 	// Adds speed depending on angle on the hoverboard
@@ -256,9 +261,11 @@ public class Movement : MonoBehaviour {
 		velocity = Velocity;
 	}
 
-	public void Strafe(Vector3 dir)
+	public void Strafe(float dir)
 	{
-		transform.Translate (dir*Time.deltaTime*m_StrafeSpeed);
+
+        strafeSpeed = dir * strafeModifier;// *Time.deltaTime;
+        //transform.Translate(Vector3.right * strafeSpeed);
 	}
 	public void changeState(string state)
 	{
