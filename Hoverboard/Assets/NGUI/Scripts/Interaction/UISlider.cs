@@ -235,7 +235,6 @@ public class UISlider : IgnoreTimeScale
 
 		// Update the slider
 		Set((direction == Direction.Horizontal) ? dir.x / mSize.x : dir.y / mSize.y, false);
-
 	}
 
 	/// <summary>
@@ -251,7 +250,6 @@ public class UISlider : IgnoreTimeScale
 		if (val < 0.001f) val = 0f;
 
 		float prevStep = sliderValue;
-
 
 		// Save the raw value
 		rawValue = val;
