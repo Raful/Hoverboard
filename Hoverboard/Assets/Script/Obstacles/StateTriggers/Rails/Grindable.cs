@@ -11,6 +11,8 @@ public class Grindable : MonoBehaviour {
 	private bool active;
 	private GameObject player;
 	private Vector3 push;
+	private float pushLength;
+	private float pullLength;
 	// Use this for initialization
 	void Start () 
 	{
@@ -38,13 +40,13 @@ public class Grindable : MonoBehaviour {
 		player = col.gameObject;
 		active = true;
 
-
 		detectState = col.gameObject.GetComponent<DetectState> ();
 		if(RailCounter.getNum() == 0)
 		{
 			if(Vector3.Angle(transform.forward, player.transform.right) <90)
 			{
 				RailCounter.railFalse();
+
 				detectState.updateKeyState ("Rail").setVector = -transform.right;
 			}
 			else
@@ -57,11 +59,14 @@ public class Grindable : MonoBehaviour {
 		{
 			if(RailCounter.getRailbool())
 			{
+				//col.transform.position = transform.position + transform.right * (transform.localScale.x/2);
 				col.transform.LookAt(transform.right+ col.transform.position);
 				detectState.updateKeyState ("Rail").setVector = transform.right;
 			}
 			else
 			{
+				//col.transform.position = transform.position + transform.right * transform.localScale.z;
+				col.transform.position = transform.position ;
 				col.transform.LookAt(-transform.right+ col.transform.position);
 				detectState.updateKeyState ("Rail").setVector = -transform.right;
 			}
@@ -72,11 +77,14 @@ public class Grindable : MonoBehaviour {
 		{
 			if(detectState.m_getRailPermission && RailCounter.getNum() > 0)
 			{	
-				//col.transform.position = transform.position+transform.right*transform.localScale.x;
 				if(RailCounter.getRailbool())
 					col.transform.LookAt(transform.right+ col.transform.position);
 				else
 					col.transform.LookAt(-transform.right+ col.transform.position);
+
+				col.transform.position = pushpullSomething1(col.transform.position);
+				Debug.Log("PushLenght: " + pushLength + " pulllenght: " + pullLength);
+				
 				detectState.m_getRayCastState = false;
 				detectState.changeKeyState("Rail");
 				detectState.m_getRailPermission = false;
@@ -92,6 +100,26 @@ public class Grindable : MonoBehaviour {
 		{
 			col.gameObject.GetComponent<DetectState>().m_getRayCastState = true;
 		}
+	}
+	Vector3 pushpullSomething1(Vector3 player)
+	{
+		push = player - transform.position;
+		push.y = 0;
+		pushLength = push.magnitude;
+		push = (transform.position+transform.right*(-transform.localScale.x/2)) - transform.position;
+		pullLength = push.magnitude;
+		player = transform.position + transform.right*(float)((-0.5*transform.localScale.x)+(transform.localScale.x*(pushLength/pullLength)));
+		return player;
+	}
+	Vector3 pushpullSomething2(Vector3 player)
+	{
+		push = transform.position - player;
+		push.y = 0;
+		pushLength = push.magnitude;
+		push = (transform.position+transform.right*(-transform.localScale.x/2)) - transform.position;
+		pullLength = push.magnitude;
+		player = transform.position + transform.right*(float)((-0.5*transform.localScale.x)+(transform.localScale.x*(pushLength/pullLength)));
+		return player;
 	}
 
 }
