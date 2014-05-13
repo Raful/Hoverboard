@@ -3,7 +3,7 @@
  * Modified by: 
  * 
  * Description:
- * 
+ * Activates/deactivates the objects added to the list objectsToTrigger, when the player collides with this object
  */
 
 using UnityEngine;
@@ -21,11 +21,8 @@ public class TriggerCollider : MonoBehaviour {
     bool hasTrigged;
 #endif
 
-	void Start () {
-	}
-	
-	void Update () {
 #if UNITY_EDITOR
+    void Update () {
         //Simulate that the player collided with this
         if (simulateTriggerCollision)
         {
@@ -45,17 +42,23 @@ public class TriggerCollider : MonoBehaviour {
                 DeactivateObjects();
             }
         }
-#endif
 	}
+#endif
 
     void OnTriggerEnter(Collider col)
     {
-        ActivateObjects();
+        if (col.tag == "Player")
+        {
+            ActivateObjects();
+        }
     }
 
     void OnTriggerExit(Collider col)
     {
-        DeactivateObjects();
+        if (col.tag == "Player")
+        {
+            DeactivateObjects();
+        }
     }
 
     void ActivateObjects()

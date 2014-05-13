@@ -12,8 +12,8 @@ using System.Collections.Generic;
 using System.IO;
 
 public class HighScore : MonoBehaviour {
-
-    const int HIGHSCORESIZE = 10;
+    [SerializeField]
+    int maxScoreCount = 10;
 
     string userName="Platform not defined";
 
@@ -29,7 +29,7 @@ public class HighScore : MonoBehaviour {
     Finish finishScript;
 
     string filePath;
-
+    
 	void Start ()
     {
 #if UNITY_STANDALONE
@@ -41,8 +41,7 @@ public class HighScore : MonoBehaviour {
         highScoreList=new List<KeyPair>();
         finishScript = GameObject.Find("Finish").GetComponent<Finish>();
 
-        filePath = Application.persistentDataPath + "/HighScore/" + Application.loadedLevelName + ".txt";
-
+        filePath = Application.persistentDataPath + "/" + Application.loadedLevelName + ".txt";
         if (File.Exists(filePath))
         {
             StreamReader file = new StreamReader(filePath);
@@ -51,6 +50,7 @@ public class HighScore : MonoBehaviour {
             {
                 highScoreList.Add(new KeyPair(row.Split(":".ToCharArray())[0], row.Split(":".ToCharArray())[1], true));
             }
+            file.Close();
         }
     }
 	
@@ -83,7 +83,7 @@ public class HighScore : MonoBehaviour {
         }
 
         //Make sure highScoreList doesn't have too many elements
-        if (highScoreList.Count > HIGHSCORESIZE)
+        if (highScoreList.Count > maxScoreCount)
         {
             //Remove the last element
             highScoreList.RemoveAt(highScoreList.Count - 1);

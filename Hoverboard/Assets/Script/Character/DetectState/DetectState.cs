@@ -19,10 +19,22 @@ using System.Collections.Generic;
 public class DetectState : MonoBehaviour {
 
     private string state = "Default"; //What state the player is in (grinding etc)
-    public string m_state
-    {
-        get { return state; }
-    }
+	private KeyState currentState;
+	private bool rayCastState = true;
+	private bool railKeyPressed;
+	private float keyIsPressed;
+
+	public bool m_getRailPermission
+	{
+		get{return railKeyPressed;}
+		set{railKeyPressed = value;}
+	}
+	public bool m_getRayCastState
+	{
+		get { return rayCastState; }
+		set { rayCastState = value;}
+	}
+
 	//public KeyState key = new MoveKeyState (gameObject.GetComponent<Movement>);
 
 	private Dictionary<string,KeyState> keyStateDictionary = new Dictionary<string,KeyState>();
@@ -30,6 +42,7 @@ public class DetectState : MonoBehaviour {
     ArrayList collidersFound;
 
     ColliderObject[] colliderStates;
+
 
 	public string getKeyState
 	{
@@ -53,13 +66,15 @@ public class DetectState : MonoBehaviour {
 		currentKeyState = "Grounded";
 		keyStateDictionary.Add ("Grounded",new MoveKeyState(GetComponent<Movement>()));
 		keyStateDictionary.Add ("Air",new AirKeyState(GetComponent<Movement>()));
+		keyStateDictionary.Add("Rail",new GrindKeyState(GetComponent<Movement>()));
+		keyStateDictionary.Add("Wall",new WallKeyState(GetComponent<Movement>()));
 	}
 	
 	// Update is called once per frame
 	void Update () 
     {
+		RailKey ();
         gatherColliders();
-
         setState();
 		updateKeyState (currentKeyState).update();
         //Clear collidersFound at each frame, to keep it updated
@@ -86,8 +101,10 @@ public class DetectState : MonoBehaviour {
     {
         if (findInCollidersFound(new KeyPair("Bottom", "Rail")))
         {
+			rayCastState = false;
             state = "Rail";
-			Debug.Log("RAIL");
+			currentKeyState = "Rail";
+			//Debug.Log("RAIL");
         }
         else if (findInCollidersFound(new KeyPair("BoardRight", "Wall"))
             || findInCollidersFound(new KeyPair("BoardLeft", "Wall")))
@@ -118,14 +135,35 @@ public class DetectState : MonoBehaviour {
 	{
 		if(state != currentKeyState)
 		{
+			Debug.Log (state);
 			keyStateDictionary [currentKeyState].end();
 			keyStateDictionary [state].start();
 			currentKeyState = state;
 		}
 	}
-	KeyState updateKeyState(string keyState)
+	public KeyState updateKeyState(string keyState)
 	{
 
 		return keyStateDictionary[keyState];
+	}
+
+	private void RailKey()
+	{
+		// för XBOX
+		//if(Input.GetButtonDown("Y-button"))
+		//{
+		//	keyIsPressed = Time.time;
+		//	railKeyPressed = true;
+		//}
+		if(Input.GetKeyDown(KeyCode.Q))
+		{
+			keyIsPressed = Time.time;
+			railKeyPressed = true;
+		}
+		if(Time.time > keyIsPressed+1.5f)
+		{
+			railKeyPressed = false;
+		}
+
 	}
 }

@@ -13,6 +13,7 @@ using System.Collections;
 
 public class Boost : MonoBehaviour {
 
+    [HideInInspector]
     public bool m_isBoosting;
 
     EnergyPool energyScript;

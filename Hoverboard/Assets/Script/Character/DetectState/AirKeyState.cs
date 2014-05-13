@@ -16,32 +16,23 @@ public class AirKeyState : KeyState
 	public override void start ()
 	{
 		timeIni = Time.time;
+
 	}
 
 	public override void update () 
 	{
 
-		if(Time.time > timeIni+1)
+		if(Time.time > timeIni+0.3f)
 		{
-
-			if(Input.GetKey(KeyCode.A))
-			{
-				movement.Direction = RotateY(movement.Direction,-0.01f);
-				movement.rotateBoardInY(-1);
-			}
-			if(Input.GetKey(KeyCode.D))
-			{
-				movement.Direction = RotateY(movement.Direction,0.01f);
-				movement.rotateBoardInY(1);
-			}
-			if(Input.GetKey(KeyCode.W))
-			{
-				movement.rotateBoardInX(1);
-			}
-			if(Input.GetKey(KeyCode.S))
-			{
-				movement.rotateBoardInX(-1);
-			}
+			
+			movement.Strafe(new Vector3 (Input.GetAxisRaw("LeftHorizontal")/2, 0, 0));
+			
+			//movement.Direction = RotateY(movement.Direction, Input.GetAxisRaw("RightHorizontal")/10);
+			movement.rotateBoardInY(Input.GetAxisRaw("RightHorizontal"));
+			
+			movement.rotateBoardInX(Input.GetAxisRaw("RightVertical"));
+			
+			
 		}
 	}
 
