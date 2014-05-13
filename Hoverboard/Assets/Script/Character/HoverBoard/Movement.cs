@@ -155,7 +155,8 @@ public class Movement : MonoBehaviour {
 	
 		if (Input.GetKey(KeyCode.Joystick1Button7) || Input.GetKeyDown(KeyCode.R))
 		{
-			Application.LoadLevel(Application.loadedLevel);
+			//Application.LoadLevel(Application.loadedLevel);
+            gameObject.GetComponent<Checkpoint>().SpawnAtStart();
 		}
 				
 		addPotentialSpeed();
