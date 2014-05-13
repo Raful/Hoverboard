@@ -87,9 +87,7 @@ public class Jump : MonoBehaviour {
 			jumpPower = chargePower;
 			chargePower = 0;
 		}
-
 		privateMovement.jumpVelocity += jumpPower;
-
 	}
 
 	//if(currentState.getKeyState.Equals("Wall"))
