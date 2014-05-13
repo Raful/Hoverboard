@@ -11,8 +11,10 @@ using System.Collections;
 public class CameraMec2 : MonoBehaviour {
 
 	public Transform target;
-
-	public float distance = 10.0f;   // The distance in the x-z plane to the target
+	private Movement movement;
+	private DetectState state;
+	public float m_DefaultDistance;
+	private float distance;   // The distance in the x-z plane to the target
 
 
 	public float groundHeight = 5.0f;   // the height we want the camera to be above the target when the target is in ground state
@@ -29,14 +31,16 @@ public class CameraMec2 : MonoBehaviour {
 	private Vector3 targetedPos;
 	private Quaternion currentRotation;
 	public bool inTheAir;
-	private DetectState state;
+
 	
 
 	void Start()
 	{
 		targetedPos = target.position;
+		movement = target.GetComponent<Movement> ();
 		state = target.GetComponent<DetectState> ();
 		height = groundHeight;
+		distance = m_DefaultDistance;
 	}
 		
 	void LateUpdate () {
@@ -62,7 +66,17 @@ public class CameraMec2 : MonoBehaviour {
 			else
 				height = groundHeight;
 		}
-	
+
+		if (movement.speedForCamera < -0.01f || movement.speedForCamera > 0.01f )
+		{
+			if(movement.speedForCamera > -20)
+			distance = m_DefaultDistance + (movement.speedForCamera/10);
+			
+		}
+		else
+		{
+			distance = m_DefaultDistance;
+		}
 			// Calculate the current rotation angles
 		float y = targetedPos.y;
 		targetedPos = target.position;

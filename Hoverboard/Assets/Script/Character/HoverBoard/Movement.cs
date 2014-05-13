@@ -139,7 +139,7 @@ public class Movement : MonoBehaviour {
 						}
 
 						gravity = loopGravity;
-						Debug.DrawLine (transform.position, hit.point);
+						//Debug.DrawLine (transform.position, hit.point);
 						isGrounded = true;
 						rayDirection = -transform.up;
 

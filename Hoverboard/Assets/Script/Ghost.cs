@@ -14,7 +14,7 @@ public class Ghost : MonoBehaviour {
 	public GameObject hoverboard;
 	public bool isRecording;
 	private int i = 0;
-	private bool saveRecordings = true;
+	private bool fetchFromTextFile = false;
 
 	private Movement movement;
 
@@ -24,6 +24,7 @@ public class Ghost : MonoBehaviour {
 	private float timeToLerp;
 	private float reduceLerpTime;
 
+	public bool saveRecordings = false;
 	public bool canRecordThisHoverboard;
 
 
@@ -48,7 +49,7 @@ public class Ghost : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		if (!isRecording)
+		if (!isRecording && !saveRecordings)
 		{
 			PlayBack();
 			hoverboard.transform.position = Vector3.Lerp (hoverboard.transform.position, positionMovingTo, (1/(m_howManyTimesPerSecond)));
@@ -60,11 +61,15 @@ public class Ghost : MonoBehaviour {
 
 
 		}
-		else
+		else if(isRecording && !saveRecordings)
 		{
 			if(canRecordThisHoverboard)
 			Recording();
 
+		}
+		else if(saveRecordings)
+		{
+			SaveRecordings();
 		}
 	}
 
@@ -92,6 +97,7 @@ public class Ghost : MonoBehaviour {
 		int readInfo = 0;
 		if(positionList.Count == 0)
 		{
+			fetchFromTextFile = true;
 			StreamReader readText = new StreamReader(filepath);
 			while(!readText.EndOfStream)
 			{
@@ -148,37 +154,14 @@ public class Ghost : MonoBehaviour {
 			}
 			readText.Close();
 
-			saveRecordings = false;
+		
 		}
 		int size = smallestSize (stateList.Count, positionList.Count, transformationList.Count);
 		if(i < size && Time.time > timeToChange)
 		{
 			if(i == 0)
 			{ 
-				if(saveRecordings)
-				{
-				StreamWriter text = new StreamWriter(filepath);
-			
-				for(int j = 0; j < positionList.Count; j++)
-				{
-					text.WriteLine(positionList[j].x + "," + positionList[j].y + "," + positionList[j].z);
-				}
-			
-				text.WriteLine("State");
-				for(int j = 0; j < stateList.Count; j++)
-				{
-					text.WriteLine(stateList[j]);
-				}
 
-				text.WriteLine("Rotation");
-
-				for(int j = 0; j < transformationList.Count; j++)
-				{
-					text.WriteLine(transformationList[j].x + "," + transformationList[j].y + "," + transformationList[j].z + "," + transformationList[j].w);
-				}
-
-				text.Close();
-				}
 				if(canRecordThisHoverboard)
 				{
 					movement.ResetPosition();
@@ -201,7 +184,7 @@ public class Ghost : MonoBehaviour {
 
 			float x = Mathf.Abs(positionMovingTo.x - hoverboard.transform.position.x);
 			float z = Mathf.Abs(positionMovingTo.z - hoverboard.transform.position.z);
-			if(i != 0 && Time.time > timeToChange  )
+			if(i != 0 && Time.time > timeToChange)
 			{
 				if(canRecordThisHoverboard)
 				{
@@ -229,6 +212,34 @@ public class Ghost : MonoBehaviour {
 	
 	}
 
+	void SaveRecordings()
+	{
+		if(!fetchFromTextFile)
+		{
+			StreamWriter text = new StreamWriter(filepath);
+			
+			for(int j = 0; j < positionList.Count; j++)
+			{
+				text.WriteLine(positionList[j].x + "," + positionList[j].y + "," + positionList[j].z);
+			}
+			
+			text.WriteLine("State");
+			for(int j = 0; j < stateList.Count; j++)
+			{
+				text.WriteLine(stateList[j]);
+			}
+			
+			text.WriteLine("Rotation");
+			
+			for(int j = 0; j < transformationList.Count; j++)
+			{
+				text.WriteLine(transformationList[j].x + "," + transformationList[j].y + "," + transformationList[j].z + "," + transformationList[j].w);
+			}
+			
+			text.Close();
+		}
+		saveRecordings = false;
+	}
 	int smallestSize(int a, int b, int c)
 	{
 		if (a <= b && a <= c)
