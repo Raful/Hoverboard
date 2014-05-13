@@ -24,7 +24,7 @@ public class CalcCollision : MonoBehaviour {
         if (Physics.Raycast(transform.position, direction.normalized, out hit, 0.1f + direction.magnitude * Time.fixedDeltaTime + (transform.localScale.z / 2))) 
 		{
 			//Debug.Log ("Ray Collides");
-			movement.ResetPosition(hit.point - (Vector3.forward * (transform.localScale.z / 2))); //Set the position to the ray's end point, minus half the length of the hoverboard
+			movement.ResetPosition(hit.point - (transform.forward * (transform.localScale.z / 2))); //Set the position to the ray's end point, minus half the length of the hoverboard
 		}
 	}
 	void OnCollisionEnter(Collision col)
