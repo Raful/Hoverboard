@@ -190,11 +190,11 @@ public class Movement : MonoBehaviour {
 
 	// Calls on collision, resets Speed, x-rotation and position
 
-	public void ResetPosition()
+	public void ResetPosition(Vector3 position)
 	{
 		//transform.GetComponent<FMOD_EngineEmitter>().;
-		FMOD_StudioSystem.instance.PlayOneShot("event:/Impact/impact1",transform.position);
-		transform.position = transform.position - velocity.normalized;
+		//FMOD_StudioSystem.instance.PlayOneShot("event:/Impact/impact1",transform.position);
+        transform.position = position;
 
         ResetSpeed();
 

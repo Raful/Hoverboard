@@ -4,6 +4,7 @@ using System.Collections;
 	This script rayscast in front of the hoverboard to Calculate incoming collisions
  *
  * Created by: Niklas , 2014-04-29
+ * Modified by: Robbin, 2014-05-13
  */
 public class CalcCollision : MonoBehaviour {
 
@@ -20,15 +21,15 @@ public class CalcCollision : MonoBehaviour {
 		direction = movement.m_getVelocity;
 		RaycastHit hit;
 
-		if (Physics.Raycast (transform.position, direction.normalized, out hit, 0.1f+direction.magnitude*Time.fixedDeltaTime )) 
+        if (Physics.Raycast(transform.position, direction.normalized, out hit, 0.1f + direction.magnitude * Time.fixedDeltaTime + (transform.localScale.z / 2))) 
 		{
-			Debug.Log ("Ray Collides");
-			movement.ResetPosition();
+			//Debug.Log ("Ray Collides");
+			movement.ResetPosition(hit.point - (Vector3.forward * (transform.localScale.z / 2))); //Set the position to the ray's end point, minus half the length of the hoverboard
 		}
 	}
 	void OnCollisionEnter(Collision col)
 	{
-		Debug.Log ("Collides");
+		//Debug.Log ("Collides");
 		//movement.ResetPosition();
 	}
 }
