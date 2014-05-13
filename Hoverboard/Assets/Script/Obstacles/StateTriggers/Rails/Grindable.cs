@@ -82,7 +82,6 @@ public class Grindable : MonoBehaviour {
 				else
 					col.transform.LookAt(-transform.right+ col.transform.position);
 
-				col.transform.position = pushpullSomething1(col.transform.position);
 				Debug.Log("PushLenght: " + pushLength + " pulllenght: " + pullLength);
 				
 				detectState.m_getRayCastState = false;
@@ -101,25 +100,4 @@ public class Grindable : MonoBehaviour {
 			col.gameObject.GetComponent<DetectState>().m_getRayCastState = true;
 		}
 	}
-	Vector3 pushpullSomething1(Vector3 player)
-	{
-		push = player - transform.position;
-		push.y = 0;
-		pushLength = push.magnitude;
-		push = (transform.position+transform.right*(-transform.localScale.x/2)) - transform.position;
-		pullLength = push.magnitude;
-		player = transform.position + transform.right*(float)((-0.5*transform.localScale.x)+(transform.localScale.x*(pushLength/pullLength)));
-		return player;
-	}
-	Vector3 pushpullSomething2(Vector3 player)
-	{
-		push = transform.position - player;
-		push.y = 0;
-		pushLength = push.magnitude;
-		push = (transform.position+transform.right*(-transform.localScale.x/2)) - transform.position;
-		pullLength = push.magnitude;
-		player = transform.position + transform.right*(float)((-0.5*transform.localScale.x)+(transform.localScale.x*(pushLength/pullLength)));
-		return player;
-	}
-
 }
