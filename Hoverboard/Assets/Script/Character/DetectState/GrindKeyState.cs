@@ -5,13 +5,13 @@ public class GrindKeyState : KeyState
 {
 
 	private float constantRotationSpeed = 1f;			//Rotation speed that will be applied every frame
-	private const float rotationZSpeed = 1.5f;			//Players rotation speed on the z-axis
+	private const float rotationZSpeed = 1f;			//Players rotation speed on the z-axis
 	private const float rotationYSpeed = 1f;			//Players rotation speed on the y-axis
 	private const float pushOfStrength = 1f;			//How far the player will be pushed of the grind
 
 	private Movement movement;
 	private bool firstRotationOnGoing = true;
-	private float AngleAmount = 89;								//Used to calculate the angel for the hoverboard to fall of with
+	private float AngleAmount = 60;								//Used to calculate the angel for the hoverboard to fall of with
 	private const float zero = 0, circel = 360, halfCircel = 180;//Constant variabels that are used to calc the angle for the fall of
 
 	DetectState detectState;
@@ -50,23 +50,31 @@ public class GrindKeyState : KeyState
 		
 		whenToFall();
 
+		
+		movement.rotateBoardInZ(rotationZSpeed * -1 * Input.GetAxisRaw("LeftHorizontal"));
+		movement.rotateBoardInWorldY(rotationYSpeed * Input.GetAxisRaw("RightHorizontal"));
+		
+		/*
 		if(Input.GetKey(KeyCode.W))
+
+		if(Input.GetKey(KeyCode.A))
+
 		{
 			movement.rotateBoardInZ(rotationZSpeed);
 		}
-		if(Input.GetKey(KeyCode.S))
+		if(Input.GetKey(KeyCode.D))
 		{
 			movement.rotateBoardInZ(-rotationZSpeed);
 		}
-		if(Input.GetKey(KeyCode.A))
+		if(Input.GetKey(KeyCode.W))
 		{
 			movement.rotateBoardInWorldY(-rotationYSpeed);
 		}
-		if(Input.GetKey(KeyCode.D))
+		if(Input.GetKey(KeyCode.S))
 		{
 			movement.rotateBoardInWorldY(rotationYSpeed);
 		}
-
+		*/
 	}
 	
 	public override void end()
@@ -87,11 +95,18 @@ public class GrindKeyState : KeyState
 		
 		if(movement.transform.eulerAngles.z > zero && movement.transform.eulerAngles.z < (zero + AngleAmount))
 		{
-			movement.rotateBoardInZ(Mathf.Abs(constantRotationSpeed));
+			movement.miniGameCOnstantRotationSpeed(Mathf.Abs(constantRotationSpeed));
 		}
 		else if(movement.transform.eulerAngles.z < circel && movement.transform.eulerAngles.z > (circel - AngleAmount))
 		{
-			movement.rotateBoardInZ(constantRotationSpeed);
+			if(constantRotationSpeed > 0)
+			{
+				movement.miniGameCOnstantRotationSpeed(constantRotationSpeed * -1);
+			}
+			else
+			{
+				movement.miniGameCOnstantRotationSpeed(constantRotationSpeed);
+			}
 		}
 	}
 
