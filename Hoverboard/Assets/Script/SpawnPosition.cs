@@ -15,12 +15,17 @@ public class SpawnPosition : MonoBehaviour {
 	public Timer m_TimerReference;
 
 	// Use this for initialization
-	void Start () 
+	void Awake () 
 	{
-		m_TargetLogicHoverBoard.transform.position = transform.position;
-		m_TargetLogicHoverBoard.transform.rotation = transform.rotation;
-		m_TargetGraphicHoverboard.transform.rotation = transform.rotation;
+        ResetTransform();
 	}
+
+    public void ResetTransform()
+    {
+        m_TargetLogicHoverBoard.transform.position = transform.position;
+        m_TargetLogicHoverBoard.transform.rotation = transform.rotation;
+        m_TargetGraphicHoverboard.transform.rotation = transform.rotation;
+    }
 
 	void OnTriggerExit(Collider collision)
 	{
