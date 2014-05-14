@@ -86,6 +86,10 @@ public class Movement : MonoBehaviour {
 		set{direction = value;}
 		get{return direction;}
 	}
+	public Vector3 CustomJumpVec 
+	{
+		get;	set;
+	}
 
 	void Start ()
 	{
@@ -93,6 +97,7 @@ public class Movement : MonoBehaviour {
 		boostScript = gameObject.GetComponent<Boost>();
 		rayDirection = -Vector3.up;
 		direction = transform.forward;
+		CustomJumpVec = Vector3.up.normalized;
 	}
 
 	// Calculates the new angle and rotates accordingly
@@ -100,10 +105,10 @@ public class Movement : MonoBehaviour {
 	{
 		if(!isGrounded && m_getVelocity.y > 0f)
 		{
-			jumpVelocity -= setGravity;
+			jumpVelocity -= m_Gravity;
 		}
 		
-		if(!isGrounded && m_getVelocity.y < -0.1f)
+		if(!isGrounded && m_getVelocity.y < 0f)
 		{
 			jumpVelocity = 0;
 		}
@@ -113,7 +118,8 @@ public class Movement : MonoBehaviour {
 			RaycastHit hit;
 			if(Physics.Raycast(transform.position, rayDirection, out hit, hoverHeight))
 			{
-
+				CustomJumpVec = Vector3.up.normalized;
+				direction = transform.forward;
 				if((int)Vector3.Angle(Vector3.up,hit.normal) != 90 ||(int)Vector3.Angle(Vector3.up,hit.normal) != 270)
 				{
 					changeState("Grounded");
@@ -152,9 +158,11 @@ public class Movement : MonoBehaviour {
 
 	void FixedUpdate () 
 	{
-	
+
+
 		if (Input.GetKey(KeyCode.Joystick1Button7) || Input.GetKeyDown(KeyCode.R))
 		{
+			transform.position = new Vector3(1941, 47,1807);
 			//Application.LoadLevel(Application.loadedLevel);
             gameObject.GetComponent<Checkpoint>().SpawnAtStart();
 		}
@@ -183,8 +191,10 @@ public class Movement : MonoBehaviour {
 			Debug.LogError("boostMaxAccSpeed is smaller than m_MaxAccSpeed");
 		}
 		#endif
+		safty ();
 
-		velocity = direction.normalized *(forwardSpeed+backwardSpeed + boostSpeed+bonusSpeed) -Vector3.up*gravity + (jumpVelocity * Vector3.up.normalized);
+
+		velocity = direction.normalized *(forwardSpeed+backwardSpeed + boostSpeed+bonusSpeed) -Vector3.up*gravity + (jumpVelocity * CustomJumpVec);
 		transform.position += velocity*Time.fixedDeltaTime;
 	}
 
@@ -270,5 +280,15 @@ public class Movement : MonoBehaviour {
 	{
 		transform.Rotate (0,0,z * (m_MinigameRotSpeed/velocity.magnitude));
 	}
-	// rotate a vector operation
+
+
+	private void safty()
+	{
+		if(jumpVelocity < 0f)
+		{
+			jumpVelocity = 0f;
+		}		 
+	}
+
+
 }
