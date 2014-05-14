@@ -105,7 +105,12 @@ public class Movement : MonoBehaviour {
 	{
 		if(!isGrounded && m_getVelocity.y > 0f)
 		{
-			jumpVelocity -= setGravity;
+			jumpVelocity -= m_Gravity;
+		}
+		
+		if(!isGrounded && m_getVelocity.y < 0f)
+		{
+			jumpVelocity = 0;
 		}
 
 		if(currentState.m_getRayCastState)
@@ -114,7 +119,7 @@ public class Movement : MonoBehaviour {
 			if(Physics.Raycast(transform.position, rayDirection, out hit, hoverHeight))
 			{
 				CustomJumpVec = Vector3.up.normalized;
-
+				direction = transform.forward;
 				if((int)Vector3.Angle(Vector3.up,hit.normal) != 90 ||(int)Vector3.Angle(Vector3.up,hit.normal) != 270)
 				{
 					changeState("Grounded");
@@ -153,7 +158,7 @@ public class Movement : MonoBehaviour {
 
 	void FixedUpdate () 
 	{
-		safty ();
+
 
 		if (Input.GetKey(KeyCode.Joystick1Button7) || Input.GetKeyDown(KeyCode.R))
 		{
@@ -185,9 +190,10 @@ public class Movement : MonoBehaviour {
 			Debug.LogError("boostMaxAccSpeed is smaller than m_MaxAccSpeed");
 		}
 		#endif
+		safty ();
 
-		velocity = direction.normalized *(forwardSpeed+backwardSpeed + boostSpeed+bonusSpeed) -Vector3.up*gravity + (jumpVelocity * CustomJumpVec.normalized);
-		Debug.Log ("JumpVEc: " + jumpVelocity * CustomJumpVec);
+
+		velocity = direction.normalized *(forwardSpeed+backwardSpeed + boostSpeed+bonusSpeed) -Vector3.up*gravity + (jumpVelocity * CustomJumpVec);
 		transform.position += velocity*Time.fixedDeltaTime;
 	}
 
