@@ -25,13 +25,6 @@ public class Jump : MonoBehaviour {
 	// Use this for initialization
 	void Start () {}
 
-	/*
-	 * 
-	 * Todo: Add change direction of jump when jumping of a wallride to
-	 * Vector3(1,0,1) or equal for other jumps
-	 * 
-	 */
-
 	// Update is called once per frame
 	void Update () {
 		

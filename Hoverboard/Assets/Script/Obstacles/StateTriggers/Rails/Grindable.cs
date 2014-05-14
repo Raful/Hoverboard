@@ -8,7 +8,7 @@ using System.Collections;
 public class Grindable : MonoBehaviour {
 
 	private DetectState detectState;
-	private bool active;
+	private bool Grindactive;
 	private bool secondEntry;
 	private GameObject player;
 	private Vector3 push;
@@ -23,7 +23,7 @@ public class Grindable : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
-		if(active)
+		if(Grindactive)
 		{
 			if(detectState.m_getRailPermission && RailCounter.getNum() > 0)
 			{
@@ -68,7 +68,7 @@ public class Grindable : MonoBehaviour {
 				detectState.updateKeyState ("Rail").setVector = -transform.right;
 			}
 		}
-		active = true;
+		Grindactive = true;
 		RailCounter.incNum();
 		
 		if(detectState.m_getRailPermission)
@@ -99,7 +99,7 @@ public class Grindable : MonoBehaviour {
 		if(RailCounter.getNum() <= 0)
 		{
 			RailCounter.allowRailFalse();
-			active = false;
+			Grindactive = false;
 			col.gameObject.GetComponent<DetectState>().m_getRayCastState = true;
 		}
 	}
