@@ -10,6 +10,7 @@ public class GrindKeyState : KeyState
 	private const float rotationYSpeed = 1f;			//Players rotation speed on the y-axis
 	private const float pushOfStrength = 1f;			//How far the player will be pushed of the grind
 
+	private bool swapBool;
 	private Movement movement;
 
 
@@ -31,6 +32,7 @@ public class GrindKeyState : KeyState
 
 
 
+
 	private float time;
 
 
@@ -39,7 +41,7 @@ public class GrindKeyState : KeyState
 
 
 
-	private float AngleAmount = 60;								//Used to calculate the angel for the hoverboard to fall of with
+	private float AngleAmount = 87;								//Used to calculate the angel for the hoverboard to fall of with
 
 	private const float zero = 0, circel = 360, halfCircel = 180;//Constant variabels that are used to calc the angle for the fall of
 
@@ -59,6 +61,7 @@ public class GrindKeyState : KeyState
 	
 	public override void start ()
 	{
+		swapBool = true;
 		detectState = movement.GetComponent<DetectState> ();
 		movement.gameObject.GetComponent<Hover_WithTransform> ().enabled = false;
 		movement.isGrounded = true;
@@ -81,10 +84,10 @@ public class GrindKeyState : KeyState
 		movement.Direction = m_keyVector;
 		constantRotation();
 
-		//movement.rotateBoardInZ(-Input.GetAxisRaw("LeftHorizontal"));
-		//
-		//movement.rotateBoardInWorldY(Input.GetAxisRaw("RightHorizontal"));
-		
+		if((int)(movement.m_getVelocity.normalized-movement.Direction.normalized).magnitude >=1)
+		{
+			movement.transform.Translate(new Vector3(-pushOfStrength,pushOfStrength,0));
+		}
 		whenToFall();
 
 
@@ -96,6 +99,7 @@ public class GrindKeyState : KeyState
 		{
 			movement.rotateBoardInZ(-rotationZSpeed);
 		}
+
 		if(Input.GetKey(KeyCode.W))
 		{
 			movement.rotateBoardInWorldY(-rotationYSpeed);
@@ -104,6 +108,7 @@ public class GrindKeyState : KeyState
 		{
 			movement.rotateBoardInWorldY(rotationYSpeed);
 		}
+
 
 
 	}
@@ -145,12 +150,12 @@ public class GrindKeyState : KeyState
 	{
 		if(movement.transform.eulerAngles.z > (zero + AngleAmount) && movement.transform.eulerAngles.z < halfCircel)
 		{
-			movement.transform.Translate(new Vector3(-pushOfStrength,0,0));
+			movement.transform.Translate(new Vector3(-pushOfStrength,pushOfStrength,0));
 	
 		}
 		else if(movement.transform.eulerAngles.z < (circel - AngleAmount) && movement.transform.eulerAngles.z > halfCircel)
 		{
-			movement.transform.Translate(new Vector3(pushOfStrength,0,0));
+			movement.transform.Translate(new Vector3(pushOfStrength,pushOfStrength,0));
 
 		}
 	}

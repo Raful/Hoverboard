@@ -22,6 +22,9 @@ public class Checkpoint : MonoBehaviour {
     [SerializeField]
     AchievementManager achievementScript;
 
+    [SerializeField]
+    SpawnPosition spawnPositionScript;
+
     Movement movementScript;
 
 	void Start () 
@@ -35,8 +38,7 @@ public class Checkpoint : MonoBehaviour {
 
     public void SpawnAtCheckpoint()
     {
-        //Reset speed
-        movementScript.ResetSpeed();
+        ResetGameState();
 
         //Reset transform
         transform.position = position;
@@ -44,8 +46,24 @@ public class Checkpoint : MonoBehaviour {
 
         //Reset timer
         timerScript.SetRaceTimer(timeSeconds);
-        Debug.Log("Time: " + timerScript.m_raceTime);
-        
+
+    }
+
+    public void SpawnAtStart()
+    {
+        ResetGameState();
+
+        spawnPositionScript.ResetTransform();
+
+        //Reset timer
+        timerScript.SetRaceTimer(0);
+    }
+
+    void ResetGameState()
+    {
+        //Reset speed
+        movementScript.ResetSpeed();
+
         //Reset achievements' temporary progress
         achievementScript.LoadProgressFromFile();
     }

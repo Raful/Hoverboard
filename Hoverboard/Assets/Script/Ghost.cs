@@ -161,20 +161,20 @@ public class Ghost : MonoBehaviour {
 		{
 			if(i == 0)
 			{ 
-
+				hoverboard.transform.position = positionMovingTo = positionList[i];
 				if(canRecordThisHoverboard)
 				{
-					movement.ResetPosition();
+					movement.ResetPosition(positionMovingTo);
 					movement.isRecording = false;
 					currentState.changeKeyState(stateList[i]);
 				}
 
 			
-				hoverboard.transform.position = positionMovingTo = positionList[i];
+
 				anglesMovingTo.Set(transformationList[i].x, transformationList[i].y, transformationList[i].z,transformationList[i].w);
 				transform.rotation.Set(anglesMovingTo.x,anglesMovingTo.y,anglesMovingTo.z,anglesMovingTo.w);
 
-				timeToLerp = 1/(m_howManyTimesPerSecond );
+				timeToLerp = 1/(m_howManyTimesPerSecond);
 
 
 			}
