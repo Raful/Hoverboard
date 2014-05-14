@@ -63,7 +63,7 @@ public class Movement : MonoBehaviour {
 
 	public float speedForCamera;	//This variable is for the moment only so the camera can decide the distance from the hoverboard
 
-	//[HideInInspector]
+	[HideInInspector]
 	public float jumpVelocity; //Jump feeds into this
 
 	public float setGravity
