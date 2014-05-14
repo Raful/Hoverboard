@@ -92,32 +92,39 @@ public class Movement : MonoBehaviour {
 		set{direction = value;}
 		get{return direction;}
 	}
-	
+
+	public Vector3 CustomJumpVec 
+	{
+		get;	set;
+	}
+
+
 	void Start ()
 	{
 		currentState = gameObject.GetComponent<DetectState> ();
 		boostScript = gameObject.GetComponent<Boost>();
 		rayDirection = -Vector3.up;
 		direction = transform.forward;
+		CustomJumpVec = Vector3.up.normalized;
 	}
 	
 	// Calculates the new angle and rotates accordingly
 	void LateUpdate()
 	{
-
-
+		
 		if (isRecording) {
 	
 
-			if (!isGrounded && m_getVelocity.y > 0f) {
-				jumpVelocity -= setGravity;
-			}
-		
-			if (!isGrounded && m_getVelocity.y < -0.1f) {
-				jumpVelocity = 0;
-			}
+	
+		if(!isGrounded && m_getVelocity.y > 0f)
+		{
+			jumpVelocity -= setGravity;
+		}
 
-			if (currentState.m_getRayCastState) {
+		if(currentState.m_getRayCastState)
+		{
+			
+
 
 				RaycastHit hit;
 				if (Physics.Raycast (transform.position, rayDirection, out hit, hoverHeight)) {
@@ -155,14 +162,20 @@ public class Movement : MonoBehaviour {
 			}
 		}
 	}
+
 	
 	void FixedUpdate () 
 	{
+
 
 		if (isRecording) {
 		
 
 	
+
+		safty ();
+
+
 		if (Input.GetKey(KeyCode.Joystick1Button7) || Input.GetKeyDown(KeyCode.R))
 		{
 			//Application.LoadLevel(Application.loadedLevel);
@@ -195,7 +208,8 @@ public class Movement : MonoBehaviour {
 
 		#endif
 
-		velocity = direction.normalized *(forwardSpeed+backwardSpeed + boostSpeed+bonusSpeed) -Vector3.up*gravity + (jumpVelocity * Vector3.up.normalized);
+		velocity = direction.normalized *(forwardSpeed+backwardSpeed + boostSpeed+bonusSpeed) -Vector3.up*gravity + (jumpVelocity * CustomJumpVec.normalized);
+		//Debug.Log ("JumpVEc: " + jumpVelocity * CustomJumpVec);
 		transform.position += velocity*Time.fixedDeltaTime;
 		}
 	}
@@ -286,6 +300,14 @@ public class Movement : MonoBehaviour {
 	public void miniGameCOnstantRotationSpeed(float z)
 	{
 		transform.Rotate (0,0,z * (m_MinigameRotSpeed/velocity.magnitude));
+	}
+
+	private void safty()
+	{
+		if(jumpVelocity < 0f)
+		{
+			jumpVelocity = 0f;
+		}		 
 	}
 
 	// rotate a vector operation

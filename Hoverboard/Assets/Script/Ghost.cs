@@ -52,8 +52,8 @@ public class Ghost : MonoBehaviour {
 		if (!isRecording && !saveRecordings)
 		{
 			PlayBack();
-			hoverboard.transform.position = Vector3.Lerp (hoverboard.transform.position, positionMovingTo, (1/(m_howManyTimesPerSecond)));
-			hoverboard.transform.rotation = Quaternion.Lerp (hoverboard.transform.rotation, anglesMovingTo, (1/(m_howManyTimesPerSecond)));
+			hoverboard.transform.position = Vector3.Lerp (hoverboard.transform.position, positionMovingTo, timeToLerp);
+			hoverboard.transform.rotation = Quaternion.Lerp (hoverboard.transform.rotation, anglesMovingTo, timeToLerp);
 			if(timeToLerp > 0)
 				timeToLerp -= reduceLerpTime;
 			else
@@ -92,8 +92,8 @@ public class Ghost : MonoBehaviour {
 	void PlayBack()
 	{ 					
 
-		Debug.Log (transform.position.ToString ());
-		Debug.Log (positionMovingTo.ToString ());
+		Debug.Log ("Ghost position: " + transform.position.ToString ());
+		Debug.Log ("Position moving to: " + positionMovingTo.ToString ());
 		int readInfo = 0;
 		if(positionList.Count == 0)
 		{
