@@ -67,7 +67,7 @@ public class Ghost : MonoBehaviour {
 			Recording();
 
 		}
-		else if(saveRecordings)
+		else if(saveRecordings && canRecordThisHoverboard)
 		{
 			SaveRecordings();
 		}
