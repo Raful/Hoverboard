@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using FMOD.Studio;
 
@@ -270,6 +270,5 @@ public class Movement : MonoBehaviour {
 	{
 		transform.Rotate (0,0,z * (m_MinigameRotSpeed/velocity.magnitude));
 	}
-
 	// rotate a vector operation
 }

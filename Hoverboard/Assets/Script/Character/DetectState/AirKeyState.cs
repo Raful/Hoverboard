@@ -31,14 +31,13 @@ public class AirKeyState : KeyState
 			movement.rotateBoardInY(Input.GetAxisRaw("RightHorizontal"));
 			
 			movement.rotateBoardInX(Input.GetAxisRaw("RightVertical"));
-			
-			
+
 		}
 	}
 
 	public override void end()
 	{
-
+		movement.setGravity = 0;
 	}
 
 	public static Vector3 RotateY( Vector3 v, float angle )
