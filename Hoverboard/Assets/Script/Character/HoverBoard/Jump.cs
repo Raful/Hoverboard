@@ -25,13 +25,6 @@ public class Jump : MonoBehaviour {
 	// Use this for initialization
 	void Start () {}
 
-	/*
-	 * 
-	 * Todo: Add change direction of jump when jumping of a wallride to
-	 * Vector3(1,0,1) or equal for other jumps
-	 * 
-	 */
-
 	// Update is called once per frame
 	void Update () {
 		
@@ -89,4 +82,9 @@ public class Jump : MonoBehaviour {
 		}
 		privateMovement.jumpVelocity += jumpPower;
 	}
+
+	//if(currentState.getKeyState.Equals("Wall"))
+	//{
+	//	velocity = direction.normalized *(forwardSpeed+backwardSpeed + boostSpeed+bonusSpeed) -Vector3.up*gravity + (jumpVelocity * new Vector3(0,1,-1));
+	//}
 }

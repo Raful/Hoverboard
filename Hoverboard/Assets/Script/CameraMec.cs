@@ -10,7 +10,7 @@ using System.Collections;
  */
 
 public class CameraMec : MonoBehaviour {
-	private float m_Smooth;
+	public float m_Smooth;
 	public float m_DefaultDistance = 5;
 
 

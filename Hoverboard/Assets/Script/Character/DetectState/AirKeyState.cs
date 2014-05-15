@@ -24,21 +24,18 @@ public class AirKeyState : KeyState
 
 		if(Time.time > timeIni+0.3f)
 		{
-			
 			movement.Strafe(Input.GetAxisRaw("LeftHorizontal")/2);
-			
 			//movement.Direction = RotateY(movement.Direction, Input.GetAxisRaw("RightHorizontal")/10);
 			movement.rotateBoardInY(Input.GetAxisRaw("RightHorizontal"));
 			
 			movement.rotateBoardInX(Input.GetAxisRaw("RightVertical"));
-			
-			
+
 		}
 	}
 
 	public override void end()
 	{
-
+		movement.setGravity = 0;
 	}
 
 	public static Vector3 RotateY( Vector3 v, float angle )
