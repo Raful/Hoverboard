@@ -3,7 +3,7 @@ using System.Collections;
 /*
  * Script that tells how the camera should follow the hoverboard
  * 
- * Created by: found on Internet by Andreas Sundberg date: 13-05-2014
+ * Created by: found on Internet by Andreas Sundberg date: 2014-05-13
  * Source: http://answers.unity3d.com/questions/38526/smooth-follow-camera.html
  * 
  * Edited by: Andreas

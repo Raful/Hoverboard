@@ -3,15 +3,23 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 
+/*
+ * Script that record the hoverboards movement 
+ * 
+ * Created by: Andreas Sundberg Date: 2014-05-08
+ * 
+ * Edited by:
+ */
+
 public class Ghost : MonoBehaviour {
 
-	public float m_howManyTimesPerSecond;
-	private float timeToChange;
-	private List<string> stateList = new List<string>();
-	private List<Vector3> positionList = new List<Vector3>();
-	private List<Quaternion> transformationList = new List<Quaternion>();
-	private List<Vector3> velocityList = new List<Vector3>();
-	private List<float> timeBetweenUpdatesList = new List<float>();
+	public float m_howManyTimesPerSecond; // how many times the hoverboard's movement should be recorded per second
+	private float timeToChange;			  //if time > timeToChange then it's time to update the recordings
+	private List<string> stateList = new List<string>(); //List of the states that the hoverboard are in
+	private List<Vector3> positionList = new List<Vector3>();	//list of hoverboard's positions
+	private List<Quaternion> transformationList = new List<Quaternion>();  // list of hoverboard's rotations
+
+	private List<float> timeBetweenUpdatesList = new List<float>();  // list of the time it took between two list updates
 	public GameObject hoverboard;
 	public bool isRecording;
 	private int i = 0;
@@ -19,11 +27,10 @@ public class Ghost : MonoBehaviour {
 
 	private Movement movement;
 
-	private Vector3 positionMovingTo = new Vector3(0,0,0);
-	private Quaternion anglesMovingTo;
-	private Vector3 currentVelocity = new Vector3 (0, 0, 0);
-	private float timeToLerp;
-	private float reduceLerpTime;
+	private Vector3 positionMovingTo = new Vector3(0,0,0);	//the current position the ghost should move to
+	private Quaternion anglesMovingTo;		// the current rotation the ghost should move to
+	private float timeToLerp;		// how fast the position and rotation should slerp		
+	private float reduceLerpTime;	//reduce how much time it should slerp
 
 
 	public bool saveRecordings = false;
@@ -31,8 +38,8 @@ public class Ghost : MonoBehaviour {
 
 
 	private string filepath;
-	private float timebetweenTwoUpdates;
-	private float currentTimeBetweenToUpdates;
+	private float timebetweenTwoUpdates;		// how long time it took between two list updates
+	private float currentTimeBetweenTwoUpdates; 
 	private DetectState currentState;
 	// Use this for initialization
 	void Start () {
@@ -53,19 +60,19 @@ public class Ghost : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		if (!isRecording && !saveRecordings)
+		if (!isRecording && !saveRecordings)	// if the hoverboard doesn't record its movement then call the function playback() and slerp the position and rotation 
 		{
 			PlayBack();
 			hoverboard.transform.position = Vector3.Slerp (hoverboard.transform.position, positionMovingTo, timeToLerp);
 			hoverboard.transform.rotation = Quaternion.Slerp (hoverboard.transform.rotation, anglesMovingTo, timeToLerp);
-		/*if(timeToLerp > 0)
+		if(timeToLerp > 0)
 				timeToLerp -= reduceLerpTime;
 			else
-				timeToLerp = 0;*/
+				timeToLerp = 0;
 
 
 		}
-		else if(isRecording && !saveRecordings)
+		else if(isRecording && !saveRecordings) 
 		{
 			if(canRecordThisHoverboard)
 			Recording();
@@ -80,8 +87,8 @@ public class Ghost : MonoBehaviour {
 
 	void Recording()
 	{
-		if(Time.time > timeToChange)
-		{
+		if(Time.time > timeToChange) //if time is greater than timeToChange then add the hoverboard's position, rotation, state and time it took between this update and last update
+		{ 							  // and put it in the lists. Then give timeToChange a higher value
 			if(positionList.Count == 0)
 			{
 			if(canRecordThisHoverboard)
@@ -115,10 +122,11 @@ public class Ghost : MonoBehaviour {
 	void PlayBack()
 	{ 					
 
-		Debug.Log ("Ghost position: " + transform.position.ToString ());
-		Debug.Log ("Position moving to: " + positionMovingTo.ToString ());
-		int readInfo = 0;
-		if(positionList.Count == 0 && fetchFromTextFile)
+		//Debug.Log ("Ghost position: " + transform.position.ToString ());
+		//Debug.Log ("Position moving to: " + positionMovingTo.ToString ());
+
+		int readInfo = 0;  // what kind of type the line in the textfile should be in
+		if(positionList.Count == 0 && fetchFromTextFile) // if the lists are empty then get info for the ghost in a textfile and add the info to the lists
 		{
 	
 			StreamReader readText = new StreamReader(filepath);
@@ -142,7 +150,7 @@ public class Ghost : MonoBehaviour {
 				}
 				else
 				{
-					if(readInfo == 0)
+					if(readInfo == 0)	//if readInfo equals 0 convert the line to vector3 and add it to positionList
 					{
 						string[] xyz = info.Split(',');
 						if(xyz.Length == 3)
@@ -155,12 +163,12 @@ public class Ghost : MonoBehaviour {
 							positionList.Add(temp);
 						}
 					}
-					else if(readInfo == 1)
+					else if(readInfo == 1)   //if readInfo equals 1 add the line in the stateList
 					{
 
 						stateList.Add(info);
 					}
-					else if(readInfo == 2)
+					else if(readInfo == 2)  //if readInfo equals 2 convert the line to the type Quaternion and add it to transformationList
 					{
 						string[] xyzw = info.Split(',');
 						if(xyzw.Length == 4)
@@ -176,7 +184,7 @@ public class Ghost : MonoBehaviour {
 						}
 
 					}
-					else if(readInfo == 3)
+					else if(readInfo == 3)   //if readInfo equals 3 convert the line to float and add it to timeBetweenUpdatesList
 					{
 						float temp = float.Parse(info);
 						timeBetweenUpdatesList.Add(temp);
@@ -188,11 +196,11 @@ public class Ghost : MonoBehaviour {
 
 		
 		}
-		int size = smallestSize (stateList.Count, positionList.Count, transformationList.Count, timeBetweenUpdatesList.Count);
-		Debug.Log (size);
-		if(i < size && Time.time > timeToChange)
+		int size = smallestSize (stateList.Count, positionList.Count, transformationList.Count, timeBetweenUpdatesList.Count);  //check which list that has the smallest size so 
+																																//it can't be out of bound.																									
+		if(i < size && Time.time > timeToChange)  // if i < size and time is greater than timeToChange it's time to update what the ghost should do.
 		{
-			if(i == 0)
+			if(i == 0) // if i equals 0 then the ghost get the initialize values.
 			{ 
 				hoverboard.transform.position = positionMovingTo = positionList[i];
 				if(canRecordThisHoverboard)
@@ -207,7 +215,7 @@ public class Ghost : MonoBehaviour {
 				anglesMovingTo.Set(transformationList[i].x, transformationList[i].y, transformationList[i].z,transformationList[i].w);
 				transform.rotation.Set(anglesMovingTo.x,anglesMovingTo.y,anglesMovingTo.z,anglesMovingTo.w); 
 
-				currentTimeBetweenToUpdates = timeBetweenUpdatesList[i];
+				currentTimeBetweenTwoUpdates = timeBetweenUpdatesList[i];
 				timeToLerp = 1/(m_howManyTimesPerSecond);
 				timebetweenTwoUpdates = Time.time;
 			}
@@ -216,8 +224,8 @@ public class Ghost : MonoBehaviour {
 			float x = Mathf.Abs(positionMovingTo.x - hoverboard.transform.position.x);
 			float z = Mathf.Abs(positionMovingTo.z - hoverboard.transform.position.z);
 			float temp = Time.time - timebetweenTwoUpdates;
-			if(i != 0 &&Time.time > timeToChange && temp > currentTimeBetweenToUpdates)
-			{
+			if(i != 0 &&Time.time > timeToChange && temp > currentTimeBetweenTwoUpdates) //if i < 0 and currentTimeBetweenTwoUpUpdates is smaller than the time it has taken
+			{																			 //to change the ghost's values then update the values that the ghost should change to.
 				if(canRecordThisHoverboard)
 				{
 					currentState.changeKeyState(stateList[i]);
@@ -225,7 +233,7 @@ public class Ghost : MonoBehaviour {
 
 				positionMovingTo = positionList[i];
 				anglesMovingTo.Set(transformationList[i].x, transformationList[i].y, transformationList[i].z,transformationList[i].w);
-				currentTimeBetweenToUpdates = timeBetweenUpdatesList[i];
+				currentTimeBetweenTwoUpdates = timeBetweenUpdatesList[i];
 				timebetweenTwoUpdates = Time.time;
 				timeToLerp = 1/(m_howManyTimesPerSecond);
 			}
@@ -244,7 +252,7 @@ public class Ghost : MonoBehaviour {
 	
 	}
 
-	void SaveRecordings()
+	void SaveRecordings()	//This function saves the recording to a textfile.
 	{
 		if(!fetchFromTextFile)
 		{
@@ -270,7 +278,7 @@ public class Ghost : MonoBehaviour {
 
 			text.WriteLine("Time");
 
-			for(int j = 0; j < transformationList.Count; j++)
+			for(int j = 0; j < timeBetweenUpdatesList.Count; j++)
 			{
 				text.WriteLine(timeBetweenUpdatesList[j]);
 			}

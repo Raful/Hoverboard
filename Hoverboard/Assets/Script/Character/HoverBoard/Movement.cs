@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using FMOD.Studio;
 
@@ -177,14 +177,9 @@ public class Movement : MonoBehaviour {
 		if (isRecording) {
 		
 
-	
-
-	
-
-
-
 		if (Input.GetKey(KeyCode.Joystick1Button7) || Input.GetKeyDown(KeyCode.R))
 		{
+			transform.position = new Vector3(1941, 47,1807);
 			//Application.LoadLevel(Application.loadedLevel);
             gameObject.GetComponent<Checkpoint>().SpawnAtStart();
 		}
@@ -314,6 +309,7 @@ public class Movement : MonoBehaviour {
 		transform.Rotate (0,0,z * (m_MinigameRotSpeed/velocity.magnitude));
 	}
 
+
 	private void safty()
 	{
 		if(jumpVelocity < 0f)
@@ -322,6 +318,9 @@ public class Movement : MonoBehaviour {
 		}		 
 	}
 
+
 	// rotate a vector operation
+
+
 }
 
