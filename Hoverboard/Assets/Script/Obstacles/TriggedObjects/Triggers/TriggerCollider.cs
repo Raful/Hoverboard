@@ -13,7 +13,8 @@ using System.Collections.Generic;
 public class TriggerCollider : MonoBehaviour {
 
     [SerializeField]
-    List<GameObject> objectsToTrigger;
+	List<GameObject> objectsToTrigger;
+
 
 #if UNITY_EDITOR
     [SerializeField]

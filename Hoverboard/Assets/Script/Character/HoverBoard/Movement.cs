@@ -49,6 +49,7 @@ public class Movement : MonoBehaviour {
 	private float gravity;			// Amount of gravity pulling the hoverboard down
 	private float loopGravity;
 	private float potentialDecelerate;		// slows down the acceleration depending on uphill/downhill
+	private float appliedStrafe;
 
 	private DetectState currentState;
 
@@ -193,7 +194,7 @@ public class Movement : MonoBehaviour {
 		safty ();
 
 
-		velocity = direction.normalized *(forwardSpeed+backwardSpeed + boostSpeed+bonusSpeed) -Vector3.up*gravity + (jumpVelocity * CustomJumpVec);
+		velocity = direction.normalized *(forwardSpeed+backwardSpeed + boostSpeed+bonusSpeed) -Vector3.up*gravity + (jumpVelocity * CustomJumpVec) + (appliedStrafe * transform.right.normalized);
 		transform.position += velocity*Time.fixedDeltaTime;
 	}
 
@@ -267,9 +268,9 @@ public class Movement : MonoBehaviour {
 		velocity = Velocity;
 	}
 
-	public void Strafe(Vector3 dir)
+	public void Strafe(float dir)
 	{
-		transform.Translate (dir*Time.deltaTime*m_StrafeSpeed);
+		appliedStrafe = (dir*m_StrafeSpeed);
 	}
 	public void changeState(string state)
 	{

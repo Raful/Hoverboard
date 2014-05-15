@@ -72,7 +72,7 @@ public class MoveKeyState : KeyState
 			movement.rotateBoardInY(1);
 		}*/
 
-		movement.Strafe(new Vector3 (Input.GetAxisRaw("LeftHorizontal"), 0, 0));
+		movement.Strafe(Input.GetAxisRaw("LeftHorizontal"));
 		
 		/*if (Input.GetKey (KeyCode.J)) 
 		{
