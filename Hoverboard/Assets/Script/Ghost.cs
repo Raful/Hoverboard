@@ -11,6 +11,7 @@ public class Ghost : MonoBehaviour {
 	private List<Vector3> positionList = new List<Vector3>();
 	private List<Quaternion> transformationList = new List<Quaternion>();
 	private List<Vector3> velocityList = new List<Vector3>();
+	private List<float> timeBetweenUpdatesList = new List<float>();
 	public GameObject hoverboard;
 	public bool isRecording;
 	private int i = 0;
@@ -24,12 +25,14 @@ public class Ghost : MonoBehaviour {
 	private float timeToLerp;
 	private float reduceLerpTime;
 
+
 	public bool saveRecordings = false;
 	public bool canRecordThisHoverboard;
 
 
 	private string filepath;
-
+	private float timebetweenTwoUpdates;
+	private float currentTimeBetweenToUpdates;
 	private DetectState currentState;
 	// Use this for initialization
 	void Start () {
@@ -40,7 +43,8 @@ public class Ghost : MonoBehaviour {
 			currentState = hoverboard.GetComponent<DetectState>();
 			movement = hoverboard.GetComponent<Movement>();
 		}
-
+		if (!isRecording)
+			fetchFromTextFile = true;
 		filepath = Application.persistentDataPath + "/Ghost.txt";
 		timeToLerp = 1/(m_howManyTimesPerSecond);
 		reduceLerpTime = timeToLerp / (m_howManyTimesPerSecond);
@@ -52,12 +56,12 @@ public class Ghost : MonoBehaviour {
 		if (!isRecording && !saveRecordings)
 		{
 			PlayBack();
-			hoverboard.transform.position = Vector3.Lerp (hoverboard.transform.position, positionMovingTo, timeToLerp);
-			hoverboard.transform.rotation = Quaternion.Lerp (hoverboard.transform.rotation, anglesMovingTo, timeToLerp);
-			if(timeToLerp > 0)
+			hoverboard.transform.position = Vector3.Slerp (hoverboard.transform.position, positionMovingTo, timeToLerp);
+			hoverboard.transform.rotation = Quaternion.Slerp (hoverboard.transform.rotation, anglesMovingTo, timeToLerp);
+		/*if(timeToLerp > 0)
 				timeToLerp -= reduceLerpTime;
 			else
-				timeToLerp = 0;
+				timeToLerp = 0;*/
 
 
 		}
@@ -78,13 +82,32 @@ public class Ghost : MonoBehaviour {
 	{
 		if(Time.time > timeToChange)
 		{
+			if(positionList.Count == 0)
+			{
 			if(canRecordThisHoverboard)
 			{
 			stateList.Add(currentState.getKeyState);
 			}
 			positionList.Add(hoverboard.transform.position);
 			transformationList.Add(hoverboard.transform.rotation);
+				timebetweenTwoUpdates = Time.time;
 			timeToChange = Time.time + 1f/m_howManyTimesPerSecond;
+			
+			}
+			else
+			{
+				if(canRecordThisHoverboard)
+				{
+					stateList.Add(currentState.getKeyState);
+				}
+				positionList.Add(hoverboard.transform.position);
+				transformationList.Add(hoverboard.transform.rotation);
+				float temp = Time.time - timebetweenTwoUpdates;
+				timeBetweenUpdatesList.Add(temp);
+				timebetweenTwoUpdates = Time.time;
+				timeToChange = Time.time + 1f/m_howManyTimesPerSecond;
+
+			}
 
 		}
 	}
@@ -95,22 +118,26 @@ public class Ghost : MonoBehaviour {
 		Debug.Log ("Ghost position: " + transform.position.ToString ());
 		Debug.Log ("Position moving to: " + positionMovingTo.ToString ());
 		int readInfo = 0;
-		if(positionList.Count == 0)
+		if(positionList.Count == 0 && fetchFromTextFile)
 		{
-			fetchFromTextFile = true;
+	
 			StreamReader readText = new StreamReader(filepath);
 			while(!readText.EndOfStream)
 			{
 			
 				string info = readText.ReadLine();
 			
-				if(info == "Rotation" || info == "State")
+				if(info == "Rotation" || info == "State" || info == "Time")
 				{
 					if(info == "Rotation")
 						readInfo = 2;
 					if(info == "State")
 					{
 						readInfo = 1;
+					}
+					if(info == "Time")
+					{
+						readInfo = 3;
 					}
 				}
 				else
@@ -149,6 +176,11 @@ public class Ghost : MonoBehaviour {
 						}
 
 					}
+					else if(readInfo == 3)
+					{
+						float temp = float.Parse(info);
+						timeBetweenUpdatesList.Add(temp);
+					}
 				}
 
 			}
@@ -156,7 +188,8 @@ public class Ghost : MonoBehaviour {
 
 		
 		}
-		int size = smallestSize (stateList.Count, positionList.Count, transformationList.Count);
+		int size = smallestSize (stateList.Count, positionList.Count, transformationList.Count, timeBetweenUpdatesList.Count);
+		Debug.Log (size);
 		if(i < size && Time.time > timeToChange)
 		{
 			if(i == 0)
@@ -172,29 +205,28 @@ public class Ghost : MonoBehaviour {
 			
 
 				anglesMovingTo.Set(transformationList[i].x, transformationList[i].y, transformationList[i].z,transformationList[i].w);
-				transform.rotation.Set(anglesMovingTo.x,anglesMovingTo.y,anglesMovingTo.z,anglesMovingTo.w);
+				transform.rotation.Set(anglesMovingTo.x,anglesMovingTo.y,anglesMovingTo.z,anglesMovingTo.w); 
 
+				currentTimeBetweenToUpdates = timeBetweenUpdatesList[i];
 				timeToLerp = 1/(m_howManyTimesPerSecond);
-
-
+				timebetweenTwoUpdates = Time.time;
 			}
 
 
-				
-
 			float x = Mathf.Abs(positionMovingTo.x - hoverboard.transform.position.x);
 			float z = Mathf.Abs(positionMovingTo.z - hoverboard.transform.position.z);
-			if(i != 0 && Time.time > timeToChange)
+			float temp = Time.time - timebetweenTwoUpdates;
+			if(i != 0 &&Time.time > timeToChange && temp > currentTimeBetweenToUpdates)
 			{
 				if(canRecordThisHoverboard)
 				{
-				if(currentState.getKeyState != stateList[i])
 					currentState.changeKeyState(stateList[i]);
 				}
 
 				positionMovingTo = positionList[i];
 				anglesMovingTo.Set(transformationList[i].x, transformationList[i].y, transformationList[i].z,transformationList[i].w);
-			
+				currentTimeBetweenToUpdates = timeBetweenUpdatesList[i];
+				timebetweenTwoUpdates = Time.time;
 				timeToLerp = 1/(m_howManyTimesPerSecond);
 			}
 			i++;
@@ -235,19 +267,28 @@ public class Ghost : MonoBehaviour {
 			{
 				text.WriteLine(transformationList[j].x + "," + transformationList[j].y + "," + transformationList[j].z + "," + transformationList[j].w);
 			}
+
+			text.WriteLine("Time");
+
+			for(int j = 0; j < transformationList.Count; j++)
+			{
+				text.WriteLine(timeBetweenUpdatesList[j]);
+			}
 			
 			text.Close();
 		}
 		saveRecordings = false;
 	}
-	int smallestSize(int a, int b, int c)
+	int smallestSize(int a, int b, int c, int d)
 	{
-		if (a <= b && a <= c)
+		if (a <= b && a <= c && a <= d)
 			return a;
-		if (b <= a && b <= c)
+		if (b <= a && b <= c && b <= d)
 			return b;
+		if (c <= a && c <= b && c <= d)
+			return c;
 
-		return c;
+		return d;
 	}
 
 }

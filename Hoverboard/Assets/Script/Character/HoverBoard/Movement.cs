@@ -66,9 +66,11 @@ public class Movement : MonoBehaviour {
 	
 	public float speedForCamera;	//This variable is for the moment only so the camera can decide the distance from the hoverboard
 
+	[HideInInspector]
 	public bool isRecording = true;
 
-	//[HideInInspector]
+
+	[HideInInspector]
 	public float jumpVelocity; //Jump feeds into this
 
 	public float setGravity
@@ -118,13 +120,16 @@ public class Movement : MonoBehaviour {
 	
 		if(!isGrounded && m_getVelocity.y > 0f)
 		{
-			jumpVelocity -= setGravity;
+			jumpVelocity -= m_Gravity;
+		}
+		
+		if(!isGrounded && m_getVelocity.y < 0f)
+		{
+			jumpVelocity = 0;
 		}
 
 		if(currentState.m_getRayCastState)
 		{
-			
-
 
 				RaycastHit hit;
 				if (Physics.Raycast (transform.position, rayDirection, out hit, hoverHeight)) {
@@ -168,12 +173,14 @@ public class Movement : MonoBehaviour {
 	{
 
 
+
 		if (isRecording) {
 		
 
 	
 
-		safty ();
+	
+
 
 
 		if (Input.GetKey(KeyCode.Joystick1Button7) || Input.GetKeyDown(KeyCode.R))
@@ -207,9 +214,14 @@ public class Movement : MonoBehaviour {
 		}
 
 		#endif
+		safty ();
+
+
+
 
 		velocity = direction.normalized *(forwardSpeed+backwardSpeed + boostSpeed+bonusSpeed) -Vector3.up*gravity + (jumpVelocity * CustomJumpVec.normalized);
 		//Debug.Log ("JumpVEc: " + jumpVelocity * CustomJumpVec);
+
 		transform.position += velocity*Time.fixedDeltaTime;
 		}
 	}

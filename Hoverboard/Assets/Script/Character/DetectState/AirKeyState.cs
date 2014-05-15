@@ -32,7 +32,8 @@ public class AirKeyState : KeyState
 		{
 			
 			movement.Strafe(new Vector3 (Input.GetAxisRaw("LeftHorizontal")/2, 0, 0));
-			
+
+
 			//movement.Direction = RotateY(movement.Direction, Input.GetAxisRaw("RightHorizontal")/10);
 			movement.rotateBoardInY(Input.GetAxisRaw("RightHorizontal"));
 			
