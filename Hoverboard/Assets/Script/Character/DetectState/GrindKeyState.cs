@@ -24,7 +24,7 @@ public class GrindKeyState : KeyState
 	}
 	
 	public override void start ()
-	{
+    {
 		swapBool = true;
 		detectState = movement.GetComponent<DetectState> ();
 		movement.gameObject.GetComponent<Hover_WithTransform> ().enabled = false;
@@ -41,7 +41,7 @@ public class GrindKeyState : KeyState
 	}
 	
 	public override void update () 
-	{		
+	{
 
 		movement.setGravity = 0;
 		movement.Direction = m_keyVector;
