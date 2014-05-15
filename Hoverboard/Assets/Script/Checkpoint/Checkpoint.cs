@@ -27,6 +27,8 @@ public class Checkpoint : MonoBehaviour {
 
     Movement movementScript;
 
+	bool resetCheck;
+
 	void Start () 
     {
         timeSeconds = timerScript.m_raceTime;
@@ -34,6 +36,8 @@ public class Checkpoint : MonoBehaviour {
         rotation = transform.rotation;
 
         movementScript = gameObject.GetComponent<Movement>();
+        
+        resetCheck = false;
 	}
 
     public void SpawnAtCheckpoint()
@@ -46,6 +50,9 @@ public class Checkpoint : MonoBehaviour {
 
         //Reset timer
         timerScript.SetRaceTimer(timeSeconds);
+        
+        Debug.Log("SPAWN_AT_CHECKPOINT");
+        
 
     }
 
@@ -57,6 +64,7 @@ public class Checkpoint : MonoBehaviour {
 
         //Reset timer
         timerScript.SetRaceTimer(0);
+        Debug.Log("SPAWN_AT_START");
     }
 
     void ResetGameState()
@@ -65,15 +73,16 @@ public class Checkpoint : MonoBehaviour {
         movementScript.ResetSpeed();
 
         //Reset achievements' temporary progress
-        achievementScript.LoadProgressFromFile();
+        //achievementScript.LoadProgressFromFile();
+        Debug.Log("RESET_GAME_STATE");
     }
 
 #if UNITY_EDITOR
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Home))
+        if (Input.GetButtonDown("Reset"))
         {
-            SpawnAtCheckpoint();
+        	SpawnAtCheckpoint();
         }
     }
 #endif
@@ -89,6 +98,8 @@ public class Checkpoint : MonoBehaviour {
 
             //Store current time
             timeSeconds = timerScript.m_raceTime;
+            
+           
 
         }
     }

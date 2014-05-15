@@ -155,7 +155,7 @@ public class DetectState : MonoBehaviour {
 		//	keyIsPressed = Time.time;
 		//	railKeyPressed = true;
 		//}
-		if(Input.GetButtonDown("Y-button"))
+		if(Input.GetButtonDown("Grind"))
 		{
 			keyIsPressed = Time.time;
 			railKeyPressed = true;

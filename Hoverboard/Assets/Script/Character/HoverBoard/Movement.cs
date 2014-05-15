@@ -153,11 +153,11 @@ public class Movement : MonoBehaviour {
 	void FixedUpdate () 
 	{
 	
-		if (Input.GetKey(KeyCode.Joystick1Button7) || Input.GetKeyDown(KeyCode.R))
+		/*if (Input.GetKey(KeyCode.Joystick1Button7) || Input.GetKeyDown(KeyCode.R))
 		{
 			//Application.LoadLevel(Application.loadedLevel);
             gameObject.GetComponent<Checkpoint>().SpawnAtStart();
-		}
+		}*/
 				
 		addPotentialSpeed();
 		//Friction
