@@ -191,7 +191,7 @@ public class Movement : MonoBehaviour {
 		}
 		#endif
 
-		velocity = direction.normalized *(forwardSpeed+backwardSpeed + boostSpeed+bonusSpeed) + Vector3.Cross(direction, Vector3.up).normalized * (-strafeSpeed) -Vector3.up*gravity + (jumpVelocity * Vector3.up.normalized);
+		velocity = direction.normalized *(forwardSpeed+backwardSpeed + boostSpeed+bonusSpeed) -Vector3.up*gravity + (jumpVelocity * Vector3.up.normalized);
 		transform.position += velocity*Time.fixedDeltaTime;
 	}
 
@@ -265,9 +265,8 @@ public class Movement : MonoBehaviour {
 
 	public void Strafe(float dir)
 	{
-
-        strafeSpeed = dir * strafeModifier;// *Time.deltaTime;
-        //transform.Translate(Vector3.right * strafeSpeed);
+        strafeSpeed = dir * strafeModifier * Time.deltaTime;
+        transform.Translate(Vector3.right * strafeSpeed);
 	}
 	public void changeState(string state)
 	{
