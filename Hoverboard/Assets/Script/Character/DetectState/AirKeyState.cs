@@ -8,12 +8,18 @@ public class AirKeyState : KeyState
 	private float backWardAcc;
 	private float timeIni;
 
+	private bool useVCR;
+	private InputVCR vcr;
+
 	public AirKeyState(Movement Movement)
 	{
 		movement = Movement;
-	}
 	
-	public override void start ()
+	}
+
+
+	
+	public override void start()
 	{
 		timeIni = Time.time;
 
@@ -32,14 +38,13 @@ public class AirKeyState : KeyState
 			movement.rotateBoardInY(Input.GetAxisRaw("RightHorizontal"));
 			
 			movement.rotateBoardInX(Input.GetAxisRaw("RightVertical"));
-			
-			
+
 		}
 	}
 
 	public override void end()
 	{
-
+		movement.setGravity = 0;
 	}
 
 	public static Vector3 RotateY( Vector3 v, float angle )

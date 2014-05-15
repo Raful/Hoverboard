@@ -27,12 +27,14 @@ public class Jump : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		
-		stickDeltaFour = stickDeltaThree;
-		stickDeltaThree = stickDeltaTwo;
-		stickDeltaTwo = stickDeltaOne;
-		stickDeltaOne = Input.GetAxisRaw("RightVertical");
-		
+
+		if (m_ControllerYes) 
+		{
+			stickDeltaFour = stickDeltaThree;
+			stickDeltaThree = stickDeltaTwo;
+			stickDeltaTwo = stickDeltaOne;
+			stickDeltaOne = Input.GetAxisRaw ("RightVertical");
+		}
 		if(!privateMovement.isGrounded)
 		{
 			jumpPower = 0;
