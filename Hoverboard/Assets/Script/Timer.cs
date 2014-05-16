@@ -27,25 +27,7 @@ public class Timer : MonoBehaviour {
 		SetMinSecMil ();
 
 		text="";
-
-		//minutes
-		if (timeMinutes<10){
-			text+="0";
-		} text+=timeMinutes.ToString () + ":";
-
-		//seconds
-		if (timeSeconds<10){
-			text+="0";
-		} text+=timeSeconds.ToString () + ".";
-
-		//milliseconds
-		if (timeMilli<100){
-			if (timeMilli<10){
-				text+="0";
-			} text+="0";
-		} text+=timeMilli.ToString ();
-
-		//render
+		text = string.Format("{0:00}:{1:00}.{2:000}",timeMinutes,timeSeconds,timeMilli);
 		guiText.text = text;
 	
 	}
