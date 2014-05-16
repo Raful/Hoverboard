@@ -44,7 +44,7 @@ public class Movement : MonoBehaviour {
 	public float m_PotentialFriction;	// Friction loss on going downhill/uphill, separated from normal Friction.
 		
 	private Vector3 direction;		// Direction of the hoverboard
-	public Vector3 velocity;		// The vector whichs updates new positions
+	private Vector3 velocity;		// The vector whichs updates new positions
 	private Vector3 lastPosition;	// contains a position 1 second ago
 	private float lastTime;			// Used to save position every second
 	
@@ -78,7 +78,7 @@ public class Movement : MonoBehaviour {
 	public bool isRecording = true;
 
 
-	[HideInInspector]
+	//[HideInInspector]
 	public float jumpVelocity; //Jump feeds into this
 
 	public float setGravity
@@ -122,15 +122,6 @@ public class Movement : MonoBehaviour {
 	void LateUpdate()
 	{
 		
-		if (isRecording) {
-	
-
-	
-		if(!isGrounded && m_getVelocity.y > 0f)
-		{
-			jumpVelocity -= m_Gravity;
-		}
-		
 		if(!isGrounded && m_getVelocity.y < 0f)
 		{
 			jumpVelocity = 0;
@@ -138,49 +129,47 @@ public class Movement : MonoBehaviour {
 
 		if(currentState.m_getRayCastState)
 		{
+			RaycastHit hit;
+			if (Physics.Raycast (transform.position, rayDirection, out hit, hoverHeight)) {
+				
+				CustomJumpVec = Vector3.up.normalized;
+				direction = transform.forward;
+				
+				if ((int)Vector3.Angle (Vector3.up, hit.normal) != 90 || (int)Vector3.Angle (Vector3.up, hit.normal) != 270) {
 
-				RaycastHit hit;
-				if (Physics.Raycast (transform.position, rayDirection, out hit, hoverHeight)) {
-
-					if ((int)Vector3.Angle (Vector3.up, hit.normal) != 90 || (int)Vector3.Angle (Vector3.up, hit.normal) != 270) 
+					changeState ("Grounded");
+					if (hit.normal.y <= 0) 
 					{
-						changeState ("Grounded");
-						if (hit.normal.y <= 0) 
-						{
-							loopGravity += 0.1f;
-						} 
-						else 
-						{
-							loopGravity = 0;
-
-						}
-					} 
-
-
-					if (Vector3.Angle (transform.forward, Vector3.Cross (transform.right, hit.normal)) < m_MaxAngle || !isGrounded) {
-						gravity = 0;
-						transform.rotation = Quaternion.LookRotation (Vector3.Cross (transform.right, hit.normal), hit.normal);
+						loopGravity += 0.1f;
+					} else 
+					{
+						loopGravity = 0;
 					}
-
-					gravity = loopGravity;
-					//Debug.DrawLine (transform.position, hit.point);
-					isGrounded = true;
-					rayDirection = -transform.up;
-
-					 
 				}
-				else 
-				{	
+
+				if (Vector3.Angle (transform.forward, Vector3.Cross (transform.right, hit.normal)) < m_MaxAngle || !isGrounded)
+				{
+					gravity = 0;
+					transform.rotation = Quaternion.LookRotation (Vector3.Cross (transform.right, hit.normal), hit.normal);
+					
+				}
+				gravity = loopGravity;
+				//Debug.DrawLine (transform.position, hit.point);
+				isGrounded = true;
+				rayDirection = -transform.up;
+
+			}
+			else 
+			{	
 					loopGravity = 0;
 					changeState ("Air");
 					gravity += m_Gravity;
 					isGrounded = false;
 					rayDirection = Vector3.down;
-					
-				}
 			}
 		}
 	}
+
 
 	
 	void FixedUpdate () 
@@ -193,18 +182,19 @@ public class Movement : MonoBehaviour {
 		boostSpeed -= m_Friction;
 
 		
-			if (boostScript.m_isBoosting) {
-				boostSpeed += boostAcceleration;
-			}
-		
-			// Speed Restrictions
-			speed = Mathf.Abs (forwardSpeed + backwardSpeed + bonusSpeed);
-			forwardSpeed = Mathf.Clamp (forwardSpeed, 0, m_MaxAccSpeed);
-			backwardSpeed = Mathf.Clamp (backwardSpeed, -m_MaxAccSpeed, 0);
-			boostSpeed = Mathf.Clamp (boostSpeed, 0, boostMaxAccSpeed - m_MaxAccSpeed); //boostMaxAccSpeed is set as the max speed while boosting, but boostSpeed is added to the normal speed (not overwriting it).
-			speedForCamera = forwardSpeed + backwardSpeed + boostSpeed;
-		
-			#if UNITY_EDITOR
+		if (boostScript.m_isBoosting)
+		{
+			boostSpeed += boostAcceleration;
+		}
+	
+		// Speed Restrictions
+		speed = Mathf.Abs (forwardSpeed + backwardSpeed + bonusSpeed);
+		forwardSpeed = Mathf.Clamp (forwardSpeed, 0, m_MaxAccSpeed);
+		backwardSpeed = Mathf.Clamp (backwardSpeed, -m_MaxAccSpeed, 0);
+		boostSpeed = Mathf.Clamp (boostSpeed, 0, boostMaxAccSpeed - m_MaxAccSpeed); //boostMaxAccSpeed is set as the max speed while boosting, but boostSpeed is added to the normal speed (not overwriting it).
+		speedForCamera = forwardSpeed + backwardSpeed + boostSpeed;
+	
+		#if UNITY_EDITOR
 		if (boostMaxAccSpeed < m_MaxAccSpeed)
 		{
 			Debug.LogError("boostMaxAccSpeed is smaller than m_MaxAccSpeed");
@@ -215,7 +205,7 @@ public class Movement : MonoBehaviour {
 
 		velocity = direction.normalized *(forwardSpeed+backwardSpeed + boostSpeed+bonusSpeed) -Vector3.up*gravity + (jumpVelocity * CustomJumpVec) + (appliedStrafe * transform.right.normalized);
 		transform.position += velocity*Time.fixedDeltaTime;
-		
+
 	}
 	
 	// Calls on collision, resets Speed, x-rotation and position

@@ -59,11 +59,12 @@ public class DetectState : MonoBehaviour {
         colliderStates = gameObject.GetComponentsInChildren<ColliderObject>();
 
         collidersFound = new ArrayList();
-		currentKeyState = "Grounded";
 		keyStateDictionary.Add ("Grounded",new MoveKeyState(GetComponent<Movement>()));
 		keyStateDictionary.Add ("Air",new AirKeyState(GetComponent<Movement>()));
 		keyStateDictionary.Add("Rail",new GrindKeyState(GetComponent<Movement>()));
 		keyStateDictionary.Add("Wall",new WallKeyState(GetComponent<Movement>()));
+		currentKeyState = "Grounded";
+
 	}
 
     void CheckForErrors()

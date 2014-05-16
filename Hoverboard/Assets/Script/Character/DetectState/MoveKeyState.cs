@@ -16,9 +16,6 @@ public class MoveKeyState : KeyState
 	public MoveKeyState(Movement Movement)
 	{
 		movement = Movement;
-
-
-
 	}
 
 
@@ -63,8 +60,10 @@ public class MoveKeyState : KeyState
 
 
 
+
 	
 		movement.rotateBoardInY(Input.GetAxisRaw("LeftHorizontal"));
+
 
 
 		

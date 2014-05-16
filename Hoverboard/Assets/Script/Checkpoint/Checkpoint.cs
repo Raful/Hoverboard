@@ -60,7 +60,7 @@ public class Checkpoint : MonoBehaviour {
     {
         ResetGameState();
 
-        spawnPositionScript.ResetTransform();
+		spawnPositionScript.ResetTransform();
 
         //Reset timer
         timerScript.SetRaceTimer(0);
