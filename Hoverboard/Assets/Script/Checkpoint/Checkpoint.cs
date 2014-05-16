@@ -77,10 +77,10 @@ public class Checkpoint : MonoBehaviour {
         Debug.Log("RESET_GAME_STATE");
     }
 
-#if UNITY_EDITOR
+//#if UNITY_EDITOR
     void Update()
     {
-        if (Input.GetButtonDown("Reset"))
+       	if (Input.GetButtonDown("Reset"))
         {
 			if (checkpointCheck == true)
         		SpawnAtCheckpoint();
@@ -98,7 +98,7 @@ public class Checkpoint : MonoBehaviour {
         }
         
     }
-#endif
+//#endif
 
     void OnTriggerEnter(Collider col)
     {
