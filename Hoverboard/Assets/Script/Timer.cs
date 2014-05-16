@@ -44,7 +44,6 @@ public class Timer : MonoBehaviour {
         else
         {
             leaveTime = 0;
-            noResetTimer = 0;
         }
     }
 

@@ -35,10 +35,10 @@ public class Jump : MonoBehaviour {
 			stickDeltaTwo = stickDeltaOne;
 			stickDeltaOne = Input.GetAxisRaw ("RightVertical");
 		}
-		if(!privateMovement.isGrounded)
-		{
-			jumpPower = 0;
-		}
+		//if(!privateMovement.isGrounded)
+		//{
+		//	jumpPower = 0;
+		//}
 
 		if(m_ControllerYes)
 		{
@@ -63,24 +63,27 @@ public class Jump : MonoBehaviour {
 			}
 		}
 
-		if (Input.GetKey (KeyCode.Space) && privateMovement.isGrounded)
-		{
-			chargePower = chargePower + m_JumpAccelration;
-		}
+		//if (Input.GetKey (KeyCode.Space) && privateMovement.isGrounded)
+		//{
+		//	chargePower = chargePower + m_JumpAccelration;
+		//}
 
-		if (Input.GetKeyUp(KeyCode.Space) && privateMovement.isGrounded)
+		if (Input.GetKey(KeyCode.Space) && privateMovement.isGrounded)
 		{
-			if(chargePower > m_MaxJumpPower)
+			jumpPower += m_JumpAccelration;
+
+			if(jumpPower > m_MaxJumpPower)
 			{
-				chargePower = m_MaxJumpPower;
+				jumpPower = m_MaxJumpPower;
 			}
-			else if(chargePower < m_MinJumpPower)
+			else if(jumpPower < m_MinJumpPower)
 			{
-				chargePower = m_MinJumpPower;
+				jumpPower = m_MinJumpPower;
 			}
-			
-			jumpPower = chargePower;
-			chargePower = 0;
+		}
+		if (Input.GetKeyUp (KeyCode.Space)) 
+		{
+			jumpPower = 0;
 		}
 		privateMovement.jumpVelocity += jumpPower;
 	}

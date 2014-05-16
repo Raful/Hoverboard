@@ -16,9 +16,6 @@ public class MoveKeyState : KeyState
 	public MoveKeyState(Movement Movement)
 	{
 		movement = Movement;
-
-
-
 	}
 
 

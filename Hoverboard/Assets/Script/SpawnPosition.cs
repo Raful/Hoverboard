@@ -17,10 +17,10 @@ public class SpawnPosition : MonoBehaviour {
 	// Use this for initialization
 	void Awake () 
 	{
-        ResetTransform();
+       // ResetTransform();
 	}
 
-    public void ResetTransform()
+    void Start()
     {
         m_TargetLogicHoverBoard.transform.position = transform.position;
         m_TargetLogicHoverBoard.transform.rotation = transform.rotation;
