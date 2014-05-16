@@ -13,7 +13,6 @@ public class Timer : MonoBehaviour {
 
 	float timeMinutes, timeSeconds, timeMilli;
 	float raceTime, leaveTime, finishTime;
-	short noResetTimer = 0;
 	
     public float m_finishTime
     {
@@ -80,20 +79,16 @@ public class Timer : MonoBehaviour {
 
 	public void RaceTime()
 	{
-		if (noResetTimer < 1) 
-		{
-			leaveTime = Time.time;
-			++noResetTimer;
-		}
+		leaveTime = Time.time;
 	}
 
 	public void StopTimer()
 	{
-		if (noResetTimer < 2)
-		{
-			finishTime = raceTime;
-			++noResetTimer;
-		}
+		finishTime = raceTime;
+	}
+	public void nullTimer()
+	{
+		raceTime = 0;
 	}
 
 
