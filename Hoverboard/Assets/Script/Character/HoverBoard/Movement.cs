@@ -82,11 +82,6 @@ public class Movement : MonoBehaviour {
 		set{gravity = value;}
 	}
 
-
-	public float getSpeed
-	{
-		get {return speed;}
-	}
 	public Vector3 m_getVelocity
 	{
 		get {return velocity;}
@@ -110,7 +105,7 @@ public class Movement : MonoBehaviour {
 		boostScript = gameObject.GetComponent<Boost>();
 		rayDirection = -Vector3.up;
 		direction = transform.forward;
-		CustomJumpVec = Vector3.up.normalized;
+		CustomJumpVec = Vector3.up;
 	}
 	
 	// Calculates the new angle and rotates accordingly
@@ -120,8 +115,7 @@ public class Movement : MonoBehaviour {
 		{
 			RaycastHit hit;
 			if (Physics.Raycast (transform.position, rayDirection, out hit, hoverHeight)) {
-				
-				CustomJumpVec = Vector3.up.normalized;
+				CustomJumpVec = Vector3.up;
 				direction = transform.forward;
 				
 				if ((int)Vector3.Angle (Vector3.up, hit.normal) != 90 || (int)Vector3.Angle (Vector3.up, hit.normal) != 270) {

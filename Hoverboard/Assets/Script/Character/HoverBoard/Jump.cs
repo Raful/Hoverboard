@@ -2,8 +2,9 @@
 using System.Collections;
 
 public class Jump : MonoBehaviour {
-	
-	public float m_JumpAcceleration, m_JumpAirAcceleration;
+
+	[Range(25.0f,100.0f)]
+	public float m_JumpAcceleration;
 	public Movement privateMovement;
 	public bool m_ControllerYes = false;
 	
@@ -32,9 +33,9 @@ public class Jump : MonoBehaviour {
 			{
 				privateMovement.jumpVelocity = m_JumpAcceleration;
 			}
-			else if (privateMovement.m_getVelocity.y > 0f)
+			else if (privateMovement.m_getVelocity.y > 0f) 
 			{
-				privateMovement.jumpVelocity+= m_JumpAirAcceleration;
+				privateMovement.setGravity -= privateMovement.m_Gravity*0.5f;
 			}
 		}
 	}
