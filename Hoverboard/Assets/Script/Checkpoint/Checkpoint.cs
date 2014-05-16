@@ -27,7 +27,7 @@ public class Checkpoint : MonoBehaviour {
 
     Movement movementScript;
 
-	bool resetCheck;
+	bool checkpointCheck;
 
 	void Start () 
     {
@@ -37,7 +37,7 @@ public class Checkpoint : MonoBehaviour {
 
         movementScript = gameObject.GetComponent<Movement>();
         
-        resetCheck = false;
+        checkpointCheck = false;
 	}
 
     public void SpawnAtCheckpoint()
@@ -82,8 +82,21 @@ public class Checkpoint : MonoBehaviour {
     {
         if (Input.GetButtonDown("Reset"))
         {
-        	SpawnAtCheckpoint();
+			if (checkpointCheck == true)
+        		SpawnAtCheckpoint();
+        	
+			else
+				SpawnAtStart();
+			
         }
+        
+        if (Input.GetButtonDown ("LevelReset"))
+        {
+			checkpointCheck = false;
+        	SpawnAtStart();
+        	
+        }
+        
     }
 #endif
 
@@ -95,10 +108,10 @@ public class Checkpoint : MonoBehaviour {
             //The player will respawn at the checkpoints' position and rotation.
             position = col.transform.position;
             rotation = col.transform.rotation;
-
+			//position = transform.position;
             //Store current time
             timeSeconds = timerScript.m_raceTime;
-            
+            checkpointCheck = true;
            
 
         }

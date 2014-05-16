@@ -68,12 +68,12 @@ public class Jump : MonoBehaviour {
 			}
 		}
 
-		if (Input.GetKey (KeyCode.Space) && privateMovement.isGrounded)
+		if (Input.GetButton ("Jump") && privateMovement.isGrounded)
 		{
 			chargePower = chargePower + m_JumpAccelration;
 		}
 
-		if (Input.GetKeyUp(KeyCode.Space) && privateMovement.isGrounded)
+		if (Input.GetButtonUp("Jump") && privateMovement.isGrounded)
 		{
 			if(chargePower > m_MaxJumpPower)
 			{

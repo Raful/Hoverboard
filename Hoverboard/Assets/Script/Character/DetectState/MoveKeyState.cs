@@ -60,7 +60,7 @@ public class MoveKeyState : KeyState
 			movement.backwardSpeed -= movement.m_BackwardAcc;
 		}*/
 		
-		movement.rotateBoardInY(Input.GetAxisRaw("RightHorizontal"));
+		movement.rotateBoardInY(Input.GetAxisRaw("LeftHorizontal"));
 		
 		/*if(Input.GetKey(KeyCode.A))
 		{
@@ -72,7 +72,7 @@ public class MoveKeyState : KeyState
 			movement.rotateBoardInY(1);
 		}*/
 
-		movement.Strafe(new Vector3 (Input.GetAxisRaw("LeftHorizontal"), 0, 0));
+		movement.Strafe(new Vector3 (Input.GetAxisRaw("RightHorizontal"), 0, 0));
 		
 		/*if (Input.GetKey (KeyCode.J)) 
 		{
