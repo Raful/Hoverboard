@@ -286,7 +286,7 @@ public class Movement : MonoBehaviour {
 	public void Strafe(float dir)
 	{
 
-		appliedStrafe = (dir*m_StrafeSpeed);
+		appliedStrafe = (dir*strafeModifier);
 		
         strafeSpeed = dir * strafeModifier * Time.deltaTime;
         //transform.Translate(Vector3.right * strafeSpeed);
