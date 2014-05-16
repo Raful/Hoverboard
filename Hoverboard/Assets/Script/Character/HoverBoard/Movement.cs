@@ -71,7 +71,7 @@ public class Movement : MonoBehaviour {
 	public bool isRecording = true;
 
 
-	[HideInInspector]
+	//[HideInInspector]
 	public float jumpVelocity; //Jump feeds into this
 
 	public float setGravity
@@ -114,10 +114,6 @@ public class Movement : MonoBehaviour {
 	// Calculates the new angle and rotates accordingly
 	void LateUpdate()
 	{
-		if(!isGrounded && m_getVelocity.y > 0f)
-		{
-			jumpVelocity -= m_Gravity;
-		}
 		
 		if(!isGrounded && m_getVelocity.y < 0f)
 		{

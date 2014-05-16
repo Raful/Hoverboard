@@ -60,9 +60,12 @@ public class LightningHoverBoard : MonoBehaviour {
 	}
 	private void changeColor()
 	{
-		if (m_JumpScript.getChargePower > 0) {
+		if (m_MovementScript.jumpVelocity > 0f)
+		{
 			light.color = col_charged;
-		} else {
+		} 
+		else
+		{
 			light.color = col;
 		}
 	}
