@@ -25,7 +25,8 @@ public class Movement : MonoBehaviour {
 	public float hoverHeight;		// HoverHeight of the hoverboard	
 	public Vector3 m_RotationSpeed;	// Amount of rotation applied 
 	public float m_MinigameRotSpeed; //  Constant rotation speed for the grind minigame
-	public float m_StrafeSpeed;		// Amount of speed applied to the strafe action
+    [SerializeField]
+	private float strafeModifier;		// Amount of speed applied to the strafe action
 
 
 	public float m_Gravity; 		// Gravity acceleration, added each frame when not grounded.
@@ -55,7 +56,13 @@ public class Movement : MonoBehaviour {
 	private float appliedStrafe;
 
 	private DetectState currentState;
-	
+
+    private float strafeSpeed;
+    public float m_strafeSpeed
+    {
+        get { return strafeSpeed; }
+    }
+
 	[HideInInspector]
 	public bool isGrounded;			// true if the raycast hits something, false otherwise
 	[HideInInspector]
@@ -219,9 +226,6 @@ public class Movement : MonoBehaviour {
         ResetSpeed();
 		//FMOD_StudioSystem.instance.PlayOneShot("event:/Impact/Impact1",transform.position);
 		transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
-		
-		
-		
 	}
 
 
@@ -231,6 +235,7 @@ public class Movement : MonoBehaviour {
         backwardSpeed = 0;
         bonusSpeed = 0;
         boostSpeed = 0;
+        strafeSpeed = 0;
     }
 
 
@@ -280,7 +285,12 @@ public class Movement : MonoBehaviour {
 
 	public void Strafe(float dir)
 	{
+
 		appliedStrafe = (dir*m_StrafeSpeed);
+		
+        strafeSpeed = dir * strafeModifier * Time.deltaTime;
+        //transform.Translate(Vector3.right * strafeSpeed);
+		
 	}
 
 	public void changeState(string state)

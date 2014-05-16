@@ -23,6 +23,8 @@ public class DetectState : MonoBehaviour {
 	private bool rayCastState = true;
 	private bool railKeyPressed;
 	private float keyIsPressed;
+    [SerializeField]
+    private Animator animator;
 
 	public bool m_getRailPermission
 	{
@@ -54,11 +56,6 @@ public class DetectState : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
     {
-        if (!rigidbody)
-        {
-            Debug.LogError("Rigidbody not found!");
-        }
-
         colliderStates = gameObject.GetComponentsInChildren<ColliderObject>();
 
         collidersFound = new ArrayList();
@@ -68,6 +65,19 @@ public class DetectState : MonoBehaviour {
 		keyStateDictionary.Add("Rail",new GrindKeyState(GetComponent<Movement>()));
 		keyStateDictionary.Add("Wall",new WallKeyState(GetComponent<Movement>()));
 	}
+
+    void CheckForErrors()
+    {
+        if (!animator)
+        {
+            Debug.LogError("Animator not defined!");
+        }
+
+        if (!rigidbody)
+        {
+            Debug.LogError("Rigidbody not found!");
+        }
+    }
 	
 	// Update is called once per frame
 	void Update () 
@@ -79,7 +89,21 @@ public class DetectState : MonoBehaviour {
 		updateKeyState (currentKeyState).update();
         //Clear collidersFound at each frame, to keep it updated
         collidersFound.Clear();
+
 	}
+
+    //Called every time the state changes
+    void UpdateAnimations()
+    {
+        if (currentKeyState == "Rail")
+        {
+            animator.SetBool("Grinding", true);
+        }
+        else
+        {
+            animator.SetBool("Grinding", false);
+        }
+    }
 
     //Checks all collided objects, and place them in collidersFound (to be used in setState()).
     void gatherColliders()
@@ -140,6 +164,8 @@ public class DetectState : MonoBehaviour {
 			keyStateDictionary [state].start();
 			currentKeyState = state;
 		}
+
+        UpdateAnimations();
 	}
 	public KeyState updateKeyState(string keyState)
 	{
