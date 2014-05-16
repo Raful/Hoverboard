@@ -63,7 +63,7 @@ public class Jump : MonoBehaviour {
 		//}
 
 
-		if (Input.GetKey(KeyCode.Space))
+		if (Input.GetButton("Jump"))
 
 		{
 			if (privateMovement.isGrounded)
