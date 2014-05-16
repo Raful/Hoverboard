@@ -30,7 +30,7 @@ public class Boost : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (Input.GetButton("Boost") && energyScript.m_energy > 0)
+        if (Input.GetButton("Boost") && energyScript.m_energy > 0 )
         {
             UseBoost();
             m_isBoosting = true;

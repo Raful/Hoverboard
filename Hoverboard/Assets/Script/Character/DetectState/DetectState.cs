@@ -51,7 +51,6 @@ public class DetectState : MonoBehaviour {
 		}
 		get {return currentKeyState;}
 	}
-
 	// Use this for initialization
 	void Start () 
     {
@@ -75,6 +74,7 @@ public class DetectState : MonoBehaviour {
     {
 		RailKey ();
         gatherColliders();
+
         setState();
 		updateKeyState (currentKeyState).update();
         //Clear collidersFound at each frame, to keep it updated
