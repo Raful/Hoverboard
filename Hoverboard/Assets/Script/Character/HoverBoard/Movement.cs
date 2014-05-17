@@ -43,7 +43,7 @@ public class Movement : MonoBehaviour {
 	public float m_PotentialFriction;	// Friction loss on going downhill/uphill, separated from normal Friction.
 		
 	private Vector3 direction;		// Direction of the hoverboard
-	public Vector3 velocity;		// The vector whichs updates new positions
+	private Vector3 velocity;		// The vector whichs updates new positions
 	private Vector3 lastPosition;	// contains a position 1 second ago
 	private float lastTime;			// Used to save position every second
 	
@@ -52,7 +52,8 @@ public class Movement : MonoBehaviour {
 	private float gravity;			// Amount of gravity pulling the hoverboard down
 	private float loopGravity;
 	private float potentialDecelerate;		// slows down the acceleration depending on uphill/downhill
-	
+	private float appliedStrafe;
+
 	private DetectState currentState;
 	
 	[HideInInspector]
@@ -69,6 +70,8 @@ public class Movement : MonoBehaviour {
 	[HideInInspector]
 	public bool isRecording = true;
 
+	[SerializeField]
+	private float m_TerminalVelocity;
 
 	[HideInInspector]
 	public float jumpVelocity; //Jump feeds into this
@@ -79,11 +82,6 @@ public class Movement : MonoBehaviour {
 		set{gravity = value;}
 	}
 
-
-	public float getSpeed
-	{
-		get {return speed;}
-	}
 	public Vector3 m_getVelocity
 	{
 		get {return velocity;}
@@ -107,83 +105,58 @@ public class Movement : MonoBehaviour {
 		boostScript = gameObject.GetComponent<Boost>();
 		rayDirection = -Vector3.up;
 		direction = transform.forward;
-		CustomJumpVec = Vector3.up.normalized;
+		CustomJumpVec = Vector3.up;
 	}
 	
 	// Calculates the new angle and rotates accordingly
 	void LateUpdate()
 	{
-		
-		if (isRecording) {
-	
-
-	
-		if(!isGrounded && m_getVelocity.y > 0f)
-		{
-			jumpVelocity -= m_Gravity;
-		}
-		
-		if(!isGrounded && m_getVelocity.y < 0f)
-		{
-			jumpVelocity = 0;
-		}
-
 		if(currentState.m_getRayCastState)
 		{
+			RaycastHit hit;
+			if (Physics.Raycast (transform.position, rayDirection, out hit, hoverHeight)) {
+				CustomJumpVec = Vector3.up;
+				direction = transform.forward;
+				
+				if ((int)Vector3.Angle (Vector3.up, hit.normal) != 90 || (int)Vector3.Angle (Vector3.up, hit.normal) != 270) {
 
-				RaycastHit hit;
-				if (Physics.Raycast (transform.position, rayDirection, out hit, hoverHeight)) {
-
-					if ((int)Vector3.Angle (Vector3.up, hit.normal) != 90 || (int)Vector3.Angle (Vector3.up, hit.normal) != 270) {
-						changeState ("Grounded");
-						if (hit.normal.y <= 0) {
-							loopGravity += 0.1f;
-						} else {
-							loopGravity = 0;
-
-						}
-
-
-
-						if (Vector3.Angle (transform.forward, Vector3.Cross (transform.right, hit.normal)) < m_MaxAngle || !isGrounded) {
-							gravity = 0;
-							transform.rotation = Quaternion.LookRotation (Vector3.Cross (transform.right, hit.normal), hit.normal);
-						}
-
-						gravity = loopGravity;
-						//Debug.DrawLine (transform.position, hit.point);
-						isGrounded = true;
-						rayDirection = -transform.up;
-
-					} else {	
+					changeState ("Grounded");
+					if (hit.normal.y <= 0) 
+					{
+						loopGravity += 0.1f;
+					} else 
+					{
 						loopGravity = 0;
-						changeState ("Air");
-						gravity += m_Gravity;
-						isGrounded = false;
-						rayDirection = Vector3.down;
-
 					}
 				}
+
+				if (Vector3.Angle (transform.forward, Vector3.Cross (transform.right, hit.normal)) < m_MaxAngle || !isGrounded)
+				{
+					gravity = 0;
+					transform.rotation = Quaternion.LookRotation (Vector3.Cross (transform.right, hit.normal), hit.normal);
+					
+				}
+				gravity = loopGravity;
+				//Debug.DrawLine (transform.position, hit.point);
+				isGrounded = true;
+				rayDirection = -transform.up;
+
+			}
+			else 
+			{	
+					loopGravity = 0;
+					changeState ("Air");
+					gravity += m_Gravity;
+					isGrounded = false;
+					rayDirection = Vector3.down;
 			}
 		}
 	}
 
+
 	
 	void FixedUpdate () 
 	{
-
-
-
-		if (isRecording) {
-		
-
-		if (Input.GetKey(KeyCode.Joystick1Button7) || Input.GetKeyDown(KeyCode.R))
-		{
-			transform.position = new Vector3(1941, 47,1807);
-			//Application.LoadLevel(Application.loadedLevel);
-            gameObject.GetComponent<Checkpoint>().SpawnAtStart();
-		}
-				
 		addPotentialSpeed();
 		//Friction
 		forwardSpeed-= m_Friction;
@@ -191,18 +164,19 @@ public class Movement : MonoBehaviour {
 		boostSpeed -= m_Friction;
 
 		
-			if (boostScript.m_isBoosting) {
-				boostSpeed += boostAcceleration;
-			}
-		
-			// Speed Restrictions
-			speed = Mathf.Abs (forwardSpeed + backwardSpeed + bonusSpeed);
-			forwardSpeed = Mathf.Clamp (forwardSpeed, 0, m_MaxAccSpeed);
-			backwardSpeed = Mathf.Clamp (backwardSpeed, -m_MaxAccSpeed, 0);
-			boostSpeed = Mathf.Clamp (boostSpeed, 0, boostMaxAccSpeed - m_MaxAccSpeed); //boostMaxAccSpeed is set as the max speed while boosting, but boostSpeed is added to the normal speed (not overwriting it).
-			speedForCamera = forwardSpeed + backwardSpeed + boostSpeed;
-		
-			#if UNITY_EDITOR
+		if (boostScript.m_isBoosting)
+		{
+			boostSpeed += boostAcceleration;
+		}
+	
+		// Speed Restrictions
+		speed = Mathf.Abs (forwardSpeed + backwardSpeed + bonusSpeed);
+		forwardSpeed = Mathf.Clamp (forwardSpeed, 0, m_MaxAccSpeed);
+		backwardSpeed = Mathf.Clamp (backwardSpeed, -m_MaxAccSpeed, 0);
+		boostSpeed = Mathf.Clamp (boostSpeed, 0, boostMaxAccSpeed - m_MaxAccSpeed); //boostMaxAccSpeed is set as the max speed while boosting, but boostSpeed is added to the normal speed (not overwriting it).
+		speedForCamera = forwardSpeed + backwardSpeed + boostSpeed;
+	
+		#if UNITY_EDITOR
 		if (boostMaxAccSpeed < m_MaxAccSpeed)
 		{
 			Debug.LogError("boostMaxAccSpeed is smaller than m_MaxAccSpeed");
@@ -211,14 +185,10 @@ public class Movement : MonoBehaviour {
 		#endif
 		safty ();
 
-
-
-
-		velocity = direction.normalized *(forwardSpeed+backwardSpeed + boostSpeed+bonusSpeed) -Vector3.up*gravity + (jumpVelocity * CustomJumpVec.normalized);
-		//Debug.Log ("JumpVEc: " + jumpVelocity * CustomJumpVec);
-
+		velocity = direction.normalized *(forwardSpeed+backwardSpeed + boostSpeed+bonusSpeed) -Vector3.up*gravity + (jumpVelocity * CustomJumpVec) + (appliedStrafe * transform.right.normalized);
+		velocity.y = Mathf.Max(velocity.y, -Mathf.Abs(m_TerminalVelocity));
 		transform.position += velocity*Time.fixedDeltaTime;
-		}
+
 	}
 	
 	// Calls on collision, resets Speed, x-rotation and position
@@ -294,9 +264,9 @@ public class Movement : MonoBehaviour {
 		velocity = Velocity;
 	}
 
-	public void Strafe(Vector3 dir)
+	public void Strafe(float dir)
 	{
-		transform.Translate (dir*Time.deltaTime*m_StrafeSpeed);
+		appliedStrafe = (dir*m_StrafeSpeed);
 	}
 
 	public void changeState(string state)
@@ -312,7 +282,7 @@ public class Movement : MonoBehaviour {
 
 	private void safty()
 	{
-		if(jumpVelocity < 0f)
+		if(velocity.y < 0f)
 		{
 			jumpVelocity = 0f;
 		}		 
