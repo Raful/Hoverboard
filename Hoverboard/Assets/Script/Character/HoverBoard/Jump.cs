@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Jump : MonoBehaviour {
 
-	[Range(25.0f,100.0f)]
+	[Range(40.0f,10000f)]
 	public float m_JumpAcceleration;
 	public Movement privateMovement;
 	public bool m_ControllerYes = false;

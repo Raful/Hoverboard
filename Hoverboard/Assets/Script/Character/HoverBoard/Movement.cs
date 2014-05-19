@@ -73,7 +73,7 @@ public class Movement : MonoBehaviour {
 	[SerializeField]
 	private float m_TerminalVelocity;
 
-	[HideInInspector]
+	//[HideInInspector]
 	public float jumpVelocity; //Jump feeds into this
 
 	public float setGravity
@@ -242,6 +242,14 @@ public class Movement : MonoBehaviour {
 		// decelerate
 		bonusSpeed = Mathf.Lerp (bonusSpeed, 0, Time.deltaTime*m_PotentialFriction);
 	}
+
+	private void safty()
+	{
+		if(isGrounded && velocity.y <= -0.1f)
+		{
+			jumpVelocity = 0f;
+		}		 
+	}
 	
 	public void rotateBoardInX(float x)
 	{
@@ -273,24 +281,14 @@ public class Movement : MonoBehaviour {
 	{
 		currentState.changeKeyState(state);
 	}
-
+	// rotate a vector operation
 	public void miniGameCOnstantRotationSpeed(float z)
 	{
 		transform.Rotate (0,0,z * (m_MinigameRotSpeed/velocity.magnitude));
 	}
-
-
-	private void safty()
+	private void test()
 	{
-		if(velocity.y < 0f)
-		{
-			jumpVelocity = 0f;
-		}		 
+
 	}
-
-
-	// rotate a vector operation
-
-
 }
 
