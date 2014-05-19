@@ -6,12 +6,7 @@ public class Jump : MonoBehaviour {
 	[Range(40.0f,10000f)][SerializeField]
 	private float m_JumpAcceleration;
 	public Movement privateMovement;
-	
-	private float stickDeltaOne;
-	private float stickDeltaTwo;
-	private float stickDeltaThree;
-	private float stickDeltaFour;
-	
+
 	// Use this for initialization
 	void Start () 
 	{

@@ -3,33 +3,29 @@ using System.Collections;
 
 public class LightningHoverBoard : MonoBehaviour {
 
-	public float m_IntensityThreshold, m_PulseSpeed;
-	public bool m_Peek;
 	public Jump m_JumpScript;
 	public Movement m_MovementScript;
-	public Color col;
-	public Color col_charged;
+
+	[SerializeField]
+	private float IntensityThreshold, PulseSpeed;
+	[SerializeField]
+	private Color col;
+	[SerializeField]
+	private Color col_charged;
 
 	float TimeSin;
 	// Use this for initialization
 	void Start () 
-	{
-		m_Peek = false;
-		
+	{		
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
-		TimeSin = Mathf.Sin(Time.time*m_PulseSpeed);
+		TimeSin = Mathf.Sin(Time.time*PulseSpeed);
 
 		zeroLightOnButton();
 		fluctuateLightStrength();
-
-		if(m_Peek)
-		{
-			light.intensity = 8;
-		}
 
 		changeColor();
 	}
@@ -55,7 +51,7 @@ public class LightningHoverBoard : MonoBehaviour {
 				TimeSin *= -1;
 			}
 			
-			light.intensity = m_IntensityThreshold * TimeSin;
+			light.intensity = IntensityThreshold * TimeSin;
 		}
 	}
 	private void changeColor()

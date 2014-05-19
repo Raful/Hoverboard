@@ -51,8 +51,6 @@ public class GrindKeyState : KeyState
 	
 	public override void update () 
 	{		
-
-
 		movement.setGravity = 0;
 		movement.Direction = m_keyVector;
 		constantRotation();
@@ -72,18 +70,6 @@ public class GrindKeyState : KeyState
 		{
 			movement.rotateBoardInZ(-rotationZSpeed);
 		}
-
-		if(Input.GetKey(KeyCode.W))
-		{
-			movement.rotateBoardInWorldY(-rotationYSpeed);
-		}
-		if(Input.GetKey(KeyCode.S))
-		{
-			movement.rotateBoardInWorldY(rotationYSpeed);
-		}
-
-
-
 	}
 	
 	public override void end()

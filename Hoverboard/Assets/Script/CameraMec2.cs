@@ -99,10 +99,10 @@ public class CameraMec2 : MonoBehaviour {
 		currentHeight = transform.position.y;
 		
 		// Damp the rotation around the y-axis
-		currentRotationAngle = Mathf.LerpAngle (currentRotationAngle, wantedRotationAngle, rotationDamping * Time.deltaTime);
+		currentRotationAngle = Mathf.LerpAngle (currentRotationAngle, wantedRotationAngle, rotationDamping);
 
 			// Damp the height
-			currentHeight = Mathf.Lerp (currentHeight, wantedHeight, heightDamping * Time.deltaTime);
+			currentHeight = Mathf.Lerp (currentHeight, wantedHeight, heightDamping);
 		
 		// Convert the angle into a rotation
 		    currentRotation = Quaternion.Euler (0, currentRotationAngle, 0);

@@ -286,9 +286,5 @@ public class Movement : MonoBehaviour {
 	{
 		transform.Rotate (0,0,z * (m_MinigameRotSpeed/velocity.magnitude));
 	}
-	private void test()
-	{
-
-	}
 }
 
