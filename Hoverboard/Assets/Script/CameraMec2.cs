@@ -27,6 +27,8 @@ public class CameraMec2 : MonoBehaviour {
 	private float wantedRotationAngle;
 	private float wantedHeight;
 	private float currentRotationAngle;
+	private float currentX;
+	private float wantedX;
 	private float currentHeight;
 	private Vector3 targetedPos;
 	private Quaternion currentRotation;
@@ -97,19 +99,23 @@ public class CameraMec2 : MonoBehaviour {
 		
 		    currentRotationAngle = transform.eulerAngles.y;
 		currentHeight = transform.position.y;
+		currentX = transform.eulerAngles.x;
+			wantedX = target.eulerAngles.x;
 		
 		// Damp the rotation around the y-axis
 		currentRotationAngle = Mathf.LerpAngle (currentRotationAngle, wantedRotationAngle, rotationDamping * Time.deltaTime);
 
+		currentX = Mathf.LerpAngle (currentX, wantedX, rotationDamping * Time.deltaTime);
 			// Damp the height
 			currentHeight = Mathf.Lerp (currentHeight, wantedHeight, heightDamping * Time.deltaTime);
 		
 		// Convert the angle into a rotation
-		    currentRotation = Quaternion.Euler (0, currentRotationAngle, 0);
+		    currentRotation = Quaternion.Euler (currentX, currentRotationAngle, 0);
 		
 		// Set the position of the camera on the x-z plane to:
 		// distance meters behind the target
 		transform.position = target.position;
+
 		    transform.position -= currentRotation * Vector3.forward * distance;
 		
 		// Set the height of the camera
