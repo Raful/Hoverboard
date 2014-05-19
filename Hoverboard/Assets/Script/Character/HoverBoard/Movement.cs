@@ -73,7 +73,7 @@ public class Movement : MonoBehaviour {
 	[SerializeField]
 	private float m_TerminalVelocity;
 
-	//[HideInInspector]
+	[HideInInspector]
 	public float jumpVelocity; //Jump feeds into this
 
 	public float setGravity

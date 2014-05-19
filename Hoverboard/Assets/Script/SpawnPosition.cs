@@ -17,6 +17,7 @@ public class SpawnPosition : MonoBehaviour {
 	// Use this for initialization
 	void Awake () 
 	{
+		Application.targetFrameRate = 15;
 		ResetTransform();
 	}
 
