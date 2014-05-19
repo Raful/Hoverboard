@@ -15,23 +15,14 @@ public class TunnelTrigger : MonoBehaviour {
 
 	void OnTriggerExit(Collider col)
 	{
-
-	//	col.getComponent<Movement> ().m_MaxAngle = 0;
+		col.GetComponent<Movement> ().m_MaxAngle = angle;
+		Debug.Log ("OUT");
 	}
 
 	void OnTriggerEnter(Collider col)
 	{
-		if(!RailCounter.getTunnelBool ())
-		{
-			RailCounter.tunnelAngle = col.GetComponent<Movement> ().m_MaxAngle;
-			col.GetComponent<Movement> ().m_MaxAngle = 0;
-			RailCounter.tunnelBoolTrue();
-		}
-		else
-		{
-			RailCounter.tunnelBoolFalse();
-			col.GetComponent<Movement> ().m_MaxAngle = RailCounter.tunnelAngle;
-		}
-
+		Debug.Log ("INSIDE");
+		angle = col.GetComponent<Movement> ().m_MaxAngle;
+		col.GetComponent<Movement> ().m_MaxAngle = 0;
 	}
 }
