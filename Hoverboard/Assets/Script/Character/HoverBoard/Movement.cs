@@ -117,7 +117,7 @@ public class Movement : MonoBehaviour {
 			if (Physics.Raycast (transform.position, rayDirection, out hit, hoverHeight)) {
 				CustomJumpVec = Vector3.up;
 				direction = transform.forward;
-				
+
 				if ((int)Vector3.Angle (Vector3.up, hit.normal) != 90 || (int)Vector3.Angle (Vector3.up, hit.normal) != 270) {
 
 					changeState ("Grounded");
