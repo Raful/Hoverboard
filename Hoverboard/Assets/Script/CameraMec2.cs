@@ -10,16 +10,16 @@ using System.Collections;
  */
 public class CameraMec2 : MonoBehaviour {
 
-	public Transform target;
-	private Movement movement;
-	private DetectState state;
+	/*public Transform target;
+	private FollowLogic follow;
+	//private DetectState state;
 	public float m_DefaultDistance;
 	private float distance;   // The distance in the x-z plane to the target
 
 
 	public float groundHeight = 5.0f;   // the height we want the camera to be above the target when the target is in ground state
 	public float airHeight = 9.0f;      // the height we want the camera to be above the target when the target is in air state
-	private float  height;					//current height the camera is above the target
+	private float height;					//current height the camera is above the target
 
 	public float heightDamping = 2.0f;	//how smoothly the camera follows the target in height
 	public float rotationDamping = 3.0f; //how smoothly the camera follows the target in rotation
@@ -39,8 +39,8 @@ public class CameraMec2 : MonoBehaviour {
 	void Start()
 	{
 		targetedPos = target.position;
-		movement = target.GetComponent<Movement> ();
-		state = target.GetComponent<DetectState> ();
+		follow = target.GetComponent<FollowLogic> ();
+		//state = target.GetComponent<DetectState> ();
 		height = groundHeight;
 		distance = m_DefaultDistance;
 	}
@@ -48,10 +48,10 @@ public class CameraMec2 : MonoBehaviour {
 	void LateUpdate () {
 		// Early out if we don't have a target
 		if (!target)
-			return;
+			return;*/
 		 
 		// if the target is in air state the height is increasing
-		if(inTheAir || state.getKeyState == "Air")
+	/*	if(inTheAir ||follow.getKeyState() == "Air")
 		{
 			if(height < airHeight)
 			{
@@ -61,18 +61,18 @@ public class CameraMec2 : MonoBehaviour {
 				height = airHeight;
 		}
 		//if the target is in ground state the height is increasing
-		else if(!inTheAir || state.getKeyState == "Grounded")
+		else
 		{
 			if(height > groundHeight)
 				height -= 0.2f;
 			else
 				height = groundHeight;
-		}
+		}*/
 
-		if (movement.speedForCamera < -0.01f || movement.speedForCamera > 0.01f )
+		/*if (follow.getSpeed() < -0.01f || follow.getSpeed() > 0.01f )
 		{
-			if(movement.speedForCamera > -20)
-			distance = m_DefaultDistance + (movement.speedForCamera/10);
+			if(follow.getSpeed() > -10)
+				distance = m_DefaultDistance + (follow.getSpeed()/10);
 			
 		}
 		else
@@ -84,16 +84,7 @@ public class CameraMec2 : MonoBehaviour {
 		targetedPos = target.position;
 		targetedPos.y = y;
 		wantedRotationAngle = target.eulerAngles.y;
-		/*if(targetedPos.y +0.5f < target.position.y )
-		{
-			targetedPos.y += 0.5f;
-		}
-		else if(targetedPos.y -0.5 > target.position.y)
-		{
-			targetedPos.y -= 0.5f;
-		}
 
-			wantedHeight = targetedPos.y + height;*/
 
 		wantedHeight = target.position.y + height;
 		
@@ -103,11 +94,13 @@ public class CameraMec2 : MonoBehaviour {
 			wantedX = target.eulerAngles.x;
 		
 		// Damp the rotation around the y-axis
-		currentRotationAngle = Mathf.LerpAngle (currentRotationAngle, wantedRotationAngle, rotationDamping * Time.deltaTime);
-
-		currentX = Mathf.LerpAngle (currentX, wantedX, rotationDamping * Time.deltaTime);
+		currentRotationAngle = Mathf.LerpAngle (currentRotationAngle, wantedRotationAngle, rotationDamping );
+		if ((currentX - wantedX) > 45)
+			currentX = Mathf.LerpAngle (currentX, wantedX, rotationDamping * Time.deltaTime);
+		else
+			currentX = 0;
 			// Damp the height
-			currentHeight = Mathf.Lerp (currentHeight, wantedHeight, heightDamping * Time.deltaTime);
+			currentHeight = Mathf.Lerp (currentHeight, wantedHeight, heightDamping );
 		
 		// Convert the angle into a rotation
 		    currentRotation = Quaternion.Euler (currentX, currentRotationAngle, 0);
@@ -124,7 +117,39 @@ public class CameraMec2 : MonoBehaviour {
 		transform.position = temp;
 		
 		    // Always look at the target
-			transform.LookAt (target, target.up);
+		transform.LookAt (target, target.TransformDirection(Vector3.up));
+	}*/
+
+	public Transform target;
+	// The distance in the x-z plane to the target
+	public float distance;
+	// the height we want the camera to be above the target
+	public float height;
+	// How much we 
+	public float heightDamping;
+	public float rotationDamping;
+	 
+	private Quaternion oldRotation;
+	private Quaternion targetRotation;
+	private Quaternion currentRotation;
+
+	void Start () {
+		oldRotation = target.rotation;
+	}
+	
+	
+	void FixedUpdate () {
+		// Early out if we don't have a target
+		if (!target)
+			return;
+		
+		targetRotation = target.rotation;
+		currentRotation = Quaternion.Lerp (oldRotation, targetRotation, rotationDamping * Time.deltaTime);
+		oldRotation = currentRotation;
+		transform.position = target.position;
+		transform.position -= currentRotation * Vector3.forward * distance;
+		transform.position += currentRotation * Vector3.up * height;
+		transform.LookAt (target, target.TransformDirection (Vector3.up));
 	}
 
 }

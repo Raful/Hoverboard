@@ -5,6 +5,7 @@ public class FollowLogic : MonoBehaviour {
 	public GameObject logicBoard;
 	private Movement movement;
 	private DetectState detectState;
+
 	// Use this for initialization
 	void Start () 
 	{
@@ -21,5 +22,15 @@ public class FollowLogic : MonoBehaviour {
 		{
 			transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, logicBoard.transform.eulerAngles.z);
 		}
+	}
+
+	public float getSpeed()
+	{
+		return movement.speedForCamera; 
+	}
+
+	public string getKeyState()
+	{
+		return detectState.getKeyState;
 	}
 }
