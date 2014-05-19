@@ -77,6 +77,8 @@ public class Movement : MonoBehaviour {
 	[HideInInspector]
 	public bool isRecording = true;
 
+	[SerializeField]
+	private float m_TerminalVelocity;
 
 	//[HideInInspector]
 	public float jumpVelocity; //Jump feeds into this
@@ -87,11 +89,6 @@ public class Movement : MonoBehaviour {
 		set{gravity = value;}
 	}
 
-
-	public float getSpeed
-	{
-		get {return speed;}
-	}
 	public Vector3 m_getVelocity
 	{
 		get {return velocity;}
@@ -115,26 +112,19 @@ public class Movement : MonoBehaviour {
 		boostScript = gameObject.GetComponent<Boost>();
 		rayDirection = -Vector3.up;
 		direction = transform.forward;
-		CustomJumpVec = Vector3.up.normalized;
+		CustomJumpVec = Vector3.up;
 	}
 	
 	// Calculates the new angle and rotates accordingly
 	void LateUpdate()
 	{
-		
-		if(!isGrounded && m_getVelocity.y < 0f)
-		{
-			jumpVelocity = 0;
-		}
-
 		if(currentState.m_getRayCastState)
 		{
 			RaycastHit hit;
 			if (Physics.Raycast (transform.position, rayDirection, out hit, hoverHeight)) {
-				
-				CustomJumpVec = Vector3.up.normalized;
+				CustomJumpVec = Vector3.up;
 				direction = transform.forward;
-				
+
 				if ((int)Vector3.Angle (Vector3.up, hit.normal) != 90 || (int)Vector3.Angle (Vector3.up, hit.normal) != 270) {
 
 					changeState ("Grounded");
@@ -204,6 +194,7 @@ public class Movement : MonoBehaviour {
 		safty ();
 
 		velocity = direction.normalized *(forwardSpeed+backwardSpeed + boostSpeed+bonusSpeed) -Vector3.up*gravity + (jumpVelocity * CustomJumpVec) + (appliedStrafe * transform.right.normalized);
+		velocity.y = Mathf.Max(velocity.y, -Mathf.Abs(m_TerminalVelocity));
 		transform.position += velocity*Time.fixedDeltaTime;
 
 	}
@@ -257,6 +248,14 @@ public class Movement : MonoBehaviour {
 		// decelerate
 		bonusSpeed = Mathf.Lerp (bonusSpeed, 0, Time.deltaTime*m_PotentialFriction);
 	}
+
+	private void safty()
+	{
+		if(isGrounded && velocity.y <= -0.1f)
+		{
+			jumpVelocity = 0f;
+		}		 
+	}
 	
 	public void rotateBoardInX(float x)
 	{
@@ -293,24 +292,14 @@ public class Movement : MonoBehaviour {
 	{
 		currentState.changeKeyState(state);
 	}
-
+	// rotate a vector operation
 	public void miniGameCOnstantRotationSpeed(float z)
 	{
 		transform.Rotate (0,0,z * (m_MinigameRotSpeed/velocity.magnitude));
 	}
-
-
-	private void safty()
+	private void test()
 	{
-		if(jumpVelocity < 0f)
-		{
-			jumpVelocity = 0f;
-		}		 
+
 	}
-
-
-	// rotate a vector operation
-
-
 }
 
