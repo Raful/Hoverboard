@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: a21b9e18690d54540a2353a9b0acfc20
+guid: b54b0555bec12be40a5f093068481897
 ModelImporter:
   serializedVersion: 16
   fileIDToRecycleName:
@@ -7,7 +7,7 @@ ModelImporter:
     400000: //RootNode
     2300000: //RootNode
     3300000: //RootNode
-    4300000: Build02_V2_LPComp:Mesh
+    4300000: Build01_TheGuitar_RoofPT02_Mesh
     6400000: //RootNode
     9500000: //RootNode
   materials:

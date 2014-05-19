@@ -1,22 +1,14 @@
 fileFormatVersion: 2
-guid: 478833d34cbe9c443b63b3165e79b8ae
+guid: 6b12c0fb1a33e3942bf70085655e75b4
 ModelImporter:
   serializedVersion: 16
   fileIDToRecycleName:
     100000: //RootNode
-    100002: Build02_V2_Comp:Mesh_MeshPart0
-    100004: Build02_V2_Comp:Mesh_MeshPart1
     400000: //RootNode
-    400002: Build02_V2_Comp:Mesh_MeshPart0
-    400004: Build02_V2_Comp:Mesh_MeshPart1
-    2300000: Build02_V2_Comp:Mesh_MeshPart0
-    2300002: Build02_V2_Comp:Mesh_MeshPart1
-    3300000: Build02_V2_Comp:Mesh_MeshPart0
-    3300002: Build02_V2_Comp:Mesh_MeshPart1
-    4300000: Build02_V2_Comp:Mesh_MeshPart0
-    4300002: Build02_V2_Comp:Mesh_MeshPart1
-    6400000: Build02_V2_Comp:Mesh_MeshPart0
-    6400002: Build02_V2_Comp:Mesh_MeshPart1
+    2300000: //RootNode
+    3300000: //RootNode
+    4300000: Build02_V2_LPTop_Mesh
+    6400000: //RootNode
     9500000: //RootNode
   materials:
     importMaterials: 0
