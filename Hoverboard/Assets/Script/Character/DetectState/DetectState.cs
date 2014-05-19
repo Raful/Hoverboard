@@ -53,18 +53,18 @@ public class DetectState : MonoBehaviour {
 		}
 		get {return currentKeyState;}
 	}
-
 	// Use this for initialization
 	void Start () 
     {
         colliderStates = gameObject.GetComponentsInChildren<ColliderObject>();
 
         collidersFound = new ArrayList();
-		currentKeyState = "Grounded";
 		keyStateDictionary.Add ("Grounded",new MoveKeyState(GetComponent<Movement>()));
 		keyStateDictionary.Add ("Air",new AirKeyState(GetComponent<Movement>()));
 		keyStateDictionary.Add("Rail",new GrindKeyState(GetComponent<Movement>()));
 		keyStateDictionary.Add("Wall",new WallKeyState(GetComponent<Movement>()));
+		currentKeyState = "Grounded";
+
 	}
 
     void CheckForErrors()
@@ -85,6 +85,7 @@ public class DetectState : MonoBehaviour {
     {
 		RailKey ();
         gatherColliders();
+
         setState();
 		updateKeyState (currentKeyState).update();
         //Clear collidersFound at each frame, to keep it updated

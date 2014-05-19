@@ -10,7 +10,7 @@ using System.Collections;
  */
 
 public class Medal : MonoBehaviour {
-
+	
   	public int bronzeTime;
 	public int silverTime;
 	public int goldTime;
@@ -58,12 +58,12 @@ public class Medal : MonoBehaviour {
 
 		if(goldTime > time)
 			return "Gold";
-		if (silverTime > time)
+		else if(silverTime > time)
 			return "Silver";
-		if(bronzeTime > time)
+		else if(bronzeTime > time)
 			return "Bronze";
 
-		return "SOCCER";
+		return "FAIL";
 	}
 
 }

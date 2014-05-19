@@ -29,7 +29,7 @@ public class Finish : MonoBehaviour {
 	}
 
 	void OnTriggerEnter(Collider collision)
-	{
+	{ 
 		entryTime = Time.time;
 		m_TimerReference.StopTimer();
 		

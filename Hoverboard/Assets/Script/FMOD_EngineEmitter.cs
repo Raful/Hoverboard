@@ -103,7 +103,7 @@ public class FMOD_EngineEmitter : MonoBehaviour {
 		
 		//currentSpeed = (moveScript.forwardSpeed + moveScript.backwardSpeed);
 		
-		currentSpeed = Mathf.InverseLerp(0, moveScript.boostMaxAccSpeed, moveScript.getSpeed);
+		currentSpeed = Mathf.InverseLerp(0, moveScript.boostMaxAccSpeed, new Vector3(moveScript.m_getVelocity.x,0,moveScript.m_getVelocity.z).magnitude);
 		
 		//currentSpeed = Input.GetAxisRaw("Triggers");
 		

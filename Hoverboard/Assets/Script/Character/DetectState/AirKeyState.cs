@@ -8,12 +8,18 @@ public class AirKeyState : KeyState
 	private float backWardAcc;
 	private float timeIni;
 
+	private bool useVCR;
+	private InputVCR vcr;
+
 	public AirKeyState(Movement Movement)
 	{
 		movement = Movement;
-	}
 	
-	public override void start ()
+	}
+
+
+	
+	public override void start()
 	{
 		timeIni = Time.time;
 
