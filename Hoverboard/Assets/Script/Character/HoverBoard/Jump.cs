@@ -3,6 +3,9 @@ using System.Collections;
 
 public class Jump : MonoBehaviour {
 
+    [SerializeField]
+    Animator characterAnimator;
+
 	[Range(25.0f,Mathf.Infinity)]
 	public float m_JumpAcceleration;
 	public Movement privateMovement;
@@ -31,6 +34,7 @@ public class Jump : MonoBehaviour {
 		{
 			if (privateMovement.isGrounded)
 			{
+                characterAnimator.SetBool("Jumping", true);
 				privateMovement.jumpVelocity = m_JumpAcceleration;
 			}
 			else if (privateMovement.m_getVelocity.y > 0f) 

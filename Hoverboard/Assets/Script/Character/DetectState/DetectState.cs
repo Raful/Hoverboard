@@ -24,7 +24,7 @@ public class DetectState : MonoBehaviour {
 	private bool railKeyPressed;
 	private float keyIsPressed;
     [SerializeField]
-    private Animator animator;
+    private Animator animator; //The animator of the character model
 
 	public bool m_getRailPermission
 	{
@@ -103,6 +103,16 @@ public class DetectState : MonoBehaviour {
         else
         {
             animator.SetBool("Grinding", false);
+        }
+
+        if (currentKeyState == "Air")
+        {
+            animator.SetBool("Falling", true);
+        }
+        else
+        {
+            animator.SetBool("Falling", false);
+            animator.SetBool("Jumping", false);
         }
     }
 

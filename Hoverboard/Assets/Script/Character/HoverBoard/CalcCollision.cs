@@ -18,7 +18,15 @@ public class CalcCollision : MonoBehaviour {
 
 	void FixedUpdate () 
 	{
-		direction = movement.m_getVelocity;
+        direction = movement.m_getVelocity;
+        RaycastHit hit;
+
+        if (Physics.Raycast(transform.position, direction.normalized, out hit, 0.1f + direction.magnitude * Time.fixedDeltaTime))
+        {
+            movement.ResetPosition(transform.position - direction.normalized/* * speed*/);
+        }
+
+		/*direction = movement.m_getVelocity;
 		RaycastHit hit;
         float speed = movement.forwardSpeed + movement.backwardSpeed;
         float hoverboardLengthFromOrigin;
@@ -33,7 +41,7 @@ public class CalcCollision : MonoBehaviour {
         if (Physics.Raycast(transform.position, direction.normalized, out hit, 0.1f + direction.magnitude * Time.fixedDeltaTime + hoverboardLengthFromOrigin))
         {
             HandleCollision(speed, transform.forward * hoverboardLengthFromOrigin, hit);
-        }
+        }*/
 	}
 
     void HandleCollision(float speed, Vector3 offset, RaycastHit hit)

@@ -7,10 +7,6 @@ public class MoveKeyState : KeyState
 	private float forwardAcc;
 	private float backWardAcc;
 
-
-
-
-
 	//private Vector3 lerpToDirection;
 
 	public MoveKeyState(Movement Movement)

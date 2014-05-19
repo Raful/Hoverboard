@@ -12,9 +12,13 @@ using FMOD.Studio;
 [RequireComponent(typeof(Boost))]
 
 public class Movement : MonoBehaviour {
-	
-	[SerializeField]
 
+    public Animator m_characterAnimator; //The animator of the character model
+    float rotationSpeedTarget = 0;
+    [SerializeField]
+    float rotateAnimationSpeed = 0.05f;
+
+	[SerializeField]
 	public float boostMaxAccSpeed; // The maximum speed the hoverboard can gain with boost, reqiured to be higher than Max Acc Speed.
 	public float boostSpeed=0; 	// Boost Acceleration.
 	
@@ -169,11 +173,11 @@ public class Movement : MonoBehaviour {
 		backwardSpeed+= m_Friction;
 		boostSpeed -= m_Friction;
 
-		
-		if (boostScript.m_isBoosting)
-		{
-			boostSpeed += boostAcceleration;
-		}
+
+        if (boostScript.m_isBoosting)
+        {
+            boostSpeed += boostAcceleration;
+        }
 	
 		// Speed Restrictions
 		speed = Mathf.Abs (forwardSpeed + backwardSpeed + bonusSpeed);
@@ -195,8 +199,19 @@ public class Movement : MonoBehaviour {
 		velocity.y = Mathf.Max(velocity.y, -Mathf.Abs(m_TerminalVelocity));
 		transform.position += velocity*Time.fixedDeltaTime;
 
+
+        
 	}
-	
+
+    void Update()
+    {
+        if (m_characterAnimator)
+        {
+            m_characterAnimator.SetFloat("ForwardSpeed", forwardSpeed);
+            m_characterAnimator.SetFloat("RotationSpeed", Mathf.Lerp(m_characterAnimator.GetFloat("RotationSpeed"), rotationSpeedTarget, rotateAnimationSpeed/* * (forwardSpeed / m_MaxAccSpeed)*/));
+        }
+    }
+
 	// Calls on collision, resets Speed, x-rotation and position
 
 
@@ -254,6 +269,8 @@ public class Movement : MonoBehaviour {
 	public void rotateBoardInY(float y)
 	{
 		transform.Rotate (0, y * m_RotationSpeed.y, 0);
+
+        rotationSpeedTarget = y;
 	}
 	public void rotateBoardInWorldY(float y)
 	{
