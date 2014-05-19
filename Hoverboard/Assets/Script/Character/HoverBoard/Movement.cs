@@ -127,7 +127,7 @@ public class Movement : MonoBehaviour {
 			if (Physics.Raycast (transform.position, rayDirection, out hit, hoverHeight)) {
 				CustomJumpVec = Vector3.up;
 				direction = transform.forward;
-				
+
 				if ((int)Vector3.Angle (Vector3.up, hit.normal) != 90 || (int)Vector3.Angle (Vector3.up, hit.normal) != 270) {
 
 					changeState ("Grounded");
@@ -261,6 +261,14 @@ public class Movement : MonoBehaviour {
 		// decelerate
 		bonusSpeed = Mathf.Lerp (bonusSpeed, 0, Time.deltaTime*m_PotentialFriction);
 	}
+
+	private void safty()
+	{
+		if(isGrounded && velocity.y <= -0.1f)
+		{
+			jumpVelocity = 0f;
+		}		 
+	}
 	
 	public void rotateBoardInX(float x)
 	{
@@ -294,24 +302,14 @@ public class Movement : MonoBehaviour {
 	{
 		currentState.changeKeyState(state);
 	}
-
+	// rotate a vector operation
 	public void miniGameCOnstantRotationSpeed(float z)
 	{
 		transform.Rotate (0,0,z * (m_MinigameRotSpeed/velocity.magnitude));
 	}
-
-
-	private void safty()
+	private void test()
 	{
-		if(velocity.y < 0f)
-		{
-			jumpVelocity = 0f;
-		}		 
+
 	}
-
-
-	// rotate a vector operation
-
-
 }
 

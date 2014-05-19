@@ -6,10 +6,9 @@ public class Jump : MonoBehaviour {
     [SerializeField]
     Animator characterAnimator;
 
-	[Range(25.0f,Mathf.Infinity)]
-	public float m_JumpAcceleration;
+	[Range(40.0f,10000f)][SerializeField]
+	private float m_JumpAcceleration;
 	public Movement privateMovement;
-	public bool m_ControllerYes = false;
 	
 	private float stickDeltaOne;
 	private float stickDeltaTwo;
@@ -17,20 +16,15 @@ public class Jump : MonoBehaviour {
 	private float stickDeltaFour;
 	
 	// Use this for initialization
-	void Start () {}
+	void Start () 
+	{
+
+	}
 
 	// Update is called once per frame
-	void Update () {
-
-		if (m_ControllerYes) 
-		{
-			stickDeltaFour = stickDeltaThree;
-			stickDeltaThree = stickDeltaTwo;
-			stickDeltaTwo = stickDeltaOne;
-			stickDeltaOne = Input.GetAxisRaw ("RightVertical");
-		}
-
-		if (Input.GetKey(KeyCode.Space))
+	void Update () 
+	{
+		if (Input.GetButton("Jump"))
 		{
 			if (privateMovement.isGrounded)
 			{
