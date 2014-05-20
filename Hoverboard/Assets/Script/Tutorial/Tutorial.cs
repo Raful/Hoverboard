@@ -6,16 +6,19 @@ public class Tutorial : MonoBehaviour {
 
 
 	[SerializeField]
-	private int boxNumber;
+	public int boxNumber;
 	[SerializeField]
 	private GUITexture instructionsDisplay;
 	[SerializeField]
-	private FMODAsset soundFile;
+	private GUI_Sound_Emitter soundEmitter;
+	
 	[SerializeField]
-	private Transform camera;
+	private Texture tutorialText;
 	
+	[SerializeField]
+	private FMODAsset tutorialSound;
 	
-	private Transform playAt;
+	private FMOD.Studio.EventInstance soundEvent;
 	// Use this for initialization
 	void Start () {
 	
@@ -23,12 +26,23 @@ public class Tutorial : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		playAt = camera;
+		
 	}
 	
-	void OnTriggerEnter (Collider col)
+	void OnTriggerEnter(Collider col)
 	{
-		if (col.tag == "TutorialBox")
-			 FMOD_StudioSystem.instance.PlayOneShot(soundFile, playAt.position);
+		if (col.tag == "Player")
+		{
+			soundEvent = soundEmitter.startEvent(tutorialSound, false);
+		}
 	}
+	
+	void OnTriggerExit(Collider col)
+	{
+		if (col.tag == "Player")
+		{
+			soundEmitter.stopEvent(soundEvent);
+		}
+	}
+	
 }
