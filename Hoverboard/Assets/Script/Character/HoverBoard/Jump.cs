@@ -27,7 +27,7 @@ public class Jump : MonoBehaviour {
 			stickDeltaOne = Input.GetAxisRaw ("RightVertical");
 		}
 
-		if (Input.GetKey(KeyCode.Space))
+		if (Input.GetButton("Jump"))
 		{
 			if (privateMovement.isGrounded)
 			{
