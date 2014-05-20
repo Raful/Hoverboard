@@ -13,8 +13,9 @@ public class LevelLoader : MonoBehaviour
 {
     [SerializeField]
     Texture texture=null;
-    [SerializeField]
-    string text="";
+
+    string loadText = "Loading";
+
 	AsyncOperation operation;
 	GUIText newGuiText;
 
@@ -38,7 +39,7 @@ public class LevelLoader : MonoBehaviour
 	public void LoadLevel(int level)
     {
 		ShowLoadingScreen();
-		
+
 		//Load new scene
 		if (Application.HasProLicense())
 		{
@@ -57,7 +58,7 @@ public class LevelLoader : MonoBehaviour
 	{
 		while (!operation.isDone)
 		{
-			newGuiText.text = text + (int)(operation.progress * 100) + "%";
+			newGuiText.text = loadText;//: " + (int)(operation.progress * 100) + "%";
 			
 			yield return(0);
 		}
@@ -65,14 +66,21 @@ public class LevelLoader : MonoBehaviour
 
     void ShowLoadingScreen()
     {
+        int defaultDisplayWidth = 1920;
+        int defaultDisplayHeight = 1080;
+        float widthScale = (float)Screen.width / (float)defaultDisplayWidth;
+        float heightScale = (float)Screen.height / (float)defaultDisplayHeight;
+
         //Create an empty object to put the gui elements in
         GameObject newObject = Instantiate(new GameObject()) as GameObject;
         newObject.transform.position = new Vector3(0.5f, 0.5f, 0); //This is to place the gui elements in the center of the screen
 
         //Create a gui text (if a text is specified)
         newGuiText = newObject.AddComponent<GUIText>();
-        newGuiText.text = text;
-        newGuiText.anchor = TextAnchor.MiddleCenter;
+        newGuiText.text = loadText;
+        newGuiText.fontSize = 20;
+        newGuiText.pixelOffset = new Vector2(100, 100);
+
 
         //Create a gui texture
         if (texture != null)

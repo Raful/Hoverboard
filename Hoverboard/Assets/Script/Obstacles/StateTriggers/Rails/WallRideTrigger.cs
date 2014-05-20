@@ -5,7 +5,7 @@ public class WallRideTrigger : MonoBehaviour {
 
 	private DetectState detectState;
 	private Vector3 direction;
-	private bool active;
+	private bool Wallactive;
 	void Start ()
 	{
 
@@ -15,10 +15,11 @@ public class WallRideTrigger : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
-		if(active)
+		if(Wallactive)
 		{
 			if(detectState.m_getRailPermission)
 			{
+				detectState.transform.position += transform.right;
 				detectState.updateKeyState ("Wall").setVector = direction;
 				detectState.changeKeyState ("Wall");
 				detectState.m_getRailPermission = false;
@@ -29,9 +30,8 @@ public class WallRideTrigger : MonoBehaviour {
 
 	void OnTriggerEnter(Collider col)
 	{
-		active = true;
+		Wallactive = true;
 		detectState = col.GetComponent<DetectState> ();
-
 		if(Vector3.Angle(transform.right, col.transform.right) <90)
 		{
 			direction = new Vector3(transform.forward.x, 0, transform.forward.z);
@@ -46,7 +46,7 @@ public class WallRideTrigger : MonoBehaviour {
 
 	void OnTriggerExit(Collider col)
 	{
-	
-		active = false;
+		detectState.changeKeyState ("Grounded");
+		Wallactive = false;
 	}
 }

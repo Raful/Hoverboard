@@ -23,6 +23,8 @@ public class DetectState : MonoBehaviour {
 	private bool rayCastState = true;
 	private bool railKeyPressed;
 	private float keyIsPressed;
+    [SerializeField]
+    private Animator animator; //The animator of the character model
 
 	public bool m_getRailPermission
 	{
@@ -51,36 +53,68 @@ public class DetectState : MonoBehaviour {
 		}
 		get {return currentKeyState;}
 	}
-
 	// Use this for initialization
 	void Start () 
     {
-        if (!rigidbody)
-        {
-            Debug.LogError("Rigidbody not found!");
-        }
-
         colliderStates = gameObject.GetComponentsInChildren<ColliderObject>();
 
         collidersFound = new ArrayList();
-		currentKeyState = "Grounded";
 		keyStateDictionary.Add ("Grounded",new MoveKeyState(GetComponent<Movement>()));
 		keyStateDictionary.Add ("Air",new AirKeyState(GetComponent<Movement>()));
 		keyStateDictionary.Add("Rail",new GrindKeyState(GetComponent<Movement>()));
 		keyStateDictionary.Add("Wall",new WallKeyState(GetComponent<Movement>()));
 		keyStateDictionary.Add("MenuState",new MenuState(GetComponent<Movement>()));
+		currentKeyState = "Grounded";		
 	}
+
+    void CheckForErrors()
+    {
+        if (!animator)
+        {
+            Debug.LogError("Animator not defined!");
+        }
+
+        if (!rigidbody)
+        {
+            Debug.LogError("Rigidbody not found!");
+        }
+    }
 	
 	// Update is called once per frame
 	void Update () 
     {
 		RailKey ();
         gatherColliders();
+
         setState();
 		updateKeyState (currentKeyState).update();
         //Clear collidersFound at each frame, to keep it updated
         collidersFound.Clear();
+
 	}
+
+    //Called every time the state changes
+    void UpdateAnimations()
+    {
+        if (currentKeyState == "Rail")
+        {
+            animator.SetBool("Grinding", true);
+        }
+        else
+        {
+            animator.SetBool("Grinding", false);
+        }
+
+        if (currentKeyState == "Air")
+        {
+            animator.SetBool("Falling", true);
+        }
+        else
+        {
+            animator.SetBool("Falling", false);
+            animator.SetBool("Jumping", false);
+        }
+    }
 
     //Checks all collided objects, and place them in collidersFound (to be used in setState()).
     void gatherColliders()
@@ -141,6 +175,8 @@ public class DetectState : MonoBehaviour {
 			keyStateDictionary [state].start();
 			currentKeyState = state;
 		}
+
+        UpdateAnimations();
 	}
 	public KeyState updateKeyState(string keyState)
 	{
