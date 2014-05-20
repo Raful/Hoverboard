@@ -13,6 +13,9 @@ using System.Collections;
 
 public class Boost : MonoBehaviour {
 
+    [SerializeField]
+    Animator animator;  //The animator of the character model
+	
     [HideInInspector]
     public bool m_isBoosting;
 
@@ -30,6 +33,15 @@ public class Boost : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        if (Input.GetButtonDown("Boost") && energyScript.m_energy > 0)
+        {
+            animator.SetBool("Boosting", true);
+        }
+        else
+        {
+            animator.SetBool("Boosting", false);
+        }
+
         if (Input.GetButton("Boost") && energyScript.m_energy > 0 )
         {
             UseBoost();
