@@ -3,6 +3,7 @@ using System.Collections;
 
 public class Jump : MonoBehaviour {
 
+    Animator characterAnimator;
 	[Range(0.0f,10000f)][SerializeField]
 	private float m_JumpAcceleration;
 	public Movement privateMovement;
@@ -21,12 +22,9 @@ public class Jump : MonoBehaviour {
 			if(Input.GetButtonDown("Jump") && privateMovement.isGrounded)
 			{
 				transform.Translate(Vector3.up);
+				characterAnimator.SetBool("Jumping", true);
 				privateMovement.jumpVelocity = m_JumpAcceleration; 
 			}
-			//if (privateMovement.isGrounded)
-			//{
-			//	privateMovement.jumpVelocity = m_JumpAcceleration;
-			//}
 			else if (privateMovement.m_getVelocity.y > 0f) 
 			{
 				privateMovement.setGravity -= privateMovement.m_Gravity*0.5f;

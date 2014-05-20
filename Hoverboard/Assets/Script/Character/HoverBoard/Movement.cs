@@ -12,9 +12,13 @@ using FMOD.Studio;
 [RequireComponent(typeof(Boost))]
 
 public class Movement : MonoBehaviour {
-	
-	[SerializeField]
 
+    public Animator m_characterAnimator; //The animator of the character model
+    float rotationSpeedTarget = 0;
+    [SerializeField]
+    float rotateAnimationSpeed = 0.05f;
+
+	[SerializeField]
 	public float boostMaxAccSpeed; // The maximum speed the hoverboard can gain with boost, reqiured to be higher than Max Acc Speed.
 	public float boostSpeed=0; 	// Boost Acceleration.
 	
@@ -25,7 +29,8 @@ public class Movement : MonoBehaviour {
 	public float hoverHeight;		// HoverHeight of the hoverboard	
 	public Vector3 m_RotationSpeed;	// Amount of rotation applied 
 	public float m_MinigameRotSpeed; //  Constant rotation speed for the grind minigame
-	public float m_StrafeSpeed;		// Amount of speed applied to the strafe action
+    [SerializeField]
+	private float strafeModifier;		// Amount of speed applied to the strafe action
 
 
 	public float m_Gravity; 		// Gravity acceleration, added each frame when not grounded.
@@ -36,6 +41,7 @@ public class Movement : MonoBehaviour {
 	
 	public float m_AngleSpeed;		// Multiplier, how fast the hoverboard should rotate to a new angle.
 	public float m_MaxAngle;		// the absolout max angle the hoverboard can obtain.
+
 	public bool m_SnapAngle;		// Snap to a angle instead of lerping.
 	public float m_SnapAtHeight;	// Snap when the Hoverboard reaches a certain height from the ground (Check hoverHeight).
 	
@@ -55,7 +61,12 @@ public class Movement : MonoBehaviour {
 	private float appliedStrafe;
 
 	private DetectState currentState;
-	
+
+    private float strafeSpeed;
+    public float m_strafeSpeed
+    {
+        get { return strafeSpeed; }
+    }
 	[HideInInspector]
 	public bool isGrounded;			// true if the raycast hits something, false otherwise
 	[HideInInspector]
@@ -163,11 +174,11 @@ public class Movement : MonoBehaviour {
 		backwardSpeed+= m_Friction;
 		boostSpeed -= m_Friction;
 
-		
-		if (boostScript.m_isBoosting)
-		{
-			boostSpeed += boostAcceleration;
-		}
+
+        if (boostScript.m_isBoosting)
+        {
+            boostSpeed += boostAcceleration;
+        }
 	
 		// Speed Restrictions
 		speed = Mathf.Abs (forwardSpeed + backwardSpeed + bonusSpeed);
@@ -183,14 +194,25 @@ public class Movement : MonoBehaviour {
 		}
 
 		#endif
-		safty ();
+		safety ();
 
 		velocity = direction.normalized *(forwardSpeed+backwardSpeed + boostSpeed+bonusSpeed) -Vector3.up*gravity + (jumpVelocity * CustomJumpVec) + (appliedStrafe * transform.right.normalized);
 		velocity.y = Mathf.Max(velocity.y, -Mathf.Abs(m_TerminalVelocity));
 		transform.position += velocity*Time.fixedDeltaTime;
 
+
+        
 	}
-	
+
+    void Update()
+    {
+        if (m_characterAnimator)
+        {
+            m_characterAnimator.SetFloat("ForwardSpeed", forwardSpeed);
+            m_characterAnimator.SetFloat("RotationSpeed", Mathf.Lerp(m_characterAnimator.GetFloat("RotationSpeed"), rotationSpeedTarget, rotateAnimationSpeed/* * (forwardSpeed / m_MaxAccSpeed)*/));
+        }
+    }
+
 	// Calls on collision, resets Speed, x-rotation and position
 
 
@@ -205,9 +227,6 @@ public class Movement : MonoBehaviour {
         ResetSpeed();
 		//FMOD_StudioSystem.instance.PlayOneShot("event:/Impact/Impact1",transform.position);
 		transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
-		
-		
-		
 	}
 
 
@@ -217,6 +236,7 @@ public class Movement : MonoBehaviour {
         backwardSpeed = 0;
         bonusSpeed = 0;
         boostSpeed = 0;
+        strafeSpeed = 0;
     }
 
 
@@ -242,14 +262,6 @@ public class Movement : MonoBehaviour {
 		// decelerate
 		bonusSpeed = Mathf.Lerp (bonusSpeed, 0, Time.deltaTime*m_PotentialFriction);
 	}
-
-	private void safty()
-	{
-		if(isGrounded && velocity.y <= -0.1f)
-		{
-			jumpVelocity = 0f;
-		}		 
-	}
 	
 	public void rotateBoardInX(float x)
 	{
@@ -258,6 +270,8 @@ public class Movement : MonoBehaviour {
 	public void rotateBoardInY(float y)
 	{
 		transform.Rotate (0, y * m_RotationSpeed.y, 0);
+
+        rotationSpeedTarget = y;
 	}
 	public void rotateBoardInWorldY(float y)
 	{
@@ -274,17 +288,25 @@ public class Movement : MonoBehaviour {
 
 	public void Strafe(float dir)
 	{
-		appliedStrafe = (dir*m_StrafeSpeed);
+        appliedStrafe = (dir * strafeModifier);
 	}
 
 	public void changeState(string state)
 	{
 		currentState.changeKeyState(state);
 	}
-	// rotate a vector operation
+
 	public void miniGameCOnstantRotationSpeed(float z)
 	{
 		transform.Rotate (0,0,z * (m_MinigameRotSpeed/velocity.magnitude));
+	}
+
+	private void safety()
+	{
+		if(isGrounded && velocity.y <= -0.1f)
+		{
+			jumpVelocity = 0f;
+		}		 
 	}
 }
 

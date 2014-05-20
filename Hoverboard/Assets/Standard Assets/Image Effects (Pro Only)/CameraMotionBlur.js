@@ -371,7 +371,7 @@ public class CameraMotionBlur extends PostEffectsBase
 		tmpCam.transform.rotation = camera.transform.rotation;
 		tmpCam.transform.localScale = camera.transform.localScale;
 		tmpCam.camera.CopyFrom (camera);
-		tmpCam.camera.renderingPath = RenderingPath.Forward;
+		//tmpCam.camera.renderingPath = RenderingPath.Forward;
 
 		tmpCam.camera.enabled = false;
 		tmpCam.camera.depthTextureMode = DepthTextureMode.None;
