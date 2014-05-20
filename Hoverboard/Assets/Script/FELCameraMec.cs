@@ -73,10 +73,10 @@ public class FELCameraMec : MonoBehaviour {
 		Debug.Log ("Angles: " + angles);
 		//calculating how much the camera should rotate in y- and x-axis relative to the Hoverboard
 		float yAngle = Mathf.SmoothDampAngle(transform.eulerAngles.y, hoverboard.transform.eulerAngles.y, ref yVelocity, m_Smooth);
-		if (angles > angleDifference)
+		//if (angles > angleDifference)
 			xAngle = Mathf.SmoothDampAngle (transform.eulerAngles.x, hoverboard.transform.eulerAngles.x, ref xVelocity, m_Smooth);
-		else
-		 	xAngle = 0;
+		//else
+		// 	xAngle = 0;
 
 
 
@@ -103,6 +103,6 @@ public class FELCameraMec : MonoBehaviour {
 		
 		
 		//hoverboard.transform.up
-		transform.LookAt(hoverboard.transform, hoverboard.transform.up);
+		transform.LookAt(hoverboard.transform, hoverboard.transform.up );
 	}
 }
