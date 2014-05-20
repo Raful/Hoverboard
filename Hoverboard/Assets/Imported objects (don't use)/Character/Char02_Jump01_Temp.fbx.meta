@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: d3d75625d3253904580d16e69fc607b2
+guid: 5dea263d3de36c9489d589e71b5ef226
 ModelImporter:
   serializedVersion: 16
   fileIDToRecycleName:
@@ -269,7 +269,7 @@ ModelImporter:
       name: Jump
       takeName: Take 001
       firstFrame: 1
-      lastFrame: 55
+      lastFrame: 24
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
