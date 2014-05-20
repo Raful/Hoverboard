@@ -34,7 +34,6 @@ public class GrindKeyState : KeyState
 	
 	public override void start ()
 	{
-		swapBool = true;
 		detectState = movement.GetComponent<DetectState> ();
 		movement.gameObject.GetComponent<Hover_WithTransform> ().enabled = false;
 		movement.isGrounded = true;

@@ -49,7 +49,7 @@ public class CameraMec2 : MonoBehaviour {
 			return;
 		 
 		// if the target is in air state the height is increasing
-		if(inTheAir || state.getKeyState == "Air")
+		/*if(inTheAir || state.getKeyState == "Air")
 		{
 			if(height < airHeight)
 			{
@@ -65,7 +65,7 @@ public class CameraMec2 : MonoBehaviour {
 				height -= 0.2f;
 			else
 				height = groundHeight;
-		}
+		}*/
 
 		if (movement.speedForCamera < -0.01f || movement.speedForCamera > 0.01f )
 		{
@@ -99,10 +99,10 @@ public class CameraMec2 : MonoBehaviour {
 		currentHeight = transform.position.y;
 		
 		// Damp the rotation around the y-axis
-		currentRotationAngle = Mathf.LerpAngle (currentRotationAngle, wantedRotationAngle, rotationDamping);
+		currentRotationAngle = Mathf.LerpAngle (currentRotationAngle, wantedRotationAngle, rotationDamping * Time.deltaTime);
 
 			// Damp the height
-			currentHeight = Mathf.Lerp (currentHeight, wantedHeight, heightDamping);
+			currentHeight = Mathf.Lerp (currentHeight, wantedHeight, heightDamping * Time.deltaTime);
 		
 		// Convert the angle into a rotation
 		    currentRotation = Quaternion.Euler (0, currentRotationAngle, 0);
