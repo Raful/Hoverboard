@@ -194,7 +194,7 @@ public class Movement : MonoBehaviour {
 		}
 
 		#endif
-		safty ();
+		safety ();
 
 		velocity = direction.normalized *(forwardSpeed+backwardSpeed + boostSpeed+bonusSpeed) -Vector3.up*gravity + (jumpVelocity * CustomJumpVec) + (appliedStrafe * transform.right.normalized);
 		velocity.y = Mathf.Max(velocity.y, -Mathf.Abs(m_TerminalVelocity));
@@ -301,18 +301,12 @@ public class Movement : MonoBehaviour {
 		transform.Rotate (0,0,z * (m_MinigameRotSpeed/velocity.magnitude));
 	}
 
-
-	private void safty()
+	private void safety()
 	{
-		if(velocity.y < 0f)
+		if(isGrounded && velocity.y <= -0.1f)
 		{
 			jumpVelocity = 0f;
 		}		 
 	}
-
-
-	// rotate a vector operation
-
-
 }
 
