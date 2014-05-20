@@ -68,6 +68,7 @@ public class DetectState : MonoBehaviour {
 		keyStateDictionary.Add ("Air",new AirKeyState(GetComponent<Movement>()));
 		keyStateDictionary.Add("Rail",new GrindKeyState(GetComponent<Movement>()));
 		keyStateDictionary.Add("Wall",new WallKeyState(GetComponent<Movement>()));
+		keyStateDictionary.Add("MenuState",new MenuState(GetComponent<Movement>()));
 	}
 	
 	// Update is called once per frame

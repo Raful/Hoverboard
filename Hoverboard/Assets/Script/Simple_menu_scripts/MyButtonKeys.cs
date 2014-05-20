@@ -51,11 +51,11 @@ public class MyButtonKeys : MonoBehaviour
 				break;
 			case KeyCode.UpArrow:
 				if (selectOnUp != null) UICamera.selectedObject = selectOnUp.gameObject;
-				gameObject.GetComponent<Button_Centerer>().moveme = true;
+//				gameObject.GetComponent<Button_Centerer>().moveme = true;
 				break;
 			case KeyCode.DownArrow:
 				if (selectOnDown != null) UICamera.selectedObject = selectOnDown.gameObject;
-				gameObject.GetComponent<Button_Centerer>().moveme = true;
+//				gameObject.GetComponent<Button_Centerer>().moveme = true;
 				break;
 			case KeyCode.Tab:
 				if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))

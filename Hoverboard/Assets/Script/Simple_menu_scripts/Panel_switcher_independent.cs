@@ -7,69 +7,65 @@
 using UnityEngine;
 using System.Collections;
 
-public class Panel_switcher : MonoBehaviour {
-
+public class Panel_switcher_independent : MonoBehaviour {
+	
 	public GameObject currentPanel;
 	public GameObject nextPanel;
 	public GameObject masterPanel;
-	public Pause_menu pause_menu;
-
-
+	
+	
+	
 	Component[] CollisionBoxes; 
 	Component[] ButtonKeys;
 	Vector3 Target_pos;
-
+	
 	float myTime = 0;
-	float Lerp_speed = 4f;
-	[HideInInspector]
+	
 	public Vector3  Return_pos; 
-	[HideInInspector]
 	public Vector3  Starting_pos; 
 	Vector3 Button_move_distance = new Vector3(150.0f,0.0f,0.0f);
-	[HideInInspector]
 	public bool Lerp = false;
 	bool Lerp_done = false;
 	bool isClicked = false;
-	[HideInInspector]
-	public bool Lerp_back = false;
-	[HideInInspector]
+	public bool Lerp_back = false; 
 	public bool Lerp_back_done = false; 
 
-
+	bool Sant = true;
+	
 	
 	void Update()
 	{
 		if (Lerp) //Om det är dags att "Lerpa" menypanelen framåt..
 		{
 			Lerp_done = false;
-			myTime += pause_menu.pDeltaTime * Lerp_speed; //"tillbaka-animationen" är snabbare än "framåt-animationen". Jag har ingen aning om varför, men det är därför jag använder Time.deltaTime*6 här.
+			myTime += Time.deltaTime*6; //"tillbaka-animationen" är snabbare än "framåt-animationen". Jag har ingen aning om varför, men det är därför jag använder Time.deltaTime*6 här.
 			//Men bara använder Time.deltaTime i den andra "Lerp if-satsen"
-			masterPanel.transform.localPosition = Vector3.Lerp (Starting_pos, Target_pos, myTime);
-
-			if(masterPanel.transform.localPosition == Target_pos) //När panelen är på sin slutposition så resettar vi ett gäng variabler och sätter Lerp_done = true
+			//masterPanel.transform.localPosition = Vector3.Lerp (Starting_pos, Target_pos, myTime); // LLLLLLLOOOOOOOOOOOOOOOOOOEEEEEEEEEEEEEEEEEELLLLLLLLLLLLLLL
+			
+			if( Sant/*masterPanel.transform.localPosition == Target_pos*/) //När panelen är på sin slutposition så resettar vi ett gäng variabler och sätter Lerp_done = true
 			{
 				Lerp = false;
 				Lerp_done = true;
 				myTime = 0;
-				Starting_pos=masterPanel.transform.localPosition;
 			}
 		}
-
+		
 		if (Lerp_back) //Samma sak som Lerp, fast baklänges.
 		{
 			Lerp_back_done = false;
-			myTime += pause_menu.pDeltaTime * Lerp_speed;
-			masterPanel.transform.localPosition = Vector3.Lerp (Starting_pos, Return_pos, myTime);
-
-			if(masterPanel.transform.localPosition == Return_pos)
+			myTime += Time.deltaTime;
+			//masterPanel.transform.localPosition = Vector3.Lerp (masterPanel.transform.localPosition, Return_pos, myTime); //HEEEEEEEEEEEEEEEEEEEEEEEEEEEERPISAFKSDSAFHGFHFDSGSBSNSDFN
+			
+			
+			if( Sant/*masterPanel.transform.localPosition == Return_pos*/)
 			{
-
+				
 				Lerp_back = false;
 				Lerp_back_done = true;
 				myTime = 0;
 			}
 		}
-
+		
 		if(Lerp_done) //När framåt-animationen är färdig
 		{
 			NGUITools.SetActive (nextPanel, true); //nextPanel (sätts i editorn) blir aktiv.
@@ -83,7 +79,7 @@ public class Panel_switcher : MonoBehaviour {
 			}
 			Lerp_done = false;
 		}
-
+		
 		if(Lerp_back_done) //När bakåt-animationen är färdig..
 		{
 			NGUITools.SetActive (nextPanel, false); //nextPanel blir inaktiv.
@@ -99,7 +95,7 @@ public class Panel_switcher : MonoBehaviour {
 		}
 	}
 	
-
+	
 	void OnClick()
 	{
 		if(!Lerp && !Lerp_back)
