@@ -3,18 +3,12 @@ using System.Collections;
 
 public class Jump : MonoBehaviour {
 
-    [SerializeField]
+	[SerializeField]
     Animator characterAnimator;
-
-	[Range(40.0f,10000f)][SerializeField]
+	[Range(0.0f,1000f)][SerializeField]
 	private float m_JumpAcceleration;
 	public Movement privateMovement;
-	
-	private float stickDeltaOne;
-	private float stickDeltaTwo;
-	private float stickDeltaThree;
-	private float stickDeltaFour;
-	
+
 	// Use this for initialization
 	void Start () 
 	{
@@ -26,10 +20,11 @@ public class Jump : MonoBehaviour {
 	{
 		if (Input.GetButton("Jump"))
 		{
-			if (privateMovement.isGrounded)
+			if(Input.GetButtonDown("Jump") && privateMovement.isGrounded)
 			{
-                characterAnimator.SetBool("Jumping", true);
-				privateMovement.jumpVelocity = m_JumpAcceleration;
+				transform.Translate(Vector3.up);
+				characterAnimator.SetBool("Jumping", true);
+				privateMovement.jumpVelocity = m_JumpAcceleration; 
 			}
 			else if (privateMovement.m_getVelocity.y > 0f) 
 			{

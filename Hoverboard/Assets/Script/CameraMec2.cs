@@ -49,7 +49,7 @@ public class CameraMec2 : MonoBehaviour {
 			return;
 		 
 		// if the target is in air state the height is increasing
-		if(inTheAir || state.getKeyState == "Air")
+		/*if(inTheAir || state.getKeyState == "Air")
 		{
 			if(height < airHeight)
 			{
@@ -65,7 +65,7 @@ public class CameraMec2 : MonoBehaviour {
 				height -= 0.2f;
 			else
 				height = groundHeight;
-		}
+		}*/
 
 		if (movement.speedForCamera < -0.01f || movement.speedForCamera > 0.01f )
 		{

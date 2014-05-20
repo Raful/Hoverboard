@@ -41,6 +41,7 @@ public class Movement : MonoBehaviour {
 	
 	public float m_AngleSpeed;		// Multiplier, how fast the hoverboard should rotate to a new angle.
 	public float m_MaxAngle;		// the absolout max angle the hoverboard can obtain.
+
 	public bool m_SnapAngle;		// Snap to a angle instead of lerping.
 	public float m_SnapAtHeight;	// Snap when the Hoverboard reaches a certain height from the ground (Check hoverHeight).
 	
@@ -193,7 +194,7 @@ public class Movement : MonoBehaviour {
 		}
 
 		#endif
-		safty ();
+		safety ();
 
 		velocity = direction.normalized *(forwardSpeed+backwardSpeed + boostSpeed+bonusSpeed) -Vector3.up*gravity + (jumpVelocity * CustomJumpVec) + (appliedStrafe * transform.right.normalized);
 		velocity.y = Mathf.Max(velocity.y, -Mathf.Abs(m_TerminalVelocity));
@@ -261,14 +262,6 @@ public class Movement : MonoBehaviour {
 		// decelerate
 		bonusSpeed = Mathf.Lerp (bonusSpeed, 0, Time.deltaTime*m_PotentialFriction);
 	}
-
-	private void safty()
-	{
-		if(isGrounded && velocity.y <= -0.1f)
-		{
-			jumpVelocity = 0f;
-		}		 
-	}
 	
 	public void rotateBoardInX(float x)
 	{
@@ -302,14 +295,18 @@ public class Movement : MonoBehaviour {
 	{
 		currentState.changeKeyState(state);
 	}
-	// rotate a vector operation
+
 	public void miniGameCOnstantRotationSpeed(float z)
 	{
 		transform.Rotate (0,0,z * (m_MinigameRotSpeed/velocity.magnitude));
 	}
-	private void test()
-	{
 
+	private void safety()
+	{
+		if(isGrounded && velocity.y <= -0.1f)
+		{
+			jumpVelocity = 0f;
+		}		 
 	}
 }
 

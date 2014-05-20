@@ -63,8 +63,8 @@ public class DetectState : MonoBehaviour {
 		keyStateDictionary.Add ("Air",new AirKeyState(GetComponent<Movement>()));
 		keyStateDictionary.Add("Rail",new GrindKeyState(GetComponent<Movement>()));
 		keyStateDictionary.Add("Wall",new WallKeyState(GetComponent<Movement>()));
-		currentKeyState = "Grounded";
-
+		keyStateDictionary.Add("MenuState",new MenuState(GetComponent<Movement>()));
+		currentKeyState = "Grounded";		
 	}
 
     void CheckForErrors()
