@@ -46,6 +46,8 @@ public class Checkpoint : MonoBehaviour {
 
 		//Reset Velocity.y so we don't fall through the floor
 		movementScript.setGravity = 0;
+        movementScript.setVelocity(Vector3.zero);
+        movementScript.jumpVelocity = 0;
 
         //Reset timer
         timerScript.SetRaceTimer(timeSeconds);
@@ -58,6 +60,8 @@ public class Checkpoint : MonoBehaviour {
 
 		spawnPositionScript.ResetTransform();
 		movementScript.setGravity = 0;
+        movementScript.setVelocity(Vector3.zero);
+        movementScript.jumpVelocity = 0;
 
         //Reset timer
         timerScript.SetRaceTimer(0);
