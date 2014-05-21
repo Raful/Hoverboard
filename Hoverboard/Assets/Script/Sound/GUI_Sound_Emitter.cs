@@ -45,7 +45,6 @@ public class GUI_Sound_Emitter : MonoBehaviour {
 			{
 				listedSoundEvent.stop();
 				listedSoundEvent.release();
-				Debug.Log("Poof");
 			}
 			else
 			{
@@ -81,14 +80,18 @@ public class GUI_Sound_Emitter : MonoBehaviour {
 		
 	}
 	
+	//Not relevant since all inactive events are killed in Update()
+	/*
 	//Restart (not reload) a previously stopped event
 	public void playEvent (FMODAsset soundEvent)
 	{
 		FMOD.Studio.EventInstance temp = FMOD_StudioSystem.instance.GetEvent(soundEvent);
 		eventList.Find(listedSoundEvent => listedSoundEvent == temp).start();
 	}
+	*/
 	
 	//Does not kill the event, can be resumed with playEvent
+	//Not really since it will be killed on next Update()
 	public void stopEvent (FMOD.Studio.EventInstance soundEvent)
 	{
 		//FMOD.Studio.EventInstance temp = FMOD_StudioSystem.instance.GetEvent(soundEvent);

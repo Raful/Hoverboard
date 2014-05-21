@@ -34,6 +34,7 @@ public class Tutorial : MonoBehaviour {
 		if (col.tag == "Player")
 		{
 			soundEvent = soundEmitter.startEvent(tutorialSound, false);
+			instructionsDisplay.texture = tutorialText;
 		}
 	}
 	
@@ -42,6 +43,7 @@ public class Tutorial : MonoBehaviour {
 		if (col.tag == "Player")
 		{
 			soundEmitter.stopEvent(soundEvent);
+			instructionsDisplay.texture = null;
 		}
 	}
 	
