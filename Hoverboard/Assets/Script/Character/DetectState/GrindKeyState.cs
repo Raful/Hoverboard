@@ -61,7 +61,7 @@ public class GrindKeyState : KeyState
 		whenToFall();
 
 		
-		movement.rotateBoardInZ(Input.GetAxisRaw("LeftHorizontal")*rotationZSpeed);
+		movement.rotateBoardInZ(Input.GetAxisRaw("LeftHorizontal")*rotationZSpeed*-1);
 		
 		/*
 		if(Input.GetKey(KeyCode.A))
