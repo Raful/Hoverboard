@@ -114,6 +114,23 @@ public class DetectState : MonoBehaviour {
             animator.SetBool("Falling", false);
             animator.SetBool("Jumping", false);
         }
+
+        if (currentKeyState == "Wall")
+        {
+            if (keyStateDictionary[currentKeyState].setVector.y == 0)
+            { //Wall is to the right
+                animator.SetBool("WallridingRight", true);
+            }
+            else
+            { //Wall is to the left
+                animator.SetBool("WallridingLeft", true);
+            }
+        }
+        else
+        {
+            animator.SetBool("WallridingRight", false);
+            animator.SetBool("WallridingLeft", false);
+        }
     }
 
     //Checks all collided objects, and place them in collidersFound (to be used in setState()).
@@ -174,9 +191,10 @@ public class DetectState : MonoBehaviour {
 			keyStateDictionary [currentKeyState].end();
 			keyStateDictionary [state].start();
 			currentKeyState = state;
+
+            UpdateAnimations();
 		}
 
-        UpdateAnimations();
 	}
 	public KeyState updateKeyState(string keyState)
 	{
