@@ -19,6 +19,7 @@ public class WallRideTrigger : MonoBehaviour {
 		{
 			if(detectState.m_getRailPermission)
 			{
+				detectState.transform.position += transform.right;
 				detectState.updateKeyState ("Wall").setVector = direction;
 				detectState.changeKeyState ("Wall");
 				detectState.m_getRailPermission = false;
@@ -31,7 +32,6 @@ public class WallRideTrigger : MonoBehaviour {
 	{
 		Wallactive = true;
 		detectState = col.GetComponent<DetectState> ();
-
 		if(Vector3.Angle(transform.right, col.transform.right) <90)
 		{
 			direction = new Vector3(transform.forward.x, 0, transform.forward.z);
@@ -46,7 +46,7 @@ public class WallRideTrigger : MonoBehaviour {
 
 	void OnTriggerExit(Collider col)
 	{
-	
+		detectState.changeKeyState ("Grounded");
 		Wallactive = false;
 	}
 }

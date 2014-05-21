@@ -34,6 +34,7 @@ public class Finish : MonoBehaviour {
 		m_TimerReference.StopTimer();
 		
 		finishTime = m_TimerReference.m_finishTime;
+		LoadNextLevel();
 
 	}
 	void Update()
@@ -43,7 +44,7 @@ public class Finish : MonoBehaviour {
 			differens = Time.time - entryTime;
 		}
 		
-		if( differens > 0.1)
+		if( differens > 0.5)
 		{
 			LoadNextLevel();
 		}
