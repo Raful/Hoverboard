@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: e17c36002f8835949b92e434fec84791
+guid: edde139797941654c87ea13a31b3c557
 ModelImporter:
   serializedVersion: 16
   fileIDToRecycleName:
@@ -247,9 +247,8 @@ ModelImporter:
     3300000: Hoverboard_01
     4300000: Char01
     4300002: Hoverboard_01
-    7400000: WallrideRight
+    7400000: WallrideLeft
     9500000: //RootNode
-    11100000: //RootNode
     13700000: Char01
   materials:
     importMaterials: 0
@@ -259,7 +258,7 @@ ModelImporter:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
     optimizeGameObjects: 0
-    animationCompression: 3
+    animationCompression: 1
     animationRotationError: .5
     animationPositionError: .5
     animationScaleError: .5
@@ -267,7 +266,7 @@ ModelImporter:
     extraExposedTransformPaths: []
     clipAnimations:
     - serializedVersion: 16
-      name: WallrideRight
+      name: WallrideLeft
       takeName: Take 001
       firstFrame: 1
       lastFrame: 59
