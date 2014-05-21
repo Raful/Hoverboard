@@ -15,7 +15,7 @@ public class Checkpoint : MonoBehaviour {
     float timeSeconds;
     Vector3 position;
     Quaternion rotation;
-    float energy;
+    float energy, startEnergy;
 
     [SerializeField]
     Timer timerScript;
@@ -55,6 +55,8 @@ public class Checkpoint : MonoBehaviour {
         //Reset timer
         timerScript.SetRaceTimer(timeSeconds);
 
+        //Reset energy
+        energyScript.m_energy = energy;
     }
 
     public void SpawnAtStart()
@@ -67,6 +69,9 @@ public class Checkpoint : MonoBehaviour {
 
         //Reset timer
         timerScript.SetRaceTimer(0);
+
+        //Reset energy
+        energyScript.m_energy = startEnergy;
     }
 
     void ResetGameState()
