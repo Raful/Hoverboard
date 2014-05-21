@@ -63,8 +63,8 @@ public class DetectState : MonoBehaviour {
 		keyStateDictionary.Add ("Air",new AirKeyState(GetComponent<Movement>()));
 		keyStateDictionary.Add("Rail",new GrindKeyState(GetComponent<Movement>()));
 		keyStateDictionary.Add("Wall",new WallKeyState(GetComponent<Movement>()));
-		currentKeyState = "Grounded";
-
+		keyStateDictionary.Add("MenuState",new MenuState(GetComponent<Movement>()));
+		currentKeyState = "Grounded";		
 	}
 
     void CheckForErrors()
@@ -113,6 +113,23 @@ public class DetectState : MonoBehaviour {
         {
             animator.SetBool("Falling", false);
             animator.SetBool("Jumping", false);
+        }
+
+        if (currentKeyState == "Wall")
+        {
+            if (keyStateDictionary[currentKeyState].setVector.y == 0)
+            { //Wall is to the right
+                animator.SetBool("WallridingRight", true);
+            }
+            else
+            { //Wall is to the left
+                animator.SetBool("WallridingLeft", true);
+            }
+        }
+        else
+        {
+            animator.SetBool("WallridingRight", false);
+            animator.SetBool("WallridingLeft", false);
         }
     }
 
@@ -174,9 +191,10 @@ public class DetectState : MonoBehaviour {
 			keyStateDictionary [currentKeyState].end();
 			keyStateDictionary [state].start();
 			currentKeyState = state;
+
+            UpdateAnimations();
 		}
 
-        UpdateAnimations();
 	}
 	public KeyState updateKeyState(string keyState)
 	{

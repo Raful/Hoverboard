@@ -28,14 +28,14 @@ public class WallKeyState : KeyState
 
 
 		if(m_keyVector.y == 0)
-		{
-			movement.transform.eulerAngles = new Vector3 (movement.transform.eulerAngles.x, movement.transform.eulerAngles.y, 90);
+		{ //Wall is to the right
+			//movement.transform.eulerAngles = new Vector3 (movement.transform.eulerAngles.x, movement.transform.eulerAngles.y, 90);
 			movement.CustomJumpVec = Angle90;
 		}
 
 		if(m_keyVector.y == 1)
-		{
-			movement.transform.eulerAngles = new Vector3 (0, movement.transform.eulerAngles.y, 270);
+		{ //Wall is to the left
+			//movement.transform.eulerAngles = new Vector3 (0, movement.transform.eulerAngles.y, 270);
 			movement.CustomJumpVec = Angle270;
 		}
 	}
