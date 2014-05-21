@@ -6,6 +6,8 @@ public class FollowLogic : MonoBehaviour {
 	private Movement movement;
 	private DetectState detectState;
 
+	public ParticleSystem railParticles;
+
 	// Use this for initialization
 	void Start () 
 	{
@@ -22,6 +24,13 @@ public class FollowLogic : MonoBehaviour {
 		{
 			transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, logicBoard.transform.eulerAngles.z);
 		}
+		if(detectState.getKeyState == "Rail")
+		{
+			railParticles.maxParticles = (int)(movement.m_getVelocity.magnitude*1.4f);
+			railParticles.enableEmission = true;
+		}
+		else 
+			railParticles.enableEmission = false;
 	}
 
 	public float getSpeed()
@@ -32,5 +41,10 @@ public class FollowLogic : MonoBehaviour {
 	public string getKeyState()
 	{
 		return detectState.getKeyState;
+	}
+
+	public float getJumpVelocity()
+	{
+		return movement.jumpVelocity;
 	}
 }

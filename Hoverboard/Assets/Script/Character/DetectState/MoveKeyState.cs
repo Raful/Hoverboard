@@ -72,7 +72,6 @@ public class MoveKeyState : KeyState
 		//}
 		
 		movement.rotateBoardInY(Input.GetAxisRaw("RightHorizontal"));
-		
 		/*if(Input.GetKey(KeyCode.D))
 		{
 			movement.rotateBoardInY(1);

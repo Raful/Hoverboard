@@ -15,7 +15,7 @@ public class CameraMec2 : MonoBehaviour {
 	//private DetectState state;
 	public float m_DefaultDistance;
 	private float distance;   // The distance in the x-z plane to the target
-
+	private float decidedDefaultDistance;
 
 	public float groundHeight = 5.0f;   // the height we want the camera to be above the target when the target is in ground state
 	public float airHeight = 9.0f;      // the height we want the camera to be above the target when the target is in air state
@@ -29,6 +29,7 @@ public class CameraMec2 : MonoBehaviour {
 	private float currentRotationAngle;
 	private float currentX;
 	private float wantedX;
+	private float oldWantedHeight;
 	private float currentHeight;
 	private Vector3 targetedPos;
 	private Quaternion currentRotation;
@@ -45,6 +46,8 @@ public class CameraMec2 : MonoBehaviour {
 		//state = target.GetComponent<DetectState> ();
 		height = groundHeight;
 		distance = m_DefaultDistance;
+		oldWantedHeight = 0;
+		decidedDefaultDistance = m_DefaultDistance;
 	}
 		
 	void LateUpdate () {
@@ -52,24 +55,17 @@ public class CameraMec2 : MonoBehaviour {
 		if (!target)
 			return;
 		 
-		// if the target is in air state the height is increasing
-	/*	if(inTheAir ||follow.getKeyState() == "Air")
+		if(follow.getJumpVelocity() > 0)
 		{
-			if(height < airHeight)
-			{
-				height += 0.2f;
-			}
-			else
-				height = airHeight;
+			m_DefaultDistance += 0.1f;
 		}
-		//if the target is in ground state the height is increasing
-		else
+		else if(m_DefaultDistance > decidedDefaultDistance + 0.01f)
 		{
-			if(height > groundHeight)
-				height -= 0.2f;
-			else
-				height = groundHeight;
-		}*/
+			m_DefaultDistance -= 0.4f;
+		}
+		else 
+			m_DefaultDistance = decidedDefaultDistance;
+	
 
 		if (follow.getSpeed() < -0.01f || follow.getSpeed() > 0.01f )
 		{
@@ -96,13 +92,21 @@ public class CameraMec2 : MonoBehaviour {
 		
 		// Damp the rotation around the y-axis
 		currentRotationAngle = Mathf.SmoothDampAngle (currentRotationAngle, wantedRotationAngle,ref yVelocity ,rotationDamping );
-		if (wantedX - currentX < 10)
-						currentX = Mathf.SmoothDampAngle (currentX, wantedX, ref xVelocity, rotationDamping);
-				else
-						currentX = 0;
+
+		currentX = Mathf.SmoothDampAngle (currentX, wantedX, ref xVelocity, rotationDamping);
+
+						
 			// Damp the height
+		if (Mathf.Abs (wantedHeight - oldWantedHeight) > 0.1f && follow.getJumpVelocity () > 0)
+						heightDamping = Mathf.Abs (wantedHeight - oldWantedHeight);
+				else if (Mathf.Abs (wantedHeight - oldWantedHeight) > 0.001f && follow.getJumpVelocity () > 0)
+						heightDamping = 0.1f;
+				else 
+						heightDamping = 0.7f;
+				
+
 		currentHeight = Mathf.Lerp (currentHeight, wantedHeight, heightDamping * Time.deltaTime);
-		
+		oldWantedHeight = wantedHeight;
 		// Convert the angle into a rotation
 	
 	
