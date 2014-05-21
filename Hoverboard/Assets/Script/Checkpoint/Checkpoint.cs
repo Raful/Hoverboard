@@ -49,7 +49,6 @@ public class Checkpoint : MonoBehaviour {
         transform.rotation = rotation;
 
 		//Reset Velocity.y so we don't fall through the floor
-		movementScript.setGravity = 0;
         movementScript.setVelocity(Vector3.zero);
         movementScript.jumpVelocity = 0;
 
@@ -66,7 +65,6 @@ public class Checkpoint : MonoBehaviour {
         ResetGameState();
 
 		spawnPositionScript.ResetTransform();
-		movementScript.setGravity = 0;
         movementScript.setVelocity(Vector3.zero);
         movementScript.jumpVelocity = 0;
 

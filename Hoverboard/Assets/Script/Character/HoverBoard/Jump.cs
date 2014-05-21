@@ -3,8 +3,9 @@ using System.Collections;
 
 public class Jump : MonoBehaviour {
 
+	[SerializeField]
     Animator characterAnimator;
-	[Range(0.0f,10000f)][SerializeField]
+	[Range(0.0f,1000f)][SerializeField]
 	private float m_JumpAcceleration;
 	public Movement privateMovement;
 

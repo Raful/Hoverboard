@@ -1,9 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Enable_panel : MonoBehaviour {
-
-
+public class GetRayState : MonoBehaviour {
+	public DetectState detectState;
 	// Use this for initialization
 	void Start () {
 	
@@ -11,10 +10,6 @@ public class Enable_panel : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
-		if (gameObject.activeSelf == true)
-		{
 
-		}
 	}
 }
