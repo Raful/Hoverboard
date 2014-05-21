@@ -7,7 +7,7 @@ public class LightningHoverBoard : MonoBehaviour {
 	public Movement m_MovementScript;
 
 	[SerializeField]
-	private float IntensityThreshold, PulseSpeed;
+	private float IntensityThreshold = 8, PulseSpeed = 1;
 	[SerializeField]
 	private Color col;
 	[SerializeField]
