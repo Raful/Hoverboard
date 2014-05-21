@@ -23,7 +23,12 @@ public class CalcCollision : MonoBehaviour {
 
         if (Physics.Raycast(transform.position, direction.normalized, out hit, 0.1f + direction.magnitude * Time.fixedDeltaTime))
         {
+            movement.m_characterAnimator.SetBool("Collided", true);
             movement.ResetPosition(transform.position - direction.normalized/* * speed*/);
+        }
+        else
+        {
+            movement.m_characterAnimator.SetBool("Collided", false);
         }
 
 		/*direction = movement.m_getVelocity;
