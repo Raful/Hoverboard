@@ -14,6 +14,7 @@ public class Grindable : MonoBehaviour {
 	private Vector3 push;
 	private float pushLength;
 	private float pullLength;
+	 
 	// Use this for initialization
 	void Start () 
 	{
@@ -27,6 +28,7 @@ public class Grindable : MonoBehaviour {
 		{
 			if(detectState.m_getRailPermission && RailCounter.getNum() > 0)
 			{
+				player.transform.eulerAngles = push;
 				detectState.m_getRayCastState = false;
 				detectState.changeKeyState("Rail");
 				detectState.m_getRailPermission = false;
@@ -55,14 +57,20 @@ public class Grindable : MonoBehaviour {
 		}
 		else if(RailCounter.getallowRail())
 		{
+			detectState.m_getRayCastState = false;
+			detectState.changeKeyState("Rail");
+			detectState.m_getRailPermission = false;
+
 			if(RailCounter.getRailbool())
 			{
+				push = new Vector3(-transform.eulerAngles.z, transform.eulerAngles.y+90, col.transform.eulerAngles.z);
 				col.transform.position = transform.position + (col.transform.position-transform.position).magnitude*-transform.right;
 				col.transform.eulerAngles = new Vector3(-transform.eulerAngles.z, transform.eulerAngles.y+90, col.transform.eulerAngles.z);
 				detectState.updateKeyState ("Rail").setVector = transform.right;
 			}
 			else
 			{
+				push = new Vector3(transform.eulerAngles.z, transform.eulerAngles.y-90, col.transform.eulerAngles.z);
 				col.transform.position = transform.position + (col.transform.position-transform.position).magnitude*transform.right;
 				col.transform.eulerAngles = new Vector3(transform.eulerAngles.z, transform.eulerAngles.y-90, col.transform.eulerAngles.z);
 				detectState.updateKeyState ("Rail").setVector = -transform.right;
@@ -73,22 +81,23 @@ public class Grindable : MonoBehaviour {
 		
 		if(detectState.m_getRailPermission)
 		{	
+			detectState.m_getRayCastState = false;
+			detectState.changeKeyState("Rail");
+			detectState.m_getRailPermission = false;
 			RailCounter.allowRailTrue();
 		
 			if(RailCounter.getRailbool())
 			{
 				col.transform.position = transform.position + (col.transform.position-transform.position).magnitude*-transform.right;
 				col.transform.eulerAngles = new Vector3(-transform.eulerAngles.z, transform.eulerAngles.y+90, col.transform.eulerAngles.z);
+				push = new Vector3(-transform.eulerAngles.z, transform.eulerAngles.y+90, col.transform.eulerAngles.z);
 			}
 			else
 			{
 				col.transform.position = transform.position + (col.transform.position-transform.position).magnitude*transform.right;
 				col.transform.eulerAngles = new Vector3(transform.eulerAngles.z, transform.eulerAngles.y-90, col.transform.eulerAngles.z);
+				push = new Vector3(transform.eulerAngles.z, transform.eulerAngles.y-90, col.transform.eulerAngles.z);
 			}
-
-			detectState.m_getRayCastState = false;
-			detectState.changeKeyState("Rail");
-			detectState.m_getRailPermission = false;
 		}
 	}
 
