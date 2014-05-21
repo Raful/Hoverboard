@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 724d29c58e227d34eadfddb1dc0b6fd3
+guid: e17c36002f8835949b92e434fec84791
 ModelImporter:
   serializedVersion: 16
   fileIDToRecycleName:
@@ -247,8 +247,9 @@ ModelImporter:
     3300000: Hoverboard_01
     4300000: Char01
     4300002: Hoverboard_01
-    7400000: GrindSide
+    7400000: Take 001
     9500000: //RootNode
+    11100000: //RootNode
     13700000: Char01
   materials:
     importMaterials: 0
@@ -258,7 +259,7 @@ ModelImporter:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
     optimizeGameObjects: 0
-    animationCompression: 1
+    animationCompression: 3
     animationRotationError: .5
     animationPositionError: .5
     animationScaleError: .5
@@ -266,10 +267,10 @@ ModelImporter:
     extraExposedTransformPaths: []
     clipAnimations:
     - serializedVersion: 16
-      name: GrindSide
+      name: Take 001
       takeName: Take 001
       firstFrame: 1
-      lastFrame: 125
+      lastFrame: 59
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
