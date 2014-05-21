@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 724d29c58e227d34eadfddb1dc0b6fd3
+guid: edde139797941654c87ea13a31b3c557
 ModelImporter:
   serializedVersion: 16
   fileIDToRecycleName:
@@ -247,7 +247,7 @@ ModelImporter:
     3300000: Hoverboard_01
     4300000: Char01
     4300002: Hoverboard_01
-    7400000: GrindSide
+    7400000: WallrideLeft
     9500000: //RootNode
     13700000: Char01
   materials:
@@ -266,10 +266,10 @@ ModelImporter:
     extraExposedTransformPaths: []
     clipAnimations:
     - serializedVersion: 16
-      name: GrindSide
+      name: WallrideLeft
       takeName: Take 001
       firstFrame: 1
-      lastFrame: 125
+      lastFrame: 59
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

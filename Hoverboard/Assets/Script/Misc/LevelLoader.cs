@@ -26,7 +26,7 @@ public class LevelLoader : MonoBehaviour
         {
 			operation = Application.LoadLevelAsync(levelName);
 			
-			StartCoroutine(SetProgressText());
+			StartCoroutine(SetProgressBar());
         }
         else
         {
@@ -43,7 +43,7 @@ public class LevelLoader : MonoBehaviour
 		{
 			operation = Application.LoadLevelAsync(level);
 			
-			StartCoroutine(SetProgressText());
+			StartCoroutine(SetProgressBar());
 		}
 		else
 		{
@@ -52,13 +52,11 @@ public class LevelLoader : MonoBehaviour
     }
 
 	
-	IEnumerator SetProgressText()
+	IEnumerator SetProgressBar()
 	{
 		while (!operation.isDone)
 		{
-			//newGuiText.text = loadText;//: " + (int)(operation.progress * 100) + "%";
-
-            loadingScreen.GetComponent<LoadingScreen>().SetProgress((int)(operation.progress * 100));
+			loadingScreen.GetComponent<LoadingScreen>().SetProgress((int)(operation.progress * 100));
 			
 			yield return(0);
 		}
