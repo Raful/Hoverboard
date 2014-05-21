@@ -23,7 +23,7 @@ public class DetectState : MonoBehaviour {
 	private bool rayCastState = true;
 	private bool railKeyPressed;
 	private float keyIsPressed;
-    [SerializeField]
+
     private Animator animator; //The animator of the character model
 
 	public bool m_getRailPermission
@@ -64,7 +64,9 @@ public class DetectState : MonoBehaviour {
 		keyStateDictionary.Add("Rail",new GrindKeyState(GetComponent<Movement>()));
 		keyStateDictionary.Add("Wall",new WallKeyState(GetComponent<Movement>()));
 		keyStateDictionary.Add("MenuState",new MenuState(GetComponent<Movement>()));
-		currentKeyState = "Grounded";		
+		currentKeyState = "Grounded";
+
+        animator = gameObject.GetComponent<Movement>().m_characterAnimator;
 	}
 
     void CheckForErrors()
