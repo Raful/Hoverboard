@@ -13,7 +13,6 @@ using System.Collections;
 
 public class Boost : MonoBehaviour {
 
-    [SerializeField]
     Animator animator;  //The animator of the character model
 	
     [HideInInspector]
@@ -29,6 +28,8 @@ public class Boost : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         energyScript = gameObject.GetComponent<EnergyPool>();
+
+        animator = gameObject.GetComponent<Movement>().m_characterAnimator;
 	}
 	
 	// Update is called once per frame

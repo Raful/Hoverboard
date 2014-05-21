@@ -13,6 +13,7 @@ public class MotionBlur : ImageEffectBase
 {
 	public float blurAmount = 0.8f;
 	public bool extraBlur = false;
+	public float size = 1f;
 	
 	private RenderTexture accumTexture;
 	
@@ -60,6 +61,7 @@ public class MotionBlur : ImageEffectBase
 		// Setup the texture and floating point values in the shader
 		material.SetTexture("_MainTex", accumTexture);
 		material.SetFloat("_AccumOrig", 1.0F-blurAmount);
+		material.SetFloat ("_Size", size);
 		
 		// We are accumulating motion over frames without clear/discard
 		// by design, so silence any performance warnings from Unity
