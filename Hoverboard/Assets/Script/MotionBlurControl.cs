@@ -14,8 +14,8 @@ public class MotionBlurControl : MonoBehaviour {
 	public Movement m_MovementReference;
 	//Recomended to keep Decrease and Increase the same
 	[SerializeField]
-	private float speedThreshold, increaseAmount, decreaseAmount, blurLimit;
-	private float zero = 0f, speed;
+	private float speedThreshold, increaseAmount, decreaseAmount, blurLimit, areaOfBlur;
+	private float zero = 0f, prevAreaOfBlur;
 
 	// Use this for initialization
 	void Start () 
@@ -33,6 +33,11 @@ public class MotionBlurControl : MonoBehaviour {
 		else
 		{
 			m_BlurReference.blurAmount -= decreaseAmount/100;
+		}
+		if( areaOfBlur != prevAreaOfBlur)
+		{
+			m_BlurReference.size = areaOfBlur;
+			prevAreaOfBlur = areaOfBlur;
 		}
 	}
 }

@@ -2,6 +2,7 @@ Shader "Hidden/MotionBlur" {
 Properties {
 	_MainTex ("Base (RGB)", 2D) = "white" {}
 	_AccumOrig("AccumOrig", Float) = 0.65
+	_Size("Size",Float) = 1
 }
 
     SubShader { 
@@ -34,6 +35,7 @@ Properties {
 			
 			float4 _MainTex_ST;
 			float _AccumOrig;
+			float _Size;
 			
 			v2f vert (appdata_t v)
 			{
@@ -47,7 +49,12 @@ Properties {
 			
 			half4 frag (v2f i) : COLOR
 			{
-				return half4(tex2D(_MainTex, i.texcoord).rgb, _AccumOrig );
+				float d=0;
+				d = distance(i.texcoord,(0.5,0.5)) * _Size;
+				//half4(tex2D(_MainTex, i.texcoord).rgb, _AccumOrig )
+				
+				return half4(tex2D(_MainTex, i.texcoord).rgb, (_AccumOrig / d));
+				//half4(tex2D(_MainTex, i.texcoord).rgb, (_AccumOrig * c.a) *0.5 ) ;
 			}
 			ENDCG 
 		} 
