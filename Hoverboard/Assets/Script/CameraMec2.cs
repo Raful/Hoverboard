@@ -74,8 +74,7 @@ public class CameraMec2 : MonoBehaviour {
 		if (follow.getSpeed() < -0.01f || follow.getSpeed() > 0.01f )
 		{
 			if(follow.getSpeed() > -10)
-				distance = m_DefaultDistance + (follow.getSpeed()/10);
-			
+				distance = m_DefaultDistance + (follow.getSpeed()/10);	
 		}
 		else
 		{
@@ -97,9 +96,10 @@ public class CameraMec2 : MonoBehaviour {
 		
 		// Damp the rotation around the y-axis
 		currentRotationAngle = Mathf.SmoothDampAngle (currentRotationAngle, wantedRotationAngle,ref yVelocity ,rotationDamping );
-
-		currentX = Mathf.SmoothDampAngle (currentX, wantedX,ref xVelocity ,rotationDamping );
-	
+		if (wantedX - currentX < 10)
+						currentX = Mathf.SmoothDampAngle (currentX, wantedX, ref xVelocity, rotationDamping);
+				else
+						currentX = 0;
 			// Damp the height
 		currentHeight = Mathf.Lerp (currentHeight, wantedHeight, heightDamping * Time.deltaTime);
 		
@@ -121,40 +121,10 @@ public class CameraMec2 : MonoBehaviour {
 		transform.position = temp;
 		
 		    // Always look at the target
-		transform.LookAt (target, target.up);
+		transform.LookAt (target, target.TransformDirection(Vector3.up));
 	}
 
-/*	public Transform target;
-	// The distance in the x-z plane to the target
-	public float distance;
-	// the height we want the camera to be above the target
-	public float height;
-	// How much we 
-	public float heightDamping;
-	public float rotationDamping;
-	 
-	private Quaternion oldRotation;
-	private Quaternion targetRotation;
-	private Quaternion currentRotation;
 
-	void Start () {
-		oldRotation = target.rotation;
-	}
-	
-	
-	void FixedUpdate () {
-		// Early out if we don't have a target
-		if (!target)
-			return;
-		
-		targetRotation = target.rotation;
-		currentRotation = Quaternion.Lerp (oldRotation, targetRotation, rotationDamping * Time.deltaTime);
-		oldRotation = currentRotation;
-		transform.position = target.position;
-		transform.position -= currentRotation * Vector3.forward * distance;
-		transform.position += currentRotation * Vector3.up * height;
-		transform.LookAt (target, target.TransformDirection (Vector3.up));
-	}*/
 
 
 
