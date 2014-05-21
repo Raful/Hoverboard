@@ -6,9 +6,13 @@ public class FollowLogic : MonoBehaviour {
 	private Movement movement;
 	private DetectState detectState;
 	public ParticleSystem railParticles;
+
+	private bool floatup;
+	private Vector3 hover;
 	// Use this for initialization
 	void Start () 
 	{
+		hover = new Vector3 (0, 0, 0);
 		detectState = logicBoard.GetComponent<DetectState> ();
 		movement = logicBoard.GetComponent<Movement> ();
 	}
@@ -16,7 +20,7 @@ public class FollowLogic : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
 	{
-		transform.position = logicBoard.transform.position;
+
 		transform.rotation = Quaternion.Lerp (transform.rotation, logicBoard.transform.rotation, Time.deltaTime*movement.m_getVelocity.magnitude/3 + Time.deltaTime);
 		if(detectState.getKeyState.Equals("Rail"))
 		{
@@ -27,7 +31,11 @@ public class FollowLogic : MonoBehaviour {
 			railParticles.maxParticles = (int)(movement.m_getVelocity.magnitude*1.4f);
 			railParticles.enableEmission = true;
 		}
-		else 
+		else
+		{ 
 			railParticles.enableEmission = false;
+		}
+
+		transform.position = logicBoard.transform.position;
 	}
 }
