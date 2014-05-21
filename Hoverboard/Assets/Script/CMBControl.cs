@@ -9,7 +9,7 @@ public class CMBControl : MonoBehaviour {
 	private Movement m_MovementReference;
 
 	[SerializeField]
-	private float incAmount, decAmount, speedThreshold;
+	private float incAmount = 0, decAmount = 0, speedThreshold = 0;
 
 	// Use this for initialization
 	void Awake () 

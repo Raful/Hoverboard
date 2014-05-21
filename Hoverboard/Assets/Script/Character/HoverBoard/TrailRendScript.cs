@@ -16,7 +16,7 @@ public class TrailRendScript : MonoBehaviour {
 	public Movement m_MovementReference;
 	public TrailRenderer m_RenderReference;
 	[SerializeField]
-	private float maxDisplayTime, decreaseRate, increaseRate, showRayThreshold;
+	private float maxDisplayTime = 1.0f, decreaseRate = 0.1f, increaseRate = 0.1f, showRayThreshold = 40;
 	[SerializeField]
 	private Vector2 normalSize, boostSize;
 	
