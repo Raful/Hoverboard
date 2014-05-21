@@ -125,7 +125,8 @@ public class CameraMotionBlur extends PostEffectsBase
 		var velBuffer : RenderTexture = RenderTexture.GetTemporary (divRoundUp (source.width, velocityDownsample), divRoundUp (source.height, velocityDownsample), 0, rtFormat);
 		var tileWidth : int = 1;
 		var tileHeight : int = 1;
-		maxVelocity = Mathf.Max (2.0f, maxVelocity);
+		maxVelocity = Mathf.Max (1.0f, maxVelocity);
+		maxVelocity = Mathf.Clamp(maxVelocity, 0.0f,30.0f);
 
 		var _maxVelocity : float = maxVelocity; // calculate 'k'
 		// note: 's' is hardcoded in shaders except for DX11 path
