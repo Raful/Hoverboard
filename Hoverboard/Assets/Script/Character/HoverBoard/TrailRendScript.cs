@@ -6,7 +6,12 @@ using UnityEditor;
  * This script add option for the trail effect when the player reaches high speed.
  * This scripts sets the lifetime of the trail and on lower speed the lifetime
  * decresses to make a nice effect when the speed is 0.
+ * 
+ * Later modifications made it possible to change the width of the trail. This was made
+ * as an request for a better effect to show that a player is boosting.
  *
+ * This script got removed for a better effect.
+ * 
  * Created by: Erik Åsén, 2014-04-09
  * Edited by:
  */
@@ -53,7 +58,7 @@ public class TrailRendScript : MonoBehaviour {
 			incTrailTime();
 		}
 	}
-	
+	// Increase the life time of the trail there by making it longer
 	private void incTrailTime()
 	{
 		m_RenderReference.time += increaseRate;
@@ -62,7 +67,7 @@ public class TrailRendScript : MonoBehaviour {
 			m_RenderReference.time = maxDisplayTime;
 		}
 	}
-	
+    // Decreasing the life time of the trail there by making it shorter
 	private void decTrailTime()
 	{
 		m_RenderReference.time -= decreaseRate;
@@ -73,8 +78,10 @@ public class TrailRendScript : MonoBehaviour {
 		}
 	}
 
+    //Chaning the width of the trail depending on the in data that is sent in the update
 	private void trailWidth( float sizeStart, float sizeEnd )
 	{
+        //Every != is there so it stops increasing or decrecing the witdh of the trail/tail.
 		if(m_RenderReference.startWidth < sizeStart && m_RenderReference.startWidth != sizeStart)
 		{
 			m_RenderReference.startWidth += increaseRate;
