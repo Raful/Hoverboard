@@ -39,7 +39,7 @@ public class GrindKeyState : KeyState
 		movement.isGrounded = true;
 		movement.GetComponent<DetectState>().m_getRayCastState = false;
 
-		if(RailCounter.getNum() < 2)
+		if(GlobalFuncVari.getNum() < 2)
 		{
 			if(Random.value < 0.5)
 			{

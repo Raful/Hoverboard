@@ -1,6 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/*
+ * This script was first part of movement but later got removed
+ * from the movement script and placed in its owns script.
+ * 
+ * The scripts enabels jumping for the player by moving it in the global y-axis 
+ * 
+ * Created by: Erik Åsén
+ * Edited by: Felix (Wolfie), Robbin Torstensson, Creator
+ * 
+ */
+
 public class Jump : MonoBehaviour {
 
     Animator characterAnimator;
@@ -13,7 +24,7 @@ public class Jump : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
 	{
-
+		GlobalFuncVari.setJumpPower(m_JumpAcceleration);
 	}
 
 	// Update is called once per frame

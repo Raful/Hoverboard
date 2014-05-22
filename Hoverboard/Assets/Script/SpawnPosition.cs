@@ -2,17 +2,18 @@
 using System.Collections;
 
 /*
- *  Script to set the position of the player at the start of the scene.
+ *  Script to set position,rotaiton of the player at the start of the scene.
+ *  Also to start the raceTimer when the player leave the trigger area of spawn.
  *
  * Created by: Erik Åsén, 2014-04-02
  * Edited by: 
  */
 
 public class SpawnPosition : MonoBehaviour {
-
-	public Transform m_TargetLogicHoverBoard;
-	public Transform m_TargetGraphicHoverboard;
-	public Timer m_TimerReference;
+	[SerializeField]
+	private Transform m_TargetLogicHoverBoard, m_TargetGraphicHoverboard;
+	[SerializeField]
+	private Timer m_TimerReference;
 
 	// Use this for initialization
 	void Awake () 

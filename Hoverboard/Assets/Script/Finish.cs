@@ -12,7 +12,10 @@ using System.Collections;
 public class Finish : MonoBehaviour {
 
 	public Timer m_TimerReference;
-	public string m_NextLevelToLoad;
+	[SerializeField]
+	private string m_NextLevelToLoad;
+	[SerializeField]
+	private float waitTime = 0;
 	private float entryTime, differens;
 	private GameObject levelLoader;
 	Medal medal;
@@ -43,7 +46,7 @@ public class Finish : MonoBehaviour {
 			differens = Time.time - entryTime;
 		}
 		
-		if( differens > 0.1)
+		if( differens > waitTime)
 		{
 			LoadNextLevel();
 		}
