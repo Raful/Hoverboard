@@ -19,6 +19,12 @@ public class LoadingScreen : MonoBehaviour {
         progressBarScript = gameObject.GetComponentInChildren<ProgressBar>();
 	}
 
+    void Start()
+    {
+        //This is enabled when the player reaches the goal
+        enabled = false;
+    }
+
     public void SetProgress(int progressInPercent)
     {
         progressBarScript.SetProgress(progressInPercent);

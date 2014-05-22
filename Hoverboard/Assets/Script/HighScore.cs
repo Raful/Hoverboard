@@ -10,6 +10,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 public class HighScore : MonoBehaviour {
     [SerializeField]
@@ -18,8 +19,8 @@ public class HighScore : MonoBehaviour {
     string userName="Platform not defined";
 
     //HighScoreList is stored on file as: username:time
-    List<KeyPair> highScoreList;
-    public List<KeyPair> m_highScoreList
+    List<KeyValuePair<string, float>> highScoreList;
+    public List<KeyValuePair<string, float>> m_highScoreList
     {
         get { return highScoreList; }
     }
@@ -38,7 +39,7 @@ public class HighScore : MonoBehaviour {
         InitXBoxOne();
 #endif
 
-        highScoreList=new List<KeyPair>();
+        highScoreList = new List<KeyValuePair<string, float>>();
         finishScript = GameObject.Find("Finish").GetComponent<Finish>();
 
         filePath = Application.persistentDataPath + "/" + Application.loadedLevelName + ".txt";
@@ -48,7 +49,7 @@ public class HighScore : MonoBehaviour {
             string row;
             while ((row = file.ReadLine()) != null)
             {
-                highScoreList.Add(new KeyPair(row.Split(":".ToCharArray())[0], row.Split(":".ToCharArray())[1], true));
+                highScoreList.Add(new KeyValuePair<string, float>(row.Split(":".ToCharArray())[0], float.Parse(row.Split(":".ToCharArray())[1])));//new KeyPair(row.Split(":".ToCharArray())[0], row.Split(":".ToCharArray())[1], true));
             }
             file.Close();
         }
@@ -66,21 +67,12 @@ public class HighScore : MonoBehaviour {
 
     void AddToHighScore(float time)
     {
-        highScoreList.Add(new KeyPair(userName, time, true));
+        highScoreList.Add(new KeyValuePair<string, float>(userName, time));
 
-        //Bubble sort the new time into its' correct position (assumes only one element isn't sorted)
-        for (int i = highScoreList.Count - 1; i >= 1; i--)
+        highScoreList.Sort((firstPair, nextPair) =>
         {
-            float itrTime=float.Parse(highScoreList[i].m_obj2.ToString());
-            float itrCompareTime=float.Parse(highScoreList[i-1].m_obj2.ToString());
-
-            if (itrTime < itrCompareTime)
-            {
-                //Swap places of the current elements
-                highScoreList[i].m_obj2 = itrCompareTime;
-                highScoreList[i - 1].m_obj2 = itrTime;
-            }
-        }
+            return firstPair.Value.CompareTo(nextPair.Value);
+        });
 
         //Make sure highScoreList doesn't have too many elements
         if (highScoreList.Count > maxScoreCount)
@@ -94,7 +86,7 @@ public class HighScore : MonoBehaviour {
         //Write the updated high score list to the file
         for (int i = 0; i < highScoreList.Count; i++) //Iterate through highScoreList
         {
-            file.WriteLine(highScoreList[i].m_obj1.ToString() + ":" + highScoreList[i].m_obj2.ToString());
+            file.WriteLine(highScoreList[i].Key.ToString() + ":" + highScoreList[i].Value.ToString());
         }
 
         file.Close();
