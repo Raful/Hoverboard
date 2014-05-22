@@ -1,6 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/*
+ * 
+ * Modifes a light below the player change its intensity on a sin curve.
+ * When a player is starting its jump the intensity resets and the color
+ * changes.
+ * 
+ * Created by: Erik Åsén
+ * Edited by: Felix (Wolfie) Mossberg
+ * 
+ */
+
+
 public class LightningHoverBoard : MonoBehaviour {
 
 	public Jump m_JumpScript;
@@ -9,9 +21,7 @@ public class LightningHoverBoard : MonoBehaviour {
 	[SerializeField]
 	private float IntensityThreshold = 8, PulseSpeed = 1;
 	[SerializeField]
-	private Color col;
-	[SerializeField]
-	private Color col_charged;
+	private Color col, col_charged;
 
 	float TimeSin;
 	// Use this for initialization

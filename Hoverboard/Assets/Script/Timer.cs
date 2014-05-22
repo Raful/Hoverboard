@@ -2,11 +2,11 @@
 using System.Collections;
 
 /*
- * 
- * Text that explains script
+ * This script is for the GUI element that shows the race time when a player leaves start.
+ * When reaching finish it stops the time displayed time.
  *
  * Created by: Erik Åsén, 2014-04-11
- * Edited by: Robbin Torstensson, 2014-04-22 (added getter for finishTime)
+ * Edited by: Robbin Torstensson, 2014-04-22 (added getter for finishTime), Felix (Wolfie) Mossberg
  */
 
 public class Timer : MonoBehaviour {
@@ -55,7 +55,7 @@ public class Timer : MonoBehaviour {
 	
 	}
 
-    //Sets the raceTimer to a specific time
+    //Sets the raceTimer to a specific time (checkpoint)
     public void SetRaceTimer(float time)
     {
         if (time != 0)
@@ -67,7 +67,7 @@ public class Timer : MonoBehaviour {
             leaveTime = 0;
         }
     }
-
+	//Non checkpoint version
 	void SetRaceTimer()
 	{
 		if (leaveTime == 0f) 
@@ -80,32 +80,36 @@ public class Timer : MonoBehaviour {
 		}
 	}
 
+	//Converts the time gotten from Time.time to mill, seconds and min
 	void SetMinSecMil()
 	{
 		if (finishTime == 0) 
 		{
+			//This part is only done aslong as the player hasen't reached the finish
 			timeMinutes = Mathf.FloorToInt (raceTime / 60);
 			timeSeconds = Mathf.FloorToInt (raceTime % 60);
 			timeMilli = Mathf.FloorToInt (raceTime * 1000) % 1000;
 		} 
 		else 
 		{
+			//Finish time converted
 			timeMinutes = Mathf.FloorToInt (finishTime / 60);
 			timeSeconds = Mathf.FloorToInt (finishTime % 60);
 			timeMilli = Mathf.FloorToInt (finishTime * 1000) % 1000;
 		}
 	}
 
-
+	//Called in spawn
 	public void RaceTime()
 	{
 		leaveTime = Time.time;
 	}
-
+	//Called in finish
 	public void StopTimer()
 	{
 		finishTime = raceTime;
 	}
+	//Called when the level resest is pushed
 	public void nullTimer()
 	{
 		raceTime = 0;

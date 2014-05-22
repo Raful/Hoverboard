@@ -17,7 +17,7 @@ public class LoadingScreen : MonoBehaviour {
     }
 
 	void OnEnable () {
-
+        transform.position = Vector3.zero;
 	}
 	
 	void Update () {
