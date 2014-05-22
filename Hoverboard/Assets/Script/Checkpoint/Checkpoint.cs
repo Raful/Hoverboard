@@ -52,6 +52,17 @@ public class Checkpoint : MonoBehaviour {
 
 	}
 
+	//Called from the "killbox" prefab when the player goes out of bounds
+	public void TriggerReset()
+	{
+		if (checkpointCheck == true)
+			SpawnAtCheckpoint();
+		
+		else 
+			SpawnAtStart();
+		
+	}
+
     public void SpawnAtCheckpoint()
     {
         ResetGameState();
@@ -96,7 +107,6 @@ public class Checkpoint : MonoBehaviour {
 
         //Reset achievements' temporary progress
         //achievementScript.LoadProgressFromFile();
-        Debug.Log("RESET_GAME_STATE");
     }
 
 //#if UNITY_EDITOR
@@ -139,4 +149,5 @@ public class Checkpoint : MonoBehaviour {
             energy = gameObject.GetComponent<EnergyPool>().m_energy;
         }
     }
+    
 }
