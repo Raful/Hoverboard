@@ -100,16 +100,4 @@ public class GlobalFuncVari {
 		return camFollow;
 	}
 //  ------ End of camera variabels modifications
-
-//  ------ Wallride variabels
-	public static void setJumpPower(float power)
-	{
-		jumpPower = power;
-	}
-
-	public static float getJumpPower()
-	{
-		return jumpPower;
-	}
-//  ------ End of wallride varaibels modifications
 }

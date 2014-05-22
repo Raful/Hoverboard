@@ -21,6 +21,8 @@ public class WallRideTrigger : MonoBehaviour {
 			{
 				detectState.transform.position += transform.right;
 				detectState.updateKeyState ("Wall").setVector = direction;
+				detectState.updateKeyState ("Wall").m_RightjumpVec = -transform.right;
+				detectState.updateKeyState ("Wall").m_UpjumpVec = transform.up;
 				detectState.changeKeyState ("Wall");
 				detectState.m_getRailPermission = false;
 				detectState.m_getRayCastState = false;

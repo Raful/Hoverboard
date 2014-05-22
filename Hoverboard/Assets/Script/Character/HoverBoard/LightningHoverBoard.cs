@@ -15,7 +15,6 @@ using System.Collections;
 
 public class LightningHoverBoard : MonoBehaviour {
 
-	public Jump m_JumpScript;
 	public Movement m_MovementScript;
 
 	[SerializeField]
@@ -50,18 +49,13 @@ public class LightningHoverBoard : MonoBehaviour {
 
 	private void fluctuateLightStrength()
 	{
-		if(Input.GetButton("Jump") && m_MovementScript.isGrounded)
+		if(Input.GetButton("Jump"))
 		{
 			light.intensity += 0.1f; 
 		}
 		else
 		{
-			if(TimeSin < 0)
-			{
-				TimeSin *= -1;
-			}
-			
-			light.intensity = IntensityThreshold * TimeSin;
+			light.intensity = IntensityThreshold * Mathf.Abs(TimeSin);
 		}
 	}
 	private void changeColor()

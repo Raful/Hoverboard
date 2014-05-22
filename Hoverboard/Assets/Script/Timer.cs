@@ -29,27 +29,13 @@ public class Timer : MonoBehaviour {
 	void Update () 
 	{
 		SetRaceTimer ();
-		SetMinSecMil ();
 
 		text="";
-
-		//minutes
-		if (timeMinutes<10){
-			text+="0";
-		} text+=timeMinutes.ToString () + ":";
-
-		//seconds
-		if (timeSeconds<10){
-			text+="0";
-		} text+=timeSeconds.ToString () + ".";
-
-		//milliseconds
-		if (timeMilli<100){
-			if (timeMilli<10){
-				text+="0";
-			} text+="0";
-		} text+=timeMilli.ToString ();
-
+		if (finishTime == 0) {
+			text = string.Format ("{0:00}:{1:00}.{2:000}", raceTime / 60, raceTime % 60, (raceTime * 1000) % 1000);
+		} else {
+			text = string.Format ("{0:00}:{1:00}.{2:000}", finishTime / 60, finishTime % 60, (finishTime * 1000) % 1000);
+		}
 		//render
 		guiText.text = text;
 	
@@ -72,30 +58,11 @@ public class Timer : MonoBehaviour {
 	{
 		if (leaveTime == 0f) 
 		{
-			raceTime = (Time.time - leaveTime) * 0f;
+			raceTime = 0;
 		}
 		else 
 		{
 			raceTime = Time.time - leaveTime;
-		}
-	}
-
-	//Converts the time gotten from Time.time to mill, seconds and min
-	void SetMinSecMil()
-	{
-		if (finishTime == 0) 
-		{
-			//This part is only done aslong as the player hasen't reached the finish
-			timeMinutes = Mathf.FloorToInt (raceTime / 60);
-			timeSeconds = Mathf.FloorToInt (raceTime % 60);
-			timeMilli = Mathf.FloorToInt (raceTime * 1000) % 1000;
-		} 
-		else 
-		{
-			//Finish time converted
-			timeMinutes = Mathf.FloorToInt (finishTime / 60);
-			timeSeconds = Mathf.FloorToInt (finishTime % 60);
-			timeMilli = Mathf.FloorToInt (finishTime * 1000) % 1000;
 		}
 	}
 
