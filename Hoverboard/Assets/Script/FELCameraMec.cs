@@ -23,7 +23,7 @@ public class FELCameraMec : MonoBehaviour {
 	public GameObject hoverboard;
 	public Movement movement;
 	
-	public float yOffset;
+	private float yOffset = 1f;
 	private Hover_Physics physics;
 	
 	private Vector3 targetedPosition;
@@ -36,7 +36,7 @@ public class FELCameraMec : MonoBehaviour {
 	
 	private float currentYValue = 0;
 	
-	private float distanceY = 1;
+	public float distanceY = 1;
 	
 	void Start() {
 		
@@ -62,19 +62,19 @@ public class FELCameraMec : MonoBehaviour {
 		
 		//these three if-satser decide how the camera's y position should change. the x and z position always follow the hoveboard. 
 		//if the hoverboard's position is higher than targetedPosition.y + 1 the camera is moving up
-		if(position.y > (targetedPosition.y + 1f))
+		if(position.y > (targetedPosition.y ))
 		{
 			
 			float y = targetedPosition.y;
 			targetedPosition = hoverboard.transform.position;
-			targetedPosition.y = targetedPosition.y -1f;
+			targetedPosition.y = targetedPosition.y - yOffset;
 		}
 		// does the same thing but down instead for up.
-		else if(position.y < (targetedPosition.y -1f))
+		else if(position.y < (targetedPosition.y))
 		{
 			float y = targetedPosition.y;
 			targetedPosition = hoverboard.transform.position;
-			targetedPosition.y = targetedPosition.y +1f;
+			targetedPosition.y = targetedPosition.y +yOffset;
 		}
 		// else the cameras y position doesnt change
 		else
