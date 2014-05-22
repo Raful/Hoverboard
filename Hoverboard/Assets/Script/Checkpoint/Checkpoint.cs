@@ -27,6 +27,8 @@ public class Checkpoint : MonoBehaviour {
 
     Movement movementScript;
 
+	bool checkpointCheck;
+
 	void Start () 
     {
         timeSeconds = timerScript.m_raceTime;
@@ -34,6 +36,8 @@ public class Checkpoint : MonoBehaviour {
         rotation = transform.rotation;
 
         movementScript = gameObject.GetComponent<Movement>();
+        
+        checkpointCheck = false;
 	}
 
     public void SpawnAtCheckpoint()
@@ -50,6 +54,9 @@ public class Checkpoint : MonoBehaviour {
 
         //Reset timer
         timerScript.SetRaceTimer(timeSeconds);
+        
+        Debug.Log("SPAWN_AT_CHECKPOINT");
+        
 
     }
 
@@ -63,6 +70,7 @@ public class Checkpoint : MonoBehaviour {
 
         //Reset timer
         timerScript.SetRaceTimer(0);
+        Debug.Log("SPAWN_AT_START");
     }
 
     void ResetGameState()
@@ -71,18 +79,32 @@ public class Checkpoint : MonoBehaviour {
         movementScript.ResetSpeed();
 
         //Reset achievements' temporary progress
-        achievementScript.LoadProgressFromFile();
+        //achievementScript.LoadProgressFromFile();
+        Debug.Log("RESET_GAME_STATE");
     }
 
-#if UNITY_EDITOR
+//#if UNITY_EDITOR
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Home))
+       	if (Input.GetButtonDown("Reset"))
         {
-            SpawnAtCheckpoint();
+			if (checkpointCheck == true)
+        		SpawnAtCheckpoint();
+        	
+			else
+				SpawnAtStart();
+			
         }
+        
+        if (Input.GetButtonDown ("LevelReset"))
+        {
+			checkpointCheck = false;
+        	SpawnAtStart();
+        	
+        }
+        
     }
-#endif
+//#endif
 
     void OnTriggerEnter(Collider col)
     {
@@ -92,9 +114,11 @@ public class Checkpoint : MonoBehaviour {
             //The player will respawn at the checkpoints' position and rotation.
             position = col.transform.position;
             rotation = col.transform.rotation;
-
+			//position = transform.position;
             //Store current time
             timeSeconds = timerScript.m_raceTime;
+            checkpointCheck = true;
+           
 
         }
     }
