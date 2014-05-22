@@ -19,11 +19,14 @@ public class CameraMec2 : MonoBehaviour {
 	private float jumpDistance;
 	public float groundHeight = 5.0f;   // the height we want the camera to be above the target when the target is in ground state
 	public float airHeight = 9.0f;      // the height we want the camera to be above the target when the target is in air state
-	private float height;					//current height the camera is above the target
-	
-	public float heightDamping = 2.0f;	//how smoothly the camera follows the target in height
-	public float rotationDamping; //how smoothly the camera follows the target in rotation
-	
+	public float height;					//current height the camera is above the target
+	private float maxheight;
+	private float defaultHeight;
+	private float heightDamping;	//how smoothly the camera follows the target in height
+	private float rotationDamping; //how smoothly the camera follows the target in rotation
+	public float defaultHeigtDamping;
+
+	public float defaultRotationDamping;
 	private float wantedRotationAngle;
 	private float wantedHeight;
 	private float currentRotationAngle;
@@ -37,7 +40,7 @@ public class CameraMec2 : MonoBehaviour {
 	private float yVelocity = 0;
 	private float xVelocity = 0;
 	
-	
+
 	
 	void Start()
 	{
@@ -49,6 +52,9 @@ public class CameraMec2 : MonoBehaviour {
 		oldWantedHeight = 0;
 		decidedDefaultDistance = m_DefaultDistance;
 		jumpDistance = decidedDefaultDistance + 5;
+		maxheight = height + 2;
+		defaultHeight = height;
+
 	}
 	
 	void LateUpdate () {
@@ -56,27 +62,28 @@ public class CameraMec2 : MonoBehaviour {
 		if (!target)
 			return;
 		
-		if(follow.getJumpVelocity() > 0 && jumpDistance > m_DefaultDistance)
+		if(follow.getKeyState().Equals("Air"))
 		{
-			m_DefaultDistance += 0.1f;
-		}
-		else if(m_DefaultDistance > decidedDefaultDistance)
-		{
-			m_DefaultDistance -= 0.2f;
-		}
-		else 
-			m_DefaultDistance = decidedDefaultDistance;
-		
-		
-		if (follow.getSpeed() < -0.01f || follow.getSpeed() > 0.01f )
-		{
-			if(follow.getSpeed() > -10)
-				distance = m_DefaultDistance + (follow.getSpeed()/10);	
+			heightDamping = 100;
+			if(height < maxheight)
+				height += 0.3f;
+			else 
+				height = maxheight;
 		}
 		else
 		{
-			distance = m_DefaultDistance;
+			heightDamping = defaultHeigtDamping;
+			if(height > defaultHeight)
+				height -= 0.3f;
+			else
+				height = defaultHeight;
 		}
+
+		if (target.rotation.x > -10 && target.rotation.x < 10)
+				rotationDamping = defaultRotationDamping;
+			else
+				rotationDamping = 0;
+			
 		// Calculate the current rotation angles
 		float y = targetedPos.y;
 		targetedPos = target.position;
@@ -98,12 +105,7 @@ public class CameraMec2 : MonoBehaviour {
 		
 		
 		// Damp the height
-		if (Mathf.Abs (wantedHeight - oldWantedHeight) > 0.1f && follow.getJumpVelocity () > 0)
-			heightDamping = Mathf.Abs (wantedHeight - oldWantedHeight);
-		else if (Mathf.Abs (wantedHeight - oldWantedHeight) > 0.001f && follow.getJumpVelocity () > 0)
-			heightDamping = 0.1f;
-		else if(follow.getJumpVelocity() == 0)
-			heightDamping = 0.7f;
+
 		
 		
 		currentHeight = Mathf.Lerp (currentHeight, wantedHeight, heightDamping * Time.deltaTime);
@@ -112,7 +114,7 @@ public class CameraMec2 : MonoBehaviour {
 		
 		
 		
-		currentRotation = Quaternion.Euler (currentX, currentRotationAngle, 0);
+		currentRotation = Quaternion.Euler (0, currentRotationAngle, 0);
 		
 		// Set the position of the camera on the x-z plane to:
 		// distance meters behind the target
