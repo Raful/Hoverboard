@@ -26,7 +26,7 @@ public class Jump : MonoBehaviour {
 		{
 			if(Input.GetButtonDown("Jump") && privateMovement.isGrounded)
 			{
-                jumpTimer = Time.time + 0.3f;
+                jumpTimer = Time.time + 0.1f;
                 willJump = true;
 
                 privateMovement.m_characterAnimator.SetBool("Jumping", true);
