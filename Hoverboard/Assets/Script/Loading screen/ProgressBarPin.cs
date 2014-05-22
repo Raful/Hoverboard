@@ -3,7 +3,7 @@
  * Modified by: 
  * 
  * Description:
- * 
+ * Represents a pin in the progress bar
  */
 
 using UnityEngine;

@@ -225,7 +225,7 @@ public class Movement : MonoBehaviour {
 		//FMOD_StudioSystem.instance.PlayOneShot("event:/Impact/impact1",transform.position);
         transform.position = position;
 
-
+		Debug.Log ("Resets");
         ResetSpeed();
 		//FMOD_StudioSystem.instance.PlayOneShot("event:/Impact/Impact1",transform.position);
 		transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
@@ -234,6 +234,7 @@ public class Movement : MonoBehaviour {
 
     public void ResetSpeed()
     {
+
         forwardSpeed = 0;
         backwardSpeed = 0;
         bonusSpeed = 0;

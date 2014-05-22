@@ -23,6 +23,7 @@ public class GlobalFuncVari {
 	private static bool camFollow;
 	private static float jumpPower;
 
+	private static Vector3 railBounds;
 //  ------ Grind specific variabels
 
 	public static int getNum()
@@ -100,4 +101,11 @@ public class GlobalFuncVari {
 		return camFollow;
 	}
 //  ------ End of camera variabels modifications
+
+//  ------ Wallride variabels
+	public static void setRailBounds(Vector3 bounds)
+	{
+		railBounds = bounds;
+	}
+//  ------ End of wallride varaibels modifications
 }

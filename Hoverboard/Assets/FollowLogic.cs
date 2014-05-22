@@ -14,7 +14,7 @@ public class FollowLogic : MonoBehaviour {
 	void Start () 
 	{
         boostParticles = transform.Find("Char02_Rig02_Hoverboard_Full_body_ctrl/Main_ctrl/Spin_Ctrl/Hoverboard_01/Boost").GetComponent<ParticleSystem>();
-        railParticles = transform.Find("Char02_Rig02_Hoverboard_Full_body_ctrl/Main_ctrl/Spin_Ctrl/Hoverboard_01/Sparks").GetComponent<ParticleSystem>();
+        railParticles = transform.Find("Char02_Rig02_Hoverboard_Full_body_ctrl/Main_ctrl/Spin_Ctrl/Hoverboard_01/RailSparks").GetComponent<ParticleSystem>();
 		hover = new Vector3 (0, 0, 0);
 		detectState = logicBoard.GetComponent<DetectState> ();
 		movement = logicBoard.GetComponent<Movement> ();
