@@ -26,7 +26,7 @@ public class CalcCollision : MonoBehaviour {
             movement.m_characterAnimator.SetBool("Collided", true);
             movement.ResetPosition(transform.position - direction.normalized/* * speed*/);
         }
-        else
+        else// if (animation["Collided"].enabled)
         {
             movement.m_characterAnimator.SetBool("Collided", false);
         }
