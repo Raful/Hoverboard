@@ -7,6 +7,7 @@ public class FollowLogic : MonoBehaviour {
 	private DetectState detectState;
 	private ParticleSystem railParticles;
 	private ParticleSystem boostParticles;
+	private EnergyPool energy;
 
 	private bool floatup;
 	private Vector3 hover;
@@ -18,6 +19,7 @@ public class FollowLogic : MonoBehaviour {
 		hover = new Vector3 (0, 0, 0);
 		detectState = logicBoard.GetComponent<DetectState> ();
 		movement = logicBoard.GetComponent<Movement> ();
+		energy = logicBoard.GetComponent<EnergyPool> ();
 	}
 	
 	// Update is called once per frame
@@ -39,6 +41,8 @@ public class FollowLogic : MonoBehaviour {
 		if (movement.GetComponent<Boost> ().m_isBoosting) 
 		{
 			boostParticles.enableEmission = true;
+			Debug.Log(boostParticles.startColor);
+			boostParticles.startColor = new Color(boostParticles.startColor.r, boostParticles.startColor.g, boostParticles.startColor.b, energy.m_energy/energy.m_MaxEnergy);
 		}
 		else 
 		{
