@@ -35,6 +35,14 @@ public class TutorialStart : MonoBehaviour {
 	void OnTriggerEnter(Collider col)
 	{
 		
+		//if (col 
+		//movementScript.enabled = false;
+		
+	}
+	
+	void OnTiggerExit(Collider col)
+	{
+		
 	}
 	
 	
