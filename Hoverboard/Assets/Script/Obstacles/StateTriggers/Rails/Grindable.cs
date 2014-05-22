@@ -14,7 +14,7 @@ public class Grindable : MonoBehaviour {
 	private Vector3 push;
 	private float pushLength;
 	private float pullLength;
-	 
+	private Vector3 grindBounds;
 	// Use this for initialization
 	void Start () 
 	{
@@ -39,7 +39,11 @@ public class Grindable : MonoBehaviour {
 	void OnTriggerEnter(Collider col)
 	{
 		player = col.gameObject;
-
+		if(col.transform.localScale.x != 2)
+		{
+			GlobalFuncVari.setRailBounds(col.transform.localScale);
+			col.transform.localScale = new Vector3 (2, col.transform.localScale.y, 2) ;
+		}
 		detectState = player.gameObject.GetComponent<DetectState> ();
 		if(GlobalFuncVari.getNum() == 0)
 		{
@@ -106,6 +110,7 @@ public class Grindable : MonoBehaviour {
 		GlobalFuncVari.decNum();
 		if(GlobalFuncVari.getNum() <= 0)
 		{
+			col.transform.localScale = GlobalFuncVari.getRailBounds();
 			GlobalFuncVari.allowRailFalse();
 			Grindactive = false;
 			col.gameObject.GetComponent<DetectState>().m_getRayCastState = true;
