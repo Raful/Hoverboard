@@ -32,21 +32,11 @@ public class LightningHoverBoard : MonoBehaviour {
 	void Update () {
 
 		TimeSin = Mathf.Sin(Time.time*PulseSpeed);
-
-		zeroLightOnButton();
+		
 		fluctuateLightStrength();
 
 		changeColor();
 	}
-
-	private void zeroLightOnButton()
-	{
-		if(Input.GetButtonDown("Jump") && m_MovementScript.isGrounded)
-		{
-			light.intensity = 0; 
-		}
-	}
-
 	private void fluctuateLightStrength()
 	{
 		if(Input.GetButton("Jump"))
