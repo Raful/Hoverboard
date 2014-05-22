@@ -16,6 +16,7 @@ public class EnergyPool : MonoBehaviour {
     public float m_energy
     {
         get { return energy; }
+        set { energy = value; }
     }
 
     [SerializeField]
