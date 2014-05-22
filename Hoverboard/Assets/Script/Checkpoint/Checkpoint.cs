@@ -15,6 +15,7 @@ public class Checkpoint : MonoBehaviour {
     float timeSeconds;
     Vector3 position;
     Quaternion rotation;
+    float energy, startEnergy;
 
     [SerializeField]
     Timer timerScript;
@@ -26,14 +27,17 @@ public class Checkpoint : MonoBehaviour {
     SpawnPosition spawnPositionScript;
 
     Movement movementScript;
+    EnergyPool energyScript;
 
-	void Start () 
+	void Start ()
     {
+        movementScript = gameObject.GetComponent<Movement>();
+        energyScript = gameObject.GetComponent<EnergyPool>();
+
         timeSeconds = timerScript.m_raceTime;
         position = transform.position;
         rotation = transform.rotation;
-
-        movementScript = gameObject.GetComponent<Movement>();
+        energy = energyScript.m_energy;
 	}
 
     public void SpawnAtCheckpoint()
@@ -51,6 +55,8 @@ public class Checkpoint : MonoBehaviour {
         //Reset timer
         timerScript.SetRaceTimer(timeSeconds);
 
+        //Reset energy
+        energyScript.m_energy = energy;
     }
 
     public void SpawnAtStart()
@@ -63,6 +69,9 @@ public class Checkpoint : MonoBehaviour {
 
         //Reset timer
         timerScript.SetRaceTimer(0);
+
+        //Reset energy
+        energyScript.m_energy = startEnergy;
     }
 
     void ResetGameState()
@@ -96,6 +105,7 @@ public class Checkpoint : MonoBehaviour {
             //Store current time
             timeSeconds = timerScript.m_raceTime;
 
+            energy = gameObject.GetComponent<EnergyPool>().m_energy;
         }
     }
 }
