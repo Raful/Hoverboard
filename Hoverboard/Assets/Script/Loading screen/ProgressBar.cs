@@ -3,7 +3,7 @@
  * Modified by: 
  * 
  * Description:
- * 
+ * Handles the loading bar, by setting the pins to the correct texture.
  */
 
 using UnityEngine;

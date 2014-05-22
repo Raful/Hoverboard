@@ -11,16 +11,16 @@ using System.Collections;
 
 public class LoadingScreen : MonoBehaviour {
 
-    public void SetProgress(int progressInPercent)
-    {
-        gameObject.GetComponentInChildren<ProgressBar>().SetProgress(progressInPercent);
-    }
+    ProgressBar progressBarScript;
 
 	void OnEnable () {
         transform.position = Vector3.zero;
+
+        progressBarScript = gameObject.GetComponentInChildren<ProgressBar>();
 	}
-	
-	void Update () {
-	
-	}
+
+    public void SetProgress(int progressInPercent)
+    {
+        progressBarScript.SetProgress(progressInPercent);
+    }
 }
