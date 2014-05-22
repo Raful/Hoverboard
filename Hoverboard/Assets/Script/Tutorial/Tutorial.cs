@@ -31,7 +31,7 @@ public class Tutorial : MonoBehaviour {
 	
 	void OnTriggerEnter(Collider col)
 	{
-		if (col.tag == "Player")
+		if (col.tag == "Player" && GlobalFuncVari.getTutorialSkipped() != true)
 		{
 			soundEvent = soundEmitter.startEvent(tutorialSound, false);
 			instructionsDisplay.texture = tutorialText;
@@ -40,7 +40,7 @@ public class Tutorial : MonoBehaviour {
 	
 	void OnTriggerExit(Collider col)
 	{
-		if (col.tag == "Player")
+		if (col.tag == "Player" && GlobalFuncVari.getTutorialSkipped() != true)
 		{
 			soundEmitter.stopEvent(soundEvent);
 			instructionsDisplay.texture = null;
