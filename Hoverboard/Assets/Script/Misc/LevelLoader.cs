@@ -17,6 +17,13 @@ public class LevelLoader : MonoBehaviour
     [SerializeField]
     GameObject loadingScreen;
 
+    LoadingScreen loadingScreenScript;
+
+    void Start()
+    {
+        loadingScreenScript = loadingScreen.GetComponent<LoadingScreen>();
+    }
+
 	public void LoadLevel(string levelName)
     {
         ShowLoadingScreen();
@@ -56,7 +63,7 @@ public class LevelLoader : MonoBehaviour
 	{
 		while (!operation.isDone)
 		{
-			loadingScreen.GetComponent<LoadingScreen>().SetProgress((int)(operation.progress * 100));
+            loadingScreenScript.SetProgress((int)(operation.progress * 100));
 			
 			yield return(0);
 		}
@@ -65,6 +72,6 @@ public class LevelLoader : MonoBehaviour
     void ShowLoadingScreen()
     {
         loadingScreen.SetActive(true);
-        loadingScreen.GetComponent<LoadingScreen>().SetProgress(100);
+        //loadingScreen.GetComponent<LoadingScreen>().SetProgress(100);
     }
 }

@@ -20,7 +20,7 @@ public class GrindKeyState : KeyState
 	private InputVCR vcr;
 	private bool firstRotationOnGoing = true;
 	private float time;
-	private float AngleAmount = 87;								//Used to calculate the angel for the hoverboard to fall of with
+	private float AngleAmount = 60;								//Used to calculate the angel for the hoverboard to fall of with
 	private const float zero = 0, circel = 360, halfCircel = 180;//Constant variabels that are used to calc the angle for the fall of
 
 	DetectState detectState;
@@ -109,12 +109,12 @@ public class GrindKeyState : KeyState
 	{
 		if(movement.transform.eulerAngles.z > (zero + AngleAmount) && movement.transform.eulerAngles.z < halfCircel)
 		{
-			movement.transform.Translate(new Vector3(-pushOfStrength,pushOfStrength,0));
+			movement.transform.Translate(Vector3.up + (-Vector3.right));
 	
 		}
 		else if(movement.transform.eulerAngles.z < (circel - AngleAmount) && movement.transform.eulerAngles.z > halfCircel)
 		{
-			movement.transform.Translate(new Vector3(pushOfStrength,pushOfStrength,0));
+			movement.transform.Translate(Vector3.up + (Vector3.right));
 
 		}
 	}

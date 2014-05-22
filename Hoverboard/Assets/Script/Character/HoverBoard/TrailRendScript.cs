@@ -19,7 +19,7 @@ using UnityEditor;
 public class TrailRendScript : MonoBehaviour {
 	
 	public Movement m_MovementReference;
-	public TrailRenderer m_RenderReference;
+	private TrailRenderer m_RenderReference;
 	[SerializeField]
 	private float maxDisplayTime = 1.0f, decreaseRate = 0.1f, increaseRate = 0.1f, showRayThreshold = 40;
 	[SerializeField]
@@ -27,9 +27,12 @@ public class TrailRendScript : MonoBehaviour {
 	
 	void Start () 
 	{
+		m_RenderReference = GetComponent<TrailRenderer> ();
 		m_RenderReference.enabled = true;
-		m_RenderReference.castShadows = true;
 		m_RenderReference.time = 0;
+		m_RenderReference.startWidth = normalSize.x;
+		m_RenderReference.endWidth = normalSize.y;
+
 	}
 	
 	void Update () {
@@ -42,7 +45,7 @@ public class TrailRendScript : MonoBehaviour {
 				incTrailTime();
 			}
 			//When player is slowing down shorten tail, and when less then 0 set it to orignal length(time) and stop displaying
-			else if(m_MovementReference.forwardSpeed < showRayThreshold && m_MovementReference.boostSpeed < 0f) 
+			else if(m_MovementReference.forwardSpeed < showRayThreshold) 
 			{
 				decTrailTime();
 			}
@@ -61,20 +64,17 @@ public class TrailRendScript : MonoBehaviour {
 	// Increase the life time of the trail there by making it longer
 	private void incTrailTime()
 	{
-		m_RenderReference.time += increaseRate;
-		if(m_RenderReference.time > maxDisplayTime)
+		if(m_RenderReference.time < maxDisplayTime)
 		{
-			m_RenderReference.time = maxDisplayTime;
+			m_RenderReference.time += increaseRate;
 		}
 	}
     // Decreasing the life time of the trail there by making it shorter
 	private void decTrailTime()
 	{
-		m_RenderReference.time -= decreaseRate;
-		
-		if (m_RenderReference.time < 0)
+		if (m_RenderReference.time > 0)
 		{
-			m_RenderReference.time = 0;
+			m_RenderReference.time -= decreaseRate;
 		}
 	}
 
@@ -82,20 +82,20 @@ public class TrailRendScript : MonoBehaviour {
 	private void trailWidth( float sizeStart, float sizeEnd )
 	{
         //Every != is there so it stops increasing or decrecing the witdh of the trail/tail.
-		if(m_RenderReference.startWidth < sizeStart && m_RenderReference.startWidth != sizeStart)
+		if(m_RenderReference.startWidth < sizeStart)
 		{
 			m_RenderReference.startWidth += increaseRate;
 		}
-		else if(m_RenderReference.startWidth > sizeStart && m_RenderReference.startWidth != sizeStart)
+		else if(m_RenderReference.startWidth > sizeStart)
 		{
 			m_RenderReference.startWidth -= decreaseRate;
 		}
 
-		if(m_RenderReference.endWidth < sizeEnd && m_RenderReference.endWidth != sizeEnd)
+		if(m_RenderReference.endWidth < sizeEnd)
 		{
 			m_RenderReference.endWidth += increaseRate;
 		}
-		else if(m_RenderReference.endWidth > sizeEnd && m_RenderReference.endWidth != sizeEnd)
+		else if(m_RenderReference.endWidth > sizeEnd)
 		{
 			m_RenderReference.endWidth -= decreaseRate;
 		}
