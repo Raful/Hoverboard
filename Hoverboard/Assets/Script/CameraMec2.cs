@@ -20,10 +20,10 @@ public class CameraMec2 : MonoBehaviour {
 	public float groundHeight = 5.0f;   // the height we want the camera to be above the target when the target is in ground state
 	public float airHeight = 9.0f;      // the height we want the camera to be above the target when the target is in air state
 	public float height;					//current height the camera is above the target
-	private float maxheight;
+	private float rampHeight;
 	private float defaultHeight;
 	private float heightDamping;	//how smoothly the camera follows the target in height
-	private float rotationDamping; //how smoothly the camera follows the target in rotation
+	public float rotationDamping; //how smoothly the camera follows the target in rotation
 	public float defaultHeigtDamping;
 
 	public float defaultRotationDamping;
@@ -52,8 +52,9 @@ public class CameraMec2 : MonoBehaviour {
 		oldWantedHeight = 0;
 		decidedDefaultDistance = m_DefaultDistance;
 		jumpDistance = decidedDefaultDistance + 5;
-		maxheight = height + 2;
+	
 		defaultHeight = height;
+		rampHeight = height - 1;
 
 	}
 	
@@ -65,25 +66,50 @@ public class CameraMec2 : MonoBehaviour {
 		if(follow.getKeyState().Equals("Air"))
 		{
 			heightDamping = 100;
-			if(height < maxheight)
+			if(height < airHeight)
 				height += 0.3f;
 			else 
-				height = maxheight;
+				height = airHeight;
+		}
+		else if(target.eulerAngles.x > 50)
+		{
+
+			if(height > rampHeight)
+				height -= 0.3f;
+			else
+				height = rampHeight;
 		}
 		else
 		{
 			heightDamping = defaultHeigtDamping;
-			if(height > defaultHeight)
+			if(height > groundHeight +0.1f)
 				height -= 0.3f;
+			else if(height < groundHeight -0.1f)
+				height += 0.3f;
 			else
-				height = defaultHeight;
+				height = groundHeight;
 		}
 
-		if (target.rotation.x > -10 && target.rotation.x < 10)
-				rotationDamping = defaultRotationDamping;
-			else
-				rotationDamping = 0;
-			
+	
+		if(target.eulerAngles.x < 45 && !follow.getKeyState().Equals("Air"))
+		{
+			heightDamping = defaultHeigtDamping;
+			rotationDamping = defaultRotationDamping;
+			Debug.Log(target.rotation.x);
+		}
+		else if(target.eulerAngles.x > 45)
+		{
+
+			rotationDamping = defaultRotationDamping;
+			Debug.Log ("2");
+		}
+		else
+		{
+			heightDamping = 100;
+			Debug.Log (heightDamping);
+			rotationDamping = 0;
+			Debug.Log ("3");
+		}
 		// Calculate the current rotation angles
 		float y = targetedPos.y;
 		targetedPos = target.position;
