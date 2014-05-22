@@ -11,6 +11,7 @@ public class WallKeyState : KeyState
 	private bool jumped;
 	private Vector3 Angle270 = new Vector3 (0, 1f, -1f);
 	private Vector3 Angle90 = new Vector3 (0, 1f, -1f);
+
 	public WallKeyState(Movement Movement)
 	{
 		movement = Movement;
@@ -69,7 +70,7 @@ public class WallKeyState : KeyState
 		}
 		if (Input.GetKeyUp (KeyCode.Space) && jumped) 
 		{
-			movement.jumpVelocity = 40f;
+			movement.jumpVelocity = GlobalFuncVari.getJumpPower();;
 		}
 	}
 }
