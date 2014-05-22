@@ -48,6 +48,16 @@ public class Finish : MonoBehaviour {
 		{
 			LoadNextLevel();
 		}
+		
+		if (Input.GetKeyDown(KeyCode.P))
+		{
+			Application.LoadLevel("Scen_utan_mark");
+		}
+		if (Input.GetKeyDown(KeyCode.O))
+		{
+			Application.LoadLevel("Scen_utan_mark_eric_2");
+		}
+		
 	}
 	void LoadNextLevel()
 	{

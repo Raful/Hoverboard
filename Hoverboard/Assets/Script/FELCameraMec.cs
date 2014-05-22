@@ -35,7 +35,7 @@ public class FELCameraMec : MonoBehaviour {
 
 	private float currentYValue = 0;
 
-	private float distanceY = 1;
+	private float distanceY = 3;
 
 	void Start() {
 		
@@ -61,7 +61,7 @@ public class FELCameraMec : MonoBehaviour {
 
 		//these three if-satser decide how the camera's y position should change. the x and z position always follow the hoveboard. 
 		//if the hoverboard's position is higher than targetedPosition.y + 1 the camera is moving up
-		if(position.y > (targetedPosition.y + yOffset + 1f))
+		if(position.y > (targetedPosition.y + 1f))
 		{
 
 			float y = targetedPosition.y;
@@ -69,7 +69,7 @@ public class FELCameraMec : MonoBehaviour {
 			targetedPosition.y = targetedPosition.y -1f;
 		}
 		// does the same thing but down instead for up.
-		else if(position.y < (targetedPosition.y + yOffset -1f))
+		else if(position.y < (targetedPosition.y -1f))
 		{
 			float y = targetedPosition.y;
 			targetedPosition = hoverboard.transform.position;
