@@ -90,6 +90,8 @@ public class GUI_Sound_Emitter : MonoBehaviour {
 	}
 	*/
 	
+	
+	
 	//Does not kill the event, can be resumed with playEvent
 	//Not really since it will be killed on next Update()
 	public void stopEvent (FMOD.Studio.EventInstance soundEvent)
