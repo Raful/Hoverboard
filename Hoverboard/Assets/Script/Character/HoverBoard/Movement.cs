@@ -15,7 +15,7 @@ using FMOD.Studio;
 
 public class Movement : MonoBehaviour {
 
-    public Animator m_characterAnimator; //The animator of the character model
+	public Animator m_characterAnimator; //The animator of the character model
     float rotationSpeedTarget = 0;
     [SerializeField]
     float rotateAnimationSpeed = 0.05f;
@@ -33,6 +33,8 @@ public class Movement : MonoBehaviour {
 	public float m_MinigameRotSpeed; //  Constant rotation speed for the grind minigame
     [SerializeField]
 	private float strafeModifier;		// Amount of speed applied to the strafe action
+	[SerializeField]
+	private float rotateDivider = 1;
 
 
 	public float m_Gravity; 		// Gravity acceleration, added each frame when not grounded.
@@ -88,6 +90,8 @@ public class Movement : MonoBehaviour {
 
 	[HideInInspector]
 	public float jumpVelocity; //Jump feeds into this
+
+	private float divided = 0f;
 
 	public float setGravity
 	{
@@ -199,6 +203,7 @@ public class Movement : MonoBehaviour {
 		safety ();
 
 		velocity = direction.normalized *(speed + boostSpeed+bonusSpeed) -Vector3.up*gravity + (jumpVelocity * CustomJumpVec) + (appliedStrafe * transform.right.normalized);
+		divided = ((velocity.magnitude) / rotateDivider);
 		velocity.y = Mathf.Max(velocity.y, -Mathf.Abs(m_TerminalVelocity));
 		transform.position += velocity*Time.fixedDeltaTime;
 
@@ -277,10 +282,22 @@ public class Movement : MonoBehaviour {
 	}
 	public void rotateBoardInY(float y)
 	{
-		transform.Rotate (0, y * m_RotationSpeed.y, 0);
+		if (divided < 1f)
+		{
+			divided = 1f;
+		}
+
+		transform.Rotate (0, y * (m_RotationSpeed.y / divided), 0);
 
         rotationSpeedTarget = y;
 	}
+	public void rotateBoardInYAir(float y)
+	{
+		transform.Rotate (0, y * m_RotationSpeed.y, 0);
+		
+		rotationSpeedTarget = y;
+	}
+
 	public void rotateBoardInWorldY(float y)
 	{
 		transform.Rotate (0, y * m_RotationSpeed.y, 0,Space.World);
@@ -306,7 +323,7 @@ public class Movement : MonoBehaviour {
 
 	public void miniGameCOnstantRotationSpeed(float z)
 	{
-		transform.Rotate (0,0,z * (m_MinigameRotSpeed/velocity.magnitude));
+		transform.Rotate (0,0,z * (m_MinigameRotSpeed / (velocity.magnitude + 1)));
 	}
 
 	private void safety()

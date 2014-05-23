@@ -109,12 +109,14 @@ public class GrindKeyState : KeyState
 	{
 		if(movement.transform.eulerAngles.z > (zero + AngleAmount) && movement.transform.eulerAngles.z < halfCircel)
 		{
-			movement.transform.Translate(Vector3.up + (-Vector3.right));
+			//movement.transform.Translate(movement.transform.up);
+			movement.transform.localPosition += movement.transform.up;
 	
 		}
 		else if(movement.transform.eulerAngles.z < (circel - AngleAmount) && movement.transform.eulerAngles.z > halfCircel)
 		{
-			movement.transform.Translate(Vector3.up + (Vector3.right));
+			//movement.transform.Translate(movement.transform.up);
+			movement.transform.localPosition += movement.transform.up;
 
 		}
 	}
