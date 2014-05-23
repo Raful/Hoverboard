@@ -25,11 +25,15 @@ public class Boost : MonoBehaviour {
     [SerializeField]
     float pauseDuration=1;
 
+    bool canBoost, hasBoosted;
+
 	// Use this for initialization
 	void Start () {
         energyScript = gameObject.GetComponent<EnergyPool>();
 
         animator = gameObject.GetComponent<Movement>().m_characterAnimator;
+
+        canBoost = true;
 	}
 	
 	// Update is called once per frame
@@ -37,13 +41,15 @@ public class Boost : MonoBehaviour {
         if (Input.GetButtonDown("Boost") && energyScript.m_energy > 0)
         {
             animator.SetBool("Boosting", true);
+
+            hasBoosted = true;
         }
         else
         {
             animator.SetBool("Boosting", false);
         }
 
-        if (Input.GetButton("Boost") && energyScript.m_energy > 0 )
+        if (canBoost && Input.GetButton("Boost") && energyScript.m_energy > 0 )
         {
             UseBoost();
             m_isBoosting = true;
@@ -51,6 +57,16 @@ public class Boost : MonoBehaviour {
         else
         {
             m_isBoosting = false;
+        }
+
+        if (energyScript.m_energy <= 0 && hasBoosted)
+        {
+            canBoost = false;
+        }
+
+        if (Input.GetButtonUp("Boost"))
+        {
+            canBoost = true;
         }
 	}
 
