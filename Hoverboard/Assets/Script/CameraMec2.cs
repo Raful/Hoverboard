@@ -70,6 +70,8 @@ public class CameraMec2 : MonoBehaviour {
 				height += 0.3f;
 			else 
 				height = airHeight;
+
+			rotationDamping = defaultRotationDamping;
 		}
 		else if(target.eulerAngles.x > 50)
 		{
@@ -95,12 +97,12 @@ public class CameraMec2 : MonoBehaviour {
 		{
 			heightDamping = defaultHeigtDamping;
 			rotationDamping = defaultRotationDamping;
-			Debug.Log(target.rotation.x);
+
 		}
-		else if(target.eulerAngles.x > 45)
+		else if(target.eulerAngles.x > 45 && !follow.getKeyState().Equals("Air"))
 		{
 
-			rotationDamping = defaultRotationDamping;
+			rotationDamping = 0;
 			Debug.Log ("2");
 		}
 		else
@@ -115,7 +117,7 @@ public class CameraMec2 : MonoBehaviour {
 		targetedPos = target.position;
 		targetedPos.y = y;
 		wantedRotationAngle = target.eulerAngles.y;
-		
+
 		
 		wantedHeight = target.position.y + height;
 		
@@ -129,8 +131,8 @@ public class CameraMec2 : MonoBehaviour {
 		
 		currentX = Mathf.SmoothDampAngle (currentX, wantedX, ref xVelocity, rotationDamping);
 		
-		
-		// Damp the height
+
+			// Damp the height
 
 		
 		
@@ -140,7 +142,7 @@ public class CameraMec2 : MonoBehaviour {
 		
 		
 		
-		currentRotation = Quaternion.Euler (0, currentRotationAngle, 0);
+		currentRotation = Quaternion.Euler (currentX, currentRotationAngle, 0);
 		
 		// Set the position of the camera on the x-z plane to:
 		// distance meters behind the target
