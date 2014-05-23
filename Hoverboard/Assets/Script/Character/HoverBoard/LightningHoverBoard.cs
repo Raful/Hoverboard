@@ -19,23 +19,29 @@ public class LightningHoverBoard : MonoBehaviour {
 
 	[SerializeField]
 	private float IntensityThreshold = 8, PulseSpeed = 1;
+	[SerializeField][Range(0f,1f)]
+	private float coloChangeSpeed = 0.025f;
 	[SerializeField]
 	private Color col, col_charged;
+	private float t = 0;
 
 	float TimeSin;
 	// Use this for initialization
 	void Start () 
 	{		
+		light.color = col;
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		t = Mathf.Clamp (t, 0f, 1f);
 
 		TimeSin = Mathf.Sin(Time.time*PulseSpeed);
 		
 		fluctuateLightStrength();
 
 		changeColor();
+		//test ();
 	}
 	private void fluctuateLightStrength()
 	{
@@ -52,11 +58,13 @@ public class LightningHoverBoard : MonoBehaviour {
 	{
 		if (m_MovementScript.jumpVelocity > 0f)
 		{
-			light.color = col_charged;
+			t += coloChangeSpeed;
+			light.color = Color.Lerp(col, col_charged, t);
 		} 
 		else
 		{
-			light.color = col;
+			t -= coloChangeSpeed;
+			light.color = Color.Lerp(col, col_charged, t);
 		}
 	}
 }
