@@ -22,6 +22,7 @@ public class GlobalFuncVari {
 	public static float tunnelAngle;
 	private static bool camFollow;
 	private static float jumpPower;
+	private static bool tutorialSkipped;
 
 	private static Vector3 railBounds;
 //  ------ Grind specific variabels
@@ -111,4 +112,18 @@ public class GlobalFuncVari {
 		return camFollow;
 	}
 //  ------ End of camera variabels modifications
+
+//  ------ Tutorial variables
+
+	public static void setTutorialSkipped(bool skipped)
+	{
+		tutorialSkipped = skipped;
+	}
+	
+	public static bool getTutorialSkipped ()
+	{
+		return tutorialSkipped;
+	}
+
+//  ------ End of tutorial variables
 }

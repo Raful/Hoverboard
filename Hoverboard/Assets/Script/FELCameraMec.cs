@@ -24,8 +24,7 @@ public class FELCameraMec : MonoBehaviour {
 	public Movement movement;
 	
 	public float yOffset;
-	private Hover_Physics physics;
-
+	
 	private Vector3 targetedPosition;
 
 	private float yVelocity = 0.0F;			
@@ -36,11 +35,11 @@ public class FELCameraMec : MonoBehaviour {
 
 	private float currentYValue = 0;
 
-	private float distanceY = 1;
+	private float distanceY = 3;
 
 	void Start() {
 		
-		physics = hoverboard.GetComponent<Hover_Physics>();
+	
 		
 		targetedPosition = hoverboard.transform.position;
 		currentYValue = targetedPosition.y;

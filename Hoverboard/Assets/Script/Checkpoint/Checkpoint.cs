@@ -29,7 +29,12 @@ public class Checkpoint : MonoBehaviour {
     Movement movementScript;
     EnergyPool energyScript;
 
-	void Start ()
+
+	bool checkpointCheck;
+
+	void Start () 
+
+
     {
         movementScript = gameObject.GetComponent<Movement>();
         energyScript = gameObject.GetComponent<EnergyPool>();
@@ -37,7 +42,25 @@ public class Checkpoint : MonoBehaviour {
         timeSeconds = timerScript.m_raceTime;
         position = transform.position;
         rotation = transform.rotation;
+
+
+        movementScript = gameObject.GetComponent<Movement>();
+        
+        checkpointCheck = false;
+
         energy = energyScript.m_energy;
+
+	}
+
+	//Called from the "killbox" prefab when the player goes out of bounds
+	public void TriggerReset()
+	{
+		if (checkpointCheck == true)
+			SpawnAtCheckpoint();
+		
+		else 
+			SpawnAtStart();
+		
 	}
 
     public void SpawnAtCheckpoint()
@@ -54,6 +77,8 @@ public class Checkpoint : MonoBehaviour {
 
         //Reset timer
         timerScript.SetRaceTimer(timeSeconds);
+        
+        
 
         //Reset energy
         energyScript.m_energy = energy;
@@ -72,6 +97,7 @@ public class Checkpoint : MonoBehaviour {
 
         //Reset energy
         energyScript.m_energy = startEnergy;
+
     }
 
     void ResetGameState()
@@ -80,18 +106,31 @@ public class Checkpoint : MonoBehaviour {
         movementScript.ResetSpeed();
 
         //Reset achievements' temporary progress
-        achievementScript.LoadProgressFromFile();
+        //achievementScript.LoadProgressFromFile();
     }
 
-#if UNITY_EDITOR
+//#if UNITY_EDITOR
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Home))
+       	if (Input.GetButtonDown("Reset"))
         {
-            SpawnAtCheckpoint();
+			if (checkpointCheck == true)
+        		SpawnAtCheckpoint();
+        	
+			else
+				SpawnAtStart();
+			
         }
+        
+        if (Input.GetButtonDown ("LevelReset"))
+        {
+			checkpointCheck = false;
+        	SpawnAtStart();
+        	
+        }
+        
     }
-#endif
+//#endif
 
     void OnTriggerEnter(Collider col)
     {
@@ -101,11 +140,14 @@ public class Checkpoint : MonoBehaviour {
             //The player will respawn at the checkpoints' position and rotation.
             position = col.transform.position;
             rotation = col.transform.rotation;
-
+			//position = transform.position;
             //Store current time
             timeSeconds = timerScript.m_raceTime;
+            checkpointCheck = true;
+           
 
             energy = gameObject.GetComponent<EnergyPool>().m_energy;
         }
     }
+    
 }
