@@ -43,6 +43,7 @@ public class FollowLogic : MonoBehaviour {
 			boostParticles.enableEmission = true;
 			boostParticles.startLifetime = 0.05f + (energy.m_energy/energy.m_MaxEnergy)*0.1f;
 			boostParticles.startColor = new Color(boostParticles.startColor.r, boostParticles.startColor.g, boostParticles.startColor.b, (energy.m_energy/energy.m_MaxEnergy));
+
 		}
 		else 
 		{
