@@ -27,7 +27,6 @@ public class Jump : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
 	{
-		GlobalFuncVari.setJumpPower(m_JumpAcceleration);
 	}
 
 	// Update is called once per frame

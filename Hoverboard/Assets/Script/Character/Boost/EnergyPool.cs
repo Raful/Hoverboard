@@ -18,6 +18,11 @@ public class EnergyPool : MonoBehaviour {
         get { return energy; }
         set { energy = value; }
     }
+	public float m_MaxEnergy
+	{
+		get { return maxEnergy; }
+		set { maxEnergy = value; }
+	}
 
     [SerializeField]
     float startEnergy = 0;

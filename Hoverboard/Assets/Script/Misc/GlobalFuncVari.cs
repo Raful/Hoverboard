@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 /*
@@ -23,6 +23,7 @@ public class GlobalFuncVari {
 	private static bool camFollow;
 	private static float jumpPower;
 
+	private static Vector3 railBounds;
 //  ------ Grind specific variabels
 
 	public static int getNum()
@@ -66,6 +67,16 @@ public class GlobalFuncVari {
 		return allowRail;
 	}
 
+	public static Vector3 getRailBounds()
+	{
+		return railBounds;
+	}
+	
+	public static void setRailBounds(Vector3 bounds)
+	{
+		railBounds = bounds;
+	}
+
 //  ------ End of grind variabels modifications
 
 //  ------ Tunnel trigger variabels
@@ -100,16 +111,4 @@ public class GlobalFuncVari {
 		return camFollow;
 	}
 //  ------ End of camera variabels modifications
-
-//  ------ Wallride variabels
-	public static void setJumpPower(float power)
-	{
-		jumpPower = power;
-	}
-
-	public static float getJumpPower()
-	{
-		return jumpPower;
-	}
-//  ------ End of wallride varaibels modifications
 }
