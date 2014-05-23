@@ -69,4 +69,8 @@ public class FollowLogic : MonoBehaviour {
 	{
 		return movement.jumpVelocity;
 	}
+	public float getXAngleForLogicBoard()
+	{
+		return logicBoard.transform.eulerAngles.x;
+	}
 }
