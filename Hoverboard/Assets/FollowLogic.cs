@@ -41,7 +41,7 @@ public class FollowLogic : MonoBehaviour {
 		if (movement.GetComponent<Boost> ().m_isBoosting) 
 		{
 			boostParticles.enableEmission = true;
-			Debug.Log(boostParticles.startColor);
+			//Debug.Log(boostParticles.startColor);
 			boostParticles.startColor = new Color(boostParticles.startColor.r, boostParticles.startColor.g, boostParticles.startColor.b, energy.m_energy/energy.m_MaxEnergy);
 		}
 		else 
