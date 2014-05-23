@@ -40,7 +40,7 @@ class GlobalFog extends PostEffectsBase {
 			ReportAutoDisable ();
 		return isSupported;				
 	}
-@ImageEffectOpaque
+
 	function OnRenderImage (source : RenderTexture, destination : RenderTexture) {	
 		if(CheckResources()==false) {
 			Graphics.Blit (source, destination);
