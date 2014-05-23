@@ -39,10 +39,10 @@ public class Grindable : MonoBehaviour {
 	void OnTriggerEnter(Collider col)
 	{
 		player = col.gameObject;
-		if(col.transform.localScale.x != 2)
+		if(player.transform.localScale.x != 2)
 		{
 			GlobalFuncVari.setRailBounds(col.transform.localScale);
-			col.transform.localScale = new Vector3 (2, col.transform.localScale.y, 2) ;
+			player.transform.localScale = new Vector3 (2, player.transform.localScale.y, 2) ;
 		}
 		detectState = player.gameObject.GetComponent<DetectState> ();
 		if(GlobalFuncVari.getNum() == 0)
