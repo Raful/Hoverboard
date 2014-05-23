@@ -63,6 +63,14 @@ public class MyLog : MonoBehaviour
         }
     }
 
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            hidden = !hidden;
+        }
+    }
+
     void OnGUI()
     {
         if (!hidden)
