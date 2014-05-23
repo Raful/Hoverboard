@@ -20,9 +20,10 @@ public class CameraMec2 : MonoBehaviour {
 	public float groundHeight = 5.0f;   // the height we want the camera to be above the target when the target is in ground state
 	public float airHeight = 9.0f;      // the height we want the camera to be above the target when the target is in air state
 	public float height;					//current height the camera is above the target
-	private float rampHeight;
+	public float upRampHeight;
+	public float downRampHeight;
 	private float defaultHeight;
-	private float heightDamping;	//how smoothly the camera follows the target in height
+	public float heightDamping;	//how smoothly the camera follows the target in height
 	public float rotationDamping; //how smoothly the camera follows the target in rotation
 	public float defaultHeigtDamping;
 
@@ -39,6 +40,7 @@ public class CameraMec2 : MonoBehaviour {
 	public bool inTheAir;
 	private float yVelocity = 0;
 	private float xVelocity = 0;
+	public float angleToChange; 
 	
 
 	
@@ -54,7 +56,7 @@ public class CameraMec2 : MonoBehaviour {
 		jumpDistance = decidedDefaultDistance + 5;
 	
 		defaultHeight = height;
-		rampHeight = height - 1;
+
 
 	}
 	
@@ -67,48 +69,61 @@ public class CameraMec2 : MonoBehaviour {
 		{
 			heightDamping = 100;
 			if(height < airHeight)
-				height += 0.3f;
+				height += 0.2f;
 			else 
 				height = airHeight;
-
 			rotationDamping = defaultRotationDamping;
 		}
-		else if(target.eulerAngles.x > 50)
+		else if(target.eulerAngles.x > angleToChange && target.eulerAngles.x < 150)
 		{
 
-			if(height > rampHeight)
+			if(height > downRampHeight)
 				height -= 0.3f;
 			else
-				height = rampHeight;
+				height = downRampHeight;
+			rotationDamping = defaultRotationDamping;
+		}
+		else if(target.eulerAngles.x > angleToChange)
+		{
+			if(height > upRampHeight)
+				height -= 0.5f;
+			else
+				height = upRampHeight;
+			rotationDamping = defaultRotationDamping;
 		}
 		else
 		{
 			heightDamping = defaultHeigtDamping;
 			if(height > groundHeight +0.1f)
-				height -= 0.3f;
-			else if(height < groundHeight -0.1f)
-				height += 0.3f;
+				height -= 0.5f;
+			if(height < groundHeight -0.1f)
+				height += 0.5f;
 			else
 				height = groundHeight;
 		}
 
 	
-		if(target.eulerAngles.x < 45 && !follow.getKeyState().Equals("Air"))
+		if(target.eulerAngles.x < angleToChange && !follow.getKeyState().Equals("Air"))
 		{
 			heightDamping = defaultHeigtDamping;
 			rotationDamping = defaultRotationDamping;
 
 		}
-		else if(target.eulerAngles.x > 45 && !follow.getKeyState().Equals("Air"))
+		else if(target.eulerAngles.x > angleToChange && !follow.getKeyState().Equals("Air"))
+		{
+			heightDamping = 100;
+			rotationDamping = 0;
+		
+		}
+		else if(target.eulerAngles.x > angleToChange)
 		{
 
-			rotationDamping = 0;
-			Debug.Log ("2");
+			rotationDamping = defaultRotationDamping;
 		}
 		else
 		{
 			heightDamping = 100;
-			Debug.Log (heightDamping);
+			//Debug.Log (heightDamping);
 			rotationDamping = 0;
 			Debug.Log ("3");
 		}
@@ -132,17 +147,16 @@ public class CameraMec2 : MonoBehaviour {
 		currentX = Mathf.SmoothDampAngle (currentX, wantedX, ref xVelocity, rotationDamping);
 		
 
-			// Damp the height
-
+			
 		
-		
+		// Damp the height
 		currentHeight = Mathf.Lerp (currentHeight, wantedHeight, heightDamping * Time.deltaTime);
-		oldWantedHeight = wantedHeight;
+	
 		// Convert the angle into a rotation
 		
 		
 		
-		currentRotation = Quaternion.Euler (currentX, currentRotationAngle, 0);
+		currentRotation = Quaternion.Euler (0, currentRotationAngle, 0);
 		
 		// Set the position of the camera on the x-z plane to:
 		// distance meters behind the target
