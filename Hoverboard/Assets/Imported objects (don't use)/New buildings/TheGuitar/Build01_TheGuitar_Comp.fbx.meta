@@ -9,6 +9,7 @@ ModelImporter:
     3300000: //RootNode
     4300000: Build01_TheGuitar_Comp_Mesh
     4300002: Mesh
+    4300004: TheGuitar_Mesh
     6400000: //RootNode
     9500000: //RootNode
   materials:
