@@ -20,7 +20,7 @@ public class GrindKeyState : KeyState
 	private InputVCR vcr;
 	private bool firstRotationOnGoing = true;
 	private float time;
-	private float AngleAmount = 87;								//Used to calculate the angel for the hoverboard to fall of with
+	private float AngleAmount = 60;								//Used to calculate the angel for the hoverboard to fall of with
 	private const float zero = 0, circel = 360, halfCircel = 180;//Constant variabels that are used to calc the angle for the fall of
 
 	DetectState detectState;
@@ -34,13 +34,12 @@ public class GrindKeyState : KeyState
 	
 	public override void start ()
 	{
-		swapBool = true;
 		detectState = movement.GetComponent<DetectState> ();
 		movement.gameObject.GetComponent<Hover_WithTransform> ().enabled = false;
 		movement.isGrounded = true;
 		movement.GetComponent<DetectState>().m_getRayCastState = false;
 
-		if(RailCounter.getNum() < 2)
+		if(GlobalFuncVari.getNum() < 2)
 		{
 			if(Random.value < 0.5)
 			{
@@ -51,8 +50,6 @@ public class GrindKeyState : KeyState
 	
 	public override void update () 
 	{		
-
-
 		movement.setGravity = 0;
 		movement.Direction = m_keyVector;
 		constantRotation();
@@ -72,18 +69,6 @@ public class GrindKeyState : KeyState
 		{
 			movement.rotateBoardInZ(-rotationZSpeed);
 		}
-
-		if(Input.GetKey(KeyCode.W))
-		{
-			movement.rotateBoardInWorldY(-rotationYSpeed);
-		}
-		if(Input.GetKey(KeyCode.S))
-		{
-			movement.rotateBoardInWorldY(rotationYSpeed);
-		}
-
-
-
 	}
 	
 	public override void end()
@@ -124,12 +109,12 @@ public class GrindKeyState : KeyState
 	{
 		if(movement.transform.eulerAngles.z > (zero + AngleAmount) && movement.transform.eulerAngles.z < halfCircel)
 		{
-			movement.transform.Translate(new Vector3(-pushOfStrength,pushOfStrength,0));
+			movement.transform.Translate(Vector3.up + (-Vector3.right));
 	
 		}
 		else if(movement.transform.eulerAngles.z < (circel - AngleAmount) && movement.transform.eulerAngles.z > halfCircel)
 		{
-			movement.transform.Translate(new Vector3(pushOfStrength,pushOfStrength,0));
+			movement.transform.Translate(Vector3.up + (Vector3.right));
 
 		}
 	}

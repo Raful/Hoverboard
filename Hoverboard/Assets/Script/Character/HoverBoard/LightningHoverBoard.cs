@@ -1,72 +1,70 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/*
+ * 
+ * Modifes a light below the player change its intensity on a sin curve.
+ * When a player is starting its jump the intensity resets and the color
+ * changes.
+ * 
+ * Created by: Erik Åsén
+ * Edited by: Felix (Wolfie) Mossberg
+ * 
+ */
+
+
 public class LightningHoverBoard : MonoBehaviour {
 
-	public float m_IntensityThreshold, m_PulseSpeed;
-	public bool m_Peek;
-	public Jump m_JumpScript;
 	public Movement m_MovementScript;
-	public Color col;
-	public Color col_charged;
+
+	[SerializeField]
+	private float IntensityThreshold = 8, PulseSpeed = 1;
+	[SerializeField][Range(0f,1f)]
+	private float coloChangeSpeed = 0.025f;
+	[SerializeField]
+	private Color col, col_charged;
+	private float t = 0;
 
 	float TimeSin;
 	// Use this for initialization
 	void Start () 
-	{
-		m_Peek = false;
-		
+	{		
+		light.color = col;
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		t = Mathf.Clamp (t, 0f, 1f);
 
-		TimeSin = Mathf.Sin(Time.time*m_PulseSpeed);
-
-		zeroLightOnButton();
+		TimeSin = Mathf.Sin(Time.time*PulseSpeed);
+		
 		fluctuateLightStrength();
 
-		if(m_Peek)
-		{
-			light.intensity = 8;
-		}
-
 		changeColor();
+		//test ();
 	}
-
-	private void zeroLightOnButton()
-	{
-		if(Input.GetKeyDown(KeyCode.Space) && m_MovementScript.isGrounded)
-		{
-			light.intensity = 0; 
-		}
-	}
-
 	private void fluctuateLightStrength()
 	{
-		if(Input.GetKey(KeyCode.Space) && m_MovementScript.isGrounded)
+		if(Input.GetButton("Jump"))
 		{
 			light.intensity += 0.1f; 
 		}
 		else
 		{
-			if(TimeSin < 0)
-			{
-				TimeSin *= -1;
-			}
-			
-			light.intensity = m_IntensityThreshold * TimeSin;
+			light.intensity = IntensityThreshold * Mathf.Abs(TimeSin);
 		}
 	}
 	private void changeColor()
 	{
 		if (m_MovementScript.jumpVelocity > 0f)
 		{
-			light.color = col_charged;
+			t += coloChangeSpeed;
+			light.color = Color.Lerp(col, col_charged, t);
 		} 
 		else
 		{
-			light.color = col;
+			t -= coloChangeSpeed;
+			light.color = Color.Lerp(col, col_charged, t);
 		}
 	}
 }

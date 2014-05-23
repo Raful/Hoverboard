@@ -1,42 +1,58 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/*
+ * This script was first part of movement but later got removed
+ * from the movement script and placed in its owns script.
+ * 
+ * The scripts enabels jumping for the player by moving it in the global y-axis 
+ * 
+ * Created by: Erik Åsén
+ * Edited by: Felix (Wolfie), Robbin Torstensson, Creator
+ * 
+ */
+
 public class Jump : MonoBehaviour {
 
-	[Range(25.0f,Mathf.Infinity)]
-	public float m_JumpAcceleration;
+    Animator characterAnimator;
+
+	[Range(0.0f,100.0f)][SerializeField]
+	private float m_JumpAcceleration;
+
+    float jumpTimer=0;
+    bool willJump=false;
+
 	public Movement privateMovement;
-	public bool m_ControllerYes = false;
-	
-	private float stickDeltaOne;
-	private float stickDeltaTwo;
-	private float stickDeltaThree;
-	private float stickDeltaFour;
-	
+
 	// Use this for initialization
-	void Start () {}
+	void Start () 
+	{
+	}
 
 	// Update is called once per frame
-	void Update () {
-
-		if (m_ControllerYes) 
+	void Update () 
+	{
+		if (Input.GetButton("Jump"))
 		{
-			stickDeltaFour = stickDeltaThree;
-			stickDeltaThree = stickDeltaTwo;
-			stickDeltaTwo = stickDeltaOne;
-			stickDeltaOne = Input.GetAxisRaw ("RightVertical");
-		}
-
-		if (Input.GetKey(KeyCode.Space))
-		{
-			if (privateMovement.isGrounded)
+			if(Input.GetButtonDown("Jump") && privateMovement.isGrounded)
 			{
-				privateMovement.jumpVelocity = m_JumpAcceleration;
+                jumpTimer = Time.time + 0.1f;
+                willJump = true;
+
+                privateMovement.m_characterAnimator.SetBool("Jumping", true);
 			}
 			else if (privateMovement.m_getVelocity.y > 0f) 
 			{
 				privateMovement.setGravity -= privateMovement.m_Gravity*0.5f;
 			}
 		}
+
+        if (willJump && jumpTimer < Time.time)
+        {
+            transform.Translate(Vector3.up);
+            privateMovement.jumpVelocity = m_JumpAcceleration;
+
+            willJump = false;
+        }
 	}
 }

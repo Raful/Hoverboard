@@ -13,9 +13,5 @@ public class PumpObject : TriggedObject {
 	
 	protected override void Update()
 	{
-		if (isActive)
-		{
-			Debug.LogWarning("Test145");
-		}
 	}
 }

@@ -2,11 +2,11 @@
 using System.Collections;
 
 /*
- * 
- * Text that explains script
+ * This script is for the GUI element that shows the race time when a player leaves start.
+ * When reaching finish it stops the time displayed time.
  *
  * Created by: Erik Åsén, 2014-04-11
- * Edited by: Robbin Torstensson, 2014-04-22 (added getter for finishTime)
+ * Edited by: Robbin Torstensson, 2014-04-22 (added getter for finishTime), Felix (Wolfie) Mossberg
  */
 
 public class Timer : MonoBehaviour {
@@ -29,33 +29,19 @@ public class Timer : MonoBehaviour {
 	void Update () 
 	{
 		SetRaceTimer ();
-		SetMinSecMil ();
 
 		text="";
-
-		//minutes
-		if (timeMinutes<10){
-			text+="0";
-		} text+=timeMinutes.ToString () + ":";
-
-		//seconds
-		if (timeSeconds<10){
-			text+="0";
-		} text+=timeSeconds.ToString () + ".";
-
-		//milliseconds
-		if (timeMilli<100){
-			if (timeMilli<10){
-				text+="0";
-			} text+="0";
-		} text+=timeMilli.ToString ();
-
+		if (finishTime == 0) {
+			text = string.Format ("{0:00}:{1:00}.{2:000}", raceTime / 60, raceTime % 60, (raceTime * 1000) % 1000);
+		} else {
+			text = string.Format ("{0:00}:{1:00}.{2:000}", finishTime / 60, finishTime % 60, (finishTime * 1000) % 1000);
+		}
 		//render
 		guiText.text = text;
 	
 	}
 
-    //Sets the raceTimer to a specific time
+    //Sets the raceTimer to a specific time (checkpoint)
     public void SetRaceTimer(float time)
     {
         if (time != 0)
@@ -67,12 +53,12 @@ public class Timer : MonoBehaviour {
             leaveTime = 0;
         }
     }
-
+	//Non checkpoint version
 	void SetRaceTimer()
 	{
 		if (leaveTime == 0f) 
 		{
-			raceTime = (Time.time - leaveTime) * 0f;
+			raceTime = 0;
 		}
 		else 
 		{
@@ -80,32 +66,17 @@ public class Timer : MonoBehaviour {
 		}
 	}
 
-	void SetMinSecMil()
-	{
-		if (finishTime == 0) 
-		{
-			timeMinutes = Mathf.FloorToInt (raceTime / 60);
-			timeSeconds = Mathf.FloorToInt (raceTime % 60);
-			timeMilli = Mathf.FloorToInt (raceTime * 1000) % 1000;
-		} 
-		else 
-		{
-			timeMinutes = Mathf.FloorToInt (finishTime / 60);
-			timeSeconds = Mathf.FloorToInt (finishTime % 60);
-			timeMilli = Mathf.FloorToInt (finishTime * 1000) % 1000;
-		}
-	}
-
-
+	//Called in spawn
 	public void RaceTime()
 	{
 		leaveTime = Time.time;
 	}
-
+	//Called in finish
 	public void StopTimer()
 	{
 		finishTime = raceTime;
 	}
+	//Called when the level resest is pushed
 	public void nullTimer()
 	{
 		raceTime = 0;

@@ -14,6 +14,7 @@ public class Grindable : MonoBehaviour {
 	private Vector3 push;
 	private float pushLength;
 	private float pullLength;
+	private Vector3 grindBounds;
 	// Use this for initialization
 	void Start () 
 	{
@@ -25,8 +26,9 @@ public class Grindable : MonoBehaviour {
 	{
 		if(Grindactive)
 		{
-			if(detectState.m_getRailPermission && RailCounter.getNum() > 0)
+			if(detectState.m_getRailPermission && GlobalFuncVari.getNum() > 0)
 			{
+				player.transform.eulerAngles = push;
 				detectState.m_getRayCastState = false;
 				detectState.changeKeyState("Rail");
 				detectState.m_getRailPermission = false;
@@ -37,68 +39,79 @@ public class Grindable : MonoBehaviour {
 	void OnTriggerEnter(Collider col)
 	{
 		player = col.gameObject;
-
-		detectState = col.gameObject.GetComponent<DetectState> ();
-		if(RailCounter.getNum() == 0)
+		if(player.transform.localScale.x != 2)
+		{
+			GlobalFuncVari.setRailBounds(col.transform.localScale);
+			player.transform.localScale = new Vector3 (2, player.transform.localScale.y, 2) ;
+		}
+		detectState = player.gameObject.GetComponent<DetectState> ();
+		if(GlobalFuncVari.getNum() == 0)
 		{
 			if(Vector3.Angle(transform.forward, player.transform.right) <90)
 			{
-				RailCounter.railFalse();
-
+				GlobalFuncVari.railFalse();
 				detectState.updateKeyState ("Rail").setVector = -transform.right;
 			}
 			else
 			{
-				RailCounter.railTrue();
+				GlobalFuncVari.railTrue();
 				detectState.updateKeyState ("Rail").setVector = transform.right;
 			}
 		}
-		else if(RailCounter.getallowRail())
+		else if(GlobalFuncVari.getallowRail())
 		{
-			if(RailCounter.getRailbool())
+			detectState.m_getRayCastState = false;
+			detectState.changeKeyState("Rail");
+			detectState.m_getRailPermission = false;
+
+			if(GlobalFuncVari.getRailbool())
 			{
-				col.transform.position = transform.position + (col.transform.position-transform.position).magnitude*-transform.right;
-				col.transform.eulerAngles = new Vector3(-transform.eulerAngles.z, transform.eulerAngles.y+90, col.transform.eulerAngles.z);
+				push = new Vector3(-transform.eulerAngles.z, transform.eulerAngles.y+90, player.transform.eulerAngles.z);
+				player.transform.position = transform.position + (player.transform.position-transform.position).magnitude*-transform.right;
+				player.transform.eulerAngles = new Vector3(-transform.eulerAngles.z, transform.eulerAngles.y+90, player.transform.eulerAngles.z);
 				detectState.updateKeyState ("Rail").setVector = transform.right;
 			}
 			else
 			{
-				col.transform.position = transform.position + (col.transform.position-transform.position).magnitude*transform.right;
-				col.transform.eulerAngles = new Vector3(transform.eulerAngles.z, transform.eulerAngles.y-90, col.transform.eulerAngles.z);
+				push = new Vector3(transform.eulerAngles.z, transform.eulerAngles.y-90, player.transform.eulerAngles.z);
+				player.transform.position = transform.position + (player.transform.position-transform.position).magnitude*transform.right;
+				player.transform.eulerAngles = new Vector3(transform.eulerAngles.z, transform.eulerAngles.y-90, player.transform.eulerAngles.z);
 				detectState.updateKeyState ("Rail").setVector = -transform.right;
 			}
 		}
 		Grindactive = true;
-		RailCounter.incNum();
+		GlobalFuncVari.incNum();
 		
 		if(detectState.m_getRailPermission)
 		{	
-			RailCounter.allowRailTrue();
-		
-			if(RailCounter.getRailbool())
-			{
-				col.transform.position = transform.position + (col.transform.position-transform.position).magnitude*-transform.right;
-				col.transform.eulerAngles = new Vector3(-transform.eulerAngles.z, transform.eulerAngles.y+90, col.transform.eulerAngles.z);
-			}
-			else
-			{
-				col.transform.position = transform.position + (col.transform.position-transform.position).magnitude*transform.right;
-				col.transform.eulerAngles = new Vector3(transform.eulerAngles.z, transform.eulerAngles.y-90, col.transform.eulerAngles.z);
-			}
-
 			detectState.m_getRayCastState = false;
 			detectState.changeKeyState("Rail");
 			detectState.m_getRailPermission = false;
+			GlobalFuncVari.allowRailTrue();
+		
+			if(GlobalFuncVari.getRailbool())
+			{
+				player.transform.position = transform.position + (player.transform.position-transform.position).magnitude*-transform.right;
+				player.transform.eulerAngles = new Vector3(-transform.eulerAngles.z, transform.eulerAngles.y+90, player.transform.eulerAngles.z);
+				push = new Vector3(-transform.eulerAngles.z, transform.eulerAngles.y+90, player.transform.eulerAngles.z);
+			}
+			else
+			{
+				player.transform.position = transform.position + (player.transform.position-transform.position).magnitude*transform.right;
+				player.transform.eulerAngles = new Vector3(transform.eulerAngles.z, transform.eulerAngles.y-90, player.transform.eulerAngles.z);
+				push = new Vector3(transform.eulerAngles.z, transform.eulerAngles.y-90, player.transform.eulerAngles.z);
+			}
 		}
 	}
 
 	void OnTriggerExit(Collider col)
 	{
 
-		RailCounter.decNum();
-		if(RailCounter.getNum() <= 0)
+		GlobalFuncVari.decNum();
+		if(GlobalFuncVari.getNum() <= 0)
 		{
-			RailCounter.allowRailFalse();
+			col.transform.localScale = GlobalFuncVari.getRailBounds();
+			GlobalFuncVari.allowRailFalse();
 			Grindactive = false;
 			col.gameObject.GetComponent<DetectState>().m_getRayCastState = true;
 		}
