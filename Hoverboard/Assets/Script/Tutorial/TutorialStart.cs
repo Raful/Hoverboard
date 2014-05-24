@@ -11,11 +11,13 @@ public class TutorialStart : MonoBehaviour {
 	[SerializeField]
 	private GameObject playerObject;
 	private Movement movementScript;
+	private Boost boostScript;
 	
 	[SerializeField]
 	private FMODAsset tutorialStartDialogue;
 	private FMOD.Studio.EventInstance introEvent;
 	private FMOD.Studio.PLAYBACK_STATE introEventState;
+	private bool introPlayed;
 	
 	[SerializeField]
 	private Texture tutorialStartHint;
@@ -25,6 +27,7 @@ public class TutorialStart : MonoBehaviour {
 	void Start () 
 	{
 		movementScript = playerObject.GetComponent<Movement>();
+		boostScript = playerObject.GetComponent<Boost>();
 		//introEvent = FMOD_StudioSystem.instance.GetEvent(tutorialStartDialogue);
 	}
 	
@@ -37,9 +40,10 @@ public class TutorialStart : MonoBehaviour {
 	void OnTriggerEnter(Collider col)
 	{
 		
-		if (col.tag == "Player")
+		if (col.tag == "Player" && GlobalFuncVari.getTutorialSkipped() != true && introPlayed == false)
 		{
-			//movementScript.enabled = false;
+			movementScript.enabled = false;
+			boostScript.enabled = false;
 			introEvent = soundEmitter.startEvent(tutorialStartDialogue, false);
 			textureDisplay.texture = tutorialStartHint;
 		}
@@ -49,9 +53,13 @@ public class TutorialStart : MonoBehaviour {
 	{
 		if (col.tag == "Player")
 		{
-			//introEvent.getPlaybackState(out introEventState);
-			//if (introEventState == PLAYBACK_STATE.STOPPED)
-			//	movementScript.enabled = true;
+			introEvent.getPlaybackState(out introEventState);
+			if (introEventState == PLAYBACK_STATE.STOPPED)
+				{
+				movementScript.enabled = true;
+				boostScript.enabled = true;
+				introPlayed = true;
+				}
 			if (Input.GetButtonDown("Cancel"))
 			{
 				GlobalFuncVari.setTutorialSkipped(true);
