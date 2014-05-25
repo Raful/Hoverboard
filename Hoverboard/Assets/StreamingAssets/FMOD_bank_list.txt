@@ -4,4 +4,5 @@ Master Bank.bank
 Master Bank.strings.bank
 Motor Bank.bank
 Motor.bank
+Vind.bank
 Voice.bank
