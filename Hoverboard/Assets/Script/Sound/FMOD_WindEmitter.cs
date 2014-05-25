@@ -20,6 +20,6 @@ public class FMOD_WindEmitter : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
-	
+		windEvent.set3DAttributes(UnityUtil.to3DAttributes(transform.position));
 	}
 }
