@@ -1,4 +1,4 @@
 Master Bank.bank
 Master Bank.strings.bank
 Motor Bank.bank
-Voice Bank.bank
+Voice.bank

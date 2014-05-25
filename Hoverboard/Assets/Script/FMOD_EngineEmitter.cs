@@ -29,7 +29,7 @@ public class FMOD_EngineEmitter : MonoBehaviour {
 		//FMOD
 		
 		
-		hoverSound = FMOD_StudioSystem.instance.GetEvent("event:/Hoverboard/Ny motor");
+		hoverSound = FMOD_StudioSystem.instance.GetEvent("event:/Hoverboard/Motor");
 		
 		
 		hoverSound.start();
@@ -42,32 +42,7 @@ public class FMOD_EngineEmitter : MonoBehaviour {
 		if (speedPitch == null)
 			Debug.Log("Hittar inte variabeln!!!");
 		
-		
-		windSound = FMOD_StudioSystem.instance.GetEvent("event:/Vind/Vind");
-		
-		
-		windSound.start();
 
-		if (windSound == null)
-			Debug.Log("Laddar inte in wind-eventet!!!");
-		
-		windSound.getParameter("Speed", out speedVolume);
-		
-		if (speedVolume == null)
-			Debug.Log("Hittar inte wind-variabeln!!!");
-		
-		
-		impactSound = FMOD_StudioSystem.instance.GetEvent("event:/Impact/Impact1");
-		
-		
-		
-		
-		if (impactSound == null)
-			Debug.Log("Laddar inte in impact-eventet!!!");
-		
-		
-		
-		//-----------------------------
 		
 	}
 	
@@ -113,11 +88,11 @@ public class FMOD_EngineEmitter : MonoBehaviour {
 		//currentPitch = Mathf.SmoothDamp(currentPitch, currentSpeed, ref pitchSmoothSpeed, 0.1f, 50f);
 		//currentPitch = currentSpeed;
 		speedPitch.setValue(Mathf.Lerp (0, Input.GetAxisRaw("Triggers"), 0.5f));
-		speedVolume.setValue (currentSpeed);
+		
 		
 		
 		hoverSound.set3DAttributes (UnityUtil.to3DAttributes (varSource));
-		windSound.set3DAttributes (UnityUtil.to3DAttributes (varSource));
+
 		//----------
 		
 	}
