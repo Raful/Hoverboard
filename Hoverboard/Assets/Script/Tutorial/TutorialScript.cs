@@ -68,6 +68,8 @@ public class TutorialScript : MonoBehaviour {
 				GlobalFuncVari.setTutorialSkipped(true);
 				soundEmitter.stopEvent(tutorialEvent);
 				textureDisplay.texture = null;
+				movementScript.enabled = true;
+				boostScript.enabled = true;
 			}
 		}
 	}

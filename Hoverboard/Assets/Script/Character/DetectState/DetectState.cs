@@ -11,6 +11,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using FMOD.Studio;
 
 public class DetectState : MonoBehaviour {
 
@@ -18,6 +19,10 @@ public class DetectState : MonoBehaviour {
 	private bool rayCastState = true;
 	private bool railKeyPressed;
 	private float keyIsPressed;
+	
+	[SerializeField]
+	private FMODAsset grindSound;
+	private FMOD.Studio.EventInstance grindEvent;
 
     private Animator animator; //The animator of the character model
 
@@ -55,6 +60,8 @@ public class DetectState : MonoBehaviour {
 		keyStateDictionary.Add("MenuState",new MenuState(GetComponent<Movement>()));
 		currentKeyState = "Grounded";
 
+		grindEvent = FMOD_StudioSystem.instance.GetEvent(grindSound);
+
         animator = gameObject.GetComponent<Movement>().m_characterAnimator;
 	}
 
@@ -74,6 +81,8 @@ public class DetectState : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
     {
+		grindEvent.set3DAttributes(UnityUtil.to3DAttributes(transform.position));
+		
 		RailKey ();
 
 		updateKeyState (currentKeyState).update();
@@ -86,10 +95,12 @@ public class DetectState : MonoBehaviour {
         if (currentKeyState == "Rail")
         {
             animator.SetBool("Grinding", true);
+            grindEvent.start ();
         }
         else
         {
             animator.SetBool("Grinding", false);
+            grindEvent.stop();
         }
 
         if (currentKeyState == "Air")

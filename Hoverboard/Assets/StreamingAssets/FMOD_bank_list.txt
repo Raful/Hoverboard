@@ -1,4 +1,7 @@
+Grind.bank
+Impact.bank
 Master Bank.bank
 Master Bank.strings.bank
 Motor Bank.bank
+Motor.bank
 Voice.bank
