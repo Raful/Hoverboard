@@ -2,30 +2,32 @@
 using System.Collections;
 using FMOD.Studio;
 
-public class TutorialStart : MonoBehaviour {
+public class TutorialScript : MonoBehaviour {
 
 	[SerializeField]
 	private GUITexture textureDisplay;
 	[SerializeField]
 	private GUI_Sound_Emitter soundEmitter;
 	[SerializeField]
+	private string logicBoard = "Hoverboard 4.0";
 	private GameObject playerObject;
 	private Movement movementScript;
 	private Boost boostScript;
 	
 	[SerializeField]
-	private FMODAsset tutorialStartDialogue;
-	private FMOD.Studio.EventInstance introEvent;
-	private FMOD.Studio.PLAYBACK_STATE introEventState;
-	private bool introPlayed;
+	private FMODAsset tutorialSound;
+	private FMOD.Studio.EventInstance tutorialEvent;
+	private FMOD.Studio.PLAYBACK_STATE tutorialEventState;
+	private bool tutorialPlayed;
 	
 	[SerializeField]
-	private Texture tutorialStartHint;
+	private Texture tutorialHint;
 	
 
 	// Use this for initialization
 	void Start () 
 	{
+		playerObject = GameObject.Find(logicBoard);
 		movementScript = playerObject.GetComponent<Movement>();
 		boostScript = playerObject.GetComponent<Boost>();
 		//introEvent = FMOD_StudioSystem.instance.GetEvent(tutorialStartDialogue);
@@ -39,13 +41,13 @@ public class TutorialStart : MonoBehaviour {
 	
 	void OnTriggerEnter(Collider col)
 	{
-		
-		if (col.tag == "Player" && GlobalFuncVari.getTutorialSkipped() != true && introPlayed == false)
+		textureDisplay.texture = null;
+		if (col.tag == "Player" && GlobalFuncVari.getTutorialSkipped() != true && tutorialPlayed == false)
 		{
 			movementScript.enabled = false;
 			boostScript.enabled = false;
-			introEvent = soundEmitter.startEvent(tutorialStartDialogue, false);
-			textureDisplay.texture = tutorialStartHint;
+			tutorialEvent = soundEmitter.startEvent(tutorialSound, false);
+			textureDisplay.texture = tutorialHint;
 		}
 	}
 	
@@ -53,17 +55,18 @@ public class TutorialStart : MonoBehaviour {
 	{
 		if (col.tag == "Player")
 		{
-			introEvent.getPlaybackState(out introEventState);
-			if (introEventState == PLAYBACK_STATE.STOPPED)
+			tutorialEvent.getPlaybackState(out tutorialEventState);
+			if (tutorialEventState == PLAYBACK_STATE.STOPPED)
 				{
 				movementScript.enabled = true;
 				boostScript.enabled = true;
-				introPlayed = true;
+				tutorialPlayed = true;
+				textureDisplay.texture = null;
 				}
 			if (Input.GetButtonDown("Cancel"))
 			{
 				GlobalFuncVari.setTutorialSkipped(true);
-				soundEmitter.stopEvent(introEvent);
+				soundEmitter.stopEvent(tutorialEvent);
 				textureDisplay.texture = null;
 			}
 		}
@@ -71,9 +74,9 @@ public class TutorialStart : MonoBehaviour {
 	
 	void OnTiggerExit(Collider col)
 	{
-		if (GlobalFuncVari.getTutorialSkipped() == false)
+		if (col.tag == "Player" && GlobalFuncVari.getTutorialSkipped() == false)
 		{
-			soundEmitter.stopEvent(introEvent);
+			soundEmitter.stopEvent(tutorialEvent);
 			textureDisplay.texture = null;
 		}
 	}
