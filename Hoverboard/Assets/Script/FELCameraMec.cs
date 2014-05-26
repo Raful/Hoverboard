@@ -35,9 +35,11 @@ public class FELCameraMec : MonoBehaviour {
 	private DetectState currentState;	
 	
 	private float currentYValue = 0;
+
 	
 	public float distanceY = 1;
 	
+
 	void Start() {
 		
 		physics = hoverboard.GetComponent<Hover_Physics>();
@@ -62,7 +64,10 @@ public class FELCameraMec : MonoBehaviour {
 		
 		//these three if-satser decide how the camera's y position should change. the x and z position always follow the hoveboard. 
 		//if the hoverboard's position is higher than targetedPosition.y + 1 the camera is moving up
-		if(position.y > (targetedPosition.y ))
+
+		if(position.y > (targetedPosition.y + 1f))
+
+
 		{
 			
 			float y = targetedPosition.y;
@@ -83,10 +88,14 @@ public class FELCameraMec : MonoBehaviour {
 			
 			targetedPosition = hoverboard.transform.position;
 			targetedPosition.y = y;
+
 		}
+
+
 		
 		Vector3 lookPos = targetedPosition;
 		lookPos.y = targetedPosition.y + distanceY;
+
 		Vector3 newPos = lookPos;
 		
 		//change distance to hoverboard depending on the hoverboard's speed
@@ -100,6 +109,7 @@ public class FELCameraMec : MonoBehaviour {
 		{
 			distanceZ = m_DefaultDistanceZ;
 		}
+
 		
 		
 		
@@ -112,6 +122,7 @@ public class FELCameraMec : MonoBehaviour {
 
 		}*/
 		
+
 		newPos +=  Quaternion.Euler(xAngle, yAngle, 0) * new Vector3(0, 0, -distanceZ);
 		
 		

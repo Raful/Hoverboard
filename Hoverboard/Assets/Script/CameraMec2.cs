@@ -128,7 +128,7 @@ public class CameraMec2 : MonoBehaviour {
 			//heightDamping = 100;
 			//Debug.Log (heightDamping);
 			rotationDamping = 0;
-			Debug.Log ("3");
+			//Debug.Log ("3");
 		}
 		// Calculate the current rotation angles
 		float y = targetedPos.y;
