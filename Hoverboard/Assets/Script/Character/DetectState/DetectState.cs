@@ -20,10 +20,6 @@ public class DetectState : MonoBehaviour {
 	private bool railKeyPressed;
 	private float keyIsPressed;
 	
-	[SerializeField]
-	private FMODAsset grindSound;
-	private FMOD.Studio.EventInstance grindEvent;
-
     private Animator animator; //The animator of the character model
 
 	public bool m_getRailPermission
@@ -42,6 +38,20 @@ public class DetectState : MonoBehaviour {
 	private Dictionary<string,KeyState> keyStateDictionary = new Dictionary<string,KeyState>();
 	private string currentKeyState;
 
+	private Movement movementScript;
+	//----------FMOD reqs.
+	
+
+	private FMOD.Studio.EventInstance grindEvent;
+	
+	private bool playLanding = false;
+	private float fallSpeed = 10.0f;
+	
+	
+	
+	
+	
+	//---------end FMOD reqs
 
 	public string getKeyState
 	{
@@ -53,16 +63,25 @@ public class DetectState : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
     {
-		keyStateDictionary.Add ("Grounded",new MoveKeyState(GetComponent<Movement>()));
-		keyStateDictionary.Add ("Air",new AirKeyState(GetComponent<Movement>()));
-		keyStateDictionary.Add("Rail",new GrindKeyState(GetComponent<Movement>()));
-		keyStateDictionary.Add("Wall",new WallKeyState(GetComponent<Movement>()));
-		keyStateDictionary.Add("MenuState",new MenuState(GetComponent<Movement>()));
+    	movementScript = gameObject.GetComponent<Movement>();
+		animator = movementScript.m_characterAnimator;
+    	
+		keyStateDictionary.Add ("Grounded",new MoveKeyState(movementScript));
+		keyStateDictionary.Add ("Air",new AirKeyState(movementScript));
+		keyStateDictionary.Add("Rail",new GrindKeyState(movementScript));
+		keyStateDictionary.Add("Wall",new WallKeyState(movementScript));
+		keyStateDictionary.Add("MenuState",new MenuState(movementScript));
 		currentKeyState = "Grounded";
 
-		grindEvent = FMOD_StudioSystem.instance.GetEvent(grindSound);
+		
 
-        animator = gameObject.GetComponent<Movement>().m_characterAnimator;
+        
+        
+        
+        //-----FMOD initialization
+		grindEvent = FMOD_StudioSystem.instance.GetEvent("event:/Hoverboard/Grind");
+		
+		
 	}
 
     void CheckForErrors()
@@ -106,11 +125,21 @@ public class DetectState : MonoBehaviour {
         if (currentKeyState == "Air")
         {
             animator.SetBool("Falling", true);
+            if (movementScript.m_getVelocity.y > fallSpeed)
+            {
+            	playLanding = true;
+            }
         }
         else
         {
             animator.SetBool("Falling", false);
             animator.SetBool("Jumping", false);
+            
+            if (playLanding == true)
+            {
+            	playLanding = false;
+            	FMOD_StudioSystem.instance.PlayOneShot("event:/Hoverboard/Landing", transform.position);
+            }
         }
 
         if (currentKeyState == "Wall")
