@@ -204,6 +204,7 @@ public class Movement : MonoBehaviour {
 
 		velocity = direction.normalized *(speed + boostSpeed+bonusSpeed) -Vector3.up*gravity + (jumpVelocity * CustomJumpVec) + (appliedStrafe * transform.right.normalized);
 		divided = ((velocity.magnitude) / rotateDivider);
+		Debug.Log( "divided: " + divided);
 		velocity.y = Mathf.Max(velocity.y, -Mathf.Abs(m_TerminalVelocity));
 		transform.position += velocity*Time.fixedDeltaTime;
 
