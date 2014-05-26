@@ -62,12 +62,12 @@ public class DetectState : MonoBehaviour {
     {
         if (!animator)
         {
-            Debug.LogError("Animator not defined!");
+            Debug.LogError("Animator not defined in the object "+gameObject.name+"!");
         }
 
         if (!rigidbody)
         {
-            Debug.LogError("Rigidbody not found!");
+            Debug.LogError("Rigidbody not found in the object " + gameObject.name + "!");
         }
     }
 	
@@ -147,7 +147,7 @@ public class DetectState : MonoBehaviour {
 		//	keyIsPressed = Time.time;
 		//	railKeyPressed = true;
 		//}
-		if(Input.GetKeyDown(KeyCode.Q))
+		if(Input.GetButtonDown("Grind"))
 		{
 			keyIsPressed = Time.time;
 			railKeyPressed = true;
