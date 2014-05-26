@@ -61,6 +61,7 @@ public class Movement : MonoBehaviour {
 	private float loopGravity;
 	private float potentialDecelerate;		// slows down the acceleration depending on uphill/downhill
 	private float appliedStrafe;
+	private float speedForRotation;
 
 	private DetectState currentState;
 
@@ -188,7 +189,7 @@ public class Movement : MonoBehaviour {
 		backwardSpeed = Mathf.Clamp (backwardSpeed, -m_MaxAccSpeed, 0);
 		boostSpeed = Mathf.Clamp (boostSpeed, 0, boostMaxAccSpeed - m_MaxAccSpeed); //boostMaxAccSpeed is set as the max speed while boosting, but boostSpeed is added to the normal speed (not overwriting it).
 		speedForCamera = forwardSpeed + backwardSpeed + boostSpeed;
-	
+
 		#if UNITY_EDITOR
 		if (boostMaxAccSpeed < m_MaxAccSpeed)
 		{
@@ -200,6 +201,8 @@ public class Movement : MonoBehaviour {
 
 		velocity = direction.normalized *(speed + boostSpeed+bonusSpeed) -Vector3.up*gravity + (jumpVelocity * CustomJumpVec) + (appliedStrafe * transform.right.normalized);
 		velocity.y = Mathf.Max(velocity.y, -Mathf.Abs(m_TerminalVelocity));
+		speedForRotation = Mathf.Clamp (velocity.magnitude, 0, boostMaxAccSpeed);
+
 		transform.position += velocity*Time.fixedDeltaTime;
 
 
@@ -277,7 +280,11 @@ public class Movement : MonoBehaviour {
 	}
 	public void rotateBoardInY(float y)
 	{
-		transform.Rotate (0, y * m_RotationSpeed.y, 0);
+
+
+		float roationAmound = 1 - (speedForRotation/ boostMaxAccSpeed)+0.2f;
+
+		transform.Rotate (0, y * m_RotationSpeed.y * roationAmound, 0);
 
         rotationSpeedTarget = y;
 	}
