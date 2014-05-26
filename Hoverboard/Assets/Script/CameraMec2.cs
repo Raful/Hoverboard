@@ -17,8 +17,8 @@ public class CameraMec2 : MonoBehaviour {
 	public float distance;   // The distance in the x-z plane to the target
 	private float decidedDefaultDistance;
 	private float jumpDistance;
-	public float groundHeight = 5.0f;   // the height we want the camera to be above the target when the target is in ground state
-	public float airHeight = 9.0f;      // the height we want the camera to be above the target when the target is in air state
+	public float groundHeight;   // the height we want the camera to be above the target when the target is in ground state
+	public float airHeight;      // the height we want the camera to be above the target when the target is in air state
 	private float height;					//current height the camera is above the target
 	public float upRampHeight;
 	public float downRampHeight;
@@ -81,7 +81,7 @@ public class CameraMec2 : MonoBehaviour {
 		{
 
 			if(height < downRampHeight)
-				height += 0.1f;
+				height += 0.4f;
 			else
 				height = downRampHeight;
 			rotationDamping = defaultRotationDamping;
