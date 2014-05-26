@@ -62,12 +62,12 @@ public class DetectState : MonoBehaviour {
     {
         if (!animator)
         {
-            Debug.LogError("Animator not defined!");
+            Debug.LogError("Animator not defined in the object "+gameObject.name+"!");
         }
 
         if (!rigidbody)
         {
-            Debug.LogError("Rigidbody not found!");
+            Debug.LogError("Rigidbody not found in the object " + gameObject.name + "!");
         }
     }
 	

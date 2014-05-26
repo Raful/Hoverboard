@@ -192,7 +192,7 @@ public class Movement : MonoBehaviour {
 		#if UNITY_EDITOR
 		if (boostMaxAccSpeed < m_MaxAccSpeed)
 		{
-			Debug.LogError("boostMaxAccSpeed is smaller than m_MaxAccSpeed");
+            Debug.LogError("boostMaxAccSpeed is smaller than m_MaxAccSpeed. boostMaxAccSpeed == "+boostMaxAccSpeed+", m_MaxAccSpeed == "+m_MaxAccSpeed);
 		}
 
 		#endif
