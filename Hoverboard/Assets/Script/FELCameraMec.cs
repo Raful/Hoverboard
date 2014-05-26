@@ -11,31 +11,31 @@ using System.Collections;
  */
 
 public class FELCameraMec : MonoBehaviour {
-
-
+	
+	
 	public float m_Smooth = 0.5f;					//How smooth the camera should rotate around the hoverboard
-
-
+	
+	
 	public float m_DefaultDistanceZ;				//The distance between camera and the hoverboard in z-axis when hoverboard's speed is 0
-
-
+	
+	
 	private float distanceZ;
 	public GameObject hoverboard;
 	public Movement movement;
 	
-	public float yOffset;
+	private float yOffset = 1f;
+	private Hover_Physics physics;
 	
 	private Vector3 targetedPosition;
-
+	
 	private float yVelocity = 0.0F;			
 	private float xVelocity = 0.0F;		
 	public bool inAir = false;
-
+	
 	private DetectState currentState;	
-
-	private float currentYValue = 0;
-
-	private float distanceY = 3;
+	
+	private float currentYValue = 0;	
+	public float distanceY = 1;
 
 	void Start() {
 		
@@ -43,65 +43,73 @@ public class FELCameraMec : MonoBehaviour {
 		
 		targetedPosition = hoverboard.transform.position;
 		currentYValue = targetedPosition.y;
-
+		
 		currentState = hoverboard.GetComponent<DetectState>();
 	}
-
-
+	
+	
 	void Update() {																		
-
-
-
+		
+		
+		
 		//calculating how much the camera should rotate in y- and x-axis relative to the Hoverboard
 		float yAngle = Mathf.SmoothDampAngle(transform.eulerAngles.y, hoverboard.transform.eulerAngles.y, ref yVelocity, m_Smooth);
 		float xAngle = Mathf.SmoothDampAngle(transform.eulerAngles.x, hoverboard.transform.eulerAngles.x, ref xVelocity, m_Smooth);
-	
+		
 		Vector3 position = hoverboard.transform.position;
 		position.y += yOffset;
-
+		
 		//these three if-satser decide how the camera's y position should change. the x and z position always follow the hoveboard. 
 		//if the hoverboard's position is higher than targetedPosition.y + 1 the camera is moving up
-		if(position.y > (targetedPosition.y + 1f))
-		{
 
+		if(position.y > (targetedPosition.y + 1f))
+
+
+		{
+			
 			float y = targetedPosition.y;
 			targetedPosition = hoverboard.transform.position;
-			targetedPosition.y = targetedPosition.y -1f;
+			targetedPosition.y = targetedPosition.y - yOffset;
 		}
 		// does the same thing but down instead for up.
-		else if(position.y < (targetedPosition.y -1f))
+		else if(position.y < (targetedPosition.y))
 		{
 			float y = targetedPosition.y;
 			targetedPosition = hoverboard.transform.position;
-			targetedPosition.y = targetedPosition.y +1f;
+			targetedPosition.y = targetedPosition.y +yOffset;
 		}
 		// else the cameras y position doesnt change
 		else
 		{
 			float y = targetedPosition.y;
-
+			
 			targetedPosition = hoverboard.transform.position;
 			targetedPosition.y = y;
+
 		}
 
+
+		
 		Vector3 lookPos = targetedPosition;
 		lookPos.y = targetedPosition.y + distanceY;
+
 		Vector3 newPos = lookPos;
 		
 		//change distance to hoverboard depending on the hoverboard's speed
-
+		
 		if (movement.speedForCamera < -0.01f || movement.speedForCamera > 0.01f )
 		{
 			distanceZ = m_DefaultDistanceZ + (movement.speedForCamera/20);
-
+			
 		}
 		else
 		{
 			distanceZ = m_DefaultDistanceZ;
 		}
 
-
-
+		
+		
+		
 		/*if(currentState.getKeyState == "Air" || inAir)
 		{
 
@@ -110,6 +118,7 @@ public class FELCameraMec : MonoBehaviour {
 		{
 
 		}*/
+		
 
 		newPos +=  Quaternion.Euler(xAngle, yAngle, 0) * new Vector3(0, 0, -distanceZ);
 		

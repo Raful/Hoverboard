@@ -46,7 +46,7 @@ public class Movement : MonoBehaviour {
 
 	public bool m_SnapAngle;		// Snap to a angle instead of lerping.
 	public float m_SnapAtHeight;	// Snap when the Hoverboard reaches a certain height from the ground (Check hoverHeight).
-	
+
 	public float m_PotentialSpeed;		// Multiplier, Speed gained from going downhill/uphill, separated from normal Speed.
 	public float m_PotentialFriction;	// Friction loss on going downhill/uphill, separated from normal Friction.
 		
@@ -61,7 +61,9 @@ public class Movement : MonoBehaviour {
 	private float loopGravity;
 	private float potentialDecelerate;		// slows down the acceleration depending on uphill/downhill
 	private float appliedStrafe;
-
+	private float speedForRotation;
+	[SerializeField]
+	private float MinimumRotation;
 	private DetectState currentState;
 
     private float strafeSpeed;
@@ -86,7 +88,7 @@ public class Movement : MonoBehaviour {
 	[SerializeField]
 	private float m_TerminalVelocity;
 
-	[HideInInspector]
+	//[HideInInspector]
 	public float jumpVelocity; //Jump feeds into this
 
 	private float divided = 0f;
@@ -190,7 +192,7 @@ public class Movement : MonoBehaviour {
 		backwardSpeed = Mathf.Clamp (backwardSpeed, -m_MaxAccSpeed, 0);
 		boostSpeed = Mathf.Clamp (boostSpeed, 0, boostMaxAccSpeed - m_MaxAccSpeed); //boostMaxAccSpeed is set as the max speed while boosting, but boostSpeed is added to the normal speed (not overwriting it).
 		speedForCamera = forwardSpeed + backwardSpeed + boostSpeed;
-	
+
 		#if UNITY_EDITOR
 		if (boostMaxAccSpeed < m_MaxAccSpeed)
 		{
@@ -198,11 +200,13 @@ public class Movement : MonoBehaviour {
 		}
 
 		#endif
-		safety ();
+
 
 		velocity = direction.normalized *(speed + boostSpeed+bonusSpeed) -Vector3.up*gravity + (jumpVelocity * CustomJumpVec) + (appliedStrafe * transform.right.normalized);
 		Debug.Log( "divided: " + divided);
 		velocity.y = Mathf.Max(velocity.y, -Mathf.Abs(m_TerminalVelocity));
+		speedForRotation = Mathf.Clamp (velocity.magnitude, 0, boostMaxAccSpeed);
+
 		transform.position += velocity*Time.fixedDeltaTime;
 
 
@@ -280,8 +284,10 @@ public class Movement : MonoBehaviour {
 	}
 	public void rotateBoardInY(float y)
 	{
-		transform.Rotate (0, y * (m_RotationSpeed.y ), 0);
-
+		float roationAmound = 1 - (speedForRotation/ boostMaxAccSpeed);
+		roationAmound = Mathf.Clamp (roationAmound, MinimumRotation, 1);
+		transform.Rotate (0, y * m_RotationSpeed.y * roationAmound, 0);
+		
         rotationSpeedTarget = y;
 	}
 	public void rotateBoardInWorldY(float y)
@@ -310,14 +316,6 @@ public class Movement : MonoBehaviour {
 	public void miniGameCOnstantRotationSpeed(float z)
 	{
 		transform.Rotate (0,0,z * (m_MinigameRotSpeed / (velocity.magnitude + 1)));
-	}
-
-	private void safety()
-	{
-		if(isGrounded && velocity.y <= -0.1f)
-		{
-			jumpVelocity = 0f;
-		}		 
 	}
 }
 

@@ -5,12 +5,14 @@ public class FollowLogic : MonoBehaviour {
 	public GameObject logicBoard;
 	private Movement movement;
 	private DetectState detectState;
+
 	private ParticleSystem railParticles;
 	private ParticleSystem boostParticles;
 	private EnergyPool energy;
 
 	private bool floatup;
 	private Vector3 hover;
+
 	// Use this for initialization
 	void Start () 
 	{
@@ -51,5 +53,24 @@ public class FollowLogic : MonoBehaviour {
 		}
 
 		transform.position = logicBoard.transform.position;
+	}
+
+	public float getSpeed()
+	{
+		return movement.speedForCamera; 
+	}
+
+	public string getKeyState()
+	{
+		return detectState.getKeyState;
+	}
+
+	public float getJumpVelocity()
+	{
+		return movement.jumpVelocity;
+	}
+	public float getXAngleForLogicBoard()
+	{
+		return logicBoard.transform.eulerAngles.x;
 	}
 }

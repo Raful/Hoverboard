@@ -41,6 +41,7 @@ public class AirKeyState : KeyState
 
 	public override void end()
 	{
+		movement.jumpVelocity = 0;
 		movement.setGravity = 0;
 	}
 

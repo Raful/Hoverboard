@@ -19,9 +19,13 @@ public class LevelLoader : MonoBehaviour
 
     LoadingScreen loadingScreenScript;
 
+    [SerializeField]
+    string nameToPrint;
+
     void Start()
     {
         loadingScreenScript = loadingScreen.GetComponent<LoadingScreen>();
+        loadingScreen.SetActive(false); //Hide the loading screen at start
     }
 
 	public void LoadLevel(string levelName)
@@ -54,7 +58,7 @@ public class LevelLoader : MonoBehaviour
 		}
 		else
 		{
-			Application.LoadLevel(level);
+            Application.LoadLevel(level);
 		}
     }
 
@@ -72,6 +76,7 @@ public class LevelLoader : MonoBehaviour
     void ShowLoadingScreen()
     {
         loadingScreen.SetActive(true);
+        loadingScreenScript.SetName(nameToPrint);
         //loadingScreen.GetComponent<LoadingScreen>().SetProgress(100);
     }
 }
