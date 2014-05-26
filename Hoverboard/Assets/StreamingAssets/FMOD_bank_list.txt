@@ -1,6 +1,4 @@
-Impact Bank.bank
 Master Bank.bank
 Master Bank.strings.bank
 Motor Bank.bank
-Musik Bank.bank
-Vind Bank.bank
+Voice Bank.bank

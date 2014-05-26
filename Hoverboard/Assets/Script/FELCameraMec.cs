@@ -34,15 +34,12 @@ public class FELCameraMec : MonoBehaviour {
 	
 	private DetectState currentState;	
 	
-	private float currentYValue = 0;
-
-	
+	private float currentYValue = 0;	
 	public float distanceY = 1;
-	
 
 	void Start() {
 		
-		physics = hoverboard.GetComponent<Hover_Physics>();
+	
 		
 		targetedPosition = hoverboard.transform.position;
 		currentYValue = targetedPosition.y;
