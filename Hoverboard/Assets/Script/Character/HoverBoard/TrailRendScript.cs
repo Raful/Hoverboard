@@ -40,20 +40,16 @@ public class TrailRendScript : MonoBehaviour {
 		{
 			trailWidth(normalSize.x,normalSize.y);
 			//Tail will only be displayed when player is moving over a set speed and not boosting
-			if (m_MovementReference.forwardSpeed > showRayThreshold)
+			if (m_MovementReference.m_getVelocity.magnitude > showRayThreshold)
 			{
 				incTrailTime();
 			}
 			//When player is slowing down shorten tail, and when less then 0 set it to orignal length(time) and stop displaying
-			else if(m_MovementReference.forwardSpeed < showRayThreshold) 
+			else
 			{
 				decTrailTime();
 			}
 			//Going backward stop displaying tail.
-			else if(m_MovementReference.backwardSpeed > 0f)
-			{
-				m_RenderReference.time = 0;
-			}
 		}
 		else
 		{

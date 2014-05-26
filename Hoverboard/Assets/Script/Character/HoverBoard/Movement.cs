@@ -86,7 +86,7 @@ public class Movement : MonoBehaviour {
 	[SerializeField]
 	private float m_TerminalVelocity;
 
-	[HideInInspector]
+	//[HideInInspector]
 	public float jumpVelocity; //Jump feeds into this
 
 	public float setGravity
@@ -157,11 +157,11 @@ public class Movement : MonoBehaviour {
 			}
 			else 
 			{	
-					loopGravity = 0;
-					changeState ("Air");
-					gravity += m_Gravity;
-					isGrounded = false;
-					rayDirection = Vector3.down;
+				loopGravity = 0;
+				changeState ("Air");
+				gravity += m_Gravity;
+				isGrounded = false;
+				rayDirection = Vector3.down;
 			}
 		}
 	}
@@ -183,7 +183,7 @@ public class Movement : MonoBehaviour {
         }
 	
 		// Speed Restrictions
-		speed = Mathf.Abs (forwardSpeed + backwardSpeed + bonusSpeed);
+		speed = forwardSpeed + backwardSpeed;
 		forwardSpeed = Mathf.Clamp (forwardSpeed, 0, m_MaxAccSpeed);
 		backwardSpeed = Mathf.Clamp (backwardSpeed, -m_MaxAccSpeed, 0);
 		boostSpeed = Mathf.Clamp (boostSpeed, 0, boostMaxAccSpeed - m_MaxAccSpeed); //boostMaxAccSpeed is set as the max speed while boosting, but boostSpeed is added to the normal speed (not overwriting it).
@@ -198,7 +198,7 @@ public class Movement : MonoBehaviour {
 		#endif
 		safety ();
 
-		velocity = direction.normalized *(forwardSpeed+backwardSpeed + boostSpeed+bonusSpeed) -Vector3.up*gravity + (jumpVelocity * CustomJumpVec) + (appliedStrafe * transform.right.normalized);
+		velocity = direction.normalized *(speed + boostSpeed+bonusSpeed) -Vector3.up*gravity + (jumpVelocity * CustomJumpVec) + (appliedStrafe * transform.right.normalized);
 		velocity.y = Mathf.Max(velocity.y, -Mathf.Abs(m_TerminalVelocity));
 		transform.position += velocity*Time.fixedDeltaTime;
 
@@ -248,21 +248,24 @@ public class Movement : MonoBehaviour {
 	// Adds speed depending on angle on the hoverboard
 	private void addPotentialSpeed()
 	{
-		potentialDecelerate = transform.eulerAngles.x;
-		if(potentialDecelerate >= 270)
+		if(isGrounded)
 		{
-			potentialDecelerate = Mathf.Clamp (potentialDecelerate, 270, 360);
-			m_ForwardAcc = (potentialDecelerate-270)/90;
-			bonusSpeed +=((potentialDecelerate-360)/90)*m_PotentialSpeed;
-			m_BackwardAcc = 1;
-		}
-		
-		if(potentialDecelerate <= 90)
-		{
-			potentialDecelerate = Mathf.Clamp (potentialDecelerate, 0, 90);
-			m_BackwardAcc = (90-potentialDecelerate)/90;
-			bonusSpeed += ((potentialDecelerate)/90)*m_PotentialSpeed;
-			m_ForwardAcc = 1;
+			potentialDecelerate = transform.eulerAngles.x;
+			if(potentialDecelerate >= 270)
+			{
+				potentialDecelerate = Mathf.Clamp (potentialDecelerate, 270, 360);
+				m_ForwardAcc = (potentialDecelerate-270)/90;
+				bonusSpeed +=((potentialDecelerate-360)/90)*m_PotentialSpeed;
+				m_BackwardAcc = 1;
+			}
+			
+			if(potentialDecelerate <= 90)
+			{
+				potentialDecelerate = Mathf.Clamp (potentialDecelerate, 0, 90);
+				m_BackwardAcc = (90-potentialDecelerate)/90;
+				bonusSpeed += ((potentialDecelerate)/90)*m_PotentialSpeed;
+				m_ForwardAcc = 1;
+			}
 		}
 		// decelerate
 		bonusSpeed = Mathf.Lerp (bonusSpeed, 0, Time.deltaTime*m_PotentialFriction);
