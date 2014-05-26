@@ -46,7 +46,7 @@ public class Movement : MonoBehaviour {
 
 	public bool m_SnapAngle;		// Snap to a angle instead of lerping.
 	public float m_SnapAtHeight;	// Snap when the Hoverboard reaches a certain height from the ground (Check hoverHeight).
-	
+
 	public float m_PotentialSpeed;		// Multiplier, Speed gained from going downhill/uphill, separated from normal Speed.
 	public float m_PotentialFriction;	// Friction loss on going downhill/uphill, separated from normal Friction.
 		
@@ -62,7 +62,8 @@ public class Movement : MonoBehaviour {
 	private float potentialDecelerate;		// slows down the acceleration depending on uphill/downhill
 	private float appliedStrafe;
 	private float speedForRotation;
-
+	[SerializeField]
+	private float MinimumRotation;
 	private DetectState currentState;
 
     private float strafeSpeed;
@@ -197,7 +198,7 @@ public class Movement : MonoBehaviour {
 		}
 
 		#endif
-		safety ();
+
 
 		velocity = direction.normalized *(speed + boostSpeed+bonusSpeed) -Vector3.up*gravity + (jumpVelocity * CustomJumpVec) + (appliedStrafe * transform.right.normalized);
 		velocity.y = Mathf.Max(velocity.y, -Mathf.Abs(m_TerminalVelocity));
@@ -282,8 +283,8 @@ public class Movement : MonoBehaviour {
 	{
 
 
-		float roationAmound = 1 - (speedForRotation/ boostMaxAccSpeed)+0.2f;
-
+		float roationAmound = 1 - (speedForRotation/ boostMaxAccSpeed);
+		roationAmound = Mathf.Clamp (roationAmound, MinimumRotation, 1);
 		transform.Rotate (0, y * m_RotationSpeed.y * roationAmound, 0);
 
         rotationSpeedTarget = y;
@@ -316,12 +317,6 @@ public class Movement : MonoBehaviour {
 		transform.Rotate (0,0,z * (m_MinigameRotSpeed/velocity.magnitude));
 	}
 
-	private void safety()
-	{
-		if(isGrounded && velocity.y <= -0.1f)
-		{
-			jumpVelocity = 0f;
-		}		 
-	}
+
 }
 
