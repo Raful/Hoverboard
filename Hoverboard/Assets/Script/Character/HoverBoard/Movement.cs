@@ -33,8 +33,6 @@ public class Movement : MonoBehaviour {
 	public float m_MinigameRotSpeed; //  Constant rotation speed for the grind minigame
     [SerializeField]
 	private float strafeModifier;		// Amount of speed applied to the strafe action
-	[SerializeField]
-	private float rotateDivider = 1;
 
 
 	public float m_Gravity; 		// Gravity acceleration, added each frame when not grounded.
@@ -203,7 +201,6 @@ public class Movement : MonoBehaviour {
 		safety ();
 
 		velocity = direction.normalized *(speed + boostSpeed+bonusSpeed) -Vector3.up*gravity + (jumpVelocity * CustomJumpVec) + (appliedStrafe * transform.right.normalized);
-		divided = ((velocity.magnitude) / rotateDivider);
 		Debug.Log( "divided: " + divided);
 		velocity.y = Mathf.Max(velocity.y, -Mathf.Abs(m_TerminalVelocity));
 		transform.position += velocity*Time.fixedDeltaTime;
@@ -283,22 +280,10 @@ public class Movement : MonoBehaviour {
 	}
 	public void rotateBoardInY(float y)
 	{
-		if (divided < 1f)
-		{
-			divided = 1f;
-		}
-
-		transform.Rotate (0, y * (m_RotationSpeed.y / divided), 0);
+		transform.Rotate (0, y * (m_RotationSpeed.y ), 0);
 
         rotationSpeedTarget = y;
 	}
-	public void rotateBoardInYAir(float y)
-	{
-		transform.Rotate (0, y * m_RotationSpeed.y, 0);
-		
-		rotationSpeedTarget = y;
-	}
-
 	public void rotateBoardInWorldY(float y)
 	{
 		transform.Rotate (0, y * m_RotationSpeed.y, 0,Space.World);
