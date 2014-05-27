@@ -143,8 +143,16 @@ public class CameraMec2 : MonoBehaviour {
 		currentRotationAngle = Mathf.SmoothDampAngle (currentRotationAngle, wantedRotationAngle,ref yVelocity ,rotationDamping );
 		
 
-		
 
+		if(follow.getSpeed() < -0.1f || follow.getSpeed() > 0.1f)
+		{
+			if(follow.getSpeed() > -20f)
+			distance = m_DefaultDistance + (follow.getSpeed()/15);
+		}
+		else
+		{
+			distance = m_DefaultDistance;
+		}
 			
 		
 		// Damp the height
