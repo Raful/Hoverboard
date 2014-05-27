@@ -14,7 +14,6 @@ public class Grindable : MonoBehaviour {
 
 	private DetectState detectState;
 	private bool Grindactive;
-	private bool secondEntry;
 	private GameObject player;
 	private Vector3 push;
 	private float pushLength;
@@ -23,7 +22,6 @@ public class Grindable : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
 	{
-		secondEntry = false;
 	}
 	
 	// Update is called once per frame
