@@ -47,7 +47,7 @@ public class Jump : MonoBehaviour {
                 willJump = true;
 
                 privateMovement.m_characterAnimator.SetBool("Jumping", true);
-                FMOD_StudioSystem.instance.PlayOneShot("event:/Hoverboard/Jumping", transform.position);
+                FMOD_StudioSystem.instance.PlayOneShot("event:/Hoverboard/Jump", transform.position);
 			}
 			else if (privateMovement.m_getVelocity.y > 0f) 
 			{

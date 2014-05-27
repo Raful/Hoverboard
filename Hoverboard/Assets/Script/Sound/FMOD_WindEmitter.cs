@@ -16,7 +16,7 @@ public class FMOD_WindEmitter : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
 	{
-		windEvent = FMOD_StudioSystem.instance.GetEvent("event:/Vind/Hoverboard");
+		windEvent = FMOD_StudioSystem.instance.GetEvent("event:/Vind/Vind");
 		windEvent.start ();
 		
 		windEvent.getParameter("Speed", out speedParam);
