@@ -49,8 +49,9 @@ public class GrindKeyState : KeyState
 		movement.Direction = m_keyVector;
 		constantRotation();
 
-		if((int)(movement.m_getVelocity.normalized-movement.Direction.normalized).magnitude >=1)
+		if(movement.m_getVelocity.magnitude <=1)
 		{
+			Debug.Log("To low speed, FALLS OFFF");
 			movement.transform.Translate(new Vector3(-pushOfStrength,pushOfStrength,0));
 		}
 		whenToFall();
@@ -108,15 +109,17 @@ public class GrindKeyState : KeyState
 	{
 		if(movement.transform.eulerAngles.z > (zero + AngleAmount) && movement.transform.eulerAngles.z < halfCircel)
 		{
-			//movement.transform.Translate(movement.transform.up);
+			movement.transform.Translate(Vector3.up + (-Vector3.right));
+		}
+		else if(movement.transform.eulerAngles.z < (circel - AngleAmount) && movement.transform.eulerAngles.z > halfCircel)
+		{
+			movement.transform.Translate(Vector3.up + (Vector3.right));
 			movement.transform.localPosition += movement.transform.up;
 	
 		}
 		else if(movement.transform.eulerAngles.z < (circel - AngleAmount) && movement.transform.eulerAngles.z > halfCircel)
 		{
-			//movement.transform.Translate(movement.transform.up);
 			movement.transform.localPosition += movement.transform.up;
-
 		}
 	}
 }
