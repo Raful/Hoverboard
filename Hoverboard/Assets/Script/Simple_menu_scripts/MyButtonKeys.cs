@@ -38,8 +38,10 @@ public class MyButtonKeys : MonoBehaviour
 	
 	void OnKey (KeyCode key)
 	{
+
 		if (enabled && NGUITools.GetActive(gameObject))
 		{
+
 			switch (key)
 			{
 				

@@ -22,18 +22,21 @@ public class Pause_menu : MonoBehaviour {
 		realtimeSinceLast = Time.realtimeSinceStartup;
 	if (Input.GetKeyDown(KeyCode.P))
 		{
-			keyState = detectState.getKeyState;
+
 
 			Meny_Active = !Meny_Active;
 			MasterPanel.SetActive(Meny_Active);
 
 			if(Meny_Active)
 			{
+				keyState = detectState.getKeyState;
+
 				Time.timeScale = 0;
 				detectState.changeKeyState("MenuState");
 			}
 			if(!Meny_Active)
 			{
+
 				Time.timeScale = 1;
 				detectState.changeKeyState(keyState);
 			}
