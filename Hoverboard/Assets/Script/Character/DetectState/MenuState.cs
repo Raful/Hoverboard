@@ -1,6 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+/*
+ * Created by: Niklas Linder
+ * Description:
+ * The games Menu state (in game menu)
+ * This script starts a idle state for the game, to let the menu do its thing.
+ * Edited by: Niklas Linder
+ */
 public class MenuState : KeyState
 {
 	private Movement movement;
