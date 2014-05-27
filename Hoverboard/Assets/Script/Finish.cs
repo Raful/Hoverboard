@@ -37,6 +37,7 @@ public class Finish : MonoBehaviour {
 		m_TimerReference.StopTimer();
 		
 		finishTime = m_TimerReference.m_finishTime;
+		LoadNextLevel();
 
 	}
 	void Update()
@@ -46,10 +47,21 @@ public class Finish : MonoBehaviour {
 			differens = Time.time - entryTime;
 		}
 		
+
 		if( differens > waitTime)
 		{
 			LoadNextLevel();
 		}
+		
+		if (Input.GetKeyDown(KeyCode.P))
+		{
+			Application.LoadLevel("Scen_utan_mark");
+		}
+		if (Input.GetKeyDown(KeyCode.O))
+		{
+			Application.LoadLevel("Scen_utan_mark_eric_2");
+		}
+		
 	}
 	void LoadNextLevel()
 	{

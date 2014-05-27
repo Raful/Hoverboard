@@ -71,13 +71,13 @@ public class MoveKeyState : KeyState
 		//	movement.backwardSpeed -= movement.m_BackwardAcc;
 		//}
 		
-		movement.rotateBoardInY(Input.GetAxisRaw("RightHorizontal"));
+		movement.rotateBoardInY(Input.GetAxisRaw("LeftHorizontal"));
 		/*if(Input.GetKey(KeyCode.D))
 		{
 			movement.rotateBoardInY(1);
 		}*/
 
-		movement.Strafe(Input.GetAxisRaw("LeftHorizontal"));
+		movement.Strafe(Input.GetAxisRaw("RightHorizontal"));
 		//if(Input.GetKey(KeyCode.A))
 		//{
 		//	movement.rotateBoardInY(-1);
