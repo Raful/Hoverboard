@@ -31,11 +31,14 @@ public class GUITextureDisplay : MonoBehaviour {
 		//guiTexture.texture.height = 248;
 		//pixelInsetRect.width = (Screen.width - guiTexture.texture.width/2)/4;
 		//pixelInsetRect.height = (Screen.height - guiTexture.texture.height/2)/4;
-		pixelInsetRect.width = guiTexture.texture.width;
-		pixelInsetRect.height = guiTexture.texture.height;
-		pixelInsetRect.y = (Screen.height/2 - guiTexture.texture.height/2);
-		pixelInsetRect.x = (Screen.width/2 - guiTexture.texture.width/2);
-		pixelInsetRect.center = new Vector2(Screen.width/2, Screen.height/2);
-		guiTexture.pixelInset = pixelInsetRect;
+		if (guiTexture.texture != null)
+		{
+			pixelInsetRect.width = guiTexture.texture.width;
+			pixelInsetRect.height = guiTexture.texture.height;
+			pixelInsetRect.y = (Screen.height/2 - guiTexture.texture.height/2);
+			pixelInsetRect.x = (Screen.width/2 - guiTexture.texture.width/2);
+			pixelInsetRect.center = new Vector2(Screen.width/2, Screen.height/2);
+			guiTexture.pixelInset = pixelInsetRect;
+		}
 	}
 }
