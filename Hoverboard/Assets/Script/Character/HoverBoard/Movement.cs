@@ -281,8 +281,6 @@ public class Movement : MonoBehaviour {
 	}
 	public void rotateBoardInY(float y)
 	{
-
-
 		float roationAmound = 1 - (speedForRotation/ boostMaxAccSpeed);
 		roationAmound = Mathf.Clamp (roationAmound, MinimumRotation, 1);
 		transform.Rotate (0, y * m_RotationSpeed.y * roationAmound, 0);
