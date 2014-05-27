@@ -212,8 +212,6 @@ public class Movement : MonoBehaviour {
 
     void Update()
     {
-        //Debug.Log("Rail counter: " + GlobalFuncVari.getNum());
-
         if (m_characterAnimator)
         {
             m_characterAnimator.SetFloat("ForwardSpeed", forwardSpeed);
