@@ -15,7 +15,7 @@ using FMOD.Studio;
 
 public class Movement : MonoBehaviour {
 
-    public Animator m_characterAnimator; //The animator of the character model
+	public Animator m_characterAnimator; //The animator of the character model
     float rotationSpeedTarget = 0;
     [SerializeField]
     float rotateAnimationSpeed = 0.05f;
@@ -90,6 +90,8 @@ public class Movement : MonoBehaviour {
 
 	//[HideInInspector]
 	public float jumpVelocity; //Jump feeds into this
+
+	private float divided = 0f;
 
 	public float setGravity
 	{
@@ -194,13 +196,14 @@ public class Movement : MonoBehaviour {
 		#if UNITY_EDITOR
 		if (boostMaxAccSpeed < m_MaxAccSpeed)
 		{
-			Debug.LogError("boostMaxAccSpeed is smaller than m_MaxAccSpeed");
+            Debug.LogError("boostMaxAccSpeed is smaller than m_MaxAccSpeed. boostMaxAccSpeed == "+boostMaxAccSpeed+", m_MaxAccSpeed == "+m_MaxAccSpeed);
 		}
 
 		#endif
 
 
 		velocity = direction.normalized *(speed + boostSpeed+bonusSpeed) -Vector3.up*gravity + (jumpVelocity * CustomJumpVec) + (appliedStrafe * transform.right.normalized);
+		Debug.Log( "divided: " + divided);
 		velocity.y = Mathf.Max(velocity.y, -Mathf.Abs(m_TerminalVelocity));
 		speedForRotation = Mathf.Clamp (velocity.magnitude, 0, boostMaxAccSpeed);
 
@@ -284,7 +287,7 @@ public class Movement : MonoBehaviour {
 		float roationAmound = 1 - (speedForRotation/ boostMaxAccSpeed);
 		roationAmound = Mathf.Clamp (roationAmound, MinimumRotation, 1);
 		transform.Rotate (0, y * m_RotationSpeed.y * roationAmound, 0);
-
+		
         rotationSpeedTarget = y;
 	}
 	public void rotateBoardInWorldY(float y)
@@ -312,9 +315,7 @@ public class Movement : MonoBehaviour {
 
 	public void miniGameCOnstantRotationSpeed(float z)
 	{
-		transform.Rotate (0,0,z * (m_MinigameRotSpeed/velocity.magnitude));
+		transform.Rotate (0,0,z * (m_MinigameRotSpeed / (velocity.magnitude + 1)));
 	}
-
-
 }
 

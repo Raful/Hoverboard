@@ -26,6 +26,13 @@ public class LevelLoader : MonoBehaviour
     {
         loadingScreenScript = loadingScreen.GetComponent<LoadingScreen>();
         loadingScreen.SetActive(false); //Hide the loading screen at start
+
+#if UNITY_EDITOR
+        if (nameToPrint == "")
+        {
+            Debug.LogWarning("Name to print is not defined in the object "+gameObject.name+". No name will be display in the loading screen.");
+        }
+#endif
     }
 
 	public void LoadLevel(string levelName)

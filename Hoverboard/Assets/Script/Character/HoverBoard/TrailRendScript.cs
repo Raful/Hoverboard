@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
-using UnityEditor;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 /*
  * This script add option for the trail effect when the player reaches high speed.
  * This scripts sets the lifetime of the trail and on lower speed the lifetime

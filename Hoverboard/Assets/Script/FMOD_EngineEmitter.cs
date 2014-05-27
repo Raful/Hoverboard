@@ -125,9 +125,7 @@ public class FMOD_EngineEmitter : MonoBehaviour {
 	void OnDestroy ()
 	{
 		hoverSound.stop ();
-		hoverSound.release ();
-		
-		
+		hoverSound.release ();		
 	}
 	
 	
