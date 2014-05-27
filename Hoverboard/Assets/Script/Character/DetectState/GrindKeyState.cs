@@ -1,6 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+/*
+ * Created by: Niklas Linder, Erik Åsen
+ * Description:
+ * Hoverboards Grindstate
+ * This script handles the hoverboard when its in grind state.
+ * Changes in input control, Direction and a minigame (constantRotation() and Whentofall() function).
+ * Edited by: Niklas Linder, Erik Åsen.
+ */
 public class GrindKeyState : KeyState
 {
 	private float constantRotationSpeed = 1f;			//Rotation speed that will be applied every frame

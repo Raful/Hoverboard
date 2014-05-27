@@ -1,6 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/*
+ * Created by: Niklas, Erik
+ * Description:
+ * This script is a component of Wallrideable objects.
+ * On collision it gives the wallstate new vectors for jump physiscs, and a new direction vector.
+ * 
+ */
 public class WallRideTrigger : MonoBehaviour {
 
 	private DetectState detectState;
@@ -42,8 +49,6 @@ public class WallRideTrigger : MonoBehaviour {
 		{
 			direction = new Vector3(-transform.forward.x, 1, -transform.forward.z);
 		}
-
-
 	}
 
 	void OnTriggerExit(Collider col)
