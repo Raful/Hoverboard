@@ -21,12 +21,12 @@ public class MusicSwitch : MonoBehaviour {
 				col.GetComponent<FMOD_MusicEmitter>().setReady();
 				Debug.Log("Ready");
 			}
-			if (switchToSteady)
+			else if (switchToSteady)
 			{
 				col.GetComponent<FMOD_MusicEmitter>().setSteady();
 				Debug.Log("Steady");
 			}
-			if (switchToGo)
+			else if (switchToGo)
 			{
 				col.GetComponent<FMOD_MusicEmitter>().setGo();
 				Debug.Log("Go");
