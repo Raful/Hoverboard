@@ -33,7 +33,7 @@ public class AirKeyState : KeyState
 			movement.Strafe(Input.GetAxisRaw("RightHorizontal")/2);
 			//movement.Direction = RotateY(movement.Direction, Input.GetAxisRaw("RightHorizontal")/10);
 			movement.rotateBoardInY(Input.GetAxisRaw("LeftHorizontal"));
-			
+
 			movement.rotateBoardInX(Input.GetAxisRaw("LeftVertical"));
 
 		}
@@ -41,6 +41,7 @@ public class AirKeyState : KeyState
 
 	public override void end()
 	{
+		movement.jumpVelocity = 0;
 		movement.setGravity = 0;
 	}
 

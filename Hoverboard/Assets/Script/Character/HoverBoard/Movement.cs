@@ -15,7 +15,7 @@ using FMOD.Studio;
 
 public class Movement : MonoBehaviour {
 
-    public Animator m_characterAnimator; //The animator of the character model
+	public Animator m_characterAnimator; //The animator of the character model
     float rotationSpeedTarget = 0;
     [SerializeField]
     float rotateAnimationSpeed = 0.05f;
@@ -46,7 +46,7 @@ public class Movement : MonoBehaviour {
 
 	public bool m_SnapAngle;		// Snap to a angle instead of lerping.
 	public float m_SnapAtHeight;	// Snap when the Hoverboard reaches a certain height from the ground (Check hoverHeight).
-	
+
 	public float m_PotentialSpeed;		// Multiplier, Speed gained from going downhill/uphill, separated from normal Speed.
 	public float m_PotentialFriction;	// Friction loss on going downhill/uphill, separated from normal Friction.
 		
@@ -61,7 +61,9 @@ public class Movement : MonoBehaviour {
 	private float loopGravity;
 	private float potentialDecelerate;		// slows down the acceleration depending on uphill/downhill
 	private float appliedStrafe;
-
+	private float speedForRotation;
+	[SerializeField]
+	private float MinimumRotation;
 	private DetectState currentState;
 
     private float strafeSpeed;
@@ -157,11 +159,11 @@ public class Movement : MonoBehaviour {
 			}
 			else 
 			{	
-					loopGravity = 0;
-					changeState ("Air");
-					gravity += m_Gravity;
-					isGrounded = false;
-					rayDirection = Vector3.down;
+				loopGravity = 0;
+				changeState ("Air");
+				gravity += m_Gravity;
+				isGrounded = false;
+				rayDirection = Vector3.down;
 			}
 		}
 	}
@@ -183,23 +185,25 @@ public class Movement : MonoBehaviour {
         }
 	
 		// Speed Restrictions
-		speed = Mathf.Abs (forwardSpeed + backwardSpeed + bonusSpeed);
+		speed = forwardSpeed + backwardSpeed;
 		forwardSpeed = Mathf.Clamp (forwardSpeed, 0, m_MaxAccSpeed);
 		backwardSpeed = Mathf.Clamp (backwardSpeed, -m_MaxAccSpeed, 0);
 		boostSpeed = Mathf.Clamp (boostSpeed, 0, boostMaxAccSpeed - m_MaxAccSpeed); //boostMaxAccSpeed is set as the max speed while boosting, but boostSpeed is added to the normal speed (not overwriting it).
 		speedForCamera = forwardSpeed + backwardSpeed + boostSpeed;
-	
+
 		#if UNITY_EDITOR
 		if (boostMaxAccSpeed < m_MaxAccSpeed)
 		{
-			Debug.LogError("boostMaxAccSpeed is smaller than m_MaxAccSpeed");
+            Debug.LogError("boostMaxAccSpeed is smaller than m_MaxAccSpeed. boostMaxAccSpeed == "+boostMaxAccSpeed+", m_MaxAccSpeed == "+m_MaxAccSpeed);
 		}
 
 		#endif
-		safety ();
 
-		velocity = direction.normalized *(forwardSpeed+backwardSpeed + boostSpeed+bonusSpeed) -Vector3.up*gravity + (jumpVelocity * CustomJumpVec) + (appliedStrafe * transform.right.normalized);
+
+		velocity = direction.normalized *(speed + boostSpeed+bonusSpeed) -Vector3.up*gravity + (jumpVelocity * CustomJumpVec) + (appliedStrafe * transform.right.normalized);
 		velocity.y = Mathf.Max(velocity.y, -Mathf.Abs(m_TerminalVelocity));
+		speedForRotation = Mathf.Clamp (velocity.magnitude, 0, boostMaxAccSpeed);
+
 		transform.position += velocity*Time.fixedDeltaTime;
 
 
@@ -225,7 +229,7 @@ public class Movement : MonoBehaviour {
 		FMOD_StudioSystem.instance.PlayOneShot("event:/Impact/Impact",transform.position);
         transform.position = position;
 
-
+		Debug.Log ("Resets");
         ResetSpeed();
 		//FMOD_StudioSystem.instance.PlayOneShot("event:/Impact/Impact1",transform.position);
 		transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
@@ -234,6 +238,7 @@ public class Movement : MonoBehaviour {
 
     public void ResetSpeed()
     {
+
         forwardSpeed = 0;
         backwardSpeed = 0;
         bonusSpeed = 0;
@@ -245,21 +250,24 @@ public class Movement : MonoBehaviour {
 	// Adds speed depending on angle on the hoverboard
 	private void addPotentialSpeed()
 	{
-		potentialDecelerate = transform.eulerAngles.x;
-		if(potentialDecelerate >= 270)
+		if(isGrounded)
 		{
-			potentialDecelerate = Mathf.Clamp (potentialDecelerate, 270, 360);
-			m_ForwardAcc = (potentialDecelerate-270)/90;
-			bonusSpeed +=((potentialDecelerate-360)/90)*m_PotentialSpeed;
-			m_BackwardAcc = 1;
-		}
-		
-		if(potentialDecelerate <= 90)
-		{
-			potentialDecelerate = Mathf.Clamp (potentialDecelerate, 0, 90);
-			m_BackwardAcc = (90-potentialDecelerate)/90;
-			bonusSpeed += ((potentialDecelerate)/90)*m_PotentialSpeed;
-			m_ForwardAcc = 1;
+			potentialDecelerate = transform.eulerAngles.x;
+			if(potentialDecelerate >= 270)
+			{
+				potentialDecelerate = Mathf.Clamp (potentialDecelerate, 270, 360);
+				m_ForwardAcc = (potentialDecelerate-270)/90;
+				bonusSpeed +=((potentialDecelerate-360)/90)*m_PotentialSpeed;
+				m_BackwardAcc = 1;
+			}
+			
+			if(potentialDecelerate <= 90)
+			{
+				potentialDecelerate = Mathf.Clamp (potentialDecelerate, 0, 90);
+				m_BackwardAcc = (90-potentialDecelerate)/90;
+				bonusSpeed += ((potentialDecelerate)/90)*m_PotentialSpeed;
+				m_ForwardAcc = 1;
+			}
 		}
 		// decelerate
 		bonusSpeed = Mathf.Lerp (bonusSpeed, 0, Time.deltaTime*m_PotentialFriction);
@@ -271,8 +279,10 @@ public class Movement : MonoBehaviour {
 	}
 	public void rotateBoardInY(float y)
 	{
-		transform.Rotate (0, y * m_RotationSpeed.y, 0);
-
+		float roationAmound = 1 - (speedForRotation/ boostMaxAccSpeed);
+		roationAmound = Mathf.Clamp (roationAmound, MinimumRotation, 1);
+		transform.Rotate (0, y * m_RotationSpeed.y * roationAmound, 0);
+		
         rotationSpeedTarget = y;
 	}
 	public void rotateBoardInWorldY(float y)
@@ -300,15 +310,7 @@ public class Movement : MonoBehaviour {
 
 	public void miniGameCOnstantRotationSpeed(float z)
 	{
-		transform.Rotate (0,0,z * (m_MinigameRotSpeed/velocity.magnitude));
-	}
-
-	private void safety()
-	{
-		if(isGrounded && velocity.y <= -0.1f)
-		{
-			jumpVelocity = 0f;
-		}		 
+		transform.Rotate (0,0,z * (m_MinigameRotSpeed / (velocity.magnitude + 1)));
 	}
 }
 

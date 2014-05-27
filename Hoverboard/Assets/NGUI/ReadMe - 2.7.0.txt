@@ -408,7 +408,7 @@ Using NGUI with JavaScript (UnityScript)? Read this first: http://www.tasharen.c
 - FIX: SpringPanel will now notify the Draggable Panel script on movement, letting it update scroll bars correctly.
 - FIX: UIDraggablePanel will now lose its momentum every frame rather than only when it's being dragged.
 - FIX: UIDraggablePanel will no longer reset the panel's position on start.
-- FIX: UIDraggablePanel.ResetPosition() now functions correctly.
+- FIX: UIDraggablePanel.Torstensson() now functions correctly.
 - FIX: UIDraggablePanel.UpdateScrollbars() will now only adjust the position if the scroll bars aren't being updated (ie: called from a scroll bar).
 - FIX: 3D UIs will now be created with a proper anchor offset.
 

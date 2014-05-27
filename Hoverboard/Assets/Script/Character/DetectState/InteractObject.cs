@@ -30,7 +30,7 @@ public class InteractObject : MonoBehaviour {
             gameObject.GetComponent<WheelCollider>() || 
             gameObject.GetComponent<TerrainCollider>()))
         {
-            Debug.LogError("Collider not found! "+gameObject.name);
+            Debug.LogError("Collider not found in the object "+gameObject.name+"!");
         }
 	}
 	

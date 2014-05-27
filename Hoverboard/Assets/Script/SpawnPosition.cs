@@ -11,7 +11,7 @@ using System.Collections;
 
 public class SpawnPosition : MonoBehaviour {
 	[SerializeField]
-	private Transform m_TargetLogicHoverBoard, m_TargetGraphicHoverboard;
+	private Transform m_TargetLogicHoverBoard = null, m_TargetGraphicHoverboard = null;
 	[SerializeField]
 	private Timer m_TimerReference;
 

@@ -17,6 +17,24 @@ public class LevelLoader : MonoBehaviour
     [SerializeField]
     GameObject loadingScreen;
 
+    LoadingScreen loadingScreenScript;
+
+    [SerializeField]
+    string nameToPrint;
+
+    void Start()
+    {
+        loadingScreenScript = loadingScreen.GetComponent<LoadingScreen>();
+        loadingScreen.SetActive(false); //Hide the loading screen at start
+
+#if UNITY_EDITOR
+        if (nameToPrint == "")
+        {
+            Debug.LogWarning("Name to print is not defined in the object "+gameObject.name+". No name will be display in the loading screen.");
+        }
+#endif
+    }
+
 	public void LoadLevel(string levelName)
     {
         ShowLoadingScreen();
@@ -47,7 +65,7 @@ public class LevelLoader : MonoBehaviour
 		}
 		else
 		{
-			Application.LoadLevel(level);
+            Application.LoadLevel(level);
 		}
     }
 
@@ -56,7 +74,7 @@ public class LevelLoader : MonoBehaviour
 	{
 		while (!operation.isDone)
 		{
-			loadingScreen.GetComponent<LoadingScreen>().SetProgress((int)(operation.progress * 100));
+            loadingScreenScript.SetProgress((int)(operation.progress * 100));
 			
 			yield return(0);
 		}
@@ -65,6 +83,7 @@ public class LevelLoader : MonoBehaviour
     void ShowLoadingScreen()
     {
         loadingScreen.SetActive(true);
-        loadingScreen.GetComponent<LoadingScreen>().SetProgress(100);
+        loadingScreenScript.SetName(nameToPrint);
+        //loadingScreen.GetComponent<LoadingScreen>().SetProgress(100);
     }
 }

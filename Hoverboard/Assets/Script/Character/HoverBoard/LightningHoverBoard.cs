@@ -15,64 +15,56 @@ using System.Collections;
 
 public class LightningHoverBoard : MonoBehaviour {
 
-	public Jump m_JumpScript;
 	public Movement m_MovementScript;
 
 	[SerializeField]
 	private float IntensityThreshold = 8, PulseSpeed = 1;
+	[SerializeField][Range(0f,1f)]
+	private float coloChangeSpeed = 0.025f;
 	[SerializeField]
-	private Color col, col_charged;
+	private Color col = Color.cyan, col_charged = Color.red;
+	private float t = 0;
 
 	float TimeSin;
 	// Use this for initialization
 	void Start () 
 	{		
+		light.color = col;
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		t = Mathf.Clamp (t, 0f, 1f);
 
 		TimeSin = Mathf.Sin(Time.time*PulseSpeed);
-
-		zeroLightOnButton();
+		
 		fluctuateLightStrength();
 
 		changeColor();
+		//test ();
 	}
-
-	private void zeroLightOnButton()
-	{
-		if(Input.GetButtonDown("Jump") && m_MovementScript.isGrounded)
-		{
-			light.intensity = 0; 
-		}
-	}
-
 	private void fluctuateLightStrength()
 	{
-		if(Input.GetButton("Jump") && m_MovementScript.isGrounded)
+		if(Input.GetButton("Jump"))
 		{
 			light.intensity += 0.1f; 
 		}
 		else
 		{
-			if(TimeSin < 0)
-			{
-				TimeSin *= -1;
-			}
-			
-			light.intensity = IntensityThreshold * TimeSin;
+			light.intensity = IntensityThreshold * Mathf.Abs(TimeSin);
 		}
 	}
 	private void changeColor()
 	{
 		if (m_MovementScript.jumpVelocity > 0f)
 		{
-			light.color = col_charged;
+			t += coloChangeSpeed;
+			light.color = Color.Lerp(col, col_charged, t);
 		} 
 		else
 		{
-			light.color = col;
+			t -= coloChangeSpeed;
+			light.color = Color.Lerp(col, col_charged, t);
 		}
 	}
 }

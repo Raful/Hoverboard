@@ -1,5 +1,5 @@
 ﻿/*
- * Created by: Robbin (copied from: http://zaxisgames.blogspot.se/2012/03/let-me-debug-in-your-gui.html)
+ * Created by: Robbin (Source: http://zaxisgames.blogspot.se/2012/03/let-me-debug-in-your-gui.html)
  * Modified by: 
  * 
  * Description:
@@ -60,6 +60,14 @@ public class MyLog : MonoBehaviour
             {
                 myLog += s;
             }
+        }
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            hidden = !hidden;
         }
     }
 

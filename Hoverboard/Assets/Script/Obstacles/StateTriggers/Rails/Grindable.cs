@@ -9,16 +9,14 @@ public class Grindable : MonoBehaviour {
 
 	private DetectState detectState;
 	private bool Grindactive;
-	private bool secondEntry;
 	private GameObject player;
 	private Vector3 push;
 	private float pushLength;
 	private float pullLength;
-	 
+	private Vector3 grindBounds;
 	// Use this for initialization
 	void Start () 
 	{
-		secondEntry = false;
 	}
 	
 	// Update is called once per frame
@@ -39,11 +37,17 @@ public class Grindable : MonoBehaviour {
 	void OnTriggerEnter(Collider col)
 	{
 		player = col.gameObject;
-
 		detectState = player.gameObject.GetComponent<DetectState> ();
+		
+		if(player.transform.localScale.x != 2)
+		{
+			GlobalFuncVari.setRailBounds(col.transform.localScale);
+			player.transform.localScale = new Vector3 (2, player.transform.localScale.y, 2) ;
+		}
+
 		if(GlobalFuncVari.getNum() == 0)
 		{
-			if(Vector3.Angle(transform.forward, player.transform.right) <90)
+			if(Vector3.Angle(transform.forward, player.transform.right) <= 90)
 			{
 				GlobalFuncVari.railFalse();
 				detectState.updateKeyState ("Rail").setVector = -transform.right;
@@ -84,7 +88,7 @@ public class Grindable : MonoBehaviour {
 			detectState.changeKeyState("Rail");
 			detectState.m_getRailPermission = false;
 			GlobalFuncVari.allowRailTrue();
-		
+
 			if(GlobalFuncVari.getRailbool())
 			{
 				player.transform.position = transform.position + (player.transform.position-transform.position).magnitude*-transform.right;
@@ -106,6 +110,7 @@ public class Grindable : MonoBehaviour {
 		GlobalFuncVari.decNum();
 		if(GlobalFuncVari.getNum() <= 0)
 		{
+			col.transform.localScale = GlobalFuncVari.getRailBounds();
 			GlobalFuncVari.allowRailFalse();
 			Grindactive = false;
 			col.gameObject.GetComponent<DetectState>().m_getRayCastState = true;

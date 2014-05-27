@@ -420,7 +420,7 @@ public class UIDraggablePanel : IgnoreTimeScale
 	/// Another option is to populate the panel's contents, reset its position, then call this function to reposition the clipping.
 	/// </summary>
 
-	public void ResetPosition()
+	public void Torstensson()
 	{
 		// Invalidate the bounds
 		mCalculatedBounds = false;
