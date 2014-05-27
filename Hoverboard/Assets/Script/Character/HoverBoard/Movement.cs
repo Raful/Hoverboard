@@ -62,7 +62,7 @@ public class Movement : MonoBehaviour {
 	private float potentialDecelerate;		// slows down the acceleration depending on uphill/downhill
 	private float appliedStrafe;
 	private float speedForRotation;
-	[SerializeField]
+	[Range(0.0f,1.0f)][SerializeField]
 	private float MinimumRotation;
 	private DetectState currentState;
 
