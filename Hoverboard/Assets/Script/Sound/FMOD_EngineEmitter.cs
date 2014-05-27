@@ -42,7 +42,7 @@ public class FMOD_EngineEmitter : MonoBehaviour {
 		speedPitch.getValue(out speedValue);			
 		boostPitch.getValue(out boostValue);
 		
-		speedPitch.setValue(Mathf.SmoothDamp(speedValue,Mathf.InverseLerp(-1.0f,1.0f,Input.GetAxisRaw("Triggers")), ref speedSmooth, 1.0f));
+		speedPitch.setValue(Mathf.SmoothDamp(speedValue,Mathf.InverseLerp(0.0f,1.0f,Input.GetAxisRaw("Triggers")), ref speedSmooth, 1.0f));
 		
 		if (boostScript.m_isBoosting == true)
 		{
