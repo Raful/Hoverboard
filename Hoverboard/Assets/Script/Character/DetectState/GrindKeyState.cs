@@ -3,8 +3,6 @@ using System.Collections;
 
 public class GrindKeyState : KeyState
 {
-
-
 	private float constantRotationSpeed = 1f;			//Rotation speed that will be applied every frame
 	private const float rotationZSpeed = 1f;			//Players rotation speed on the z-axis
 	private const float rotationYSpeed = 1f;			//Players rotation speed on the y-axis
@@ -23,8 +21,6 @@ public class GrindKeyState : KeyState
 	private float AngleAmount = 45;								//Used to calculate the angel for the hoverboard to fall of with
 	private const float zero = 0, circel = 360, halfCircel = 180;//Constant variabels that are used to calc the angle for the fall of
 
-	DetectState detectState;
-
 	public GrindKeyState(Movement Movement)
 	{
 		movement = Movement;
@@ -34,7 +30,6 @@ public class GrindKeyState : KeyState
 	
 	public override void start ()
 	{
-		detectState = movement.GetComponent<DetectState> ();
 		movement.gameObject.GetComponent<Hover_WithTransform> ().enabled = false;
 		movement.isGrounded = true;
 		movement.GetComponent<DetectState>().m_getRayCastState = false;
@@ -98,14 +93,14 @@ public class GrindKeyState : KeyState
 		else if(movement.transform.eulerAngles.z < circel && movement.transform.eulerAngles.z > (circel - AngleAmount)
 		        || movement.transform.eulerAngles.z < zero)
 		{
-			if(constantRotationSpeed > 0)
-			{
-				movement.miniGameCOnstantRotationSpeed(constantRotationSpeed * -1);
-			}
-			else
-			{
+			//if(constantRotationSpeed > 0)
+			//{
+			//	movement.miniGameCOnstantRotationSpeed(constantRotationSpeed * -1);
+			//}
+			//else
+			//{
 				movement.miniGameCOnstantRotationSpeed(constantRotationSpeed);
-			}
+			//}
 		}
 	}
 

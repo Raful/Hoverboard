@@ -18,12 +18,19 @@ public class KillBoxScript : MonoBehaviour {
 
 	void OnTriggerEnter(Collider col)
 	{
-		GlobalFuncVari.stopCam ();
+		if(col.CompareTag("Player"))
+		{
+			GlobalFuncVari.stopCam ();
+		}
+
 	}
 
 	void OnTriggerExit(Collider col)
 	{
-		GlobalFuncVari.followCam ();
-		checkpoint.SpawnAtCheckpoint ();
+		if(col.CompareTag("Player"))
+		{
+			GlobalFuncVari.followCam ();
+			checkpoint.SpawnAtCheckpoint ();
+		}
 	}
 }

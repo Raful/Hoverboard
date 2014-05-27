@@ -22,7 +22,7 @@ public class LightningHoverBoard : MonoBehaviour {
 	[SerializeField][Range(0f,1f)]
 	private float coloChangeSpeed = 0.025f;
 	[SerializeField]
-	private Color col, col_charged;
+	private Color col = Color.cyan, col_charged = Color.red;
 	private float t = 0;
 
 	float TimeSin;

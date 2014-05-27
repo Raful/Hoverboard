@@ -88,10 +88,8 @@ public class Movement : MonoBehaviour {
 	[SerializeField]
 	private float m_TerminalVelocity;
 
-	//[HideInInspector]
+	[HideInInspector]
 	public float jumpVelocity; //Jump feeds into this
-
-	private float divided = 0f;
 
 	public float setGravity
 	{
@@ -203,7 +201,6 @@ public class Movement : MonoBehaviour {
 
 
 		velocity = direction.normalized *(speed + boostSpeed+bonusSpeed) -Vector3.up*gravity + (jumpVelocity * CustomJumpVec) + (appliedStrafe * transform.right.normalized);
-		Debug.Log( "divided: " + divided);
 		velocity.y = Mathf.Max(velocity.y, -Mathf.Abs(m_TerminalVelocity));
 		speedForRotation = Mathf.Clamp (velocity.magnitude, 0, boostMaxAccSpeed);
 
@@ -215,8 +212,6 @@ public class Movement : MonoBehaviour {
 
     void Update()
     {
-        //Debug.Log("Rail counter: " + GlobalFuncVari.getNum());
-
         if (m_characterAnimator)
         {
             m_characterAnimator.SetFloat("ForwardSpeed", forwardSpeed);

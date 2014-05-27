@@ -20,7 +20,8 @@ public class GlobalFuncVari {
 	private static bool rail, allowRail;	// Grind bools
 	private static bool tunnelBool;			
 	public static float tunnelAngle;
-	private static bool camFollow;
+	private static bool camFollow = true;
+	private static bool camLerpBool = false;
 	private static float jumpPower;
 	private static bool tutorialSkipped;
 
@@ -111,6 +112,20 @@ public class GlobalFuncVari {
 	{
 		return camFollow;
 	}
+	public static void stopCamLerp()
+	{
+		camLerpBool = false;
+	}
+	
+	public static void startCamLerp()
+	{
+		camLerpBool = true;
+	}
+	public static bool getCamLerp()
+	{
+		return camLerpBool;
+	}
+
 //  ------ End of camera variabels modifications
 
 //  ------ Tutorial variables
