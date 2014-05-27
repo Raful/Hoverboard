@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using FMOD.Studio;
 
 /*
  * This script was first part of movement but later got removed
@@ -23,6 +24,11 @@ public class Jump : MonoBehaviour {
     bool willJump=false;
 
 	public Movement privateMovement;
+	
+	
+	
+	
+	
 
 	// Use this for initialization
 	void Start () 
@@ -41,6 +47,9 @@ public class Jump : MonoBehaviour {
                 willJump = true;
 
                 privateMovement.m_characterAnimator.SetBool("Jumping", true);
+				
+				//----- FMOD!
+                FMOD_StudioSystem.instance.PlayOneShot("event:/Hoverboard/Jump", transform.position);
 			}
 			else if (privateMovement.m_getVelocity.y > 0f) 
 			{
