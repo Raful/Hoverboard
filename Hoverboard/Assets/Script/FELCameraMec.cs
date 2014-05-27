@@ -24,7 +24,7 @@ public class FELCameraMec : MonoBehaviour {
 	public Movement movement;
 	
 	private float yOffset = 1f;
-	private Hover_Physics physics;
+	//private Hover_Physics physics;
 	
 	private Vector3 targetedPosition;
 	
