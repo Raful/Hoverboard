@@ -15,7 +15,7 @@ public class MyLog : MonoBehaviour
     static Queue myLogQueue = new Queue();
     public string output = "";
     public string stack = "";
-    private bool hidden = true;
+    private bool hidden = false;
     private Vector2 scrollPos;
     public int maxLines = 30;
 

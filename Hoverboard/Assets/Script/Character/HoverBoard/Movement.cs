@@ -226,7 +226,7 @@ public class Movement : MonoBehaviour {
 	{
 		//transform.GetComponent<FMOD_EngineEmitter>().;
 
-		//FMOD_StudioSystem.instance.PlayOneShot("event:/Impact/impact1",transform.position);
+		FMOD_StudioSystem.instance.PlayOneShot("event:/Impact/Impact",transform.position);
         transform.position = position;
 
 		Debug.Log ("Resets");
