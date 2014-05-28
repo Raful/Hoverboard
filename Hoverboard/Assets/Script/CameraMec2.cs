@@ -156,7 +156,7 @@ public class CameraMec2 : MonoBehaviour {
 			
 		
 		// Damp the height
-		currentHeight = Mathf.Lerp (currentHeight, wantedHeight, heightDamping * Time.deltaTime);
+		currentHeight = Mathf.Lerp (currentHeight, wantedHeight, heightDamping);
 	
 		// Convert the angle into a rotation
 		
