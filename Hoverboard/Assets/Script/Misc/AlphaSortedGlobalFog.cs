@@ -4,9 +4,19 @@ using System.Collections;
 [AddComponentMenu("Image Effects/Fog/AlphaSortedGlobalFog")]
 
 public class AlphaSortedGlobalFog : MonoBehaviour {
-	
-	void Start () {
+
+	private GlobalFog fog;
+
+	void Awake ()
+	{
+		fog = this.GetComponent<GlobalFog>();
 	}
+		
+	void Start ()
+	{
+		fog.enabled = false;
+	}
+
 	[ImageEffectOpaque]
 	void OnRenderImage(RenderTexture source, RenderTexture destination)
 	{
