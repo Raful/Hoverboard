@@ -10,6 +10,7 @@ public class AlphaSortedGlobalFog : MonoBehaviour {
 	void Awake ()
 	{
 		fog = this.GetComponent<GlobalFog>();
+		fog.enabled = true;
 	}
 		
 	void Start ()
