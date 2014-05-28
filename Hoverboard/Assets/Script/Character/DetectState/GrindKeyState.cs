@@ -1,10 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+/*
+ * Created by: Niklas Linder, Erik Åsen
+ * Description:
+ * Hoverboards Grindstate
+ * This script handles the hoverboard when its in grind state.
+ * Changes in input control, Direction and a minigame (constantRotation() and Whentofall() function).
+ * Edited by: Niklas Linder, Erik Åsen.
+ */
 public class GrindKeyState : KeyState
 {
-
-
 	private float constantRotationSpeed = 1f;			//Rotation speed that will be applied every frame
 	private const float rotationZSpeed = 1f;			//Players rotation speed on the z-axis
 	private const float rotationYSpeed = 1f;			//Players rotation speed on the y-axis
@@ -23,8 +28,6 @@ public class GrindKeyState : KeyState
 	private float AngleAmount = 45;								//Used to calculate the angel for the hoverboard to fall of with
 	private const float zero = 0, circel = 360, halfCircel = 180;//Constant variabels that are used to calc the angle for the fall of
 
-	DetectState detectState;
-
 	public GrindKeyState(Movement Movement)
 	{
 		movement = Movement;
@@ -34,7 +37,6 @@ public class GrindKeyState : KeyState
 	
 	public override void start ()
 	{
-		detectState = movement.GetComponent<DetectState> ();
 		movement.gameObject.GetComponent<Hover_WithTransform> ().enabled = false;
 		movement.isGrounded = true;
 		movement.GetComponent<DetectState>().m_getRayCastState = false;
@@ -56,24 +58,12 @@ public class GrindKeyState : KeyState
 
 		if(movement.m_getVelocity.magnitude <=1)
 		{
-			Debug.Log("To low speed, FALLS OFFF");
-			movement.transform.Translate(new Vector3(-pushOfStrength,pushOfStrength,0));
+			fallOfMechanismSpeedZero();
 		}
-		whenToFall();
+		fallOfMechanism();
 
 		
 		movement.rotateBoardInZ(Input.GetAxisRaw("LeftHorizontal")*rotationZSpeed*-1);
-		
-		/*
-		if(Input.GetKey(KeyCode.A))
-		{
-			movement.rotateBoardInZ(rotationZSpeed);
-		}
-		if(Input.GetKey(KeyCode.D))
-		{
-			movement.rotateBoardInZ(-rotationZSpeed);
-		}
-		*/
 	}
 	
 	public override void end()
@@ -99,32 +89,41 @@ public class GrindKeyState : KeyState
 		else if(movement.transform.eulerAngles.z < circel && movement.transform.eulerAngles.z > (circel - AngleAmount)
 		        || movement.transform.eulerAngles.z < zero)
 		{
-			if(constantRotationSpeed > 0)
-			{
-				movement.miniGameCOnstantRotationSpeed(constantRotationSpeed * -1);
-			}
-			else
-			{
+			//if(constantRotationSpeed > 0)
+			//{
+			//	movement.miniGameCOnstantRotationSpeed(constantRotationSpeed * -1);
+			//}
+			//else
+			//{
 				movement.miniGameCOnstantRotationSpeed(constantRotationSpeed);
-			}
+			//}
 		}
 	}
 
-	private void whenToFall()
+	private void fallOfMechanism()
 	{
 		if(movement.transform.eulerAngles.z > (zero + AngleAmount) && movement.transform.eulerAngles.z < halfCircel)
 		{
 			movement.transform.Translate(Vector3.up + (-Vector3.right));
+			//movement.transform.localPosition += movement.transform.up;
 		}
 		else if(movement.transform.eulerAngles.z < (circel - AngleAmount) && movement.transform.eulerAngles.z > halfCircel)
 		{
 			movement.transform.Translate(Vector3.up + (Vector3.right));
-			movement.transform.localPosition += movement.transform.up;
-	
+			//movement.transform.localPosition += movement.transform.up;
 		}
-		else if(movement.transform.eulerAngles.z < (circel - AngleAmount) && movement.transform.eulerAngles.z > halfCircel)
+	}
+	private void fallOfMechanismSpeedZero()
+	{
+		if(movement.transform.eulerAngles.z > zero && movement.transform.eulerAngles.z < halfCircel)
 		{
-			movement.transform.localPosition += movement.transform.up;
+			movement.transform.Translate(Vector3.up + (-Vector3.right));
+			//movement.transform.localPosition += movement.transform.up;
+		}
+		else if(movement.transform.eulerAngles.z < circel && movement.transform.eulerAngles.z > halfCircel)
+		{
+			movement.transform.Translate(Vector3.up + (Vector3.right));
+			//movement.transform.localPosition += movement.transform.up;
 		}
 	}
 }

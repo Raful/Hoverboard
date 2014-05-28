@@ -10,13 +10,14 @@ using System.Collections;
  */
 public class CameraMec2 : MonoBehaviour {
 	
+
 	public Transform target; // the target that the camera is looking at. THE TARGET SHOULD BE Model.
 	private FollowLogic follow; // the camera fetches values here.
 
 	private float distance;   // The distance in the x-z plane to the target.
 	public float m_DefaultDistance; // the default value for distance.
 
-
+	private bool hittingRoof = false;
 
 	public float groundHeight;   // the height we want the camera to be above the target when the target is in ground state.
 	public float airHeight;      // the height we want the camera to be above the target when the target is in air state.
@@ -41,8 +42,9 @@ public class CameraMec2 : MonoBehaviour {
 	private float yVelocity = 0;	//dont know what this is good for but need it in smoothDampAngle
 
 	public float angleToChange;		//if the targets x-angle is higher than this value the camera change state. 
-	
 
+	
+	private float roofHittingVectorTypishHeight;
 	
 	void Start()
 	{
@@ -53,7 +55,7 @@ public class CameraMec2 : MonoBehaviour {
 		distance = m_DefaultDistance;
 
 		heightDamping = defaultHeigtDamping;
-
+		roofHittingVectorTypishHeight = target.position.y + height;
 	
 
 
@@ -93,7 +95,7 @@ public class CameraMec2 : MonoBehaviour {
 				height = upRampHeight;
 			rotationDamping = defaultRotationDamping;
 		}
-		else  // else it change to ground state and the height change to 'groundHeight'
+		else if( !hittingRoof )  // else it change to ground state and the height change to 'groundHeight'
 		{
 			//heightDamping = defaultHeigtDamping;
 			if(height > groundHeight +0.1f)
@@ -103,6 +105,8 @@ public class CameraMec2 : MonoBehaviour {
 			if(height <= groundHeight +0.1f && height >= groundHeight-0.1f)
 				height = groundHeight;
 		}
+		/*else
+			height = roofHittingVectorTypishHeight;*/
 
 	
 		if(target.eulerAngles.x < angleToChange && !follow.getKeyState().Equals("Air")) // if the camera is not on a ramp and not in the air
@@ -159,21 +163,47 @@ public class CameraMec2 : MonoBehaviour {
 		currentHeight = Mathf.Lerp (currentHeight, wantedHeight, heightDamping);
 	
 		// Convert the angle into a rotation
-		currentRotation = Quaternion.Euler (0, currentRotationAngle, 0);
-		Vector3 toTarget = target.position;
-		toTarget -= currentRotation * Vector3.forward * distance;
-		Vector3 temp = toTarget;
-		temp.y = currentHeight;
-		toTarget = temp;
-		if(CompensateForWalls(target.position, ref toTarget) )
-		{
 
-			transform.position = toTarget;
-		}
+
 
 		// Set the height of the camera
 	
 		
+
+		
+		
+		if(GlobalFuncVari.getCamfollowBool())
+		{
+			currentRotation = Quaternion.Euler (0, currentRotationAngle, 0);
+			Vector3 toTarget = target.position;
+
+			toTarget.y += groundHeight;
+		
+			Vector3 toTarget2 = target.position;
+			toTarget2 -= currentRotation * Vector3.forward * distance;
+			Vector3 toTarget3 = toTarget2;
+			toTarget3.y += groundHeight;
+			if(CompensateForWalls(target.position, ref toTarget2))
+			{
+				Debug.Log("1");
+			}
+			else if(CompensateForRoofs(target.position, ref toTarget) || CompensateForRoofs(target.position, ref toTarget3))
+			{
+				toTarget -= currentRotation * Vector3.forward * distance;
+				toTarget.y = currentHeight;
+				transform.position = toTarget;
+				Debug.Log("2");
+			}
+			else
+			{
+				toTarget -= currentRotation * Vector3.forward * distance;
+				transform.position = toTarget;
+				Debug.Log("3");
+			}
+
+		}
+
+
 		// Always look at the target
 		transform.LookAt (target, target.TransformDirection(Vector3.up));
 	}
@@ -186,12 +216,37 @@ public class CameraMec2 : MonoBehaviour {
 		if (Physics.Linecast(fromObject, toTarget, out wallHit)) 
 		{
 			Debug.DrawRay(wallHit.point, wallHit.normal, Color.red);
-			transform.position = new Vector3(wallHit.point.x, toTarget.y, wallHit.point.z);
-			Debug.Log("false");
-			return false;
+			transform.position = new Vector3(wallHit.point.x, transform.position.y, wallHit.point.z);
+
+			return true;
 		}
-		Debug.Log("true");
-		return true;
+
+		return false;
+	}
+
+	private bool CompensateForRoofs(Vector3 fromObject, ref Vector3 toTarget)
+	{
+		Debug.DrawLine(fromObject, toTarget, Color.black);
+		// Compensate for walls between camera
+		RaycastHit roofHit = new RaycastHit();		
+		if (Physics.Linecast(fromObject, toTarget, out roofHit)) 
+		{
+
+			Debug.Log("TransformY: " + transform.position.y);
+			Debug.Log("roofHit:" + roofHit.point.y);
+			roofHittingVectorTypishHeight = roofHit.point.y ;
+			if(transform.position.y > roofHit.point.y)
+			{
+				height -= 0.2f;
+
+			}
+			hittingRoof = true;			
+
+			return true;
+		}
+
+		return false;
+		hittingRoof = false;
 	}
 	
 }

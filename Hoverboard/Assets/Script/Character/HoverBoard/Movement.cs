@@ -62,7 +62,7 @@ public class Movement : MonoBehaviour {
 	private float potentialDecelerate;		// slows down the acceleration depending on uphill/downhill
 	private float appliedStrafe;
 	private float speedForRotation;
-	[SerializeField]
+	[Range(0.0f,1.0f)][SerializeField]
 	private float MinimumRotation;
 	private DetectState currentState;
 
@@ -88,7 +88,7 @@ public class Movement : MonoBehaviour {
 	[SerializeField]
 	private float m_TerminalVelocity;
 
-	//[HideInInspector]
+	[HideInInspector]
 	public float jumpVelocity; //Jump feeds into this
 
 	public float setGravity
@@ -212,8 +212,6 @@ public class Movement : MonoBehaviour {
 
     void Update()
     {
-        //Debug.Log("Rail counter: " + GlobalFuncVari.getNum());
-
         if (m_characterAnimator)
         {
             m_characterAnimator.SetFloat("ForwardSpeed", forwardSpeed);

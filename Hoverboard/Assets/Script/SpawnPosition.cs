@@ -11,7 +11,7 @@ using System.Collections;
 
 public class SpawnPosition : MonoBehaviour {
 	[SerializeField]
-	private Transform m_TargetLogicHoverBoard, m_TargetGraphicHoverboard;
+	private Transform m_TargetLogicHoverBoard = null, m_TargetGraphicHoverboard = null;
 	[SerializeField]
 	private Timer m_TimerReference;
 
@@ -28,8 +28,11 @@ public class SpawnPosition : MonoBehaviour {
         m_TargetGraphicHoverboard.transform.rotation = transform.rotation;
     }
 
-	void OnTriggerExit(Collider collision)
+	void OnTriggerExit(Collider col)
 	{
-		m_TimerReference.RaceTime();
+		if(col.CompareTag("Player"))
+		{
+			m_TimerReference.leaveStartTime();
+		}
 	}
 }
