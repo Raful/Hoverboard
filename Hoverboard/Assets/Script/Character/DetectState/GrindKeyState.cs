@@ -1,6 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+/*
+ * Created by: Niklas Linder, Erik Åsen
+ * Description:
+ * Hoverboards Grindstate
+ * This script handles the hoverboard when its in grind state.
+ * Changes in input control, Direction and a minigame (constantRotation() and Whentofall() function).
+ * Edited by: Niklas Linder, Erik Åsen.
+ */
 public class GrindKeyState : KeyState
 {
 	private float constantRotationSpeed = 1f;			//Rotation speed that will be applied every frame
@@ -51,24 +58,12 @@ public class GrindKeyState : KeyState
 
 		if(movement.m_getVelocity.magnitude <=1)
 		{
-			Debug.Log("To low speed, FALLS OFFF");
-			movement.transform.Translate(new Vector3(-pushOfStrength,pushOfStrength,0));
+			fallOfMechanismSpeedZero();
 		}
-		whenToFall();
+		fallOfMechanism();
 
 		
 		movement.rotateBoardInZ(Input.GetAxisRaw("LeftHorizontal")*rotationZSpeed*-1);
-		
-		/*
-		if(Input.GetKey(KeyCode.A))
-		{
-			movement.rotateBoardInZ(rotationZSpeed);
-		}
-		if(Input.GetKey(KeyCode.D))
-		{
-			movement.rotateBoardInZ(-rotationZSpeed);
-		}
-		*/
 	}
 	
 	public override void end()
@@ -105,21 +100,30 @@ public class GrindKeyState : KeyState
 		}
 	}
 
-	private void whenToFall()
+	private void fallOfMechanism()
 	{
 		if(movement.transform.eulerAngles.z > (zero + AngleAmount) && movement.transform.eulerAngles.z < halfCircel)
 		{
 			movement.transform.Translate(Vector3.up + (-Vector3.right));
+			//movement.transform.localPosition += movement.transform.up;
 		}
 		else if(movement.transform.eulerAngles.z < (circel - AngleAmount) && movement.transform.eulerAngles.z > halfCircel)
 		{
 			movement.transform.Translate(Vector3.up + (Vector3.right));
-			movement.transform.localPosition += movement.transform.up;
-	
+			//movement.transform.localPosition += movement.transform.up;
 		}
-		else if(movement.transform.eulerAngles.z < (circel - AngleAmount) && movement.transform.eulerAngles.z > halfCircel)
+	}
+	private void fallOfMechanismSpeedZero()
+	{
+		if(movement.transform.eulerAngles.z > zero && movement.transform.eulerAngles.z < halfCircel)
 		{
-			movement.transform.localPosition += movement.transform.up;
+			movement.transform.Translate(Vector3.up + (-Vector3.right));
+			//movement.transform.localPosition += movement.transform.up;
+		}
+		else if(movement.transform.eulerAngles.z < circel && movement.transform.eulerAngles.z > halfCircel)
+		{
+			movement.transform.Translate(Vector3.up + (Vector3.right));
+			//movement.transform.localPosition += movement.transform.up;
 		}
 	}
 }

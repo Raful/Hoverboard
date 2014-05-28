@@ -1,6 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+
+/*
+ * Created by: Niklas Linder, Erik Åsen
+ * Description:
+ * Parent class to all keyState-classes. 
+ * Edited by: Niklas Linder, Erik Åsen.
+ */
 public class KeyState
 {
 	public Vector3 m_keyVector;

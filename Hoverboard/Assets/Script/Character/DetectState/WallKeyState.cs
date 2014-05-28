@@ -1,6 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+/* Created by: Niklas Linder, Erik Åsén
+ * Description:
+ * Hoverboards WallRide-state
+ * This script handles the hoverboard when its riding on a wall.
+ * Mostly changes in input control aswell as physics control.
+ * Edited by: Niklas Linder, Erik Åsén
+ * 
+ */
 public class WallKeyState : KeyState
 {
 
