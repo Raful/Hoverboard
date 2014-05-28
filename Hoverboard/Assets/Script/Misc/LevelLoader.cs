@@ -40,14 +40,14 @@ public class LevelLoader : MonoBehaviour
         ShowLoadingScreen();
 
         //Load new scene
-       //if (Application.HasProLicense())
-       //{
-		//operation = Application.LoadLevelAsync(levelName);
-		//
-		//StartCoroutine(SetProgressBar());
-       //}
-       //else
-       //{
+        //if (Application.HasProLicense())
+        //{
+		//	operation = Application.LoadLevelAsync(levelName);
+		//	
+		//	StartCoroutine(SetProgressBar());
+        //}
+        //else
+        //{
             Application.LoadLevel(levelName);
         //}
     }
