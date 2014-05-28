@@ -112,20 +112,6 @@ public class GlobalFuncVari {
 	{
 		return camFollow;
 	}
-	public static void stopCamLerp()
-	{
-		camLerpBool = false;
-	}
-	
-	public static void startCamLerp()
-	{
-		camLerpBool = true;
-	}
-	public static bool getCamLerp()
-	{
-		return camLerpBool;
-	}
-
 //  ------ End of camera variabels modifications
 
 //  ------ Tutorial variables

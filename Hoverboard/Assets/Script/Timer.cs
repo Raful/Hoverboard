@@ -32,9 +32,9 @@ public class Timer : MonoBehaviour {
 
 		text="";
 		if (finishTime == 0) {
-			text = string.Format ("{0:00}:{1:00}.{2:000}", raceTime / 60, raceTime % 60, (raceTime * 1000) % 1000);
+			text = string.Format ("{0:00}:{1:00}.{2:000}", (int) raceTime / 60,(int) raceTime % 60, (int) (raceTime * 1000) % 1000);
 		} else {
-			text = string.Format ("{0:00}:{1:00}.{2:000}", finishTime / 60, finishTime % 60, (finishTime * 1000) % 1000);
+			text = string.Format ("{0:00}:{1:00}.{2:000}", (int) finishTime / 60, (int) finishTime % 60, (int) (finishTime * 1000) % 1000);
 		}
 		//render
 		guiText.text = text;
@@ -67,7 +67,7 @@ public class Timer : MonoBehaviour {
 	}
 
 	//Called in spawn
-	public void RaceTime()
+	public void leaveStartTime()
 	{
 		leaveTime = Time.time;
 	}
@@ -81,8 +81,4 @@ public class Timer : MonoBehaviour {
 	{
 		raceTime = 0;
 	}
-
-
-
-
 }
