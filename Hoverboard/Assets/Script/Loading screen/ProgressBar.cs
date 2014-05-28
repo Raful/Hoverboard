@@ -34,8 +34,7 @@ public class ProgressBar : MonoBehaviour {
             pin.guiTexture.texture = pinLow;
         }
 
-        //Fake percent loaded :P
-        int randomPercent = Random.Range(0, 100);
-        SetProgress(randomPercent);
+        //Fake progress (in percent) :P
+        SetProgress((int)Random.Range(0, 100));
 	}
 }
