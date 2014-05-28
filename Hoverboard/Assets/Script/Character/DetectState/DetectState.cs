@@ -6,6 +6,7 @@
  * The state is accessed with m_state, for use in other scripts.
  *      
  * If no state are found, it's set to Default
+ * Edited by: Niklas Linder, Erik Åsen.
  */
 
 using UnityEngine;

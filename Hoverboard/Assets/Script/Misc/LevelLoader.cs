@@ -40,16 +40,16 @@ public class LevelLoader : MonoBehaviour
         ShowLoadingScreen();
 
         //Load new scene
-        if (Application.HasProLicense())
-        {
-			operation = Application.LoadLevelAsync(levelName);
-			
-			StartCoroutine(SetProgressBar());
-        }
-        else
-        {
+       //if (Application.HasProLicense())
+       //{
+		//operation = Application.LoadLevelAsync(levelName);
+		//
+		//StartCoroutine(SetProgressBar());
+       //}
+       //else
+       //{
             Application.LoadLevel(levelName);
-        }
+        //}
     }
 
 	public void LoadLevel(int level)
@@ -57,16 +57,16 @@ public class LevelLoader : MonoBehaviour
 		ShowLoadingScreen();
 
 		//Load new scene
-		if (Application.HasProLicense())
-		{
-			operation = Application.LoadLevelAsync(level);
-			
-			StartCoroutine(SetProgressBar());
-		}
-		else
-		{
+		//if (Application.HasProLicense())
+		//{
+		//	operation = Application.LoadLevelAsync(level);
+		//	
+		//	StartCoroutine(SetProgressBar());
+		//}
+		//else
+		//{
             Application.LoadLevel(level);
-		}
+		//}
     }
 
 	
