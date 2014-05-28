@@ -144,7 +144,7 @@ public class CameraMec2 : MonoBehaviour {
 		
 
 
-		if(follow.getSpeed() < -0.1f || follow.getSpeed() > 0.1f)
+		/*if(follow.getSpeed() < -0.1f || follow.getSpeed() > 0.1f)
 		{
 			if(follow.getSpeed() > -20f)
 			distance = m_DefaultDistance + (follow.getSpeed()/15);
@@ -152,35 +152,46 @@ public class CameraMec2 : MonoBehaviour {
 		else
 		{
 			distance = m_DefaultDistance;
-		}
+		}*/
 			
 		
 		// Damp the height
-		currentHeight = Mathf.Lerp (currentHeight, wantedHeight, heightDamping * Time.deltaTime);
+		currentHeight = Mathf.Lerp (currentHeight, wantedHeight, heightDamping);
 	
 		// Convert the angle into a rotation
 		currentRotation = Quaternion.Euler (0, currentRotationAngle, 0);
-
-
-		// Set the position of the camera on the x-z plane to:
-		transform.position = target.position;
-
-		//then subtract the rotation*distance from the position
-		transform.position -= currentRotation * Vector3.forward * distance;
-		
-		// Set the height of the camera
-		Vector3 temp = transform.position;
+		Vector3 toTarget = target.position;
+		toTarget -= currentRotation * Vector3.forward * distance;
+		Vector3 temp = toTarget;
 		temp.y = currentHeight;
-		transform.position = temp;
+		toTarget = temp;
+		if(CompensateForWalls(target.position, ref toTarget) )
+		{
+
+			transform.position = toTarget;
+		}
+
+		// Set the height of the camera
+	
 		
 		// Always look at the target
 		transform.LookAt (target, target.TransformDirection(Vector3.up));
 	}
-	
-	
-	
-	
-	
-	
+
+	private bool CompensateForWalls(Vector3 fromObject, ref Vector3 toTarget)
+	{
+		Debug.DrawLine(fromObject, toTarget, Color.cyan);
+		// Compensate for walls between camera
+		RaycastHit wallHit = new RaycastHit();		
+		if (Physics.Linecast(fromObject, toTarget, out wallHit)) 
+		{
+			Debug.DrawRay(wallHit.point, wallHit.normal, Color.red);
+			transform.position = new Vector3(wallHit.point.x, toTarget.y, wallHit.point.z);
+			Debug.Log("false");
+			return false;
+		}
+		Debug.Log("true");
+		return true;
+	}
 	
 }
