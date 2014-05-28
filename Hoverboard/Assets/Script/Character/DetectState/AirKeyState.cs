@@ -1,6 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+/*
+ * Hoverboards Airstate
+ * This script handles the hoverboard when its not grounded.
+ * Mostly changes in input control
+ * Created by: Niklas Linder, Erik Åsén
+ * Edited by: Niklas Linder, Erik Åsén
+ * 
+ */
 public class AirKeyState : KeyState
 {
 	private Movement movement;

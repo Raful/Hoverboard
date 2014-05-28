@@ -11,14 +11,12 @@ public class FollowLogic : MonoBehaviour {
 	private EnergyPool energy;
 
 	private bool floatup;
-	private Vector3 hover;
 
 	// Use this for initialization
 	void Start () 
 	{
         boostParticles = transform.Find("Char02_Rig02_Hoverboard_Full_body_ctrl/Main_ctrl/Spin_Ctrl/Hoverboard_01/Boost").GetComponent<ParticleSystem>();
         railParticles = transform.Find("Char02_Rig02_Hoverboard_Full_body_ctrl/Main_ctrl/Spin_Ctrl/Hoverboard_01/RailSparks").GetComponent<ParticleSystem>();
-		hover = new Vector3 (0, 0, 0);
 		detectState = logicBoard.GetComponent<DetectState> ();
 		movement = logicBoard.GetComponent<Movement> ();
 		energy = logicBoard.GetComponent<EnergyPool> ();

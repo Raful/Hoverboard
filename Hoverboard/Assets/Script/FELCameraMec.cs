@@ -25,11 +25,11 @@ public class FELCameraMec : MonoBehaviour {
 	
 	private float yOffset = 1f;
 	//private Hover_Physics physics;
-	
 	private Vector3 targetedPosition;
 	
 	private float yVelocity = 0.0F;			
-	private float xVelocity = 0.0F;		
+	private float xVelocity = 0.0F;
+	private float y = 0.0f;
 	public bool inAir = false;
 	
 	private DetectState currentState;	
@@ -67,21 +67,21 @@ public class FELCameraMec : MonoBehaviour {
 
 		{
 			
-			float y = targetedPosition.y;
+			y = targetedPosition.y;
 			targetedPosition = hoverboard.transform.position;
 			targetedPosition.y = targetedPosition.y - yOffset;
 		}
 		// does the same thing but down instead for up.
 		else if(position.y < (targetedPosition.y))
 		{
-			float y = targetedPosition.y;
+			y = targetedPosition.y;
 			targetedPosition = hoverboard.transform.position;
 			targetedPosition.y = targetedPosition.y +yOffset;
 		}
 		// else the cameras y position doesnt change
 		else
 		{
-			float y = targetedPosition.y;
+			y = targetedPosition.y;
 			
 			targetedPosition = hoverboard.transform.position;
 			targetedPosition.y = y;

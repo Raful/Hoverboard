@@ -4,9 +4,19 @@ using System.Collections;
 [AddComponentMenu("Image Effects/Fog/AlphaSortedGlobalFog")]
 
 public class AlphaSortedGlobalFog : MonoBehaviour {
-	
-	void Start () {
+
+	private GlobalFog fog;
+
+	void Awake ()
+	{
+		fog = this.GetComponent<GlobalFog>();
 	}
+		
+	void Start ()
+	{
+		fog.enabled = true;
+	}
+
 	[ImageEffectOpaque]
 	void OnRenderImage(RenderTexture source, RenderTexture destination)
 	{
@@ -37,6 +47,7 @@ public class AlphaSortedGlobalFog : MonoBehaviour {
 	
 	public Shader fogShader;
 	private Material fogMaterial = null;
+	private bool Activate = true;
 	
 	void DrawFog(RenderTexture source, RenderTexture destination)
 	{
@@ -94,6 +105,12 @@ public class AlphaSortedGlobalFog : MonoBehaviour {
 		fogMaterial.SetFloat("_GlobalDensity", globalDensity * 0.01f);
 		fogMaterial.SetColor("_FogColor", globalFogColor);
 		CustomGraphicsBlit(source, destination, fogMaterial, (int)fogMode);
+
+		if(Activate)
+		{
+			fog.enabled = false;
+			Activate = false;
+		}
 	}
 	
 	static void CustomGraphicsBlit(RenderTexture source, RenderTexture dest, Material fxMaterial, int passNr)

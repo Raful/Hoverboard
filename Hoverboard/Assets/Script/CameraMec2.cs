@@ -14,7 +14,10 @@ public class CameraMec2 : MonoBehaviour {
 	private FollowLogic follow;
 	//private DetectState state;
 	public float m_DefaultDistance;
-	public float distance;   // The distance in the x-z plane to the target
+	public float distance		 // The distance in the x-z plane to the target
+	{
+		get; private set;
+	}  
 	private float decidedDefaultDistance;
 	private float jumpDistance;
 	public float groundHeight = 5.0f;   // the height we want the camera to be above the target when the target is in ground state
@@ -158,20 +161,21 @@ public class CameraMec2 : MonoBehaviour {
 		// Convert the angle into a rotation
 		
 		
-		
-		currentRotation = Quaternion.Euler (0, currentRotationAngle, 0);
-		
-		// Set the position of the camera on the x-z plane to:
-		// distance meters behind the target
-		transform.position = target.position;
-		
-		transform.position -= currentRotation * Vector3.forward * distance;
-		
-		// Set the height of the camera
-		Vector3 temp = transform.position;
-		temp.y = currentHeight;
-		transform.position = temp;
-		
+		if(GlobalFuncVari.getCamfollowBool())
+		{
+			currentRotation = Quaternion.Euler (0, currentRotationAngle, 0);
+
+			// Set the position of the camera on the x-z plane to:
+			// distance meters behind the target
+			transform.position = target.position;
+			transform.position -= currentRotation * Vector3.forward * distance;
+			
+			// Set the height of the camera
+			Vector3 temp = transform.position;
+			temp.y = currentHeight;
+			transform.position = temp;
+		}
+
 		// Always look at the target
 		transform.LookAt (target, target.TransformDirection(Vector3.up));
 	}

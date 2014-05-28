@@ -3,13 +3,17 @@ using System.Collections;
 
 /*
  * Created by: Niklas, Erik
+ * Description:
+ * This script is a component of grindable objects.
+ * On collision it gives the railstate a new direction vector.
+ * When grindKey triggers, it transforms the hoverboards position aswell as its rotation.
+ * 
  */
 
 public class Grindable : MonoBehaviour {
 
 	private DetectState detectState;
 	private bool Grindactive;
-	private bool secondEntry;
 	private GameObject player;
 	private Vector3 push;
 	private float pushLength;
@@ -18,7 +22,6 @@ public class Grindable : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
 	{
-		secondEntry = false;
 	}
 	
 	// Update is called once per frame
