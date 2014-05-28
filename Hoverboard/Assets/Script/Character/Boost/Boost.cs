@@ -61,7 +61,7 @@ public class Boost : MonoBehaviour {
 
         if (energyScript.m_energy <= 0 && hasBoosted)
         {
-            canBoost = false;
+            //canBoost = false;
         }
 
         if (Input.GetButtonUp("Boost"))
