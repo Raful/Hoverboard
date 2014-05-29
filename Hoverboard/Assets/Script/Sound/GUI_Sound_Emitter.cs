@@ -108,6 +108,7 @@ public class GUI_Sound_Emitter : MonoBehaviour {
 		return temp;
 	}
 	
+	
 	//To make sure the events are dropped correctly.
 	void OnDestroy()
 	{

@@ -32,8 +32,10 @@ public class FirstTutorialScript : MonoBehaviour {
 	private Texture tutorialHint3;
 	
 	
-	private int timer1;
-	private int timer2;
+	private float timer1 = 20;
+	private float timer2 = 40;
+	private bool switch1;
+	private bool switch2;
 
 	// Use this for initialization
 	void Start () 
@@ -58,6 +60,8 @@ public class FirstTutorialScript : MonoBehaviour {
 			boostScript.enabled = false;
 			tutorialEvent = soundEmitter.startEvent(tutorialSound, false);
 			textureDisplay.tutorialTexture(tutorialHint1);
+			timer1 += Time.time;
+			timer2 += Time.time;
 		}
 	}
 	
@@ -81,17 +85,25 @@ public class FirstTutorialScript : MonoBehaviour {
 				movementScript.enabled = true;
 				boostScript.enabled = true;
 			}
-			int timePos;
-			tutorialEvent.getTimelinePosition(out timePos);
+			float timePos;
+			timePos = Time.time;
 			
 			if (timePos >= timer1 && timePos < timer2)
 			{
-				textureDisplay.tutorialTexture(tutorialHint2);
+				if (switch1 == false)
+				{
+					textureDisplay.tutorialTexture(tutorialHint2);
+					switch1 = true;
+				}
 			}
 			
 			if (timePos >= timer2)
 			{
-				textureDisplay.tutorialTexture(tutorialHint3);
+				if (switch2 == false)
+				{
+					textureDisplay.tutorialTexture(tutorialHint3);
+					switch2 = true;
+				}
 			}
 			
 		}
