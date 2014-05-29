@@ -63,7 +63,7 @@ public class Finish : MonoBehaviour {
 		}
 		
 	}
-	void LoadNextLevel()
+	public void LoadNextLevel()
 	{
 		gameObject.GetComponent<LevelLoader>().LoadLevel(m_NextLevelToLoad);
 	}
