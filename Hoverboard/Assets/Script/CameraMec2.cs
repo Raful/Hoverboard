@@ -21,7 +21,7 @@ public class CameraMec2 : MonoBehaviour {
 
 	public float groundHeight;   // the height we want the camera to be above the target when the target is in ground state.
 	public float airHeight;      // the height we want the camera to be above the target when the target is in air state.
-	private float height;		//current height the camera is above the target
+	public float height;		//current height the camera is above the target
 	public float upRampHeight;  // the height we want the camera to be above the target when the target is going up a ramp..
 	public float downRampHeight; // the height we want the camera to be above the target when the target is going down a ramp.
 
@@ -82,7 +82,7 @@ public class CameraMec2 : MonoBehaviour {
 		{																		    //and rotationDamping becomes the value from defaultRotationDamping	
 
 			if(height < downRampHeight)
-				height += 0.4f;
+				height += 0.3f;
 			else
 				height = downRampHeight;
 			rotationDamping = defaultRotationDamping;
@@ -99,9 +99,9 @@ public class CameraMec2 : MonoBehaviour {
 		{
 			//heightDamping = defaultHeigtDamping;
 			if(height > groundHeight +0.1f)
-				height -= 0.4f;
+				height -= 0.3f;
 			if(height < groundHeight -0.1f)
-				height += 0.4f;
+				height += 0.3f;
 			if(height <= groundHeight +0.1f && height >= groundHeight-0.1f)
 				height = groundHeight;
 		}
@@ -177,12 +177,12 @@ public class CameraMec2 : MonoBehaviour {
 			currentRotation = Quaternion.Euler (0, currentRotationAngle, 0);
 			Vector3 toTarget = target.position;
 
-			toTarget.y += groundHeight;
+			toTarget.y = currentHeight;
 		
 			Vector3 toTarget2 = target.position;
 			toTarget2 -= currentRotation * Vector3.forward * distance;
 			Vector3 toTarget3 = toTarget2;
-			toTarget3.y += groundHeight;
+			toTarget3.y = currentHeight;
 			if(CompensateForWalls(target.position, ref toTarget2))
 			{
 				Debug.Log("1");
