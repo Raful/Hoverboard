@@ -65,12 +65,13 @@ public class GUITextureDisplay : MonoBehaviour {
 		guiTexture.texture = newTexture;
 		if (guiTexture.texture != null)
 		{
-			pixelInsetRect.width = guiTexture.texture.width;
-			pixelInsetRect.height = guiTexture.texture.height;
-			pixelInsetRect.y = 0;
-			pixelInsetRect.x = 0;
+			
+			pixelInsetRect.width = guiTexture.texture.width/4;
+			pixelInsetRect.height = guiTexture.texture.height/4;
+			pixelInsetRect.y = Screen.height/2 + guiTexture.texture.height;
+			pixelInsetRect.x = Screen.width/10;
 			//(Screen.width/2 - guiTexture.texture.width/2);
-			pixelInsetRect.center = new Vector2(guiTexture.texture.width, Screen.height/2);
+			//pixelInsetRect.center = new Vector2(guiTexture.texture.width, Screen.height/2);
 			guiTexture.pixelInset = pixelInsetRect;
 			
 			fadeOutActive = true;
