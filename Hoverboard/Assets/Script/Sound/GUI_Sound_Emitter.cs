@@ -100,6 +100,13 @@ public class GUI_Sound_Emitter : MonoBehaviour {
 		eventList.Find(listedSoundEvent => listedSoundEvent == soundEvent).stop();
 	}
 	
+	public FMOD.Studio.PLAYBACK_STATE eventState (FMOD.Studio.EventInstance soundEvent)
+	{
+		//FMOD.Studio.EventInstance temp = FMOD_StudioSystem.instance.GetEvent(soundEvent);
+		FMOD.Studio.PLAYBACK_STATE temp;
+		eventList.Find(listedSoundEvent => listedSoundEvent == soundEvent).getPlaybackState(out temp);
+		return temp;
+	}
 	
 	//To make sure the events are dropped correctly.
 	void OnDestroy()

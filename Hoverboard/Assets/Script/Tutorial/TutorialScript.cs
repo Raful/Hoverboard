@@ -23,6 +23,8 @@ public class TutorialScript : MonoBehaviour {
 	[SerializeField]
 	private Texture tutorialHint;
 	
+	private bool startedPlaying;
+	
 
 	// Use this for initialization
 	void Start () 
@@ -31,38 +33,34 @@ public class TutorialScript : MonoBehaviour {
 		movementScript = playerObject.GetComponent<Movement>();
 		boostScript = playerObject.GetComponent<Boost>();
 		//introEvent = FMOD_StudioSystem.instance.GetEvent(tutorialStartDialogue);
+		startedPlaying = false;
 	}
 	
 	// Update is called once per frame
-	void Update () 
+	void OnTriggerStay (Collider col) 
 	{
-		
-	}
 	
-	void OnTriggerEnter(Collider col)
-	{
-		//textureDisplay.tutorialTexture(null);
-		if (col.tag == "Player" && GlobalFuncVari.getTutorialSkipped() != true && tutorialPlayed == false)
+		if (col.tag == "Player" && GlobalFuncVari.getTutorialSkipped() != true && tutorialPlayed == false && startedPlaying == false)
 		{
 			movementScript.enabled = false;
 			boostScript.enabled = false;
 			tutorialEvent = soundEmitter.startEvent(tutorialSound, false);
 			textureDisplay.tutorialTexture(tutorialHint);
+			startedPlaying = true;
 		}
-	}
-	
-	void OnTriggerStay (Collider col)
-	{
-		if (col.tag == "Player")
+		
+		if (col.tag == "Player" && startedPlaying == true)
 		{
-			tutorialEvent.getPlaybackState(out tutorialEventState);
-			if (tutorialEventState == PLAYBACK_STATE.STOPPED)
-				{
+			
+			tutorialEventState = soundEmitter.eventState(tutorialEvent);
+			if (tutorialEventState != PLAYBACK_STATE.PLAYING)
+			{
 				movementScript.enabled = true;
 				boostScript.enabled = true;
 				tutorialPlayed = true;
 				//textureDisplay.tutorialTexture(null);
-				}
+				Debug.Log("LOL");
+			}
 			if (Input.GetButtonDown("Cancel"))
 			{
 				GlobalFuncVari.setTutorialSkipped(true);
@@ -74,14 +72,5 @@ public class TutorialScript : MonoBehaviour {
 		}
 	}
 	
-	void OnTiggerExit(Collider col)
-	{
-		if (col.tag == "Player" && GlobalFuncVari.getTutorialSkipped() == false)
-		{
-			soundEmitter.stopEvent(tutorialEvent);
-			//textureDisplay.tutorialTexture(null);
-		}
-	}
-	
-	
+
 }
