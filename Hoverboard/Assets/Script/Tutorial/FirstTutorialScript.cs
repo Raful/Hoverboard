@@ -6,7 +6,7 @@ public class FirstTutorialScript : MonoBehaviour {
 
 
 	[SerializeField]
-	private GUITexture textureDisplay;
+	private GUITextureDisplay textureDisplay;
 	[SerializeField]
 	private GUI_Sound_Emitter soundEmitter;
 	[SerializeField]
@@ -51,13 +51,13 @@ public class FirstTutorialScript : MonoBehaviour {
 	
 	void OnTriggerEnter(Collider col)
 	{
-		textureDisplay.texture = null;
+		textureDisplay.tutorialTexture(null);
 		if (col.tag == "Player" && GlobalFuncVari.getTutorialSkipped() != true && tutorialPlayed == false)
 		{
 			movementScript.enabled = false;
 			boostScript.enabled = false;
 			tutorialEvent = soundEmitter.startEvent(tutorialSound, false);
-			textureDisplay.texture = tutorialHint1;
+			textureDisplay.tutorialTexture(tutorialHint1);
 		}
 	}
 	
@@ -71,13 +71,13 @@ public class FirstTutorialScript : MonoBehaviour {
 				movementScript.enabled = true;
 				boostScript.enabled = true;
 				tutorialPlayed = true;
-				textureDisplay.texture = null;
+				textureDisplay.tutorialTexture(null);
 			}
 			if (Input.GetButtonDown("Cancel"))
 			{
 				GlobalFuncVari.setTutorialSkipped(true);
 				soundEmitter.stopEvent(tutorialEvent);
-				textureDisplay.texture = null;
+				textureDisplay.tutorialTexture(null);
 				movementScript.enabled = true;
 				boostScript.enabled = true;
 			}
@@ -86,12 +86,12 @@ public class FirstTutorialScript : MonoBehaviour {
 			
 			if (timePos >= timer1 && timePos < timer2)
 			{
-				textureDisplay.texture = tutorialHint2;
+				textureDisplay.tutorialTexture(tutorialHint2);
 			}
 			
 			if (timePos >= timer2)
 			{
-				textureDisplay.texture = tutorialHint3;
+				textureDisplay.tutorialTexture(tutorialHint3);
 			}
 			
 		}
@@ -102,7 +102,7 @@ public class FirstTutorialScript : MonoBehaviour {
 		if (col.tag == "Player" && GlobalFuncVari.getTutorialSkipped() == false)
 		{
 			soundEmitter.stopEvent(tutorialEvent);
-			textureDisplay.texture = null;
+			textureDisplay.tutorialTexture(null);
 		}
 	}
 	

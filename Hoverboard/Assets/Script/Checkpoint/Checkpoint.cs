@@ -26,9 +26,13 @@ public class Checkpoint : MonoBehaviour {
     [SerializeField]
     SpawnPosition spawnPositionScript;
 
+	[SerializeField]
+	Texture checkpointNotification;
+
     Movement movementScript;
     EnergyPool energyScript;
-
+    [SerializeField]
+	GUITextureDisplay textureDisplay;
 
 	bool checkpointCheck;
 
@@ -78,7 +82,7 @@ public class Checkpoint : MonoBehaviour {
         //Reset timer
         timerScript.SetRaceTimer(timeSeconds);
         
-        
+		    
 
         //Reset energy
         energyScript.m_energy = energy;
@@ -144,6 +148,8 @@ public class Checkpoint : MonoBehaviour {
             //Store current time
             timeSeconds = timerScript.m_raceTime;
             checkpointCheck = true;
+            
+			textureDisplay.checkpointTexture(checkpointNotification);    
            
 
             energy = gameObject.GetComponent<EnergyPool>().m_energy;
