@@ -105,8 +105,7 @@ public class CameraMec2 : MonoBehaviour {
 			if(height <= groundHeight +0.1f && height >= groundHeight-0.1f)
 				height = groundHeight;
 		}
-		/*else
-			height = roofHittingVectorTypishHeight;*/
+
 
 	
 		if(target.eulerAngles.x < angleToChange && !follow.getKeyState().Equals("Air")) // if the camera is not on a ramp and not in the air
@@ -177,17 +176,20 @@ public class CameraMec2 : MonoBehaviour {
 			currentRotation = Quaternion.Euler (0, currentRotationAngle, 0);
 			Vector3 toTarget = target.position;
 
-			toTarget.y = currentHeight;
+			toTarget.y += groundHeight;
 		
 			Vector3 toTarget2 = target.position;
 			toTarget2 -= currentRotation * Vector3.forward * distance;
 			Vector3 toTarget3 = toTarget2;
-			toTarget3.y = currentHeight;
+			toTarget3.y += groundHeight;
+			Vector3 toTarget4 = toTarget;
+			toTarget4 += currentRotation * Vector3.forward * distance;
 			if(CompensateForWalls(target.position, ref toTarget2))
 			{
 				Debug.Log("1");
 			}
-			else if(CompensateForRoofs(target.position, ref toTarget) || CompensateForRoofs(target.position, ref toTarget3))
+			else if(CompensateForRoofs(target.position, ref toTarget) 
+			        || CompensateForRoofs(target.position, ref toTarget3) || CompensateForRoofs(target.position, ref toTarget4))                                                                                                                                 
 			{
 				toTarget -= currentRotation * Vector3.forward * distance;
 				toTarget.y = currentHeight;
@@ -196,6 +198,8 @@ public class CameraMec2 : MonoBehaviour {
 			}
 			else
 			{
+				hittingRoof = false;
+				toTarget.y = currentHeight;
 				toTarget -= currentRotation * Vector3.forward * distance;
 				transform.position = toTarget;
 				Debug.Log("3");
@@ -246,7 +250,7 @@ public class CameraMec2 : MonoBehaviour {
 		}
 
 		return false;
-		hittingRoof = false;
+
 	}
 	
 }
